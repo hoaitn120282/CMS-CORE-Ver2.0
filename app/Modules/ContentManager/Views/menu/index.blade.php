@@ -150,7 +150,7 @@
 						  	@endforeach
 						</select>
 					  </div>
-					</div>  
+					</div>
 				</div>
 				<div class="col-md-4">
 					<button id="save-menu" class="btn btn-success">Save</button>

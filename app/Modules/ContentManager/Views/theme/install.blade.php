@@ -1,4 +1,4 @@
-@extends(Admin::theme())
+@extends('layouts.admin')
 
 @section('content')
     <div class="row">
