@@ -19,6 +19,7 @@ class CreatePostTranslationsTable extends Migration
             $table->string('locale');
             $table->text('post_title');
             $table->text('post_excerpt');
+            $table->longText('post_content');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
 
             $table->softDeletes();
