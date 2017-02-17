@@ -171,6 +171,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Infinety\FileManager\FileManagerServiceProvider::class,
         Qsoftvn\ShoppingCart\ShoppingServiceProvider::class,
+        Dimsav\Translatable\TranslatableServiceProvider::class,
     ],
 
     /*
