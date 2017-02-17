@@ -86,7 +86,7 @@ class ThemeController extends Controller
 
             $clientMimeType = $themeZip->getClientMimeType();
             $extension = $themeZip->extension();
-            if (("application/x-zip-compressed" != $clientMimeType)
+            if ((!in_array($clientMimeType, ["application/x-zip-compressed", "application/octet-stream"]))
                 || ('zip' != $extension)
             ) {
                 throw new \Exception('You must install theme in a .zip format');
