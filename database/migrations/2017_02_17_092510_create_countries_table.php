@@ -12,10 +12,13 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function(Blueprint $table)
-        {
-            $table->increments('id');
-            $table->string('code');
+        //
+        Schema::create('countries',function (Blueprint $table){
+            $table->bigIncrements('country_id');
+            $table->string('name');
+            $table->string('locale');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,5 +31,6 @@ class CreateCountriesTable extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('countries');
     }
 }
