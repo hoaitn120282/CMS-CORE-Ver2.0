@@ -55,7 +55,7 @@
                 <label for="site-sologan-color">Color</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="site_sologan_color">
+                    <input type="text" class="form-control input-color-picker" name="site_sologan_color">
                 </div>
             </div><!-- /.font-family -->
             <div class="form-group col-md-3">
@@ -77,7 +77,7 @@
                 <label for="site-text-color">Color</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="text_color">
+                    <input type="text" class="form-control input-color-picker" name="text_color">
                 </div>
             </div><!-- /.font-family -->
             <div class="form-group col-md-3">
@@ -106,7 +106,7 @@
                 <label for="site-link-hover-color">Hover</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="site_link_hover_color">
+                    <input type="text" class="form-control input-color-picker" name="site_link_hover_color">
                 </div>
             </div><!-- /.hover-color -->
             <div class="form-group col-md-3">
@@ -128,14 +128,14 @@
                 <label for="btn-color">Normal</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="btn_text_color">
+                    <input type="text" class="form-control input-color-picker" name="btn_text_color">
                 </div>
             </div><!-- /.normal-color -->
             <div class="form-group col-md-3">
                 <label for="btn-text-color">Text hover</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="btn_text_hover_color">
+                    <input type="text" class="form-control input-color-picker" name="btn_text_hover_color">
                 </div>
             </div><!-- /.text-hover -->
             <div class="form-group col-md-3">
@@ -153,14 +153,14 @@
                 <label for="btn-bg-color">Background color</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="btn_bg_color">
+                    <input type="text" class="form-control input-color-picker" name="btn_bg_color">
                 </div>
             </div><!-- /.background-color -->
             <div class="form-group col-md-3">
                 <label for="btn-bg-hover-color">Background hover</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker"></a>
-                    <input type="hidden" class="form-control input-color-picker" name="btn_bg_hover_color">
+                    <input type="text" class="form-control input-color-picker" name="btn_bg_hover_color">
                 </div>
             </div><!-- /.background-hover -->
         </div>

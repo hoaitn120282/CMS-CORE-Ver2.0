@@ -36,8 +36,8 @@
     }
 
     .color-picker {
-        padding-left: 36px;
-        height: 36px;
+        padding-left: 34px;
+        height: 34px;
         position: relative;
         border: 1px solid #ccc;
         display: inline-block;
@@ -48,8 +48,8 @@
         content: 'Select color';
         display: block;
         width: 100px;
-        height: 34px;
-        line-height: 34px;
+        height: 32px;
+        line-height: 32px;
         padding: 0 6px;
         background-color: #fff;
         font-size: 14px;
@@ -84,7 +84,7 @@
         onShow: function (colpkr) {
             var cal = $(colpkr).data('colorpicker');
             var el = cal.el;
-            $('.input-color-picker', el.closest('.wrap-color-picker')).show();
+//            $('.input-color-picker', el.closest('.wrap-color-picker')).show();
             $(colpkr).fadeIn(500);
             return false;
         },
