@@ -11,12 +11,20 @@
             </div>
             <div class="action">
                 <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}">
+                <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
-                <a href=""><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                <a href="#"
+                   data-role="delete-template"
+                   data-theme_id="{{$node->id}}"
+                   data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
 @endforeach
 
+@push('scripts')
+@include('TemplateManager::components.script_delete')
+@endpush

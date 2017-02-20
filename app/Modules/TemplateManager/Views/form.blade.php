@@ -3,7 +3,7 @@
 @section('content')
     <div class="create-template">
         <div class="row">
-            <form>
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Theme Manager</h2>

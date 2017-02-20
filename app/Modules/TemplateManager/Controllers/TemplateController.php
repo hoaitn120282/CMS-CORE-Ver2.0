@@ -27,11 +27,59 @@ class TemplateController extends Controller
     /**
      * Create new template from existing templates.
      *
+     * @param int $id
      * @return Response
      */
-    public function create($id, Request $request)
+    public function create($id)
     {
-        $model = new Collection();
+        $model = Template::find($id);
+
         return view('TemplateManager::form', compact('model'));
+    }
+
+    /**
+     * Store new template to database
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function store($id, Request $request)
+    {
+
+    }
+
+    /**
+     * Edit the template.
+     *
+     * @param int $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $model = Template::find($id);
+
+        return view('TemplateManager::form', compact('model'));
+    }
+
+    /**
+     * Update the template to database
+     *
+     * @param int $id
+     * @param Request
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+
+    }
+
+    /**
+     * Delete the template
+     *
+     * @param int $id
+     */
+    public function delete($id)
+    {
+
     }
 }
