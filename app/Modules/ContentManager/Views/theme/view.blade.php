@@ -25,12 +25,12 @@
 					<img style="width: 100%; display: block;" src="{{ url('/themes/'.$model->name) }}/images/{{ $model->image_preview }}" alt="image">
 				</div>
 				<div class="col-md-8">
-					<dl> 
-						<dt>Name Theme</dt> 
-						<dd>{{$model->name}}</dd> 
-						<dt>Author Theme</dt> 
+					<dl>
+						<dt>Name Theme</dt>
+						<dd>{{$model->name}}</dd>
+						<dt>Author Theme</dt>
 						<dd><a href="{{$model->author_url}}">{{$model->author}}</a></dd>
-						<dt>Description</dt> 
+						<dt>Description</dt>
 						<dd>{{$model->description}}</dd>
 					</dl>
 				</div>
@@ -60,7 +60,7 @@
 	                    </div>
 						<form method="POST" action="{{ Admin::route('contentManager.theme.update') }}">
 						{{ csrf_field() }}
-						<input type="hidden" value="{{ $model->id }}" name="idtheme">	
+						<input type="hidden" value="{{ $model->id }}" name="idtheme">
 	                    <div class="col-xs-9">
 	                      <!-- Tab panes -->
 	                      <div class="tab-content">

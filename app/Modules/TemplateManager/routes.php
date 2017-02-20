@@ -5,6 +5,8 @@ Route::group([
     'namespace' => 'App\Modules\TemplateManager\Controllers'],
     function () {
         Route::get('templateManager', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index']);
+        Route::get('templateManager/list-create', ['as' => $this->admin . '.templateManager.list-create', 'uses' => 'TemplateController@listCreate']);
+        Route::get('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@install']);
         Route::get('templateManager/create/{id}', ['as' => $this->admin . '.templateManager.create', 'uses' => 'TemplateController@create']);
         Route::get('templateManager/store/{id}', ['as' => $this->admin . '.templateManager.store', 'uses' => 'TemplateController@store']);
         Route::get('templateManager/edit/{id}', ['as' => $this->admin . '.templateManager.edit', 'uses' => 'TemplateController@edit']);

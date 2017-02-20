@@ -1,0 +1,21 @@
+.wrap-theme {
+    position: relative;
+}
+.btn-create-new {
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    margin-right: 0px;
+}
+
+.template-install .btn-create-new{
+    display: block;
+}
+.template-install .action{
+    display: none;
+}
+.background-image {
+    background-size: cover;
+    background-position: center center;
+}

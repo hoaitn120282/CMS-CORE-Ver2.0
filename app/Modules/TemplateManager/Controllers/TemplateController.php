@@ -9,6 +9,7 @@ use DB;
 use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
+use App\Modules\ContentManager\Models\Themes;
 
 class TemplateController extends Controller
 {
@@ -24,6 +25,16 @@ class TemplateController extends Controller
         return view('TemplateManager::index', compact('nodes'));
     }
 
+    /*
+     * View list to create new template
+     * @param null
+     * @return
+     * */
+    public function listCreate(){
+        $nodes = Template::get();
+        return view('TemplateManager::list-create', compact('nodes'));
+    }
+
     /**
      * Create new template from existing templates.
      *
@@ -33,9 +44,22 @@ class TemplateController extends Controller
     public function create($id)
     {
         $node = Template::with('meta')->find($id);
-        // dd($node->toArray());
+//         dd($node->toArray());
 
         return view('TemplateManager::form', compact('node'));
+    }
+
+    /**
+     * Form install template
+     *
+     * @return view
+     */
+    public function install()
+    {
+        $nodes = Themes::orderBy('status', 'desc')
+            ->get();
+
+        return view('TemplateManager::install', ['nodes' => $nodes]);
     }
 
     /**
