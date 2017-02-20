@@ -1,7 +1,8 @@
 <?php
-return  [
+return [
     'modules' => [
-       'ContentManager'=>'contentManager.index',
+        'ContentManager' => 'contentManager.index',
+        'TemplateManager' => 'templateManager.index',
     ],
-    'backend'=>'admin'
+    'backend' => 'admin'
 ];
