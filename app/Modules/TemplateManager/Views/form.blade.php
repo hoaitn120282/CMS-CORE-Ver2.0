@@ -24,8 +24,20 @@
 @push('style-top')
 <link rel="stylesheet" href="{{ asset('assets/colorpicker/css/colorpicker.css') }}">
 <style>
+    .create-template fieldset {
+        margin-top: 20px;
+    }
     .create-template .tab-pane {
         padding-top: 15px;
+    }
+
+    .create-template .tab-pane .layout-thumbnail img {
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin: 10px;
+    }
+    .create-template .tab-pane .layout-thumbnail label {
+        cursor: pointer;
     }
 
     .create-template .toolbar-actions {

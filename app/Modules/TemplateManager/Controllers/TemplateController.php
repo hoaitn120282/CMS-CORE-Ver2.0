@@ -32,9 +32,10 @@ class TemplateController extends Controller
      */
     public function create($id)
     {
-        $model = Template::find($id);
+        $node = Template::with('meta')->find($id);
+        // dd($node->toArray());
 
-        return view('TemplateManager::form', compact('model'));
+        return view('TemplateManager::form', compact('node'));
     }
 
     /**

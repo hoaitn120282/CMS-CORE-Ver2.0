@@ -1,4 +1,4 @@
-<button id="btn-{{$input}}" type="button" class="btn btn-success btn-sm btn-block">
+<button id="btn-{{$input}}" type="button" class="btn btn-success btn-md btn-block">
     <i class="fa fa-upload"></i> {{$label}}
 </button>
 <img id="btn-upload-{{$input}}-preview" class="img-responsive" src="{{ ($model != "" ) ? '' : old($input) }}"/>

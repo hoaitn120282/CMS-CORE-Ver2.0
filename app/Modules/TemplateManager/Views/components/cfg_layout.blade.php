@@ -1,3 +1,6 @@
+<h1 class="title">Spring theme</h1>
+<p class="help-block">To create a new theme, it is required to select at least 1 layout below.</p>
+
 <ul class="list-inline">
     <li>
         <div class="layout-thumbnail">

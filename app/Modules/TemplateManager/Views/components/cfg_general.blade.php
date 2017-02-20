@@ -1,17 +1,17 @@
-<h2 class="title">Spring theme</h2>
+<h1 class="title">Spring theme</h1>
 <div class="">
     <fieldset>
         <div class="form-group col-md-3">
             <label for="feature_image">Feature image</label>
             @include('TemplateManager::components.input_upload',[
-            'idModal'=>'feature_Image', 'label' => 'Choose image', 'input'=>'feature_image'
+            'idModal'=>'feature_Image', 'model' => $node, 'label' => 'Choose image', 'input'=>'feature_image'
             ])
         </div><!-- feature-image -->
 
         <div class="form-group col-md-3">
             <label for="feature_image">Background image</label>
             @include('TemplateManager::components.input_upload',[
-            'idModal'=>'bgImage', 'label' => 'Choose image', 'input'=>'background_image'
+            'idModal'=>'bgImage','model' => $node,  'label' => 'Choose image', 'input'=>'background_image'
             ])
         </div><!-- /.background-image -->
 
@@ -33,7 +33,8 @@
                 <label for="site-title-color">Color</label>
                 <div class="wrap-color-picker">
                     <a class="color-picker" style="background-color: {{$node->color or "#f00"}}"></a>
-                    <input type="text" class="form-control input-color-picker" name="site_title_color" value="{{$node->color or "#000"}}">
+                    <input type="text" class="form-control input-color-picker" name="site_title_color"
+                           value="{{$node->color or "#000"}}">
                 </div>
             </div><!-- /.font-family -->
             <div class="form-group col-md-3">
