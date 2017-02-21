@@ -38,8 +38,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <button type="button" class="btn btn-block btn-success">Clone</button>
+                        <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}">
+                            <button type="button" class="btn btn-block btn-success">Create</button>
                         </a>
                     </li>
 
