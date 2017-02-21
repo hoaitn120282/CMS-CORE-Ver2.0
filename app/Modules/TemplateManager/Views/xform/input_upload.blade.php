@@ -1,10 +1,11 @@
-<button id="btn-{{$input}}" type="button" class="btn btn-success btn-md btn-block">
-    <i class="fa fa-upload"></i> {{$label}}
+<label for="feature_image">{{ $label }}</label>
+<button id="btn-{{$input}}" type="button" class="btn btn-success btn-md " style="display: block;">
+    <i class="fa fa-upload"></i> Choose file...
 </button>
-<img id="btn-upload-{{$input}}-preview" class="img-responsive" src="{{ ($model != "" ) ? '' : old($input) }}"/>
+<img id="btn-upload-{{$input}}-preview" class="img-responsive" src="{{ empty($model) ? old($input) : $model }}"/>
 <input type="hidden" id="{{$input}}" class="form-control"
-       name="{{$input}}" value="{{ ($model != "" ) ? '' : old($input) }}"
-       placeholder="{{ $label }}">
+       name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
+       placeholder="Choose file...">
 
 <div class="modal fade" id="modal-{{$input}}" tabindex="-1" role="dialog" aria-labelledby="{{$input}}Label">
     <div class="modal-dialog modal-lg" role="document">
@@ -38,7 +39,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="{{$input}}-image">
-                        @include('TemplateManager::components.selectimage',['model'=>Admin::media(), 'input' => $input])
+                        @include('TemplateManager::xform.selectimage',['model'=>Admin::media(), 'input' => $input])
                     </div>
                 </div>
             </div>

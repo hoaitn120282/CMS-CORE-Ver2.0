@@ -10,14 +10,17 @@
                 <div class="caption"><strong>{{$node->name}}</strong></div>
             </div>
             <div class="action">
-                <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
+                <a href=""><i class="fa fa-eye" aria-hidden="true" title="Preview the theme"></i></a>
+                <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}" title="Create a new theme">
+                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                </a>
+                <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}" title="Edit the theme">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
                 <a href="#"
                    data-role="delete-template"
                    data-theme_id="{{$node->id}}"
-                   data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
+                   data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}" title="Delete the theme">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </a>
             </div>

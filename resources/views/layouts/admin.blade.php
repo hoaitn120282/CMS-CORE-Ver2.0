@@ -74,11 +74,11 @@
                                 <a href="{{ Admin::route('contentManager.media') }}"><i class="fa fa-file-image-o"></i> Media Manager</a>
                             </li>
                             <li>
-                                <a><i class="fa fa-desktop"></i> Template Manager <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('templateManager.index') }}">Templates</a></li>
-                                    <li><a href="{{ Admin::route('templateManager.create',['id'=>Theme::getID()]) }}">Create new theme</a></li>
-                                </ul>
+                                <a href="{{ Admin::route('templateManager.index') }}"><i class="fa fa-desktop"></i> Template Manager</a>
+                                {{--<ul class="nav child_menu">--}}
+                                    {{--<li><a href="{{ Admin::route('templateManager.index') }}">Templates</a></li>--}}
+                                    {{--<li><a href="{{ Admin::route('templateManager.create',['id'=>Theme::getID()]) }}">Create new theme</a></li>--}}
+                                {{--</ul>--}}
                             </li>
                             <li>
                                 <a><i class="fa fa-desktop"></i> Theme Manager <span class="fa fa-chevron-down"></span></a>

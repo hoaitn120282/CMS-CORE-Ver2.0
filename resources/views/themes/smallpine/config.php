@@ -113,6 +113,6 @@ return [
                 'value'=>'none-sidebar',
                 'label'=>'Layout Style',
 			]
-		]
+		],
 	]
 ];

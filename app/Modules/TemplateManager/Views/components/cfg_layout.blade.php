@@ -1,53 +1,37 @@
-<h1 class="title">Spring theme</h1>
+<?php
+if (!empty($node)) {
+    $layout = $node->meta()->optionsKey('layouts')->first();
+}
+
+$options = array();
+$values = empty($layout) ? array() : $layout->getValue();
+if (!empty($values)) {
+    foreach ($values as $val) {
+        if ($val['name'] == 'layout_style') {
+            $options = $val['options'];
+            break;
+        }
+    }
+}
+?>
+<h1 class="title">{{ $node->name or '' }}</h1>
 <p class="help-block">To create a new theme, it is required to select at least 1 layout below.</p>
 
 <ul class="list-inline">
-    <li>
-        <div class="layout-thumbnail">
-            <img src="{{ url('/themes/smallpine/images/left-sidebar.png') }}">
-            <div class="text-center">
-                <label for="left_sidebar">
-                    <input type="checkbox" name="layouts" value="left_sidebar"
-                           id="left_sidebar" class="flat" data-role="checkbox">
-                    Left sidebar
-                </label>
+    @forelse($options as $option => $optionVal)
+        <li>
+            <div class="layout-thumbnail">
+                <img src='{{ url("/themes/$node->name/images/$option.png") }}'>
+                <div class="text-center">
+                    <label for="{{ $option }}">
+                        <input type="checkbox" name="layouts" value="{{ $option }}"
+                               id="{{ $option }}" class="flat" data-role="checkbox">
+                        {{ $optionVal }}
+                    </label>
+                </div>
             </div>
-        </div>
-    </li>
-    <li>
-        <div class="layout-thumbnail">
-            <img src="{{ url('/themes/smallpine/images/right-sidebar.png') }}">
-            <div class="text-center">
-                <label for="right_sidebar">
-                    <input type="checkbox" name="layouts" value="right_sidebar"
-                           id="right_sidebar" class="flat" data-role="checkbox">
-                    Right sidebar
-                </label>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="layout-thumbnail">
-            <img src="{{ url('/themes/smallpine/images/center-content.png') }}">
-            <div class="text-center">
-                <label for="center_content">
-                    <input type="checkbox" name="layouts" value="center_content"
-                           id="center_content" class="flat" data-role="checkbox">
-                    Center Content
-                </label>
-            </div>
-        </div>
-    </li>
-    <li>
-        <div class="layout-thumbnail">
-            <img src="{{ url('/themes/smallpine/images/none-sidebar.png') }}">
-            <div class="text-center">
-                <label for="none_sidebar">
-                    <input type="checkbox" name="layouts" value="none_sidebar"
-                           id="none_sidebar" class="flat" data-role="checkbox">
-                    None sidebar
-                </label>
-            </div>
-        </div>
-    </li>
+        </li>
+    @empty
+        <li>Empty layouts</li>
+    @endforelse
 </ul>

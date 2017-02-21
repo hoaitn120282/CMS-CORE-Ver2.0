@@ -10,7 +10,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-
+                        {{ csrf_field() }}
                         @include('TemplateManager::components.alert')
                         @include('TemplateManager::components.x_form')
 
@@ -91,7 +91,8 @@
         onBeforeShow: function (colpkr) {
             var cal = $(colpkr).data('colorpicker');
             var col = cal.color;
-            $(this).ColorPickerSetColor(col);
+            var val = $('.input-color-picker', $(this).closest('.wrap-color-picker')).val();
+            $(this).ColorPickerSetColor(val);
         },
         onShow: function (colpkr) {
             var cal = $(colpkr).data('colorpicker');
@@ -112,8 +113,8 @@
         }
     });
 
-    $('.input-color-picker').on('keyup', function(){
+    /*$('.input-color-picker').on('keyup', function(){
         $('.color-picker', $(this).closest('.wrap-color-picker')).ColorPicker({color:this.value});
-    });
+    });*/
 </script>
 @endpush

@@ -25,4 +25,16 @@ class TemplateMeta extends Model
         return $value;
     }
 
+    /**
+     * Scope query options by key
+     *
+     * @param Illuminate\Database\Query\Builder $query
+     * @param string $key
+     * @return Illuminate\Database\Query\Builder
+     */
+    public function scopeOptionsKey($query, $key)
+    {
+        return $query->where('meta_group', 'options')
+            ->where('meta_key', $key);
+    }
 }
