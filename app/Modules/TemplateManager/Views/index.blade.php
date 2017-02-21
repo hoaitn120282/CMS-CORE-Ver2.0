@@ -6,12 +6,17 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>Template Manager</h2>
+                    <div class="box-filter">
+                        <select name="theme_tyoe" id="themeType" class="form-control" onchange="window.location = this.options[this.selectedIndex].value;">
+                            <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}" >All Template Site</option>
+                            <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1 ) echo 'selected' ; ?>>Simple Site</option>
+                            <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2 ) echo 'selected' ; ?>>Medium Site</option>
+                        </select>
+                    </div>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a href="{{ Admin::route('templateManager.install') }}">
-                                <button id="btn-feature_image" type="button" class="btn btn-success btn-md btn-block">
-                                    <i class="fa fa-upload"></i> Install New Theme
-                                </button>
+                                <button type="button" class="btn btn-block btn-success"><i class="fa fa-cloud-upload"></i> &nbsp;Install Theme</button>
                             </a>
                         </li>
                     </ul>
@@ -52,6 +57,7 @@
     .list-templates .thumbnail:hover::after {
         opacity: 0.5;
     }
+
 
     .list-templates .thumbnail .action {
         position: absolute;

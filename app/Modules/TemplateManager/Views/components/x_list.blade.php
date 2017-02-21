@@ -31,19 +31,32 @@
                 <div class="caption"><strong>{{$node->name}}</strong></div>
             </div>
             <div class="action">
-                <a href=""><i class="fa fa-eye" aria-hidden="true" title="Preview the theme"></i></a>
-                <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}" title="Create a new theme">
-                    <i class="fa fa-plus-square-o" aria-hidden="true"></i>
-                </a>
-                <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}" title="Edit the theme">
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-                <a href="#"
-                   data-role="delete-template"
-                   data-theme_id="{{$node->id}}"
-                   data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}" title="Delete the theme">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
+                <ul>
+                    <li>
+                        <a href="#" target="_blank">
+                            <button type="button" class="btn btn-block btn-success">View</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <button type="button" class="btn btn-block btn-success">Clone</button>
+                        </a>
+                    </li>
+
+                    @if($node->parent_id ==0)
+                        <li>
+                            <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
+                                <button type="button" class="btn btn-block btn-success">Edit</button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <button type="button" class="btn btn-block btn-success">Delete</button>
+                            </a>
+                        </li>
+                    @endif
+
+                </ul>
             </div>
         </div>
     </div>

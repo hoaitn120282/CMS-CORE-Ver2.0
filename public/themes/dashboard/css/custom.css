@@ -19,3 +19,26 @@
     background-size: cover;
     background-position: center center;
 }
+
+/*style for template list*/
+.list-templates .thumbnail .action a {
+    padding: 0px;
+}
+.box-filter {
+    display: inline-block;
+    margin-left: 20px;
+}
+.list-templates .thumbnail {
+    height: 250px;
+}
+.thumbnail .image {
+    height : 190px;
+}
+.theme-item ul {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.theme-item ul li {
+    display: inline-block;
+}

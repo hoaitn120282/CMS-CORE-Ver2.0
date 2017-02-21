@@ -18,11 +18,14 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($theme_type = 0)
     {
-        $nodes = Template::get();
-
-        return view('TemplateManager::index', compact('nodes'));
+        if($theme_type == 0){
+            $nodes = Template::get();
+        }else{
+            $nodes = Template::where('theme_type_id',$theme_type)->get();
+        }
+        return view('TemplateManager::index', ['nodes'=>$nodes,'theme_type'=>$theme_type]);
     }
 
     /*
@@ -59,9 +62,7 @@ class TemplateController extends Controller
      */
     public function install()
     {
-        $nodes = Themes::orderBy('status', 'desc')
-            ->get();
-
+        $nodes = Themes::orderBy('status', 'desc')->where('parent_id',0)->get();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
 

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Install new theme</h2>
+                    <h2>Install new template</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -28,10 +28,10 @@
         <div class="row">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Custom installed template</h2>
+                    <h2>Installed template</h2>
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_content template-install">
+                <div class="x_content">
                     @include('TemplateManager::components.alert')
                     @include('TemplateManager::components.x_list')
                 </div>
