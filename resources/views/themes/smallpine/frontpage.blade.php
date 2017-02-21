@@ -5,7 +5,7 @@
 	<div class="col-md-12">
 		@foreach($blog as $data)
 		@include(Theme::active().'.post._view')
-		@endforeach	
+		@endforeach
 
 		{{ $blog->links() }}
 	</div>
@@ -38,13 +38,13 @@
 	            1000:{
 	                items:2
 	            }
-	        },     
+	        },
 	        autoplay:true,
 	        navText:["<i class='fa fa-chevron-left'></i>","<i class='fa fa-chevron-right'></i>"],
 	        autoplayTimeout:3000,
 	        nav:true,
 	        autoplayHoverPause:true
 		});
-	});	
+	});
 </script>
 @endpush

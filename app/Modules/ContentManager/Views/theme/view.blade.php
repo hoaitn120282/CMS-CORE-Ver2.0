@@ -9,7 +9,7 @@
               	@if($model->status)
               	<li><a href="#" onclick="return false;">Actived</a></li>
               	@else
-				<li><a href="#" style="background-color:#449d44;color:#fff;padding-left:20px;padding-right:20px">Active</a></li>
+				<li><a href="{{Admin::route('contentManager.theme.active', ['id'=>$model->id])}}" style="background-color:#449d44;color:#fff;padding-left:20px;padding-right:20px">Active</a></li>
               	@endif
             </ul>
             <div class="clearfix"></div>
