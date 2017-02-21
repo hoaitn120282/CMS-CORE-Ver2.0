@@ -19,10 +19,11 @@ class MediaController extends Controller
     public function images(Request $request){
         $model = Articles::where('post_type','attachment')->where('post_mime_type','LIKE','%image%')->orderBy('id', 'desc')->paginate(6);
         if ($request->ajax()) {
+            $elSelect = $request->get('elSelect');
             if(isset($request->name)):
-                return \Response::json(view('ContentManager::media.partials.selectimage', array('model' => $model,'name'=>$request->name))->render());
+                return \Response::json(view('ContentManager::media.partials.selectimage', array('model' => $model,'name'=>$request->name, 'elSelect' => $elSelect))->render());
             else:
-                return \Response::json(view('ContentManager::media.partials.selectimage', array('model' => $model))->render());
+                return \Response::json(view('ContentManager::media.partials.selectimage', array('model' => $model, 'elSelect' => $elSelect))->render());
             endif;
         }
     }

@@ -1,13 +1,17 @@
+<?php
+$inputSlug = str_slug($input, '_');
+
+?>
 <label for="feature_image">{{ $label }}</label>
-<button id="btn-{{$input}}" type="button" class="btn btn-success btn-md " style="display: block;">
+<button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
     <i class="fa fa-upload"></i> Choose file...
 </button>
-<img id="btn-upload-{{$input}}-preview" class="img-responsive" src="{{ empty($model) ? old($input) : $model }}"/>
-<input type="hidden" id="{{$input}}" class="form-control"
+<img id="btn-upload-{{$inputSlug}}-preview" class="img-responsive" src="{{ empty($model) ? old($input) : $model }}"/>
+<input type="hidden" id="{{$inputSlug}}" class="form-control"
        name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
        placeholder="Choose file...">
 
-<div class="modal fade" id="modal-{{$input}}" tabindex="-1" role="dialog" aria-labelledby="{{$input}}Label">
+<div class="modal fade" id="modal-{{$inputSlug}}" tabindex="-1" role="dialog" aria-labelledby="{{ $inputSlug }}Label">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,18 +22,18 @@
             </div>
             <div class="modal-body">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li id="tab-{{$input}}-home" role="presentation" class="active">
-                        <a href="#{{$input}}-home" aria-controls="{{$input}}-home" role="tab" data-toggle="tab">Upload
+                    <li id="tab-{{$inputSlug}}-home" role="presentation" class="active">
+                        <a href="#{{$inputSlug}}-home" aria-controls="{{$inputSlug}}-home" role="tab" data-toggle="tab">Upload
                             Image</a>
                     </li>
-                    <li id="tab-{{$input}}-image" role="presentation">
-                        <a href="#{{$input}}-image" aria-controls="{{$input}}-image" role="tab"
+                    <li id="tab-{{$inputSlug}}-image" role="presentation">
+                        <a href="#{{$inputSlug}}-image" aria-controls="{{$inputSlug}}-image" role="tab"
                            data-toggle="tab">Images</a>
                     </li>
                 </ul>
                 <div id="media-content" class="tab-content">
-                    <div role="tabpanel" class="tab-pane" id="{{$input}}-home">
-                        <div id="file-upload-{{$input}}" class="mydropzone dropzone">
+                    <div role="tabpanel" class="tab-pane" id="{{$inputSlug}}-home">
+                        <div id="file-upload-{{$inputSlug}}" class="mydropzone dropzone">
                             <div class="dz-default dz-message">
                                 <div>
                                     <i class="fa fa-cloud-upload fa-5x"></i>
@@ -38,8 +42,8 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="{{$input}}-image">
-                        @include('TemplateManager::xform.selectimage',['model'=>Admin::media(), 'input' => $input])
+                    <div role="tabpanel" class="tab-pane" id="{{$inputSlug}}-image">
+                        @include('TemplateManager::xform.selectimage',['model'=>Admin::media(), 'selectImage' => $inputSlug])
                     </div>
                 </div>
             </div>
@@ -61,24 +65,24 @@
 @push('scripts')
 <script>
     Dropzone.autoDiscover = false;
-    var myDropzone = new Dropzone("div#file-upload-{{$input}}", {
+    var myDropzone = new Dropzone("div#file-upload-{{$inputSlug}}", {
         url: "{{ Admin::route('contentManager.media.store') }}"
     });
     myDropzone.on("sending", function (file, xhr, formData) {
         formData.append("_token", "{{ csrf_token() }}");
     });
     myDropzone.on("queuecomplete", function (file, xhr, formData) {
-        getPosts('{{ Admin::route("contentManager.media.images") }}', "{{$input}}");
+        getPosts('{{ Admin::route("contentManager.media.images") }}', "{{$inputSlug}}");
     });
 
     $(document).ready(function () {
         $(document).on('click', '.pagination a', function (e) {
-            getPosts($(this).attr("{{$input}}", 'href'), "{{$input}}");
+            getPosts($(this).attr('href'), "{{$inputSlug}}");
             e.preventDefault();
         });
-        $("#btn-{{$input}}").on('click', function () {
-            defaultActive("{{$input}}");
-            $("#modal-{{$input}}").modal("show");
+        $("#btn-{{$inputSlug}}").on('click', function () {
+            defaultActive("{{$inputSlug}}");
+            $("#modal-{{$inputSlug}}").modal("show");
             summer = false;
             $('#tab-file').hide();
 
@@ -113,9 +117,13 @@
         function getPosts(page, input) {
             $.ajax({
                 url: page,
+                data: {
+                    elSelect: input
+                },
                 dataType: 'json',
             }).done(function (data) {
-                $('#image').html(data);
+                console.log(data);
+                $('#' + input + '-image').html(data);
                 defaultActive(input, "image");
             }).fail(function () {
                 alert('Posts could not be loaded.');

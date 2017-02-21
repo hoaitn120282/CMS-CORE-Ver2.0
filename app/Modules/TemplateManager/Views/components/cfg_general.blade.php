@@ -10,7 +10,7 @@ $typoVals = empty($typography) ? array() : $typography->getValue();
     <fieldset>
         <div class="form-group col-md-3">
             @include('TemplateManager::xform.input_upload',[
-            'idModal'=>'feature_Image', 'model' => $node, 'label' => 'Feature image', 'input'=>'feature_image'
+            'idModal'=>'feature_Image', 'model' => $node, 'label' => 'Feature image', 'input'=>'general[feature_image]'
             ])
         </div><!-- feature-image -->
     </fieldset>
@@ -18,12 +18,12 @@ $typoVals = empty($typography) ? array() : $typography->getValue();
 
         <!-- .Typography -->
     @foreach($typoVals as $field)
-        @include('TemplateManager::xform.'.$field['type'], ['field' => $field])
+        @include('TemplateManager::xform.'.$field['type'], ['field' => $field, 'groups' => 'typography'])
     @endforeach
     <!-- /.Typography -->
 
     <fieldset>
         <legend>Custom CSS</legend>
-        <textarea name="custom_css" id="custom-css" class="form-control" rows="5"></textarea>
+        <textarea name="general[custom_css]" id="custom-css" class="form-control" rows="5"></textarea>
     </fieldset>
 </div>

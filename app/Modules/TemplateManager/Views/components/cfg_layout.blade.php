@@ -24,7 +24,7 @@ if (!empty($values)) {
                 <img src='{{ url("/themes/$node->name/images/$option.png") }}'>
                 <div class="text-center">
                     <label for="{{ $option }}">
-                        <input type="checkbox" name="layouts" value="{{ $option }}"
+                        <input type="checkbox" name="layouts[{{$option}}]" value="{{ $option }}"
                                id="{{ $option }}" class="flat" data-role="checkbox">
                         {{ $optionVal }}
                     </label>

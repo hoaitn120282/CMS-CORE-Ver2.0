@@ -17,16 +17,4 @@
                 @include('TemplateManager::components.cfg_layout')
             </div>
         </div>
-        <!--Action-->
-        <div class="toolbar-actions">
-            <a href="" class="btn btn-info">
-                <i class="fa fa-eye" aria-hidden="true"></i> Preview
-            </a>
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
-            </button>
-            <button type="submit" class="btn btn-success">
-                <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
-            </button>
-        </div>
 </div>

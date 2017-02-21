@@ -1,19 +1,59 @@
+<?php
+$isEdit = empty($isEdit) ? false : true;
+?>
 @extends(Admin::theme())
 
 @section('content')
     <div class="create-template">
         <div class="row">
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="{{ empty($isEdit) ? Admin::route('templateManager.store') : Admin::route('templateManager.edit', ['id' => $node->id]) }}"
+                  method="post" enctype="multipart/form-data">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Theme Manager</h2>
+                        @if($isEdit)
+                            <h2>Edit theme</h2>
+                            <div class="action pull-right">
+                                @include('TemplateManager::xform.switch', [
+                                'on' => 'Publish',
+                                'off' => 'Draft',
+                                'input' => [
+                                    'name' => 'publish',
+                                    'value' => 1
+                                    ]
+                                ])
+                            </div>
+                        @else
+                            <h2>Create new theme</h2>
+                        @endif
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        {{ csrf_field() }}
                         @include('TemplateManager::components.alert')
+                        {{ csrf_field() }}
+                        <input type="hidden" name="theme_id" value="{{ $node->id }}"/>
                         @include('TemplateManager::components.x_form')
-
+                    </div>
+                    <div class="clearfix"></div>
+                    <!--Action-->
+                    <div class="toolbar-actions">
+                        @if($isEdit)
+                            <a href="" class="btn btn-info">
+                                <i class="fa fa-eye" aria-hidden="true"></i> Preview
+                            </a>
+                            <button type="submit" name="update" class="btn btn-success">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
+                            </button>
+                        @else
+                            <a href="" class="btn btn-info">
+                                <i class="fa fa-eye" aria-hidden="true"></i> Preview
+                            </a>
+                            <button type="submit" name="draft" class="btn btn-primary">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
+                            </button>
+                            <button type="submit" name="pushlish" class="btn btn-success">
+                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
+                            </button>
+                        @endif
                     </div>
                 </div>
             </form>
@@ -27,6 +67,7 @@
     .create-template fieldset {
         margin-top: 20px;
     }
+
     .create-template .tab-pane {
         padding-top: 15px;
     }
@@ -36,6 +77,7 @@
         border: 1px solid #ccc;
         margin: 10px;
     }
+
     .create-template .tab-pane .layout-thumbnail label {
         cursor: pointer;
     }
@@ -70,7 +112,7 @@
 
     .input-color-picker {
         display: inline-block;
-        width: 75px!important;
+        width: 75px !important;
         padding: 4px 4px;
         display: none;
     }
@@ -114,7 +156,10 @@
     });
 
     /*$('.input-color-picker').on('keyup', function(){
-        $('.color-picker', $(this).closest('.wrap-color-picker')).ColorPicker({color:this.value});
-    });*/
+     $('.color-picker', $(this).closest('.wrap-color-picker')).ColorPicker({color:this.value});
+     });*/
+
+    var elem = document.querySelector('.js-switch');
+    //    var init = new Switchery(elem);
 </script>
 @endpush

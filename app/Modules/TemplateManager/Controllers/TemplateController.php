@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use DB;
 use App\Facades\Admin;
-use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
+use App\Modules\TemplateManager\Models\TemplateMeta;
 use App\Modules\ContentManager\Models\Themes;
 
 class TemplateController extends Controller
@@ -30,7 +30,8 @@ class TemplateController extends Controller
      * @param null
      * @return
      * */
-    public function listCreate(){
+    public function listCreate()
+    {
         $nodes = Template::get();
         return view('TemplateManager::list-create', compact('nodes'));
     }
@@ -44,6 +45,9 @@ class TemplateController extends Controller
     public function create($id)
     {
         $node = Template::find($id);
+        if (empty($node)) {
+            return redirect(Admin::route('templateManager.index'));
+        }
 
         return view('TemplateManager::form', compact('node'));
     }
@@ -67,9 +71,12 @@ class TemplateController extends Controller
      * @param int $id
      * @return Response
      */
-    public function store($id, Request $request)
+    public function store(Request $request)
     {
-
+        $input = $request->all();
+        $themeId = $request->get('theme_id');
+        $this->storeData($themeId, $input);
+        return redirect(Admin::route('templateManager.create', ['id' => $themeId]));
     }
 
     /**
@@ -81,8 +88,12 @@ class TemplateController extends Controller
     public function edit($id)
     {
         $node = Template::find($id);
+        $isEdit = true;
+        if (empty($node)) {
+            return redirect(Admin::route('templateManager.index'));
+        }
 
-        return view('TemplateManager::form', compact('node'));
+        return view('TemplateManager::form', compact('node', 'isEdit'));
     }
 
     /**
@@ -105,6 +116,34 @@ class TemplateController extends Controller
     public function delete($id)
     {
 
+    }
+
+    /**
+     * Store data
+     */
+    protected function storeData($id, $input)
+    {
+        $beforeMeta = TemplateMeta::where('theme_id', $id)->where('meta_group', 'options')->get();
+
+        foreach ($beforeMeta as $value) {
+            $meta = unserialize($value->meta_value);
+            foreach ($meta as &$val) {
+                if (isset($input[$value->meta_key][$val['name']])) {
+                    if (isset($val['value'])) {
+                        $val['value'] = $input[$value->meta_key][$val['name']];
+                    }
+
+                    if (isset($val['items']) && is_array($val['items'])) {
+                        foreach ($val['items'] as &$item) {
+                            if (isset($item['value'])) {
+                                $item['value'] = $input[$value->meta_key][$val['name']][$item['name']];
+                            }
+                        }
+                    }
+                }
+            }
+            TemplateMeta::where('theme_id', $id)->where('meta_key', $value->meta_key)->update(['meta_value' => serialize($meta)]);
+        }
     }
 
 }
