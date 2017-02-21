@@ -4,8 +4,8 @@ Route::group([
     'middleware' => ['web', 'admin'],
     'namespace' => 'App\Modules\TemplateManager\Controllers'],
     function () {
-        Route::get('templateManager', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index']);
-        Route::get('templateManager/list-create', ['as' => $this->admin . '.templateManager.list-create', 'uses' => 'TemplateController@listCreate']);
+        Route::get('templateManager/{theme_type?}', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index'])->where('theme_type', '[0-9]+');
+//        Route::get('templateManager/list-create', ['as' => $this->admin . '.templateManager.list-create', 'uses' => 'TemplateController@listCreate']);
         Route::get('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@install']);
         Route::get('templateManager/create/{id}', ['as' => $this->admin . '.templateManager.create', 'uses' => 'TemplateController@create']);
         Route::get('templateManager/store/{id}', ['as' => $this->admin . '.templateManager.store', 'uses' => 'TemplateController@store']);

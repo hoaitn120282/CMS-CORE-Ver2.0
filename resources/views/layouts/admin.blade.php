@@ -77,9 +77,8 @@
                             <li>
                                 <a><i class="fa fa-desktop"></i> Template Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('templateManager.index') }}">Templates</a></li>
-{{--                                    <li><a href="{{ Admin::route('templateManager.create',['id'=>Theme::getID()]) }}">Create new theme</a></li>--}}
-                                    <li><a href="{{ Admin::route('templateManager.list-create') }}">Create new theme</a></li>
+                                    <li><a href="{{ Admin::route('templateManager.index') }}">Template Library</a></li>
+                                    <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a></li>
                                 </ul>
                             </li>
                             <li>

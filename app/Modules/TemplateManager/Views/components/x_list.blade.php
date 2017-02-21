@@ -31,7 +31,7 @@
                 <div class="caption"><strong>{{$node->name}}</strong></div>
             </div>
             <div class="action">
-                <a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
+                {{--<a href=""><i class="fa fa-eye" aria-hidden="true"></i></a>
                 <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </a>
@@ -40,7 +40,33 @@
                    data-theme_id="{{$node->id}}"
                    data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
+                </a>--}}
+                <ul>
+                    <li>
+                        <a href="#" target="_blank">
+                            <button type="button" class="btn btn-block btn-success">View</button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <button type="button" class="btn btn-block btn-success">Clone</button>
+                        </a>
+                    </li>
+
+                    @if($node->parent_id ==0)
+                        <li>
+                            <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
+                                <button type="button" class="btn btn-block btn-success">Edit</button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <button type="button" class="btn btn-block btn-success">Delete</button>
+                            </a>
+                        </li>
+                    @endif
+
+                </ul>
             </div>
         </div>
     </div>
