@@ -205,6 +205,7 @@ class Theme
     public function option($key, $name, $defaulValue = "")
     {
         $tmp = ThemeMeta::where('theme_id', $this->activeID)->where('meta_group', 'options')->where('meta_key', $key)->first();
+
         $meta = unserialize($tmp->meta_value);
         $res = "";
         foreach ($meta as $value) {
