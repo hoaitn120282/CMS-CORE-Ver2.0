@@ -1,0 +1,171 @@
+html {
+  font-size: 62.5%; }
+
+* {
+  margin: 0px;
+  padding: 0px; }
+
+body {
+  color: #222222;
+  font-family: 'Lato-Regular',Arial, serif;
+  font-size: 14px;
+  padding: 0px !important;
+  margin: 0px !important;
+  background: #ffffff;
+  overflow-x: hidden;
+  line-height: 20px; }
+
+p {
+  margin: 0; }
+
+a {
+  cursor: pointer; }
+
+ul, ol {
+  margin-bottom: 0px; }
+
+a,
+a:focus,
+a:hover,
+button,
+button:active,
+button:hover,
+button:focus {
+  outline: 0px !important;
+  text-decoration: none; }
+
+a {
+  color: #000000; }
+
+a:hover {
+  text-decoration: none; }
+
+img {
+  max-width: 100%; }
+
+strong {
+  font-family: 'Lato-Bold',  Arial, serif;
+  font-weight: 400; }
+
+section {
+  position: relative; }
+
+.sprites {
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  background-repeat: no-repeat;
+  vertical-align: middle; }
+
+.container {
+  max-width: 1200px; }
+
+.clear-fix {
+  clear: both; }
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url("../fonts/Lato-Regular.eot");
+  src: url("../fonts/Lato-Regular.woff2") format("woff2"), url("../fonts/Lato-Regular.woff") format("woff"), url("../fonts/Lato-Regular.ttf") format("truetype"), url("../fonts/Lato-Regular.svg#Lato-Regular") format("svg"), url("../fonts/Lato-Regular.eot?#iefix") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato-Bold';
+  src: url("../fonts/Lato-Bold.eot");
+  src: url("../fonts/Lato-Bold.woff2") format("woff2"), url("../fonts/Lato-Bold.woff") format("woff"), url("../fonts/Lato-Bold.ttf") format("truetype"), url("../fonts/Lato-Bold.svg#Lato-Bold") format("svg"), url("../fonts/Lato-Bold.eot?#iefix") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Lato-Italic';
+  src: url("../fonts/Lato-Italic.eot");
+  src: url("../fonts/Lato-Italic.woff2") format("woff2"), url("../fonts/Lato-Italic.woff") format("woff"), url("../fonts/Lato-Italic.ttf") format("truetype"), url("../fonts/Lato-Italic.svg#Lato-Italic") format("svg"), url("../fonts/Lato-Italic.eot?#iefix") format("embedded-opentype");
+  font-weight: normal;
+  font-style: normal; }
+
+.header .header-contact {
+  background-color: #B3CDDE; }
+
+.header .navbar {
+  margin: 0; }
+
+.slide-item {
+  position: relative; }
+  .slide-item .make-appointment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 50px; }
+
+footer {
+  background-color: #B3CDDE; }
+
+.article-title {
+  text-align: center;
+  position: relative;
+  margin-bottom: 20px; }
+  .article-title span {
+    position: relative;
+    padding: 0 10px;
+    background: #fff; }
+  .article-title::before {
+    z-index: 0;
+    content: "";
+    border: 1px solid #000;
+    position: absolute;
+    width: 250px;
+    top: 13px;
+    left: 0;
+    right: 0;
+    margin: 0 auto; }
+
+.our-doctors .doctor-detail {
+  margin-bottom: 20px; }
+  .our-doctors .doctor-detail figure {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto; }
+    .our-doctors .doctor-detail figure img {
+      max-width: none; }
+
+.news {
+  background-color: #f6f6f6;
+  padding-bottom: 50px; }
+  .news .article-title span {
+    background: #f6f6f6; }
+  .news .new-detail {
+    border-radius: 5px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 20px; }
+    .news .new-detail figure {
+      height: 240px;
+      overflow: hidden; }
+      .news .new-detail figure img {
+        max-width: inherit; }
+    .news .new-detail .new-content {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      background-color: #fff; }
+      .news .new-detail .new-content p {
+        text-align: justify; }
+    .news .new-detail .btn-readmore {
+      border: 1px solid red;
+      margin: 10px;
+      display: inline-block; }
+
+.tips .tip-detail {
+  border-radius: 5px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 20px; }
+
+footer {
+  background-color: #B3CDDE; }
