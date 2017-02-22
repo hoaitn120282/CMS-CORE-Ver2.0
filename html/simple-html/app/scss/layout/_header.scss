@@ -19,13 +19,18 @@
 		margin: 0;
 		padding-top: 15px;
 		padding-bottom: 15px;
+
+		& .navbar-brand{
+			padding: 10px 15px;
+		}
+
 		& .nav-right-custom{
 			& li{
 				margin-left: 30px;
 				& a{
 					text-transform: uppercase;
 					font-family: $font-black;
-					font-size: 18px;
+					font-size: 16px;
 					color: $color-black;
 
 					&:focus, &:hover, &.active {
@@ -36,6 +41,10 @@
 			}
 
 			& .language-select{
+				& i{
+					margin-left: 10px;
+				}
+
 				&>a{
 					padding-left: 0;
 				}
