@@ -13,6 +13,7 @@ class TemplateMeta extends Model
      */
     protected $table = 'theme_meta';
     public $timestamps = false;
+    protected $fillable = array('meta_group', 'meta_key', 'meta_value');
 
     /**
      * Get meta value
@@ -24,6 +25,20 @@ class TemplateMeta extends Model
         $value = unserialize($this->meta_value);
         return $value;
     }
+
+    /**
+     * Get meta option
+     */
+    public function getOption($key)
+    {
+        $options = $this->getValue();
+        foreach ($options as $option) {
+            if ($option['name'] == $key) {
+                return $option['value'];
+            }
+        }
+    }
+
 
     /**
      * Scope query options by key

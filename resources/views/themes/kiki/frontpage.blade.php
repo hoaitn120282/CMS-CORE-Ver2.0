@@ -249,4 +249,8 @@
 
 <script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/main.js"></script>
 
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> development

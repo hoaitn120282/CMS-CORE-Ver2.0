@@ -47,12 +47,22 @@ $isEdit = empty($isEdit) ? false : true;
                             <a href="" class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
                             </a>
-                            <button type="submit" name="draft" class="btn btn-primary">
+                            <button type="button" name="draft" class="btn btn-primary"
+                                    data-toggle="modal"
+                                    data-target="#Popup-Save-{{$node->name}}"
+                                    data-title="Save as Draft"
+                                    data-options='{"is_publish":0}'>
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
                             </button>
-                            <button type="submit" name="pushlish" class="btn btn-success">
+                            <button type="button" name="publish" class="btn btn-success"
+                                    data-toggle="modal"
+                                    data-target="#Popup-Save-{{$node->name}}"
+                                    data-title="Publish"
+                                    data-options='{"is_publish":1}'>
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
                             </button>
+
+                            @include('TemplateManager::xform.popup_save', ['themeName' => $node->name])
                         @endif
                     </div>
                 </div>
@@ -154,12 +164,5 @@ $isEdit = empty($isEdit) ? false : true;
             $(el).css('backgroundColor', '#' + hex);
         }
     });
-
-    /*$('.input-color-picker').on('keyup', function(){
-     $('.color-picker', $(this).closest('.wrap-color-picker')).ColorPicker({color:this.value});
-     });*/
-
-    var elem = document.querySelector('.js-switch');
-    //    var init = new Switchery(elem);
 </script>
 @endpush

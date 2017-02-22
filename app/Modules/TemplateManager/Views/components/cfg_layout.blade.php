@@ -24,8 +24,10 @@ if (!empty($values)) {
                 <img src='{{ url("/themes/$node->name/images/$option.png") }}'>
                 <div class="text-center">
                     <label for="{{ $option }}">
-                        <input type="checkbox" name="layouts[{{$option}}]" value="{{ $option }}"
-                               id="{{ $option }}" class="flat" data-role="checkbox">
+                        <input type="checkbox"
+                               name="meta[layouts][layout_style][{{$option}}]" value="{{ $option }}"
+                               id="{{ $option }}" class="flat" data-role="checkbox"
+                                {{ empty($isEdit) ? 'checked="checked"' : '' }}>
                         {{ $optionVal }}
                     </label>
                 </div>
