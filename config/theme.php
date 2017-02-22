@@ -1,8 +1,8 @@
 <?php
 $config = [];
 
-$config['active'] ='smallpine';
-$config['active_id'] ='1';
-$config['driver'] ='database';
+$config['active'] ='kiki';
+$config['active_id'] ='2';
+$config['driver'] ='file';
 
 return $config;
