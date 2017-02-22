@@ -1,8 +1,13 @@
 <?php
-if (!empty($node))
-$typography = $node->meta()->optionsKey('typography')->first();
+
+if (!empty($node)) {
+    $typography = $node->meta()->optionsKey('typography')->first();
+    $general = $node->meta()->optionsKey('general')->first();
+}
+$featureImage = null;
 $typoOpts = array();
 $typoVals = empty($typography) ? array() : $typography->getValue();
+$featureImage = empty($general) ? array() : $general->getOption('feature_image');
 ?>
 
 <h1 class="title">{{ $node->name or '' }}</h1>
@@ -10,20 +15,20 @@ $typoVals = empty($typography) ? array() : $typography->getValue();
     <fieldset>
         <div class="form-group col-md-3">
             @include('TemplateManager::xform.input_upload',[
-            'idModal'=>'feature_Image', 'model' => $node, 'label' => 'Feature image', 'input'=>'general[feature_image]'
+            'idModal'=>'feature_Image', 'model' => $featureImage, 'label' => 'Feature image', 'input'=>'meta[general][feature_image]'
             ])
         </div><!-- feature-image -->
     </fieldset>
     <div class="clearfix"></div>
 
-        <!-- .Typography -->
-    @foreach($typoVals as $field)
-        @include('TemplateManager::xform.'.$field['type'], ['field' => $field, 'groups' => 'typography'])
-    @endforeach
-    <!-- /.Typography -->
+    <!-- .Typography -->
+@foreach($typoVals as $field)
+    @include('TemplateManager::xform.'.$field['type'], ['field' => $field, 'groups' => 'meta[typography]'])
+@endforeach
+<!-- /.Typography -->
 
     <fieldset>
         <legend>Custom CSS</legend>
-        <textarea name="general[custom_css]" id="custom-css" class="form-control" rows="5"></textarea>
+        <textarea name="meta[general][custom_css]" id="custom-css" class="form-control" rows="5"></textarea>
     </fieldset>
 </div>
