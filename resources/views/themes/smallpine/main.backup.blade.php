@@ -48,9 +48,27 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    {!!html_entity_decode(Theme::menu("menu-top"))!!}
+                    {!!html_entity_decode(Helper::menu())!!}
                 </ul>
              
             </div>
         </div>
     </nav>
+    @extends('themes.smallpine.'.Theme::option('layouts','layout_style'))
+
+  @yield('content')
+
+  <hr/>
+    
+
+    <!-- JavaScripts -->
+    <script src="{{URL::to('/')}}/assets/jquery/dist/jquery.min.js"></script>
+    <script src="{{URL::to('/')}}/assets/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{URL::to('/')}}/assets/js/bootstrap-submenu.min.js"></script>
+    <script src="{{URL::to('/')}}/assets/js/main.js"></script>
+    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+    @stack('scripts')
+</body>
+</html>
+    
+  

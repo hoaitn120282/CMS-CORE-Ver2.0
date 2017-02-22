@@ -11,7 +11,7 @@
                 <div class="x_content">
                     <p class="help-block text-center">If you have a theme in a .zip format, you may install it by uploading it here.</p>
                     <form id="install_theme" name="install_theme"
-                          action="{{ Admin::route('contentManager.theme.install') }}"
+                          action="{{ Admin::route('templateManager.install') }}"
                           enctype="multipart/form-data"
                           method="post">
                         {{ csrf_field() }}
