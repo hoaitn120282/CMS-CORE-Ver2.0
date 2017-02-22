@@ -1,0 +1,35 @@
+/***** Back to top *****/
+#back-to-top{
+	display: inline-block;
+    height: 30px;
+    width: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    position: fixed;
+    text-align: center;
+    bottom: 30px;
+    right: 30px;
+    transition: opacity 0.2s ease-out;
+    opacity: 0;
+
+    &:hover{
+	    background: #e9ebec;
+    }
+
+    & i{
+    	margin: 0;
+	    font-size: 25px;
+	    color: #ccc;
+    }
+
+    &.show {
+	    opacity: 1;
+	}
+}
+
+@media (max-width: 769px) {
+	#back-to-top{
+		bottom: 15px;
+		right: 15px;
+	}
+}
