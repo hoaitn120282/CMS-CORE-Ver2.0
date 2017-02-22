@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use DB;
 use App\Facades\Admin;
+use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
 use App\Modules\TemplateManager\Models\TemplateMeta;
 use App\Modules\ContentManager\Models\Themes;
@@ -65,7 +66,60 @@ class TemplateController extends Controller
         $nodes = Themes::orderBy('status', 'desc')->where('parent_id',0)->get();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
+    /**
+     * Process install theme
+     *
+     * @param Request $request
+     * @return Illuminate\Response redirect
+     */
+    public function installed(Request $request)
+    {
+        try {
+            if (!$request->hasFile('theme_zip')) {
+                throw new \Exception('Theme not exists.');
+            }
 
+            $themeZip = $request->file('theme_zip');
+            if (!$themeZip->isValid()) {
+                throw new \Exception('Theme is valid.');
+            }
+
+            $clientMimeType = $themeZip->getClientMimeType();
+            $extension = $themeZip->extension();
+            if ((!in_array($clientMimeType, ["application/x-zip-compressed", "application/octet-stream"]))
+                || ('zip' != $extension)
+            ) {
+                throw new \Exception('You must install theme in a .zip format');
+            }
+
+            $clientOriginalName = $themeZip->getClientOriginalName();
+            $themeName = explode(".{$extension}", $clientOriginalName)[0];
+            $countTheme = Themes::where('name', $themeName)->count();
+            if ($countTheme > 0) {
+                throw new \Exception("Theme {$themeName} is exists. Please choose other theme.");
+            }
+            $themeZip->move(app_path('Themes/upload'), $clientOriginalName);
+
+            Theme::install($themeName);
+            if (Theme::error()) {
+                $errors = implode(Theme::getErrors(), ", ");
+                throw new \Exception($errors);
+            }
+
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => array("Theme {$themeName} is install successfully.")
+            ]);
+        } catch (\Exception $exception) {
+            $messages = $exception->getMessage();
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => is_array($messages) ? $messages : array($messages)
+            ]);
+        }
+
+        return redirect(Admin::route('templateManager.index'));
+    }
     /**
      * Store new template to database
      *
