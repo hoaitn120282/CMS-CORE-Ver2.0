@@ -6,7 +6,7 @@ $isEdit = empty($isEdit) ? false : true;
 @section('content')
     <div class="create-template">
         <div class="row">
-            <form action="{{ empty($isEdit) ? Admin::route('templateManager.store') : Admin::route('templateManager.edit', ['id' => $node->id]) }}"
+            <form action="{{ empty($isEdit) ? Admin::route('templateManager.store') : Admin::route('templateManager.update', ['id' => $node->id]) }}"
                   method="post" enctype="multipart/form-data">
                 <div class="x_panel">
                     <div class="x_title">

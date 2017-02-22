@@ -19,9 +19,6 @@
         <div class="thumbnail theme-item theme-item-{{$node->id}}">
             <div class="wrap-theme">
                 <div class="image view-{{$node->id}} background-image" style="background-image: url('{{$previewImg}}')">
-                    {{--<img style="width: 100%; display: block;"--}}
-                         {{--src="{{$previewImg}}"--}}
-                         {{--alt="{{$node->name}}">--}}
                     <a href="{{Admin::route('templateManager.create',['id'=>$node->id])}}">
                         <button type="button" class="btn btn-success btn-md btn-block btn-create-new">
                             <i class="fa fa-upload"></i> Create new
@@ -43,7 +40,7 @@
                         </a>
                     </li>
 
-                    @if($node->parent_id ==0)
+                    @if($node->parent_id != 0)
                         <li>
                             <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
                                 <button type="button" class="btn btn-block btn-success">Edit</button>

@@ -4,11 +4,13 @@ if (!empty($node)) {
 }
 
 $options = array();
+$layoutStyle = array();
 $values = empty($layout) ? array() : $layout->getValue();
 if (!empty($values)) {
     foreach ($values as $val) {
         if ($val['name'] == 'layout_style') {
             $options = $val['options'];
+            $layoutStyle = $val;
             break;
         }
     }
@@ -21,13 +23,17 @@ if (!empty($values)) {
     @forelse($options as $option => $optionVal)
         <li>
             <div class="layout-thumbnail">
-                <img src='{{ url("/themes/$node->name/images/$option.png") }}'>
+                @if (empty($node->parent))
+                    <img src='{{ url("/themes/$node->name/images/$option.png") }}'>
+                @else
+                    <img src='{{ url("/themes/".$node->parent->name."/images/$option.png") }}'>
+                @endif
                 <div class="text-center">
                     <label for="{{ $option }}">
                         <input type="checkbox"
                                name="meta[layouts][layout_style][{{$option}}]" value="{{ $option }}"
                                id="{{ $option }}" class="flat" data-role="checkbox"
-                                {{ empty($isEdit) ? 'checked="checked"' : '' }}>
+                                {{ empty($isEdit) ? (empty($node->parent_id) ? 'checked="checked"' : (in_array($option, array_keys((array)$layoutStyle['value'])) ? 'checked="checked"':'')) :  (in_array($option, array_keys((array)$layoutStyle['value'])) ? 'checked="checked"':'') }}>
                         {{ $optionVal }}
                     </label>
                 </div>

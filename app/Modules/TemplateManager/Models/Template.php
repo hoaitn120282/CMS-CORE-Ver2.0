@@ -12,6 +12,14 @@ class Template extends Model
     protected $fillable = array('parent_id', 'theme_type_id', 'name', 'version', 'author', 'author_url', 'description', 'image_preview', 'status', 'is_publish');
 
     /**
+     * Relationship belongs to theme
+     */
+    public function parent()
+    {
+        return $this->belongsTo('App\Modules\TemplateManager\Models\Template', 'parent_id', 'id');
+    }
+
+    /**
      * Relationship one - many ThemeMeta
      */
     public function meta()

@@ -5,12 +5,10 @@ namespace App\Modules\TemplateManager\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
-use Laracasts\Flash\Flash;
 use Validator;
 use DB;
 use App\Facades\Admin;
 use App\Modules\TemplateManager\Models\Template;
-use App\Modules\TemplateManager\Models\TemplateMeta;
 use App\Modules\ContentManager\Models\Themes;
 use League\Flysystem\Exception;
 
@@ -95,6 +93,7 @@ class TemplateController extends Controller
         $oldTemp = Template::find($themeId);
         $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
         $input['name'] = $tempData['name'] . '_' . $input['name'];
+        $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
         $input = array_merge($tempData->toArray(), $input);
         $this->storeData($input, $oldTemp);
 
@@ -127,7 +126,11 @@ class TemplateController extends Controller
      */
     public function update($id, Request $request)
     {
+        $input = $request->get('meta');
+        $temp = Template::find($id);
+        $this->storeMetaOptions($temp, $input);
 
+        return redirect(Admin::route('templateManager.index'));
     }
 
     /**
