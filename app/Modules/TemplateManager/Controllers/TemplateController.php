@@ -12,6 +12,9 @@ use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
 use App\Modules\ContentManager\Models\Themes;
 use League\Flysystem\Exception;
+use Leafo\ScssPhp\Compiler;
+use File;
+use View;
 
 class TemplateController extends Controller
 {
@@ -67,6 +70,7 @@ class TemplateController extends Controller
         $nodes = Themes::orderBy('status', 'desc')->where('parent_id', 0)->get();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
+
     /**
      * Process install theme
      *
@@ -121,6 +125,7 @@ class TemplateController extends Controller
 
         return redirect(Admin::route('templateManager.index'));
     }
+
     /**
      * Store new template to database
      *
@@ -149,8 +154,8 @@ class TemplateController extends Controller
         $input['name'] = $tempData['name'] . '_' . $input['name'];
         $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
         $input = array_merge($tempData->toArray(), $input);
-        $this->storeData($input, $oldTemp);
-
+        $newTemp = $this->storeData($input, $oldTemp);
+        $this->generateCssFile($newTemp);
         return redirect(Admin::route('templateManager.index'));
     }
 
@@ -183,8 +188,18 @@ class TemplateController extends Controller
         $input = $request->get('meta');
         $temp = Template::find($id);
         $this->storeMetaOptions($temp, $input);
+        $this->generateCssFile($temp);
 
         return redirect(Admin::route('templateManager.index'));
+    }
+
+    /**
+     * Publish theme
+     * @param int $id
+     */
+    public function publish($id, Request $request)
+    {
+
     }
 
     /**
@@ -362,4 +377,57 @@ class TemplateController extends Controller
 
     }
 
+    /**
+     * Generate typography css file for template
+     *
+     * @param Template $template
+     * @return array $response
+     */
+    private function generateCssFile($template)
+    {
+        try {
+            if (!$template instanceof Template) {
+                throw new \Exception('First param could not instanceof Template');
+            }
+
+            $css = array();
+            $file = $template->name . '.css';
+            $folder = empty($template->parent) ? $template->name : $template->parent->name;
+            $path_css = public_path("themes/{$folder}/css/{$file}");
+            $typography = $template->meta()
+                ->optionsKey('typography')
+                ->first();
+            if ($typography) {
+                $typo_vals = $typography->getValue();
+                foreach ($typo_vals as $typo) {
+                    if (!empty($typo['items'])) {
+                        foreach ($typo['items'] as $item) {
+                            if (!empty($item['value'])) {
+                                $css[$typo['name'] . "_" . $item['name']] = $item['value'];
+                            }
+                        }
+                    }
+                }
+            }
+
+            $string_sass = View::make("themes.{$folder}.typography", compact('css'))->render();
+            $scss_compiler = new Compiler();
+            $string_css = $scss_compiler->compile($string_sass);
+            File::put($path_css, $string_css);
+
+            return array(
+                'success' => true,
+                'message' => 'Done',
+                'data' => array(
+                    'path' => $path_css
+                )
+            );
+        } catch (\Exception $exception) {
+            return array(
+                'success' => false,
+                'message' => 'Done',
+                'errors' => $exception->getMessage()
+            );
+        }
+    }
 }

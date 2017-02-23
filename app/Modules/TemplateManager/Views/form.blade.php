@@ -164,5 +164,34 @@ $isEdit = empty($isEdit) ? false : true;
             $(el).css('backgroundColor', '#' + hex);
         }
     });
+
+    $("input[type=checkbox]").on("change", function (event) {
+        if (this.checked) {
+            console.log(1);
+        } else {
+            console.log(2);
+        }
+        swal({
+            title: "",
+            text: "Are you sure publish this theme?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Yes",
+            confirmButtonClass: "btn-danger",
+            cancelButtonText: "No"
+        }, function () {
+            $.ajax({
+                type: 'DELETE',
+                url: urlDelete,
+                data: {"_token": "{{ csrf_token() }}"}
+            })
+                    .done(function () {
+                        location.reload();
+                    });
+        });
+        event.preventDefault();
+    });
 </script>
 @endpush

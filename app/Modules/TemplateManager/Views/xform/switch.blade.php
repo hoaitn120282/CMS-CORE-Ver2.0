@@ -10,7 +10,8 @@ $inputSlug = str_slug($input['name']);
     <input type="checkbox"
            name="{{ $input['name'] }}"
            value="{{ $input['value'] }}"
-           id="{{$inputSlug}}" {{ (1 == $input['value']) ? 'checked':'' }}>
+           id="{{$inputSlug}}"
+            {{ (1 == $input['value']) ? 'checked':'' }}>
     <div class="Switch Off">
         <div class="Toggle"></div>
         <span class="On">{{ $on }}</span> <span class="Off">{{ $off }}</span>
@@ -72,6 +73,7 @@ $inputSlug = str_slug($input['name']);
         -o-transition: all 0.15s ease-in-out;
         -ms-transition: all 0.15s ease-in-out;
     }
+
     .x_switch .Switch .Toggle:before {
         content: '|||';
         display: block;
@@ -82,6 +84,7 @@ $inputSlug = str_slug($input['name']);
         left: 0;
         transform: translateY(-50%);
     }
+
     .x_switch .Switch.On .Toggle {
         left: 2%;
     }
@@ -99,10 +102,10 @@ $inputSlug = str_slug($input['name']);
         $('.Switch').click(function () {
             // checked
             if ($(this).hasClass('On')) {
-                $(this).closest('.x_switch').find('input:checkbox').prop('checked', true);
+                $(this).closest('.x_switch').find('input:checkbox').prop('checked', true).change();
             }
             if ($(this).hasClass('Off')) {
-                $(this).closest('.x_switch').find('input:checkbox').prop('checked', false);
+                $(this).closest('.x_switch').find('input:checkbox').prop('checked', false).change();
             }
 
             $(this).toggleClass('On').toggleClass('Off');
