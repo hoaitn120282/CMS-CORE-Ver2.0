@@ -9,3 +9,5 @@ Homestead.json
 /public/uploads
 core-cms.rar
 /app/config/theme.php
+/resources/views/themes
+/public/themes
