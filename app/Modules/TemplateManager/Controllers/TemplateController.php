@@ -362,4 +362,35 @@ class TemplateController extends Controller
 
     }
 
+    /**
+     * Uninstall theme
+     *
+     * @param Request $request
+     * @param string $themeName
+     * @response mixed
+     */
+    public function uninstall(Request $request, $themeName)
+    {
+        try {
+            Theme::uninstall($themeName);
+
+            if (Theme::error()) {
+                $errors = implode(Theme::getErrors(), ", ");
+                throw new \Exception($errors);
+            }
+
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => array("Theme {$themeName} is uninstall successfully.")
+            ]);
+        } catch (\Exception $exception) {
+            $messages = $exception->getMessage();
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => is_array($messages) ? $messages : array($messages)
+            ]);
+        }
+
+        redirect(Admin::route('templateManager.index'));
+    }
 }

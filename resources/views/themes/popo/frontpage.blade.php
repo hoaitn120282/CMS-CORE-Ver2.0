@@ -7,10 +7,10 @@
 
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
 
-    <link rel="stylesheet" href="{{URL::to('/themes/kiki')}}/css/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="{{URL::to('/themes/kiki')}}/css/font-awesome/font-awesome.min.css">
-    <link rel="stylesheet" href="{{URL::to('/themes/kiki')}}/css/owl.carousel/dist/assets/owl.carousel.min.css" />
-    <link rel="stylesheet" href="{{URL::to('/themes/kiki')}}/css/main.css">
+    <link rel="stylesheet" href="{{URL::to('/themes/popo')}}/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="{{URL::to('/themes/popo')}}/css/font-awesome/font-awesome.min.css">
+    <link rel="stylesheet" href="{{URL::to('/themes/popo')}}/css/owl.carousel/dist/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="{{URL::to('/themes/popo')}}/css/main.css">
 </head>
 <title>Clinic</title>
 <body>
@@ -43,7 +43,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand io-logo" href="#"><img src="{{URL::to('/themes/kiki')}}/images/logo.png"></a>
+                        <a class="navbar-brand io-logo" href="#"><img src="{{URL::to('/themes/popo')}}/images/logo.png"></a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -74,7 +74,7 @@
         <div class="header-slide owl-carousel owl-theme">
             <div class="slide-item">
                 <figure>
-                    <img src="{{URL::to('/themes/kiki')}}/images/banner.jpg" alt="">
+                    <img src="{{URL::to('/themes/popo')}}/images/banner.jpg" alt="">
                 </figure>
                 <div class="make-appointment text-center">
                     <h1 class="header-title">Sed ut perspiciatis unde omnis</h1>
@@ -85,7 +85,7 @@
 
             <div class="slide-item">
                 <figure>
-                    <img src="{{URL::to('/themes/kiki')}}/images/banner.jpg" alt="">
+                    <img src="{{URL::to('/themes/popo')}}/images/banner.jpg" alt="">
                 </figure>
                 <div class="make-appointment text-center">
                     <h1 class="header-title">Sed ut perspiciatis unde omnis</h1>
@@ -108,7 +108,7 @@
                     <div class="col-sm-4">
                         <article class="doctor-detail text-center">
                             <figure>
-                                <img src="{{URL::to('/themes/kiki')}}/images/doctor-1.jpg" alt="">
+                                <img src="{{URL::to('/themes/popo')}}/images/doctor-1.jpg" alt="">
                             </figure>
                             <h4>Dr. Anna Doe</h4>
                             <p>Sample Position</p>
@@ -117,7 +117,7 @@
                     <div class="col-sm-4">
                         <article class="doctor-detail text-center">
                             <figure>
-                                <img src="{{URL::to('/themes/kiki')}}/images/doctor-1.jpg" alt="">
+                                <img src="{{URL::to('/themes/popo')}}/images/doctor-1.jpg" alt="">
                             </figure>
                             <h4>Dr. Anna Doe</h4>
                             <p>Sample Position</p>
@@ -126,7 +126,7 @@
                     <div class="col-sm-4">
                         <article class="doctor-detail text-center">
                             <figure>
-                                <img src="{{URL::to('/themes/kiki')}}/images/doctor-1.jpg" alt="">
+                                <img src="{{URL::to('/themes/popo')}}/images/doctor-1.jpg" alt="">
                             </figure>
                             <h4>Dr. Anna Doe</h4>
                             <p>Sample Position</p>
@@ -144,7 +144,7 @@
                     <div class="col-sm-4">
                         <article class="new-detail">
                             <figure>
-                                <a href="#"><img src="{{URL::to('/themes/kiki')}}/images/new-1.jpg" alt=""></a>
+                                <a href="#"><img src="{{URL::to('/themes/popo')}}/images/new-1.jpg" alt=""></a>
                             </figure>
                             <div class="new-content">
                                 <h3>Sample Title</h3>
@@ -157,7 +157,7 @@
                     <div class="col-sm-4">
                         <article class="new-detail">
                             <figure>
-                                <a href="#"><img src="{{URL::to('/themes/kiki')}}/images/new-1.jpg" alt=""></a>
+                                <a href="#"><img src="{{URL::to('/themes/popo')}}/images/new-1.jpg" alt=""></a>
                             </figure>
                             <div class="new-content">
                                 <h3>Sample Title</h3>
@@ -170,7 +170,7 @@
                     <div class="col-sm-4">
                         <article class="new-detail">
                             <figure>
-                                <a href="#"><img src="{{URL::to('/themes/kiki')}}/images/new-1.jpg" alt=""></a>
+                                <a href="#"><img src="{{URL::to('/themes/popo')}}/images/new-1.jpg" alt=""></a>
                             </figure>
                             <div class="new-content">
                                 <h3>Sample Title</h3>
@@ -242,15 +242,11 @@
     <!--End Footer-->
 </body>
 
-<script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/plugin/jquery.min.js"></script>
-<script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/plugin/bootstrap.min.js"></script>
-<script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/plugin/jquery.appear.js"></script>
-<script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/plugin/owl.carousel.min.js"></script>
+<script type="text/javascript" src="{{URL::to('/themes/popo')}}/js/plugin/jquery.min.js"></script>
+<script type="text/javascript" src="{{URL::to('/themes/popo')}}/js/plugin/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{URL::to('/themes/popo')}}/js/plugin/jquery.appear.js"></script>
+<script type="text/javascript" src="{{URL::to('/themes/popo')}}/js/plugin/owl.carousel.min.js"></script>
 
-<script type="text/javascript" src="{{URL::to('/themes/kiki')}}/js/main.js"></script>
+<script type="text/javascript" src="{{URL::to('/themes/popo')}}/js/main.js"></script>
 
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> development
