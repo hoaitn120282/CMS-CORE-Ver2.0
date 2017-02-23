@@ -8,7 +8,6 @@
     if($file_headers[0] == 'HTTP/1.0 404 Not Found'){
         $previewImg = url('/themes').'/no-image.png';
     } else if ($file_headers[0] == 'HTTP/1.0 302 Found' && $file_headers[7] == 'HTTP/1.0 404 Not Found'){
-//    echo "The file $filename does not exist, and I got redirected to a custom 404 page..";
         $previewImg = url('/themes').'/no-image.png';
     } else {
         $previewImg = $filename;
@@ -50,12 +49,14 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="#"
+                               data-role="uninstall-theme"
+                               data-theme_id="{{$node->id}}"
+                               data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
                                 <button type="button" class="btn btn-block btn-success">Delete</button>
                             </a>
                         </li>
                     @endif
-
                 </ul>
             </div>
         </div>
@@ -64,4 +65,7 @@
 
 @push('scripts')
 @include('TemplateManager::components.script_delete')
+@endpush
+@push('scripts')
+@include('ContentManager::theme.partials.script_uninstall')
 @endpush
