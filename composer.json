@@ -18,7 +18,7 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "infinety-es/filemanager": "2.1.1.7",
         "dimsav/laravel-translatable": "6.*",
-        "leafo/scssphp": "0.0.12"
+        "leafo/scssphp": "^0.6.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

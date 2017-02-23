@@ -8,6 +8,6 @@ Homestead.json
 /.idea
 /public/uploads
 core-cms.rar
-/app/config/theme.php
+/config/theme.php
 /resources/views/themes
 /public/themes
