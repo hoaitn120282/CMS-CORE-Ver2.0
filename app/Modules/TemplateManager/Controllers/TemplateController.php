@@ -221,7 +221,6 @@ class TemplateController extends Controller
      */
     private function storeData($input, $oldTemp = null, $id = null)
     {
-        $this->generateCss($oldTemp);
         $template = null;
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
