@@ -39,7 +39,7 @@
                         </a>
                     </li>
 
-                    @if($node->parent_id != 0)
+                    @if($node->parent_id == 0)
                         <li>
                             <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
                                 <button type="button" class="btn btn-block btn-success">Edit</button>
