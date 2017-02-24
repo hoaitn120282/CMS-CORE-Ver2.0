@@ -152,10 +152,11 @@ class TemplateController extends Controller
         $oldTemp = Template::find($themeId);
         $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
         $input['name'] = $tempData['name'] . '_' . $input['name'];
+        $input['status'] = 0;
         $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
         $input = array_merge($tempData->toArray(), $input);
         $newTemp = $this->storeData($input, $oldTemp);
-        $this->generateCssFile($newTemp);
+        $res = $this->generateCssFile($newTemp);
         return redirect(Admin::route('templateManager.index'));
     }
 
@@ -188,7 +189,7 @@ class TemplateController extends Controller
         $input = $request->get('meta');
         $temp = Template::find($id);
         $this->storeMetaOptions($temp, $input);
-        $cc = $this->generateCssFile($temp);
+        $res = $this->generateCssFile($temp);
 
 
         return redirect(Admin::route('templateManager.index'));

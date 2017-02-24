@@ -42,7 +42,6 @@ class ThemeController extends Controller
 
     public function active($id, Request $request)
     {
-        Themes::where('status', 1)->update(['status' => 0]);
         $activeTheme = Themes::find($id);
         Theme::setActive($activeTheme);
         $request->session()->flash('response', [

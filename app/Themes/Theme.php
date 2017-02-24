@@ -45,6 +45,7 @@ class Theme
         } else {
             $active = Themes::where('status', true)->first();
             $this->activeName = $active->name;
+            $this->activeExtraName = empty($active->parent) ? $active->name : $active->parent->name;
             $this->activeID = $active->id;
         }
     }
@@ -58,6 +59,7 @@ class Theme
     public function setActive($model)
     {
         if ($model instanceof Themes) {
+            Themes::where('status', 1)->update(['status' => 0]);
             $model->status = 1;
             $model->save();
             $activeId = $model->id;
