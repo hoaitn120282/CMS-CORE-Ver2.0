@@ -1,0 +1,226 @@
+section{
+	padding: 50px 0;
+}
+
+.article-title{
+	text-align: center;
+	position: relative;
+	margin: 0;
+	color: $ct-title-color;
+	font-family: $ct-title-font;
+	font-size: $ct-title-fs;
+	text-transform: uppercase;
+	margin-bottom: 35px;
+
+	& span{
+		position: relative;
+		padding: 0 30px;
+		&::before{
+			z-index: 0;
+			content: "";
+			border: 1px solid #cccccc;
+			position: absolute;
+			width: 50px;
+			top: 15px;
+			left: -40px;
+		}
+
+		&::after{
+			z-index: 0;
+			content: "";
+			border: 1px solid #cccccc;
+			position: absolute;
+			width: 50px;
+			top: 15px;
+			right: -40px;
+		}
+	}
+}
+
+.our-doctors {
+	& .article-title{
+		margin-bottom: 50px;
+	}
+
+	& .doctor-detail{
+		margin-bottom: 20px;
+		& figure{
+			border-radius: 50%;
+			overflow: hidden;
+			width: 300px;
+			height: 300px;
+			margin: 0 auto;
+			border: 1px solid transparent;
+
+			-webkit-transition: all .5s ease-in-out;
+			-moz-transition: all .5s ease-in-out;
+			-ms-transition: all .5s ease-in-out;
+			-o-transition: all .5s ease-in-out;
+			transition: all .5s ease-in-out;
+
+			&:hover{
+				border: 1px solid #c3c8d2;
+
+				-webkit-box-shadow: 0px 0px 115px 6px rgba(195,200,210,0.66);
+				-moz-box-shadow: 0px 0px 115px 6px rgba(195,200,210,0.66);
+				box-shadow: 0px 0px 115px 6px rgba(195,200,210,0.66);
+			}
+		}
+
+		& h4{
+			font-family: $font-bold;
+			font-size: 30px;
+		}
+
+		& p{
+			font-size: 16px;
+			color: #909090;
+		}
+	}
+}
+
+.news {
+	background-color: $bg-news-color;
+	padding-bottom: 50px;
+
+	& .btn-make-appointment{
+		margin-top: 40px;
+	}
+
+	& .new-detail {
+		border-radius: 5px;
+		overflow: hidden;
+		background : #fff;
+		margin-bottom: 20px;
+		margin-top: 30px;
+		border: 1px solid #e1e1e1;
+		position: relative;
+
+		& .new-date{
+			padding : 15px;
+			border-top: 2px solid #b3cdde;
+			display: inline-block;
+			background: #ffffff;
+			position: absolute;
+			top: 10px;
+			left: 10px;
+
+			& .month{
+				font-size: 16px;
+			}
+
+			& .date{
+				font-size: 25px;
+				font-family: $font-bold;
+			}
+		}
+
+		-webkit-transition: all .5s ease-in-out;
+		-moz-transition: all .5s ease-in-out;
+		-ms-transition: all .5s ease-in-out;
+		-o-transition: all .5s ease-in-out;
+		transition: all .5s ease-in-out;
+
+		&:hover{
+			margin-top: 0px;
+			-webkit-box-shadow: 0px 15px 23px 8px rgba(225,225,225,0.53);
+			-moz-box-shadow: 0px 15px 23px 8px rgba(225,225,225,0.53);
+			box-shadow: 0px 15px 23px 8px rgba(225,225,225,0.53);
+		}
+
+		& figure {
+			overflow: hidden;
+
+		}
+
+		& .new-content {
+			padding: 5px 20px 20px 20px;
+			border-bottom: 1px solid #e1e1e1;
+			background-color: #fff;
+
+			& h3{
+				font-size: 25px;
+				font-family: $font-bold;
+			}
+
+			& i{
+				display: block;
+				font-family: $font-italic;
+				font-size: 12px;
+				margin-bottom: 25px;
+			}
+
+			& p{
+				color: #909090;
+			}
+		}
+
+		& .btn-readmore {
+			margin: 15px 20px;
+			display: inline-block;
+			padding: 8px 20px;
+			color: #f48100;
+			border: 1px solid #f48100;
+			font-family: $font-bold;
+
+			-webkit-transition: all .5s ease-in-out;
+			-moz-transition: all .5s ease-in-out;
+			-ms-transition: all .5s ease-in-out;
+			-o-transition: all .5s ease-in-out;
+			transition: all .5s ease-in-out;
+			
+			&:hover{
+				color: #ffffff;
+				background: #f48100;
+			}
+		}
+	}
+}
+
+.tips {
+	& .tip-detail {
+		border-radius: 5px;
+		text-align: center;
+		padding: 20px;
+		border: 1px solid #ccc;
+
+		& .tip-content{
+			& h3{
+				margin-top: 0;
+				font-family: $font-bold;
+				position: relative;
+				padding-bottom: 15px;
+				margin-bottom: 15px;
+				&:after{
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					content: "";
+					border-bottom: 1px solid #000;
+					width: 50px;
+					margin-left: -25px;
+				}
+			}
+		}
+	}
+
+	& .tips-slide{
+		& .owl-dots{
+			text-align: center;
+			margin-top: 30px;
+			& .owl-dot{
+				height: 20px;
+				border-radius: 50%;
+				display: inline-block;
+				margin: 0 5px;
+				width: 20px;
+				border: 1px solid #1a1a1a;
+
+				&.active{
+					border-color: #f48100;
+					background: url(../images/icon/icon-dot.png) no-repeat center center;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,181 @@
+.header{
+	& .header-contact{
+		padding: 7px 0;
+		background-color: $bg-contact-top-color;
+
+		& p, & li{
+			color: $color-text-contact-top;
+			font-family: $font-bold;
+		}
+
+		& li{
+			margin-left: 20px;
+		}
+	}
+
+	& .navbar{
+		margin: 0;
+		padding-top: 15px;
+		padding-bottom: 15px;
+
+		& .navbar-brand{
+			padding: 10px 15px;
+		}
+
+		& .nav-right-custom{
+			& li{
+				margin-left: 30px;
+				& a{
+					text-transform: uppercase;
+					font-family: $font-black;
+					font-size: 16px;
+					color: $color-black;
+
+					&:focus, &:hover, &.active {
+						background: none;
+						color: $menu-hover-cl;
+					}
+				}
+			}
+
+			& .language-select{
+				& i{
+					margin-left: 10px;
+				}
+
+				&>a{
+					padding-left: 0;
+				}
+				& a{
+					font-size: 14px;
+					font-family: "Raleway-Medium";
+					text-transform: inherit;
+				}
+
+				& ul{
+					left: 0;
+					right: auto;
+					margin-top: 15px;
+					border: none;
+					border-radius: 0;
+
+					& li{
+						margin:15px 0 15px 0;
+						text-align: left;
+					}
+				}
+			}
+
+		}
+	}
+
+	.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+		background: transparent;
+	}
+
+	& .page-banner{
+		display: table;
+		width: 100%;
+		& .page-title{
+			font-size: $page-title-fs;
+			font-family: $page-title-font;
+			color: $page-title-color;
+			display: table-cell;
+			vertical-align: middle;
+		}
+	}
+}
+
+.header-slide{
+	position: relative;
+
+	.owl-nav{
+		& div{
+			opacity: .3;
+			-webkit-transition: all .5s ease-in-out;
+			-moz-transition: all .5s ease-in-out;
+			-ms-transition: all .5s ease-in-out;
+			-o-transition: all .5s ease-in-out;
+			transition: all .5s ease-in-out;
+
+			&:hover{
+				opacity: 1;
+			}
+		}
+
+		& .disabled{
+			display: none ;
+		}
+
+		& .owl-prev{
+			position: absolute;
+			top: 50%;
+			left: 30px;
+			margin-top: -85px;
+		}
+
+		& .owl-next{
+			position: absolute;
+			top: 50%;
+			right: 30px;
+			margin-top: -85px;
+		}
+	}
+
+	.slide-item {
+		position: relative;
+		& .make-appointment{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -90px;
+			margin-left: -368px;
+
+			& .header-title{
+				color: $title-slide-cl;
+				font-size: $title-slide-fs;
+				font-family: $font-bold;
+				margin-bottom: 10px;
+			}
+
+			& .header-sologan{
+				font-size: 16px;
+				color: $title-slide-cl;
+				margin-bottom: 35px;
+			}
+
+			& .btn-make-appointment{
+				padding: 12px 30px;
+
+				&:hover{
+					color: #ffffff;
+				}
+			}
+		}
+	}
+}
+
+.btn-make-appointment{
+	text-transform: uppercase;
+	font-family: $font-black;
+	background: $btn-make-bg;
+	color: #fff;
+	display: inline-block;
+	padding: 10px 15px;
+	border-radius: 5px;
+	border: 1px solid transparent;
+	-webkit-transition: all .5s ease-in-out;
+	-moz-transition: all .5s ease-in-out;
+	-ms-transition: all .5s ease-in-out;
+	-o-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
+
+	&:hover{
+		border: 1px solid $btn-make-bg;
+		background: transparent;
+		color: #222222;
+	}
+}
+
+
+
