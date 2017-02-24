@@ -78,7 +78,7 @@ i {
   position: fixed;
   text-align: center;
   bottom: 30px;
-  right: 20%;
+  right: 10%;
   transition: all 0.2s ease-out;
   opacity: 0; }
   #back-to-top:hover {

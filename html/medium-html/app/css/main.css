@@ -272,6 +272,47 @@ footer {
     padding: 15px 0;
     color: #ffffff; }
 
+.sidebar-right {
+  border: 1px solid #e1e1e1;
+  border-top-color: #b3cdde;
+  width: 100%;
+  margin-top: 45px; }
+  .sidebar-right h3 {
+    font-family: "Raleway-Black";
+    font-size: 20px;
+    text-transform: uppercase;
+    padding-left: 20px;
+    margin-bottom: 15px; }
+  .sidebar-right .news-item {
+    padding: 0 20px;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out; }
+    .sidebar-right .news-item:last-child .item-detail {
+      border: none; }
+    .sidebar-right .news-item:hover {
+      background: #fafafa; }
+    .sidebar-right .news-item .item-detail {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 20px 0px; }
+      .sidebar-right .news-item .item-detail figure {
+        padding-right: 0; }
+      .sidebar-right .news-item .item-detail .title {
+        font-size: 16px;
+        font-family: "Raleway-Bold";
+        margin-bottom: 5px;
+        margin-top: 0; }
+      .sidebar-right .news-item .item-detail .date {
+        font-size: 10px;
+        font-family: "Raleway-Italic";
+        margin-bottom: 5px; }
+      .sidebar-right .news-item .item-detail .text {
+        color: #a9a9a9;
+        font-size: 12px;
+        line-height: 15px; }
+
 section {
   padding: 50px 0; }
 
@@ -459,17 +500,24 @@ section {
   padding: 18px 22px;
   margin-top: 45px;
   margin-bottom: 90px; }
-  .news-page-detail header .new-date {
-    padding: 15px;
-    border-top: 2px solid #b3cdde;
-    display: inline-block;
-    background: #fafafa;
-    display: inline-block; }
-    .news-page-detail header .new-date .month {
-      font-size: 16px; }
-    .news-page-detail header .new-date .date {
-      font-size: 25px;
-      font-family: "Raleway-Bold"; }
+  .news-page-detail .news-text p {
+    margin-bottom: 20px;
+    line-height: 25px; }
+  .news-page-detail .news-text figure {
+    margin-bottom: 20px; }
+  .news-page-detail header {
+    margin-bottom: 20px; }
+    .news-page-detail header .new-date {
+      padding: 15px;
+      border-top: 2px solid #b3cdde;
+      display: inline-block;
+      background: #fafafa;
+      display: inline-block; }
+      .news-page-detail header .new-date .month {
+        font-size: 16px; }
+      .news-page-detail header .new-date .date {
+        font-size: 25px;
+        font-family: "Raleway-Bold"; }
   .news-page-detail .news-detail-title {
     display: inline-block;
     margin-left: 20px;
@@ -477,4 +525,9 @@ section {
     .news-page-detail .news-detail-title h2 {
       font-size: 30px;
       margin: 0;
-      font-family: "Raleway-Bold"; }
+      font-family: "Raleway-Bold";
+      margin-bottom: 5px; }
+    .news-page-detail .news-detail-title p {
+      font-size: 12px;
+      font-family: "Raleway-Italic";
+      color: #a5a5a5; }

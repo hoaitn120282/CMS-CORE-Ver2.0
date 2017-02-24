@@ -37,7 +37,20 @@
   margin-top: 45px;
   margin-bottom: 90px;
 
+  & .news-text{
+    & p{
+      margin-bottom: 20px;
+      line-height: 25px;
+    }
+
+    & figure{
+      margin-bottom: 20px;
+    }
+  }
+
   & header{
+    margin-bottom: 20px;
+
     & .new-date{
       padding : 15px;
       border-top: 2px solid #b3cdde;
@@ -64,6 +77,13 @@
       font-size: 30px;
       margin: 0;
       font-family: $font-bold;
+      margin-bottom: 5px;
+    }
+
+    & p{
+      font-size: 12px;
+      font-family: $font-italic;
+      color: #a5a5a5;
     }
   }
 }
