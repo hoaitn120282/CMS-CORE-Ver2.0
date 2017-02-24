@@ -188,7 +188,8 @@ class TemplateController extends Controller
         $input = $request->get('meta');
         $temp = Template::find($id);
         $this->storeMetaOptions($temp, $input);
-        $this->generateCssFile($temp);
+        $cc = $this->generateCssFile($temp);
+
 
         return redirect(Admin::route('templateManager.index'));
     }
@@ -393,7 +394,10 @@ class TemplateController extends Controller
             $css = array();
             $file = $template->name . '.css';
             $folder = empty($template->parent) ? $template->name : $template->parent->name;
-            $path_css = public_path("themes/{$folder}/css/{$file}");
+            $path_theme = public_path("themes/{$folder}");
+            $path_css = public_path("themes/{$folder}/css");
+            $path_file = public_path("themes/{$folder}/css/{$file}");
+
             $typography = $template->meta()
                 ->optionsKey('typography')
                 ->first();
@@ -403,7 +407,7 @@ class TemplateController extends Controller
                     if (!empty($typo['items'])) {
                         foreach ($typo['items'] as $item) {
                             if (!empty($item['value'])) {
-                                $css[$typo['name'] . "_" . $item['name']] = $item['value'];
+                                $css[str_slug($typo['name'] . "_" . $item['name'], '_')] = $item['value'];
                             }
                         }
                     }
@@ -413,13 +417,16 @@ class TemplateController extends Controller
             $string_sass = View::make("themes.{$folder}.typography", compact('css'))->render();
             $scss_compiler = new Compiler();
             $string_css = $scss_compiler->compile($string_sass);
-            File::put($path_css, $string_css);
+            if (!File::isDirectory($path_css)) {
+                File::makeDirectory($path_css, 0755, true);
+            }
+            File::put($path_file, $string_css);
 
             return array(
                 'success' => true,
                 'message' => 'Done',
                 'data' => array(
-                    'path' => $path_css
+                    'path' => $path_file
                 )
             );
         } catch (\Exception $exception) {

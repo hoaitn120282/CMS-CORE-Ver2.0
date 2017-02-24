@@ -14,12 +14,21 @@ class Themes extends Model
     protected $table = 'themes';
     public $timestamps = false;
 
-    public function meta()
+    /**
+     * Relationship belongs to theme
+     */
+    public function parent()
     {
-        return $this->hasMany('App\Modules\ContentManager\Models\ThemeMeta','theme_id');
+        return $this->belongsTo('App\Modules\ContentManager\Models\Themes', 'parent_id', 'id');
     }
 
-    public function metaOptions(){
-        return $this->meta()->where("meta_group","options")->get();
+    public function meta()
+    {
+        return $this->hasMany('App\Modules\ContentManager\Models\ThemeMeta', 'theme_id');
+    }
+
+    public function metaOptions()
+    {
+        return $this->meta()->where("meta_group", "options")->get();
     }
 }

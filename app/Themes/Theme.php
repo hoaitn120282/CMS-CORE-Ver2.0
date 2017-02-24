@@ -14,6 +14,7 @@ class Theme
     protected $defaulTmpPath;
     protected $copyPath;
     protected $activeName;
+    protected $activeExtraName;
     protected $activeID;
     private $errors = [];
     private $requireConfigFile = [
@@ -39,6 +40,7 @@ class Theme
         ];
         if ($this->config['driver'] == "file") {
             $this->activeName = $this->config['active'];
+            $this->activeExtraName = empty($this->config['active_extra']) ? $this->config['active'] : $this->config['active_extra'];
             $this->activeID = isset($this->config['active_id']) ? $this->config['active_id'] : 1;
         } else {
             $active = Themes::where('status', true)->first();
@@ -58,11 +60,17 @@ class Theme
         if ($model instanceof Themes) {
             $model->status = 1;
             $model->save();
-            $this->activeID = $model->id;
-            $this->activeName = $model->name;
+            $activeId = $model->id;
+            $activeName = empty($model->parent) ? $model->name : $model->parent->name;
+            $activeExtraName = $model->name;
+            $this->activeID = $activeId;
+            $this->activeName = $activeName;
+            $this->activeExtraName = $activeExtraName;
+
             $this->generateThemeConfig([
-                'name' => $model->name,
-                'id' => $model->id,
+                'id' => $activeId,
+                'name' => $activeName,
+                'active_extra' => $activeExtraName,
                 'driver' => 'file'
             ]);
         }
@@ -83,6 +91,11 @@ class Theme
     public function strActive()
     {
         return $this->activeName;
+    }
+
+    public function strActiveExtra()
+    {
+        return $this->activeExtraName;
     }
 
     public function active()
@@ -303,6 +316,7 @@ class Theme
         $str = '<?php' . "\n";
         $str .= '$config = [];' . "\n\n";
         $str .= '$config[\'active\'] =\'' . $config['name'] . '\';' . "\n";
+        $str .= '$config[\'active_extra\'] =\'' . $config['active_extra'] . '\';' . "\n";
         $str .= '$config[\'active_id\'] =\'' . $config['id'] . '\';' . "\n";
         $str .= '$config[\'driver\'] =\'' . $config['driver'] . '\';' . "\n";
         $str .= "\n" . 'return $config;';

@@ -1,4 +1,4 @@
-<label for="{{ $group.'['.$input['name'].']' }}">{{ $input['label'] }}</label>
+<label for="{{ $group.'['.$input['name'].']' }}">{{ $input['label'] or $input['name'] }}</label>
 
 <select class="form-control" id="{{ $group.'['.$input['name'].']' }}" name="{{ $group.'['.$input['name'].']' }}">
     @foreach($input['options'] as $key => $value)
