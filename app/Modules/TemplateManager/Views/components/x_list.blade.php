@@ -15,6 +15,9 @@
     ?>
     <div class="col-lg-4 col-md-6 cold-sm-6">
         <div class="thumbnail theme-item theme-item-{{$node->id}}">
+            @if(!$node->is_publish)
+                <span class="draft">Draft</span>
+            @endif
             <div class="wrap-theme">
                 <div class="image view-{{$node->id}} background-image" style="background-image: url('{{$previewImg}}')">
                     <a href="{{Admin::route('templateManager.create',['id'=>$node->id])}}">
