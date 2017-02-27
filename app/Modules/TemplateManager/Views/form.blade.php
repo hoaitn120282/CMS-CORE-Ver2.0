@@ -40,14 +40,16 @@ $isEdit = empty($isEdit) ? false : true;
                     <!--Action-->
                     <div class="toolbar-actions">
                         @if($isEdit)
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank" class="btn btn-info">
+                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
+                               class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
                             </a>
                             <button type="submit" name="update" class="btn btn-success">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
                             </button>
                         @else
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank" class="btn btn-info">
+                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
+                               class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
                             </a>
                             <button type="button" name="draft" class="btn btn-primary"
@@ -170,18 +172,16 @@ $isEdit = empty($isEdit) ? false : true;
 
     // Publish theme
     $(".x_switch input[type=checkbox]").on("change", function (event) {
-        var input = this;
-        var checked = (this.checked) ? false : true;
-        switchPublish(input, checked);
-
+        var element = this;
+        switchPublish(element);
         event.preventDefault();
     });
 
-    function switchPublish(element, checked, options) {
+    function switchPublish(element, options) {
         var url = $(element).data('url');
         swal({
             title: "",
-            text: "Are you sure " + (checked ? 'draft' : 'publish') + " this theme?",
+            text: (element.checked ? 'Are you sure to save this template for draft?' : 'Are you sure to publish this template?'),
             type: "warning",
             showCancelButton: true,
             closeOnConfirm: false,
@@ -199,7 +199,8 @@ $isEdit = empty($isEdit) ? false : true;
                     location.reload();
                 });
             } else {
-                $(element).prop('checked', checked).change();
+                $(element).closest('.x_switch').find('.Switch').toggleClass('On').toggleClass('Off');
+                $(element).prop('checked', element.checked).change();
             }
         });
     }
