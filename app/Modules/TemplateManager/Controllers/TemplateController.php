@@ -134,40 +134,47 @@ class TemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $themeId = $request->get('theme_id');
-        $input = $request->all();
-        // validate
-        $validator = Validator::make($input, [
-            'name' => 'required|unique:themes|max:255',
-        ]);
-        if ($validator->fails()) {
+        try {
+            $themeId = $request->get('theme_id');
+            $input = $request->all();
+            $validator = Validator::make($input, ['name' => 'required|max:255',]);
+            if ($validator->fails()) {
+                throw new \Exception(implode(', ', $validator->errors()->all()));
+            }
+            $oldTemp = Template::find($themeId);
+            if (empty($oldTemp)) {
+                throw new \Exception('This template Id doesn\'t exist.');
+            }
+            $input['name'] = $oldTemp['name'] . '_' . $input['name'];
+            if (Template::where('name', $input['name'])->count() > 0) {
+                throw new \Exception("The {$input['name']} has already been taken.");
+            }
+            $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
+            $input['status'] = 0;
+            $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
+            $input = array_merge($tempData->toArray(), $input);
+            $newTemp = $this->storeData($input, $oldTemp);
+            $resGen = $this->generateCssFile($newTemp);
+            $response = array(
+                'success' => true,
+                'message' => ['Template has been cloned successfully.']
+            );
+            if (!$resGen['success']) {
+                $response['success'] = false;
+                $response['message'] = (array)$resGen['errors'];
+            }
+            $request->session()->flash('response', $response);
+
+            return redirect(Admin::route('templateManager.index'));
+
+        } catch (\Exception $exception) {
             $request->session()->flash('response', [
                 'success' => false,
-                'message' => $validator->errors()->all()
+                'message' => (array)$exception->getMessage()
             ]);
 
             return redirect(Admin::route('templateManager.create', ['id' => $themeId]));
         }
-
-        $oldTemp = Template::find($themeId);
-        $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
-        $input['name'] = $tempData['name'] . '_' . $input['name'];
-        $input['status'] = 0;
-        $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
-        $input = array_merge($tempData->toArray(), $input);
-        $newTemp = $this->storeData($input, $oldTemp);
-        $resGen = $this->generateCssFile($newTemp);
-        $response = array(
-            'success' => true,
-            'message' => ['Template has been cloned successfully.']
-        );
-        if (!$resGen['success']) {
-            $response['success'] = false;
-            $response['message'] = (array)$response['errors'];
-        }
-        $request->session()->flash('response', $response);
-
-        return redirect(Admin::route('templateManager.index'));
     }
 
     /**
@@ -240,7 +247,9 @@ class TemplateController extends Controller
 
     /**
      * Preview template
+     *
      * @param int $id
+     * @return response
      */
     public function preview($id, Request $request)
     {
@@ -518,7 +527,7 @@ class TemplateController extends Controller
             // Could not uninstall if theme has parent id = 0
             $template = Template::where('name', $themeName)->first();
             if (0 == $template->parent_id) {
-                 throw new \Exception('It\'s not allowed to delete installed theme.');
+                throw new \Exception('It\'s not allowed to delete installed theme.');
             }
 
             Theme::uninstall($themeName);
