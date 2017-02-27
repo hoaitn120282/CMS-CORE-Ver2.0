@@ -40,14 +40,14 @@ $isEdit = empty($isEdit) ? false : true;
                     <!--Action-->
                     <div class="toolbar-actions">
                         @if($isEdit)
-                            <a href="" class="btn btn-info">
+                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank" class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
                             </a>
                             <button type="submit" name="update" class="btn btn-success">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
                             </button>
                         @else
-                            <a href="" class="btn btn-info">
+                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank" class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
                             </a>
                             <button type="button" name="draft" class="btn btn-primary"

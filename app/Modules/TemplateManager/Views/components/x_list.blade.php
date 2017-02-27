@@ -1,14 +1,13 @@
-
 @foreach($nodes as $node)
     <?php
 
-    $filename= url('/themes/'.$node->name.'/images/'. $node->image_preview );
+    $filename = url('/themes/' . $node->name . '/images/' . $node->image_preview);
     $file_headers = get_headers($filename);
 
-    if($file_headers[0] == 'HTTP/1.0 404 Not Found'){
-        $previewImg = url('/themes').'/no-image.png';
-    } else if ($file_headers[0] == 'HTTP/1.0 302 Found' && $file_headers[7] == 'HTTP/1.0 404 Not Found'){
-        $previewImg = url('/themes').'/no-image.png';
+    if ($file_headers[0] == 'HTTP/1.0 404 Not Found') {
+        $previewImg = url('/themes') . '/no-image.png';
+    } else if ($file_headers[0] == 'HTTP/1.0 302 Found' && $file_headers[7] == 'HTTP/1.0 404 Not Found') {
+        $previewImg = url('/themes') . '/no-image.png';
     } else {
         $previewImg = $filename;
     }
@@ -29,7 +28,7 @@
             <div class="action">
                 <ul>
                     <li>
-                        <a href="#" target="_blank">
+                        <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank">
                             <button type="button" class="btn btn-block btn-success">View</button>
                         </a>
                     </li>
