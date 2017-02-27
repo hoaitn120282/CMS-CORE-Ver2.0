@@ -52,6 +52,7 @@ $inputSlug = str_slug($input['name']);
     .x_switch .Switch span {
         display: inline-block;
         width: 60px;
+        color: rgb(38, 185, 154)
     }
 
     .x_switch .Switch span.On {
@@ -92,11 +93,11 @@ $inputSlug = str_slug($input['name']);
     }
 
     .x_switch .Switch.On .Toggle {
-        left: 2%;
+        left: 50%;
     }
 
     .x_switch .Switch.Off .Toggle {
-        left: 50%;
+        left: 0%;
     }
 </style>
 @endpush
