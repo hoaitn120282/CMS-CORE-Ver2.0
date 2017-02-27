@@ -482,6 +482,12 @@ class TemplateController extends Controller
     public function uninstall(Request $request, $themeName)
     {
         try {
+            // Could not uninstall if theme has parent id = 0
+            $template = Template::where('name', $themeName)->first();
+            if (0 == $template->parent_id) {
+                throw new \Exception('Could not deleted this templatev because it is installed.');
+            }
+
             Theme::uninstall($themeName);
 
             if (Theme::error()) {
