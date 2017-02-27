@@ -156,7 +156,17 @@ class TemplateController extends Controller
         $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
         $input = array_merge($tempData->toArray(), $input);
         $newTemp = $this->storeData($input, $oldTemp);
-        $res = $this->generateCssFile($newTemp);
+        $resGen = $this->generateCssFile($newTemp);
+        $response = array(
+            'success' => true,
+            'message' => ['Template has been cloned successfully.']
+        );
+        if (!$resGen['success']) {
+            $response['success'] = false;
+            $response['message'] = (array)$response['errors'];
+        }
+        $request->session()->flash('response', $response);
+
         return redirect(Admin::route('templateManager.index'));
     }
 
@@ -188,8 +198,20 @@ class TemplateController extends Controller
     {
         $input = $request->get('meta');
         $temp = Template::find($id);
-        $this->storeMetaOptions($temp, $input);
-        $res = $this->generateCssFile($temp);
+        $metaOpt = $this->storeMetaOptions($temp, $input);
+        $genCss = $this->generateCssFile($temp);
+        
+        if (!$metaOpt['success'] || !$genCss['success']) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => array_merge(isset($metaOpt['errors']) ? (array)$metaOpt['errors'] : [], isset($genCss['errors']) ? (array)$genCss['errors'] : [])
+            ]);
+        } else {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => array("{$temp->name} has been updated successfully.")
+            ]);
+        }
 
 
         return redirect(Admin::route('templateManager.index'));

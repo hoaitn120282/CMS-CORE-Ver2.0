@@ -46,7 +46,7 @@ class ThemeController extends Controller
         Theme::setActive($activeTheme);
         $request->session()->flash('response', [
             'success' => true,
-            'message' => array("Theme {$activeTheme->name} has been active.")
+            'message' => array("Theme {$activeTheme->name} has been activated.")
         ]);
 
         return redirect(Admin::StrURL('contentManager/theme'));

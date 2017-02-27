@@ -23,7 +23,7 @@
             </div>
             <div class="caption">
                 @if($node->status)
-                    <a href="#" class="btn btn-disabled btn-block btn-sm">Active</a>
+                    <a href="#" class="btn btn-disabled btn-block btn-sm">Activated</a>
                 @else
                     <a href="{{ Admin::route('contentManager.theme.active',['id'=>$node->id]) }}"
                        class="btn btn-success btn-block btn-sm">Active Theme</a>
