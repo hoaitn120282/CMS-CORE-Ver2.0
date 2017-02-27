@@ -47,9 +47,9 @@
                         </li>
                         <li>
                             <a href="#"
-                               data-role="uninstall-theme"
+                               data-role="delete-template"
                                data-theme_id="{{$node->id}}"
-                               data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
+                               data-url="{{ Admin::route('templateManager.uninstall', ['themeName' => $node->name]) }}">
                                 <button type="button" class="btn btn-block btn-success">Delete</button>
                             </a>
                         </li>
@@ -62,7 +62,4 @@
 
 @push('scripts')
 @include('TemplateManager::components.script_delete')
-@endpush
-@push('scripts')
-@include('ContentManager::theme.partials.script_uninstall')
 @endpush

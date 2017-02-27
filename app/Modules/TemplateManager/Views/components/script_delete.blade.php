@@ -5,7 +5,7 @@
             var urlDelete = $(this).data('url');
             swal({
                 title: "",
-                text: "Are you sure to delete this theme?",
+                text: "Are you sure to delete this template?",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

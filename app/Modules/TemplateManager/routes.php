@@ -14,5 +14,6 @@ Route::group([
         Route::post('templateManager/update/{id}', ['as' => $this->admin . '.templateManager.update', 'uses' => 'TemplateController@update']);
         Route::post('templateManager/publish/{id}', ['as' => $this->admin . '.templateManager.publish', 'uses' => 'TemplateController@publish']);
         Route::delete('templateManager/delete/{id}', ['as' => $this->admin . '.templateManager.delete', 'uses' => 'TemplateController@delete']);
+        Route::delete('templateManager/uninstall/{id}', ['as' => $this->admin . '.templateManager.uninstall', 'uses' => 'TemplateController@uninstall']);
 
     });

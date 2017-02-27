@@ -491,7 +491,7 @@ class TemplateController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is uninstall successfully.")
+                'message' => array("Theme {$themeName} has been deleted successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();
