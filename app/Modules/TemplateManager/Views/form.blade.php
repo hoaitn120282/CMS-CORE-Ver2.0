@@ -14,11 +14,14 @@ $isEdit = empty($isEdit) ? false : true;
                             <h2>Edit theme</h2>
                             <div class="action pull-right">
                                 @include('TemplateManager::xform.switch', [
-                                'on' => 'Publish',
-                                'off' => 'Draft',
-                                'input' => [
-                                    'name' => 'publish',
-                                    'value' => 1
+                                    'on' => 'Publish',
+                                    'off' => 'Draft',
+                                    'input' => [
+                                        'name' => 'publish',
+                                        'value' => $node->is_publish,
+                                        'options' => [
+                                            'url' => Admin::route('templateManager.publish', ['id' => $node->id])
+                                        ]
                                     ]
                                 ])
                             </div>
@@ -149,7 +152,7 @@ $isEdit = empty($isEdit) ? false : true;
         onShow: function (colpkr) {
             var cal = $(colpkr).data('colorpicker');
             var el = cal.el;
-//            $('.input-color-picker', el.closest('.wrap-color-picker')).show();
+            // $('.input-color-picker', el.closest('.wrap-color-picker')).show();
             $(colpkr).fadeIn(500);
             return false;
         },
@@ -165,15 +168,20 @@ $isEdit = empty($isEdit) ? false : true;
         }
     });
 
-    $("input[type=checkbox]").on("change", function (event) {
-        if (this.checked) {
-            console.log(1);
-        } else {
-            console.log(2);
-        }
+    // Publish theme
+    $(".x_switch input[type=checkbox]").on("change", function (event) {
+        var input = this;
+        var checked = (this.checked) ? false : true;
+        switchPublish(input, checked);
+
+        event.preventDefault();
+    });
+
+    function switchPublish(element, checked, options) {
+        var url = $(element).data('url');
         swal({
             title: "",
-            text: "Are you sure publish this theme?",
+            text: "Are you sure " + (checked ? 'draft' : 'publish') + " this theme?",
             type: "warning",
             showCancelButton: true,
             closeOnConfirm: false,
@@ -181,17 +189,19 @@ $isEdit = empty($isEdit) ? false : true;
             confirmButtonText: "Yes",
             confirmButtonClass: "btn-danger",
             cancelButtonText: "No"
-        }, function () {
-            $.ajax({
-                type: 'DELETE',
-                url: urlDelete,
-                data: {"_token": "{{ csrf_token() }}"}
-            })
-                    .done(function () {
-                        location.reload();
-                    });
+        }, function (el) {
+            if (el) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {"_token": "{{ csrf_token() }}"}
+                }).done(function () {
+                    location.reload();
+                });
+            } else {
+                $(element).prop('checked', checked).change();
+            }
         });
-        event.preventDefault();
-    });
+    }
 </script>
 @endpush

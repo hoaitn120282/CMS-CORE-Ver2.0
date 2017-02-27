@@ -12,6 +12,7 @@ Route::group([
         Route::post('templateManager/store', ['as' => $this->admin . '.templateManager.store', 'uses' => 'TemplateController@store']);
         Route::get('templateManager/edit/{id}', ['as' => $this->admin . '.templateManager.edit', 'uses' => 'TemplateController@edit']);
         Route::post('templateManager/update/{id}', ['as' => $this->admin . '.templateManager.update', 'uses' => 'TemplateController@update']);
+        Route::post('templateManager/publish/{id}', ['as' => $this->admin . '.templateManager.publish', 'uses' => 'TemplateController@publish']);
         Route::delete('templateManager/delete/{id}', ['as' => $this->admin . '.templateManager.delete', 'uses' => 'TemplateController@delete']);
 
     });

@@ -2,6 +2,7 @@
 $on = empty($on) ? 'On' : $on;
 $off = empty($off) ? 'Off' : $off;
 $inputSlug = str_slug($input['name']);
+
 ?>
 @if (!empty($input['label']))
     <label for="{{ $inputSlug }}">{{ $input['label'] }}</label>
@@ -10,9 +11,14 @@ $inputSlug = str_slug($input['name']);
     <input type="checkbox"
            name="{{ $input['name'] }}"
            value="{{ $input['value'] }}"
+           @if(isset($input['options']) && is_array($input['options']))
+           @foreach($input['options'] as $key => $option)
+           data-{{$key}}='{{$option}}'
+           @endforeach
+           @endif
            id="{{$inputSlug}}"
             {{ (1 == $input['value']) ? 'checked':'' }}>
-    <div class="Switch Off">
+    <div class="{{ (1 == $input['value']) ? 'Switch Off':'Switch On' }}">
         <div class="Toggle"></div>
         <span class="On">{{ $on }}</span> <span class="Off">{{ $off }}</span>
     </div>
@@ -109,6 +115,10 @@ $inputSlug = str_slug($input['name']);
             }
 
             $(this).toggleClass('On').toggleClass('Off');
+        });
+
+        $('.x_switch input:checkbox').on('change', function () {
+            $(this).closest('.x_switch').find('.Switch').toggleClass('On').toggleClass('Off');
         });
     });
 </script>

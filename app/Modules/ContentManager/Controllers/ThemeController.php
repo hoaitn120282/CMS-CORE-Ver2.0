@@ -13,7 +13,7 @@ class ThemeController extends Controller
 {
     public function index()
     {
-        $model = Themes::orderBy('status', 'desc')->get();
+        $model = Themes::orderBy('status', 'desc')->where('is_publish', true)->get();
         return view("ContentManager::theme.index", ['models' => $model]);
     }
 

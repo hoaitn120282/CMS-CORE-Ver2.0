@@ -200,7 +200,7 @@ class TemplateController extends Controller
         $temp = Template::find($id);
         $metaOpt = $this->storeMetaOptions($temp, $input);
         $genCss = $this->generateCssFile($temp);
-        
+
         if (!$metaOpt['success'] || !$genCss['success']) {
             $request->session()->flash('response', [
                 'success' => false,
@@ -223,7 +223,19 @@ class TemplateController extends Controller
      */
     public function publish($id, Request $request)
     {
+        $template = Template::find($id);
+        $template->is_publish = !$template->is_publish;
+        $strPublish = ($template->is_publish == 1 ? 'published' : 'drafted');
+        $response = array(
+            'success' => true,
+            'message' => array("{$template->name} has been {$strPublish} successfully.")
+        );
+        if (!$template->save()) {
+            $response['success'] = false;
+            $response['message'] = array("{$template->name} has been {$strPublish} failure.");
+        }
 
+        $request->session()->flash('response', $response);
     }
 
     /**
