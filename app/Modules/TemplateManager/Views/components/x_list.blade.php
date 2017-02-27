@@ -31,28 +31,30 @@
             <div class="action">
                 <ul>
                     <li>
-                        <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank">
-                            <button type="button" class="btn btn-block btn-success">View</button>
+                        <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
+                           title="View">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}">
-                            <button type="button" class="btn btn-block btn-success">Clone</button>
+                        <a href="{{ Admin::route('templateManager.create', ['id' => $node->id]) }}" title="Clone">
+                            <i class="fa fa-clone" aria-hidden="true"></i>
                         </a>
                     </li>
 
                     @if($node->parent_id == 0 || $node->parent_id != 0)
                         <li>
-                            <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}">
-                                <button type="button" class="btn btn-block btn-success">Edit</button>
+                            <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}" title="Edit">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#"
                                data-role="delete-template"
                                data-theme_id="{{$node->id}}"
-                               data-url="{{ Admin::route('templateManager.uninstall', ['themeName' => $node->name]) }}">
-                                <button type="button" class="btn btn-block btn-success">Delete</button>
+                               data-url="{{ Admin::route('templateManager.uninstall', ['themeName' => $node->name]) }}"
+                               title="Delete">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </a>
                         </li>
                     @endif
