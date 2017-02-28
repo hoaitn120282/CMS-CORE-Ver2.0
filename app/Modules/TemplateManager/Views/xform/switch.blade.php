@@ -18,7 +18,7 @@ $inputSlug = str_slug($input['name']);
            @endif
            id="{{$inputSlug}}"
             {{ (1 == $input['value']) ? 'checked':'' }}>
-    <div class="{{ (1 == $input['value']) ? 'Switch Off':'Switch On' }}">
+    <div class="{{ (1 == $input['value']) ? 'Switch On':'Switch Off' }}">
         <div class="Toggle"></div>
         <span class="On">{{ $on }}</span> <span class="Off">{{ $off }}</span>
     </div>
@@ -52,6 +52,7 @@ $inputSlug = str_slug($input['name']);
     .x_switch .Switch span {
         display: inline-block;
         width: 60px;
+        color: rgb(38, 185, 154)
     }
 
     .x_switch .Switch span.On {
@@ -92,11 +93,11 @@ $inputSlug = str_slug($input['name']);
     }
 
     .x_switch .Switch.On .Toggle {
-        left: 2%;
+        left: 50%;
     }
 
     .x_switch .Switch.Off .Toggle {
-        left: 50%;
+        left: 0%;
     }
 </style>
 @endpush
@@ -118,7 +119,7 @@ $inputSlug = str_slug($input['name']);
         });
 
         $('.x_switch input:checkbox').on('change', function () {
-            $(this).closest('.x_switch').find('.Switch').toggleClass('On').toggleClass('Off');
+//            $(this).closest('.x_switch').find('.Switch').toggleClass('On').toggleClass('Off');
         });
     });
 </script>

@@ -13,7 +13,8 @@ class ThemeController extends Controller
 {
     public function index()
     {
-        $model = Themes::orderBy('status', 'desc')->where('is_publish', true)->get();
+        // $model = Themes::orderBy('status', 'desc')->where('is_publish', true)->get();
+        $model = Themes::orderBy('status', 'desc')->get();
         return view("ContentManager::theme.index", ['models' => $model]);
     }
 
@@ -95,7 +96,7 @@ class ThemeController extends Controller
             $themeName = explode(".{$extension}", $clientOriginalName)[0];
             $countTheme = Themes::where('name', $themeName)->count();
             if ($countTheme > 0) {
-                throw new \Exception("Theme {$themeName} is exists. Please choose other theme.");
+                throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
             }
             $themeZip->move(app_path('Themes/upload'), $clientOriginalName);
 

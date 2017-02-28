@@ -52,5 +52,37 @@
     .list-templates .thumbnail .action a:hover {
         color: #1ABB9C;
     }
+    .list-templates .thumbnail .draft {
+        transform: translateX(-23%) translateY(-23%) rotate(-36deg);
+        margin: 0;
+        background-color: #b91716;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: top right;
+        font-size: 14px;
+        padding: 3px 10px;
+        z-index: 3;
+    }
+
+    .list-templates .thumbnail .draft:before,
+    .list-templates .thumbnail .draft:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        margin: 0 -1px;
+        width: 100%;
+        height: 100%;
+        background-color: #b91716;
+    }
+
+    .list-templates .thumbnail .draft:before {
+        left: 100%;
+    }
+
+    .list-templates .thumbnail .draft:after {
+        right: 100%;
+    }
 </style>
 @endpush
