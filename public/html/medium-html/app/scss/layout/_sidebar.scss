@@ -6,13 +6,13 @@
 
   .sidebar-title{
     font-size: 20px;
-    font-family: $font-bold;
+    font-family: "Raleway-Bold";
     text-transform: inherit;
   }
 
 
   & h3{
-    font-family: $font-black;
+    font-family: "Raleway-Black";
     font-size: 20px;
     text-transform: uppercase;
     padding-left: 20px;
@@ -47,14 +47,14 @@
 
       & .title{
         font-size: 16px;
-        font-family: $font-bold;
+        font-family: "Raleway-Bold";
         margin-bottom: 5px;
         margin-top: 0;
       }
 
       & .date{
         font-size: 10px;
-        font-family: $font-italic;
+        font-family: "Raleway-Italic";
         margin-bottom: 5px;
       }
 
@@ -76,7 +76,7 @@
       }
 
       & p{
-        color: $text-position-cl;
+        color: #909090;
         margin-bottom: 10px;
       }
 
@@ -94,7 +94,7 @@
     padding: 10px 0;
     background: #b3cdde;
     color: #ffffff;
-    font-family: $font-black;
+    font-family: "Raleway-Black";
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
@@ -117,23 +117,26 @@
   & header{
     & h4{
       font-size: 20px;
-      font-family: $font-bold;
+      font-family: "Raleway-Bold";
       margin: 15px 0 10px;
     }
 
     & p{
-      color: $text-position-cl;
+      color: #909090;
       margin-bottom: 15px;
     }
 
     & .btn-make-appointment{
       text-transform: uppercase;
-      font-family: $font-black;
-      background: $btn-make-bg;
-      color: #fff;
+      font-family: $button-font-family;
+      background: $button-background;
+      color: $button-color;
       padding: 10px 15px;
       border-radius: 5px;
-      border: 1px solid transparent;
+      border: $button-border-size;
+      border-style: $button-border-style;
+      border-color: $button-border-color;
+
       -webkit-transition: all .5s ease-in-out;
       -moz-transition: all .5s ease-in-out;
       -ms-transition: all .5s ease-in-out;
@@ -141,9 +144,9 @@
       transition: all .5s ease-in-out;
 
       &:hover{
-        border: 1px solid $btn-make-bg;
-        background: transparent;
-        color: #222222;
+        border-color: $button-hover-border-color;
+        background: $button-hover-background;
+        color: $button-hover-color;
       }
     }
   }

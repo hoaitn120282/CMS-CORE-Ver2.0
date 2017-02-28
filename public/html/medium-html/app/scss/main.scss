@@ -1,11 +1,10 @@
-// Vendors
-
+// Variables
+@import "helpers/variables";
 // Base
 @import "base/reset";
 @import "base/normalize";
 
 // Helpers
-@import "helpers/variables";
 @import "helpers/clearfix";
 @import "helpers/mixins";
 @import "helpers/functions";

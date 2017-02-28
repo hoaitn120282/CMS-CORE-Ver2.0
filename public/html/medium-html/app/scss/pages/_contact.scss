@@ -4,7 +4,7 @@
     margin-bottom: 30px;
     h1{
       font-size: 30px;
-      font-family: $font-black;
+      font-family: "Raleway-Black";
       margin-top: 0;
     }
     p{
@@ -13,7 +13,6 @@
   }
 
   .contact-info{
-    margin-bottom: 60px;
 
     .detail{
       text-align: center;
@@ -26,7 +25,7 @@
       .type{
         color: #c1c1c1;
         font-size: 20px;
-        font-family: $font-italic;
+        font-family: "Raleway-Italic";
       }
 
       .type-dt{
@@ -64,7 +63,7 @@
 
     h3{
       font-size: 23px;
-      font-family: $font-bold;
+      font-family: "Raleway-Bold";
       margin-top: 0;
     }
 
@@ -86,4 +85,31 @@
 
 .contact-map{
   margin-bottom: 100px;
+}
+
+@media (max-width: 769px) {
+  .contact {
+    header {
+      p{
+        font-size: 12px;
+      }
+    }
+    .contact-info {
+      .detail{
+        margin-bottom: 40px;
+      }
+    }
+  }
+
+  .form-contact{
+    .container-ct-f {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+
+      .contact-form{
+        padding: 40px 15px;
+      }
+    }
+  }
 }

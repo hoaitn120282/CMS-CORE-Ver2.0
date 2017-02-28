@@ -1,11 +1,11 @@
 .header{
 	& .header-contact{
 		padding: 7px 0;
-		background-color: $bg-contact-top-color;
+		background-color: #b3cdde;
 
 		& p, & li{
-			color: $color-text-contact-top;
-			font-family: $font-bold;
+			color: #ffffff;
+			font-family: "Raleway-Bold";
 		}
 
 		& li{
@@ -20,6 +20,11 @@
 
 		& .navbar-brand{
 			padding: 10px 15px;
+			.site-title{
+				font-size: $site-title-size;
+				font-family: $site-title-font-family;
+				color: $site-title-color;
+			}
 		}
 
 		& .nav-right-custom{
@@ -27,13 +32,13 @@
 				margin-left: 30px;
 				& a{
 					text-transform: uppercase;
-					font-family: $font-black;
-					font-size: 16px;
-					color: $color-black;
+					font-family: $menu-font-family;
+					font-size: $menu-font-size;
+					color: $menu-color;
 
 					&:focus, &:hover, &.active {
 						background: none;
-						color: $menu-hover-cl;
+						color: $menu-hover-color;
 					}
 				}
 			}
@@ -74,7 +79,7 @@
 	}
 
 	& .page-banner{
-		background-image: url("../images/banner.jpg");
+		background-image: $banner-backgroudn-image;
 		background-repeat: no-repeat;
 		background-position: center center;
 		height: 350px;
@@ -82,9 +87,9 @@
 		display: table;
 		width: 100%;
 		& .page-title{
-			font-size: $page-title-fs;
-			font-family: $page-title-font;
-			color: $page-title-color;
+			font-size: $banner-title-size;
+			font-family: $banner-title-font-family;
+			color: $banner-title-color;
 			display: table-cell;
 			vertical-align: middle;
 		}
@@ -137,15 +142,15 @@
 			margin-left: -368px;
 
 			& .header-title{
-				color: $title-slide-cl;
-				font-size: $title-slide-fs;
-				font-family: $font-bold;
+				color: $slide-title-color;
+				font-size: $slide-title-font-size;
+				font-family: $slide-title-font-family;
 				margin-bottom: 10px;
 			}
 
 			& .header-sologan{
 				font-size: 16px;
-				color: $title-slide-cl;
+				color: #ffffff;
 				margin-bottom: 35px;
 			}
 
@@ -162,13 +167,15 @@
 
 .btn-make-appointment{
 	text-transform: uppercase;
-	font-family: $font-black;
-	background: $btn-make-bg;
-	color: #fff;
+	font-family: $button-font-family;
+	background: $button-background;
+	color: $button-color;
 	display: inline-block;
 	padding: 10px 15px;
 	border-radius: 5px;
-	border: 1px solid transparent;
+	border: $button-border-size;
+	border-style: $button-border-style;
+	border-color: $button-border-color;
 	-webkit-transition: all .5s ease-in-out;
 	-moz-transition: all .5s ease-in-out;
 	-ms-transition: all .5s ease-in-out;
@@ -176,9 +183,9 @@
 	transition: all .5s ease-in-out;
 
 	&:hover{
-		border: 1px solid $btn-make-bg;
-		background: transparent;
-		color: #222222;
+		border-color: $button-hover-border-color;
+		background: $button-hover-background;
+		color: $button-hover-color;
 	}
 }
 
@@ -266,11 +273,60 @@
 		& .header-contact{
 			& li{
 				display: block;
+				padding-left: 0;
 			}
 		}
 
 		& .list-contact{
 			width: 100%;
+		}
+
+		.navbar{
+			padding-top: 0;
+			padding-bottom: 0;
+
+			.navbar-brand{
+				padding-top: 15px;
+			}
+		}
+
+		.header-slide{
+			height: 200px;
+			.owl-nav {
+				.owl-next {
+					top: 90%;
+					right: 5px;
+					max-width: 35px;
+				}
+
+				.owl-prev {
+					top: 90%;
+					left: 5px;
+					max-width: 35px;
+				}
+			}
+		}
+
+		.owl-carousel .owl-item{
+			height:285px;
+			width:100%;
+
+			img{
+				height:285px;
+				width:100%;
+			}
+		}
+
+		.slide-item{
+			.make-appointment{
+				width: 100%;
+				left: 0;
+				top: 40%;
+				padding: 0 50px;
+				.header-title{
+					font-size: 20px;
+				}
+			}
 		}
 	}
 }
