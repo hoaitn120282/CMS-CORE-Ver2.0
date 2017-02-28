@@ -1,3 +1,4 @@
+jQuery.fn.exists = function(){return this.length>0;};
 jQuery(document).ready(function($) {
 
     $('.header-slide').owlCarousel({
@@ -7,14 +8,14 @@ jQuery(document).ready(function($) {
     });
 
     $('.tips-slide').owlCarousel({
-        items: 3,
+        items: 1,
         margin: 30,
         responsive:{
             0:{
                 items:1,
             },
             600:{
-                items:3,
+                items:1,
                 nav:false
             }
         }
@@ -41,5 +42,17 @@ jQuery(document).ready(function($) {
             }, 700);
         });
     }
+
+    /**** Check and remove class ****/
+    if (window.innerWidth <= 769) {
+        $(".language-select ul").removeClass("dropdown-menu").addClass('list-inline');
+    }
+
+    $(window).on('resize', function(){
+        location.reload();
+        if (window.innerWidth <= 769) {
+            $(".language-select ul").removeClass("dropdown-menu").addClass('list-inline');
+        }
+    });
 
 });

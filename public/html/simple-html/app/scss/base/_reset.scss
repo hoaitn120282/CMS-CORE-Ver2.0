@@ -7,9 +7,9 @@ html {
 }
 
 body {
-  color:#222222;
-  font-family: 'Raleway-Medium',Arial, serif; 
-  font-size: 14px;
+  color: $page-cl;
+  font-family: $page-ff,Arial, serif; 
+  font-size: $page-fs;
   padding: 0px !important;
   margin: 0px !important;
   background: #ffffff;

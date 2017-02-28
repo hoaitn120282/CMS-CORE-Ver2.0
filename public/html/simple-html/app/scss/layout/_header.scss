@@ -15,6 +15,12 @@
 		}
 	}
 
+	.slide-item{
+		background: url(../images/banner.jpg) no-repeat center center;
+		height: 350px;
+		background-size: cover;
+	}
+
 	& .navbar{
 		margin: 0;
 		padding-top: 15px;
@@ -22,6 +28,11 @@
 
 		& .navbar-brand{
 			padding: 10px 15px;
+			.site-title{
+				font-size: $site-title-sz;
+				font-family: $site-title-ff;
+				color: $site-title-cl;
+			}
 		}
 
 		& .nav-right-custom{
