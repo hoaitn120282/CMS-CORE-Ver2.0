@@ -29,9 +29,9 @@
 		& .navbar-brand{
 			padding: 10px 15px;
 			.site-title{
-				font-size: $site-title-sz;
-				font-family: $site-title-ff;
-				color: $site-title-cl;
+				font-size: $site-title-size;
+				font-family: $site-title-font-family;
+				color: $site-title-color;
 			}
 		}
 
@@ -40,13 +40,13 @@
 				margin-left: 30px;
 				& a{
 					text-transform: uppercase;
-					font-family: $font-black;
-					font-size: 16px;
-					color: $color-black;
+					font-family: $menu-font-family;
+					font-size: $menu-font-size;
+					color: $menu-color;
 
 					&:focus, &:hover, &.active {
 						background: none;
-						color: $menu-hover-cl;
+						color: $menu-hover-color;
 					}
 				}
 			}

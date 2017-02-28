@@ -33,14 +33,15 @@
 			
 			& .btn-make-appointment{
 				text-transform: uppercase;
-				font-family: $button-ff;
-				background: $button-bg;
-				color: $button-cl;
+				font-family: $button-font-family;
+				background: $button-background;
+				color: $button-color;
 				padding: 10px 15px;
 				border-radius: 5px;
-				border: $button-border-sz;
-				border-style: $button-border-st;
-				border-color: $button-border-cl;
+				border: $button-border-size;
+				border-style: $button-border-style;
+				border-color: $button-border-color;
+
 				-webkit-transition: all .5s ease-in-out;
 				   -moz-transition: all .5s ease-in-out;
 				    -ms-transition: all .5s ease-in-out;
@@ -48,9 +49,9 @@
 				        transition: all .5s ease-in-out;
 
 				&:hover{
-					border-color: $button-hover-bd-cl;
-					background: $button-hover-bg;
-					color: $button-hover-cl;
+					border-color: $button-hover-border-color;
+					background: $button-hover-background;
+					color: $button-hover-color;
 				}
 			}
 		}
