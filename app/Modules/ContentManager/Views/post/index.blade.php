@@ -12,46 +12,46 @@
       <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        <table class="table table-striped jambo_table bulk_action"> 
+        <table class="table table-striped jambo_table bulk_action">
             <thead>
-                <tr> 
+                <tr>
                     <th><input id="checkAll" type="checkbox" class="flat"></th>
-                    <th>Post Title</th> 
-                    <th>Categories</th> 
-                    <th>Tags</th> 
-                    <th>Author</th> 
-                    <th>Date</th> 
-                    <th>&nbsp;</th> 
-                </tr> 
-            </thead> 
+                    <th>Post Title</th>
+                    <th>Categories</th>
+                    <th>Tags</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach ($model as $data)
-                <tr id="tr-{{ $data->id }}"> 
+                <tr id="tr-{{ $data->id }}">
                     <td>
-                        <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->id}}" /> 
+                        <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->id}}" />
                         <input type="hidden" id="idPost" value="{{ $data->id }}">
                     </td>
                     <td>
                         <div class="">
                             {{$data->post_title}}
                             <div class="btn-edit-delete">
-                                <a href="{{ Admin::route('contentManager.post.edit',['post'=>$data->id]) }}" > Edit </a> | 
+                                <a href="{{ Admin::route('contentManager.post.edit',['post'=>$data->id]) }}" > Edit </a> |
                                 <a href="#" data-role="delete-post" data-idpost="{{ $data->id }}" > Delete </a>
                             </div>
                         </div>
-                    </td> 
+                    </td>
                     <td>{!! Helper::taxonomyLink($data->categories,false) !!}</td>
-                    <td>{!! Helper::taxonomyLink($data->tags,false) !!}</td> 
-                    <td>{{$data->user->name}}</td> 
-                    <td>{{$data->updated_at->format("M d, Y")}}</td> 
+                    <td>{!! Helper::taxonomyLink($data->tags,false) !!}</td>
+                    <td>{{$data->user->name}}</td>
+                    <td>{{$data->updated_at->format("M d, Y")}}</td>
                     <td>
                       @if($data->getMetaValue('featured_post') == 'on')
                         <span class="label label-primary">Featured</span>
                       @endif
-                    </td> 
-                </tr> 
-                @endforeach  
-            </tbody> 
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
         {{ $model->links() }}
     </div>

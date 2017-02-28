@@ -239,6 +239,39 @@ class TemplateController extends Controller
     }
 
     /**
+     * Preview template
+     * @param int $id
+     */
+    public function preview($id, Request $request)
+    {
+        try {
+            $template = Template::find($id);
+            if (empty($template)) {
+                throw new \Exception('This template Id doesn\'t exist.');
+            }
+
+            $folder = empty($template->parent) ? $template->name : $template->parent->name;
+
+            $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
+            if (File::exists($path_file)) {
+                $css_default_name = "{$template->name}.css";
+                $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
+                $css_path = "themes/simple/css/{$css_name}";
+
+                return view("themes.{$folder}.preview", compact('css_path'));
+            }
+
+        } catch (\Exception $exception) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => (array)$exception->getMessage()
+            ]);
+
+            return redirect(Admin::route('templateManager.index'));
+        }
+    }
+
+    /**
      * Delete the template
      *
      * @param int $id
@@ -485,7 +518,7 @@ class TemplateController extends Controller
             // Could not uninstall if theme has parent id = 0
             $template = Template::where('name', $themeName)->first();
             if (0 == $template->parent_id) {
-                throw new \Exception('Could not deleted this templatev because it is installed.');
+                throw new \Exception('Installed templates are not allowed to delete.');
             }
 
             Theme::uninstall($themeName);

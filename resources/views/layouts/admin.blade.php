@@ -74,12 +74,25 @@
                             <li>
                                 <a href="{{ Admin::route('contentManager.media') }}"><i class="fa fa-file-image-o"></i> Media Manager</a>
                             </li>
+                            {{--Template manager--}}
                             <li>
                                 <a><i class="fa fa-windows"></i> Template Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('templateManager.index') }}">Template Library</a></li>
                                     <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a></li>
                                 </ul>
+                            </li>
+                            {{--Site manager--}}
+                            <li>
+                                <a ><i class="fa  fa-sitemap"></i> Site Manager <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ Admin::route('siteManager.index') }}">List of sites</a></li>
+                                    <li><a href="{{ Admin::route('siteManager.index') }}">Create new</a></li>
+                                </ul>
+                            </li>
+                            {{--Language manager--}}
+                            <li>
+                                <a href="{{ Admin::route('languageManager.index') }}"><i class="fa fa-language"></i> Language Manager</a>
                             </li>
                             <li>
                                 <a><i class="fa fa-desktop"></i> Theme Manager <span class="fa fa-chevron-down"></span></a>
