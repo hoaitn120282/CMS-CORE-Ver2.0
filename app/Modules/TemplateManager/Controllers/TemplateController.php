@@ -137,7 +137,7 @@ class TemplateController extends Controller
         try {
             $themeId = $request->get('theme_id');
             $input = $request->all();
-            $validator = Validator::make($input, ['name' => 'required|max:255',]);
+            $validator = Validator::make($input, ['name' => 'required|regex:/^[a-zA-Z_0-9]+$/|max:255',]);
             if ($validator->fails()) {
                 throw new \Exception(implode(', ', $validator->errors()->all()));
             }

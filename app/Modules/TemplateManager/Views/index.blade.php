@@ -9,14 +9,12 @@
                     <div class="box-filter">
                         <select name="theme_tyoe" id="themeType" class="form-control"
                                 onchange="window.location = this.options[this.selectedIndex].value;">
-                            <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template
-                                Site
-                            </option>
+                            <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template</option>
                             <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
-                                Simple Site
+                                Simple Template
                             </option>
                             <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
-                                Medium Site
+                                Medium Template
                             </option>
                         </select>
                     </div>

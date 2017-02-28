@@ -13,6 +13,7 @@
                         {{ $themeName."_" }}
                         <input class="form-control" id="theme_name" name="name">
                     </div>
+                    <p class="help-text">Only text, number and dash are allowed to include in template name</p>
                 </div>
                 <div class="form-group-options"></div>
 
@@ -32,9 +33,9 @@
 
     .modal-popup-save .modal-body .wrap-input {
         display: inline-block;
-        background-color: #e0e0e0;
-        color: #555;
         padding-left: 10px;
+        color: #555;
+        background-color: #e0e0e0;
     }
 
     .modal-popup-save .modal-body .wrap-input input {
@@ -43,6 +44,8 @@
         padding-left: 0;
         border: 1px solid #e0e0e0;
     }
+
+
 </style>
 @push('scripts')
 <script>
