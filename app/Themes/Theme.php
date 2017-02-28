@@ -268,6 +268,7 @@ class Theme
             $theme->author_url = $file['author_url'];
             $theme->description = $file['description'];
             $theme->image_preview = $file['image_preview'];
+            $theme->is_publish = 1;
             $theme->save();
             foreach ($file['widget_position'] as $value) {
                 $group = new WidgetGroups();

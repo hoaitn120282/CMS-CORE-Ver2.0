@@ -181,7 +181,7 @@ $isEdit = empty($isEdit) ? false : true;
         var url = $(element).data('url');
         swal({
             title: "",
-            text: (element.checked ? 'Are you sure to save this template for draft?' : 'Are you sure to publish this template?'),
+            text: (element.checked ? 'Are you sure to save this template as draft?' : 'Are you sure to publish this template?'),
             type: "warning",
             showCancelButton: true,
             closeOnConfirm: false,

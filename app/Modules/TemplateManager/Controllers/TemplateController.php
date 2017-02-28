@@ -265,7 +265,7 @@ class TemplateController extends Controller
             if (File::exists($path_file)) {
                 $css_default_name = "{$template->name}.css";
                 $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
-                $css_path = "themes/simple/css/{$css_name}";
+                $css_path = "themes/{$folder}/css/{$css_name}";
 
                 return view("themes.{$folder}.preview", compact('css_path'));
             }
