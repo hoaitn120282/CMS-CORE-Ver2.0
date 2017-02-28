@@ -15,6 +15,12 @@
 		}
 	}
 
+	.slide-item{
+		background: url(../images/banner.jpg) no-repeat center center;
+		height: 350px;
+		background-size: cover;
+	}
+
 	& .navbar{
 		margin: 0;
 		padding-top: 15px;
@@ -22,6 +28,11 @@
 
 		& .navbar-brand{
 			padding: 10px 15px;
+			.site-title{
+				font-size: $site-title-size;
+				font-family: $site-title-font-family;
+				color: $site-title-color;
+			}
 		}
 
 		& .nav-right-custom{
@@ -29,13 +40,13 @@
 				margin-left: 30px;
 				& a{
 					text-transform: uppercase;
-					font-family: $font-black;
-					font-size: 16px;
-					color: $color-black;
+					font-family: $menu-font-family;
+					font-size: $menu-font-size;
+					color: $menu-color;
 
 					&:focus, &:hover, &.active {
 						background: none;
-						color: $menu-hover-cl;
+						color: $menu-hover-color;
 					}
 				}
 			}

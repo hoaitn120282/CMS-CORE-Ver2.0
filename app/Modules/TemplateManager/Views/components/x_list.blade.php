@@ -42,7 +42,7 @@
                         </a>
                     </li>
 
-                    @if($node->parent_id == 0 || $node->parent_id != 0)
+                    @if($node->parent_id != 0)
                         <li>
                             <a href="{{ Admin::route('templateManager.edit', ['id' => $node->id]) }}" title="Edit">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>

@@ -48,7 +48,7 @@
 
     .list-templates .thumbnail .action {
         position: absolute;
-        top: -25px;
+        top: -50px;
         transform: translateY(-50%);
         font-size: 20px;
         width: 100%;

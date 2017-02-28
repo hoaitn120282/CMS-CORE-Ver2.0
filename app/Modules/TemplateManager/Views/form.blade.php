@@ -40,18 +40,18 @@ $isEdit = empty($isEdit) ? false : true;
                     <!--Action-->
                     <div class="toolbar-actions">
                         @if($isEdit)
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
+                            {{--<a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
                                class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
-                            </a>
+                            </a>--}}
                             <button type="submit" name="update" class="btn btn-success">
                                 <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
                             </button>
                         @else
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
+                            {{--<a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
                                class="btn btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i> Preview
-                            </a>
+                            </a>--}}
                             <button type="button" name="draft" class="btn btn-primary"
                                     data-toggle="modal"
                                     data-target="#Popup-Save-{{$node->name}}"
@@ -181,7 +181,7 @@ $isEdit = empty($isEdit) ? false : true;
         var url = $(element).data('url');
         swal({
             title: "",
-            text: (element.checked ? 'Are you sure to save this template for draft?' : 'Are you sure to publish this template?'),
+            text: (element.checked ? 'Are you sure to save this template as draft?' : 'Are you sure to publish this template?'),
             type: "warning",
             showCancelButton: true,
             closeOnConfirm: false,
@@ -195,8 +195,13 @@ $isEdit = empty($isEdit) ? false : true;
                     type: 'POST',
                     url: url,
                     data: {"_token": "{{ csrf_token() }}"}
-                }).done(function () {
-                    location.reload();
+                }).done(function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        location.href = res.redirect
+                    } else {
+                        location.reload();
+                    }
                 });
             } else {
                 $(element).closest('.x_switch').find('.Switch').toggleClass('On').toggleClass('Off');

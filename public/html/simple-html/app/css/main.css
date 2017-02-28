@@ -1,3 +1,9 @@
+/**** Body ****/
+/**** Site Title ****/
+/**** Button ****/
+/**** Menu ****/
+/**** Sologan ****/
+/**** Link ****/
 html {
   font-size: 62.5%; }
 
@@ -7,7 +13,7 @@ html {
 
 body {
   color: #222222;
-  font-family: 'Raleway-Medium',Arial, serif;
+  font-family: "Raleway-Medium", Arial, serif;
   font-size: 14px;
   padding: 0px !important;
   margin: 0px !important;
@@ -133,12 +139,20 @@ i {
       font-family: "Raleway-Bold"; }
     .header .header-contact li {
       margin-left: 20px; }
+  .header .slide-item {
+    background: url(../images/banner.jpg) no-repeat center center;
+    height: 350px;
+    background-size: cover; }
   .header .navbar {
     margin: 0;
     padding-top: 15px;
     padding-bottom: 15px; }
     .header .navbar .navbar-brand {
       padding: 10px 15px; }
+      .header .navbar .navbar-brand .site-title {
+        font-size: 30px;
+        font-family: "Raleway-Black";
+        color: #222222; }
     .header .navbar .nav-right-custom li {
       margin-left: 30px; }
       .header .navbar .nav-right-custom li a {
@@ -250,17 +264,19 @@ footer {
       text-transform: uppercase;
       font-family: "Raleway-Black";
       background: #f48100;
-      color: #fff;
+      color: #ffffff;
       padding: 10px 15px;
       border-radius: 5px;
-      border: 1px solid transparent;
+      border: 1px;
+      border-style: solid;
+      border-color: transparent;
       -webkit-transition: all .5s ease-in-out;
       -moz-transition: all .5s ease-in-out;
       -ms-transition: all .5s ease-in-out;
       -o-transition: all .5s ease-in-out;
       transition: all .5s ease-in-out; }
       .sidebar-right .make-appointment header .btn-make-appointment:hover {
-        border: 1px solid #f48100;
+        border-color: #f48100;
         background: transparent;
         color: #222222; }
 
