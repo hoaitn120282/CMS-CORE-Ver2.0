@@ -137,7 +137,7 @@ class TemplateController extends Controller
         try {
             $themeId = $request->get('theme_id');
             $input = $request->all();
-            $validator = Validator::make($input, ['name' => 'required|max:255',]);
+            $validator = Validator::make($input, ['name' => 'required|regex:/^[a-zA-Z_0-9]+$/|max:255',]);
             if ($validator->fails()) {
                 throw new \Exception(implode(', ', $validator->errors()->all()));
             }
@@ -159,6 +159,10 @@ class TemplateController extends Controller
                 'success' => true,
                 'message' => ['Template has been cloned successfully.']
             );
+            if (!empty($newTemp->id) && (0 == $newTemp->is_publish)) {
+                $response['message'] = ['Template has been cloned and saved as draft successfully.'];
+            }
+
             if (!$resGen['success']) {
                 $response['success'] = false;
                 $response['message'] = (array)$resGen['errors'];
@@ -232,17 +236,21 @@ class TemplateController extends Controller
     {
         $template = Template::find($id);
         $template->is_publish = !$template->is_publish;
-        $strPublish = ($template->is_publish == 1 ? 'published' : 'drafted');
+        $strPublish = ($template->is_publish == 1 ? 'published' : 'saved as draft');
         $response = array(
             'success' => true,
-            'message' => array("{$template->name} has been {$strPublish} successfully.")
+            'message' => array("{$template->name} has been {$strPublish} successfully."),
+            'redirect' => Admin::route('templateManager.index'),
         );
         if (!$template->save()) {
             $response['success'] = false;
             $response['message'] = array("{$template->name} has been {$strPublish} failure.");
-        }
+            $request->session()->flash('response', $response);
 
+        }
         $request->session()->flash('response', $response);
+
+        return response()->json($response);
     }
 
     /**
