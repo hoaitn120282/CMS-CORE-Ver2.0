@@ -7,9 +7,9 @@ html {
 }
 
 body {
-  color: $page-cl;
-  font-family: $page-ff,Arial, serif; 
-  font-size: $page-fs;
+  color: $page-color;
+  font-family: $page-font-family,Arial, serif; 
+  font-size: $page-font-size;
   padding: 0px !important;
   margin: 0px !important;
   background: #ffffff;
