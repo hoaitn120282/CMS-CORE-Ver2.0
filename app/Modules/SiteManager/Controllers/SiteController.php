@@ -11,8 +11,8 @@ use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
 use App\Modules\ContentManager\Models\Themes;
-use League\Flysystem\Exception;
-use Leafo\ScssPhp\Compiler;
+use App\Modules\SiteManager\Models\Clinic;
+
 use File;
 use View;
 
@@ -25,7 +25,7 @@ class SiteController extends Controller
      */
     public function index()
     {
-        $sites = Template::get();
-        return view('SiteManager::index', ['nodes' => $sites]);
+        $clinics = Clinic::get();
+        return view('SiteManager::index', ['clinics' => $clinics]);
     }
 }

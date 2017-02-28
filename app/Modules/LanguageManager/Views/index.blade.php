@@ -6,7 +6,7 @@
             <div class="x_title">
                 <h2>Manager Language</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i> Delete Selected post</a></li>
+                    <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i> Delete Selected language</a></li>
                     <li><a href="{{ Admin::route('languageManager.create') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Add New Language</a></li>
                 </ul>
                 <div class="clearfix"></div>
@@ -26,14 +26,14 @@
                         <tr id="tr-{{ $data->language_id }}">
                             <td>
                                 <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->language_id}}" />
-                                <input type="hidden" id="idPost" value="{{ $data->language_id }}">
+                                <input type="hidden" id="idLanguage" value="{{ $data->language_id }}">
                             </td>
                             <td>
                                 <div class="">
                                     {{$data->name}}
                                     <div class="btn-edit-delete">
-                                        {{--<a href="{{ Admin::route('contentManager.post.edit',['post'=>$data->id]) }}" > Edit </a> |--}}
-                                        {{--<a href="#" data-role="delete-post" data-idpost="{{ $data->id }}" > Delete </a>--}}
+                                        <a href="{{ Admin::route('languageManager.edit',['post'=>$data->language_id]) }}" > Edit </a> |
+                                        <a href="#" data-role="delete-post" data-idlanguage="{{ $data->language_id }}" > Delete </a>
                                     </div>
                                 </div>
                             </td>
@@ -57,10 +57,11 @@
 <script>
     $( document ).ready(function() {
         $("a[data-role='delete-post']").on( "click", function() {
-            var idpost = $(this).data('idpost');
+            var idlanguage = $(this).data('idlanguage');
+            console.log(idlanguage);
             swal({
                 title: "Are you sure?",
-                text: "Delete this post",
+                text: "Delete this language",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -71,12 +72,12 @@
             }, function () {
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ Url('administrator/contentManager/post') }}/"+idpost,
+                    url: "{{ Admin::route('languageManager.destroy',['language'=>'']) }}/"+idlanguage,
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
                         swal("Deleted!", "Delete Success", "success");
-                        $("#tr-"+idpost).remove();
+                        $("#tr-"+idlanguage).remove();
                     });
             });
             return false;
@@ -108,7 +109,7 @@
             var id = array.join()
             swal({
                 title: "Are you sure?",
-                text: "Delete the selected post",
+                text: "Delete the selected language",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -119,7 +120,7 @@
             }, function () {
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ Admin::route('contentManager.post.destroy',['post'=>'']) }}/"+id,
+                    url: "{{ Admin::route('languageManager.destroy',['language'=>'']) }}/"+id,
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {

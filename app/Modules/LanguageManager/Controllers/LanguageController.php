@@ -59,4 +59,55 @@ class LanguageController extends Controller
         return view('LanguageManager::create', ['countries'=>$countries]);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $tmp = explode(",", $id);
+        if(is_array($tmp)){
+            Language::destroy($tmp);
+        }else{
+            Language::destroy($id);
+        }
+        Admin::userLog(\Auth::guard('admin')->user()->id,'Delete language id :'.$id);
+    }
+
+    /*
+     * Edit Language
+     * */
+    public function edit($id, Request $request){
+
+        $current_language = Language::find($id);
+
+        $languages = Language::all();
+        $language_selected = array();
+
+        foreach ($languages as $lang) {
+            if($lang->country_id != $current_language->country_id){
+                array_push($language_selected, $lang->country_id);
+            }
+        }
+
+        $countries = Countries::whereNotIn('country_id', $language_selected)->get();
+
+        if($request->isMethod('post')){
+
+            $this->validate($request, [
+                'name' => 'required',
+            ]);
+
+            $data = $request->all();
+            $current_language->country_id = $data['countries'];
+            $current_language->name = $data['name'];
+            $current_language->update();
+            return redirect(Admin::StrURL('language-manager'));
+        }
+
+        return view('LanguageManager::edit', ['countries' => $countries, 'current_language' => $current_language]);
+    }
+
 }
