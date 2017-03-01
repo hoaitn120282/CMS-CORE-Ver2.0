@@ -61,3 +61,38 @@
 .action-site a i {
     color: #fff;
 }
+.step-bottom {
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+}
+
+.step-1-create-site  .thumbnail {
+    height: 245px;
+    overflow: hidden;
+}
+
+.step-1-create-site .action {
+    position: absolute;
+    width: 100px;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    margin-left: -50px;
+    margin-top: -25px;
+    text-align: center;
+}
+.step-1-create-site .box-filter{
+    margin-left: 0px;
+}
+#searchContent {
+    height: 34px;
+    margin-top: -1px;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+.btn-search {
+    display: inline-block;
+    margin-top: -1px;
+}

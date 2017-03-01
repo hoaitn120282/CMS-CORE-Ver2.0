@@ -7,7 +7,7 @@
                 <h2>Site Manager</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i>Delete Selected Site</a></li>
-                    <li><a href="{{ Admin::route('languageManager.create') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
+                    <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>

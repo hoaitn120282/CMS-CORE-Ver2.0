@@ -26,9 +26,9 @@ class TemplateController extends Controller
     public function index($theme_type = 0)
     {
         if ($theme_type == 0) {
-            $nodes = Template::get();
+            $nodes = Template::paginate(6);
         } else {
-            $nodes = Template::where('theme_type_id', $theme_type)->get();
+            $nodes = Template::where('theme_type_id', $theme_type)->paginate(6);
         }
         return view('TemplateManager::index', ['nodes' => $nodes, 'theme_type' => $theme_type]);
     }
