@@ -28,4 +28,19 @@ class SiteController extends Controller
         $clinics = Clinic::get();
         return view('SiteManager::index', ['clinics' => $clinics]);
     }
+
+    /**
+     * Show site detqail.
+     *
+     * @return Response
+     */
+    public function getSiteDetail($id)
+    {
+        $clinic = Clinic::find($id);
+        if (empty($clinic)) {
+            return redirect(Admin::route('siteManager.index'));
+        }
+       
+        return view('SiteManager::site-detail', compact('clinic'));
+    }
 }

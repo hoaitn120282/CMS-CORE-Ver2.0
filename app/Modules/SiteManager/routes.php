@@ -5,4 +5,5 @@ Route::group([
     'namespace' => 'App\Modules\SiteManager\Controllers'],
     function () {
         Route::get('site-manager', ['as' => $this->admin . '.siteManager.index', 'uses' => 'SiteController@index']);
+        Route::get('site-detail/{id}', ['as' => $this->admin . '.siteManager.preview', 'uses' => 'SiteController@getSiteDetail']);
 });
