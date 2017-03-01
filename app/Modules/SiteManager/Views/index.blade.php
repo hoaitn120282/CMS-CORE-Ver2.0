@@ -7,7 +7,7 @@
                 <h2>Site Manager</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i>Delete Selected Site</a></li>
-                    <li><a href="{{ Admin::route('languageManager.create') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
+                    <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -50,7 +50,7 @@
                                 {{$data->status == 1? 'Running' : 'Pending'}}
                             </td>
                             <td class="action-site" style="width: 200px">
-                                <a href="" data-toggle="tooltip" title="View Detail"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a href="{{ Admin::route('siteManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="View Detail"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a href="" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 <a href="" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>

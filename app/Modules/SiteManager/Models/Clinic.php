@@ -39,7 +39,7 @@ class Clinic extends Model
      * */
     public function language()
     {
-        return $this->hasMany('App\Modules\SiteManager\Models\ClinicInfo','clinic_id', 'clinic_id');
+        return $this->hasMany('App\Modules\SiteManager\Models\ClinicLanguage','clinic_id', 'clinic_id');
     }
 
     /*

@@ -10,5 +10,4 @@ class ClinicTheme extends Model
     protected $primaryKey = 'clinic_theme_id';
     public $timestamps = false;
     protected $fillable = array('clinic_id', 'theme_id');
-
 }
