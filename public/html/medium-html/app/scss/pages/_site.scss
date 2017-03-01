@@ -7,7 +7,17 @@
   .ct-detail{
     h3{
       font-size: 20px;
-      font-family: $font-bold;
+      font-family: "Raleway-Bold";
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    .page-banner{
+      .page-title{
+        font-size: 20px;
+      }
     }
   }
 }

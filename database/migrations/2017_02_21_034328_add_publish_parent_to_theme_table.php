@@ -16,7 +16,7 @@ class AddPublishParentToThemeTable extends Migration
             $table->bigInteger('parent_id')->default(0)->after('id');
             $table->bigInteger('is_publish')->default(0)->after('parent_id');
             $table->bigInteger('theme_type_id')->default(1)->after('is_publish');
-            $table->foreign('theme_type_id')->references('theme_type_id')->on('theme_type')->onDelete('cascade');
+//            $table->foreign('theme_type_id')->references('theme_type_id')->on('theme_type')->onDelete('cascade');
         });
     }
 
@@ -29,7 +29,7 @@ class AddPublishParentToThemeTable extends Migration
     {
         Schema::table('themes', function (Blueprint $table) {
             $table->dropColumn('parent_id');
-            $table->dropColumn('parent_id');
+            $table->dropColumn('is_publish');
             $table->dropColumn('theme_type_id');
         });
     }

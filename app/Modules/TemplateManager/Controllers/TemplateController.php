@@ -258,7 +258,6 @@ class TemplateController extends Controller
 
     /**
      * Preview template
-     *
      * @param int $id
      * @return response
      */

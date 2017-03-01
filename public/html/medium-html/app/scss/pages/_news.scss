@@ -20,7 +20,7 @@
       padding-bottom: 0;
 
       & i{
-        margin-bottom: 10px;
+        margin-bottom: 0px;
       }
 
       & p{
@@ -64,7 +64,7 @@
 
       & .date{
         font-size: 25px;
-        font-family: $font-bold;
+        font-family: "Raleway-Bold";
       }
     }
   }
@@ -76,14 +76,34 @@
     & h2{
       font-size: 30px;
       margin: 0;
-      font-family: $font-bold;
+      font-family: "Raleway-Bold";
       margin-bottom: 5px;
     }
 
     & p{
       font-size: 12px;
-      font-family: $font-italic;
+      font-family: "Raleway-Italic";
       color: #a5a5a5;
+    }
+  }
+}
+
+@media (max-width: 769px) {
+  .news-page{
+    .new-detail{
+      .new-content{
+        h3{
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .news-page-detail {
+    .news-detail-title{
+      margin-left: 5px;
     }
   }
 }

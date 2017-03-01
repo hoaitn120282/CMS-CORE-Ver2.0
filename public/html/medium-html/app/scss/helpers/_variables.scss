@@ -1,32 +1,54 @@
-$color-black: #222222;
-$text-position-cl: #909090; //Color doctor position
-$btn-make-bg: #f48100; // Background button make appointment
-$font-black: "Raleway-Black";
-$font-italic: "Raleway-Italic";
+/**** widget title ****/
+$widget-title-color: #222222;
+$widget-title-font-family: "Raleway-Black";
+$widget-title-font-size: 30px;
 
-$bg-contact-cl: #888888;
-$section-title-cl: #222222; //
-$background-menu-cl: #999999; //
-$menu-text-cl: #222222; //
-$menu-hover-cl: #000000; //
-$bg-news-color: #f6f6f6;
-$bg-contact-top-color: #b3cdde; // Background contact top
+/**** Slide title ****/
+$slide-title-color: #ffffff;
+$slide-title-font-size: 50px;
+$slide-title-font-family: "Raleway-Bold";
 
-$color-text-contact-top: #ffffff; // Color text contact header
-$font-bold: "Raleway-Bold"; // Font family contact top
-$font-medium: "Raleway-Medium"; //Font family menu
-$menu-hover-cl: #c2c7d1; //Color text menu hover, focus, active
+/**** Body ****/
+$page-color: #222222; //Color default all page
+$page-font-family: 'Raleway-Medium'; //Font family default all page
+$page-font-size: 14px; //Font size default all page
 
-$bg-bottom-cl: #b3cdde;
-$font-size-text-bt: 12px;
+/**** Site Title ****/
+$site-title-color: #222222; //Site title color
+$site-title-size: 30px;//Site title font size
+$site-title-font-family: "Raleway-Black"; //Site title color font family
 
-$title-slide-cl: #ffffff; //Color title slide
-$title-slide-fs: 50px;
+/**** Button ****/
+$button-font-family: "Raleway-Black"; //Button font family
+$button-background:	#f48100; // Button background
+$button-color: #ffffff; // Button text color
+$button-border-color: transparent; //Button border color
+$button-border-style: solid; //Button border style
+$button-border-size: 1px; //Button border size
 
-$ct-title-color: #222222;
-$ct-title-font: "Raleway-Black";
-$ct-title-fs: 30px;
+$button-hover-border-color: $button-background; //Button hover border
+$button-hover-background: transparent; //Button hover background
+$button-hover-color: #222222;//Button hover text color
 
-$page-title-color: #ffffff; //Color title page
-$page-title-fs: 50px; //Font size title page
-$page-title-font: "Raleway-Bold"; //Font family title page
+/**** Menu ****/
+$menu-color: #222222; //Color menu link
+$menu-font-family: "Raleway-Black";  //Font family menu
+$menu-font-size: 16px;
+
+$menu-hover-color: #c2c7d1;
+
+/**** Sologan ****/
+$sologan-color: #222222;//Sologan colo
+$sologan-font-: 16px;//Sologan font size
+$sologan-font-family: "Raleway-Bold"; //Sologan font family
+
+/**** Link ****/
+$link-color: #222222;
+$link-font-size: 16px;
+$link-hover-color: #c2c7d1;
+
+/**** Banner title ****/
+$banner-title-size: 50px;
+$banner-title-font-family: "Raleway-Bold";
+$banner-title-color: #ffffff;
+$banner-backgroudn-image: url("../images/banner.jpg");
