@@ -113,7 +113,7 @@ class TemplateController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is install successfully.")
+                'message' => array("Theme {$themeName} is installed successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();
@@ -169,7 +169,7 @@ class TemplateController extends Controller
             }
             $request->session()->flash('response', $response);
 
-            return redirect(Admin::route('templateManager.index'));
+            return redirect(Admin::route('templateManager.edit', ['id' => $newTemp->id]));
 
         } catch (\Exception $exception) {
             $request->session()->flash('response', [
@@ -209,6 +209,14 @@ class TemplateController extends Controller
     {
         $input = $request->get('meta');
         $temp = Template::find($id);
+        if (empty($temp)) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => array("This template Id doesn't exist.")
+            ]);
+
+            return redirect(Admin::route('templateManager.index'));
+        }
         $temp->image_preview = $request->get('image_preview');
         $temp->save();
         // $this->storeData($input, null, $id);
@@ -228,7 +236,7 @@ class TemplateController extends Controller
         }
 
 
-        return redirect(Admin::route('templateManager.index'));
+        return redirect(Admin::route('templateManager.edit', ['id' => $id]));
     }
 
     /**

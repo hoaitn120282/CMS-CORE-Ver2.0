@@ -16,7 +16,7 @@ if (!empty($values)) {
     }
 }
 ?>
-<h1 class="title">{{ $node->name or '' }}</h1>
+<h1 class="title text-center">{{ $node->name or '' }}</h1>
 <p class="help-block">To create a new theme, it is required to select at least 1 layout below.</p>
 
 <ul class="list-inline">

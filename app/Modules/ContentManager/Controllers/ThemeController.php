@@ -108,7 +108,7 @@ class ThemeController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is install successfully.")
+                'message' => array("Theme {$themeName} is installed successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();

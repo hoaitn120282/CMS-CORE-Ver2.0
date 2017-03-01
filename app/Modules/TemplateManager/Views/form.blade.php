@@ -39,36 +39,38 @@ $isEdit = empty($isEdit) ? false : true;
                     <div class="clearfix"></div>
                     <!--Action-->
                     <div class="toolbar-actions">
-                        @if($isEdit)
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
-                               class="btn btn-info">
-                                <i class="fa fa-eye" aria-hidden="true"></i> Preview
-                            </a>
-                            <button type="submit" name="update" class="btn btn-success">
-                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
-                            </button>
-                        @else
-                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank"
-                               class="btn btn-info">
-                                <i class="fa fa-eye" aria-hidden="true"></i> Preview
-                            </a>
-                            <button type="button" name="draft" class="btn btn-primary"
-                                    data-toggle="modal"
-                                    data-target="#Popup-Save-{{$node->name}}"
-                                    data-title="Save as Draft"
-                                    data-options='{"is_publish":0}'>
-                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
-                            </button>
-                            <button type="button" name="publish" class="btn btn-success"
-                                    data-toggle="modal"
-                                    data-target="#Popup-Save-{{$node->name}}"
-                                    data-title="Publish"
-                                    data-options='{"is_publish":1}'>
-                                <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
-                            </button>
+                        <div class="pull-right">
+                            @if($isEdit)
+                                @if (!empty(session('response')['success']))
+                                    <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}"
+                                       target="_blank"
+                                       class="btn btn-info">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> Preview
+                                    </a>
+                                @endif
+                                <button type="submit" name="update" class="btn btn-success">
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Update
+                                </button>
+                            @else
+                                <button type="button" name="draft" class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-title="Save as Draft"
+                                        data-options='{"is_publish":0}'>
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
+                                </button>
+                                <button type="button" name="publish" class="btn btn-success"
+                                        data-toggle="modal"
+                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-title="Publish"
+                                        data-options='{"is_publish":1}'>
+                                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
+                                </button>
 
-                            @include('TemplateManager::xform.popup_save', ['themeName' => $node->name])
-                        @endif
+                                @include('TemplateManager::xform.popup_save', ['themeName' => $node->name])
+                            @endif
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -79,6 +81,39 @@ $isEdit = empty($isEdit) ? false : true;
 @push('style-top')
 <link rel="stylesheet" href="{{ asset('assets/colorpicker/css/colorpicker.css') }}">
 <style>
+    .create-template .form-control {
+        width: auto;
+        max-width: 100%;
+        min-width: 155px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .create-template textarea.form-control {
+        width: 100%;
+    }
+
+    .create-template #accordion .panel-title a {
+        font-size: 20px;
+        color: #337ab7;
+        display: block;
+    }
+
+    .create-template #accordion .panel-title strong {
+        display: inline-block;
+    }
+
+    .create-template #accordion .panel-title i.fa {
+        display: inline-block;
+    }
+
+    .create-template #accordion .panel-title a[aria-expanded="true"] i.fa-angle-right:before {
+        content: "\f107" !important;
+    }
+
+    .collapse.in i.fa {
+    }
+
     .create-template fieldset {
         margin-top: 20px;
     }
@@ -102,11 +137,16 @@ $isEdit = empty($isEdit) ? false : true;
         cursor: pointer;
     }
 
+    .create-template .frm-ctrl-wrap {
+        width: 200px;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+
     .create-template .toolbar-actions {
         margin-top: 15px;
-        border-top: 1px solid #ccc;
         padding: 15px;
-        background-color: #f3f3f3;
+        overflow: hidden;
     }
 
     .color-picker {
@@ -121,7 +161,7 @@ $isEdit = empty($isEdit) ? false : true;
     .color-picker:after {
         content: 'Select color';
         display: block;
-        width: 100px;
+        width: 119px;
         height: 32px;
         line-height: 32px;
         padding: 0 6px;
@@ -144,6 +184,13 @@ $isEdit = empty($isEdit) ? false : true;
 <script src="{{ asset('assets/dropzone/dropzone.min.js') }}"></script>
 
 <script>
+    $('.panel-collapse').on('shown.bs.collapse', function (e) {
+        var $panel = $(this).closest('.create-template');
+        $('html,body').animate({
+            scrollTop: $panel.offset().top
+        }, 0);
+    });
+
     $('.color-picker').ColorPicker({
         onSubmit: function (hsb, hex, rgb, el) {
             $('.input-color-picker', el.closest('.wrap-color-picker')).val('#' + hex);

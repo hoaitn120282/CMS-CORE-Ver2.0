@@ -2,15 +2,18 @@
 $inputSlug = str_slug($input, '_');
 
 ?>
-<label for="feature_image">{{ $label }}</label>
-<button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
-    <i class="fa fa-upload"></i> Choose file...
-</button>
-<img id="btn-upload-{{$inputSlug}}-preview" class="img-responsive" src="{{ empty($model) ? old($input) : $model }}"/>
+<div class="frm-ctrl-wrap">
+    <label for="feature_image">{{ $label }}</label>
+    <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
+        <i class="fa fa-upload"></i> Choose file...
+    </button>
+
+<img id="btn-upload-{{$inputSlug}}-preview" class="img-responsive"
+     src="{{ empty($model) ? old($input) : $model }}"/>
 <input type="hidden" id="{{$inputSlug}}" class="form-control"
        name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
        placeholder="Choose file...">
-
+</div>
 <div class="modal fade" id="modal-{{$inputSlug}}" tabindex="-1" role="dialog" aria-labelledby="{{ $inputSlug }}Label">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
