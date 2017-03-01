@@ -209,6 +209,9 @@ class TemplateController extends Controller
     {
         $input = $request->get('meta');
         $temp = Template::find($id);
+        $temp->image_preview = $request->get('image_preview');
+        $temp->save();
+        // $this->storeData($input, null, $id);
         $metaOpt = $this->storeMetaOptions($temp, $input);
         $genCss = $this->generateCssFile($temp);
 
@@ -497,6 +500,13 @@ class TemplateController extends Controller
                         }
                     }
                 }
+            }
+
+            $general = $template->meta()
+                ->optionsKey('general')
+                ->first();
+            if ($general) {
+                $css['custom'] = $general->getOption('customcss');
             }
 
             $string_sass = View::make("themes.{$folder}.typography", compact('css'))->render();

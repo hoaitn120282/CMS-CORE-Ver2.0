@@ -1,7 +1,7 @@
 @foreach($nodes as $node)
     <?php
 
-    $filename = url('/themes/' . $node->name . '/images/' . $node->image_preview);
+    $filename = url($node->image_preview);
     $file_headers = get_headers($filename);
 
     if ($file_headers[0] == 'HTTP/1.0 404 Not Found') {

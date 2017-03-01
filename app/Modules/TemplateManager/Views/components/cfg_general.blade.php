@@ -15,7 +15,7 @@ $featureImage = empty($general) ? array() : $general->getOption('feature_image')
     <fieldset>
         <div class="form-group col-md-3">
             @include('TemplateManager::xform.input_upload',[
-            'idModal'=>'feature_Image', 'model' => $featureImage, 'label' => 'Feature image', 'input'=>'meta[general][feature_image]'
+            'idModal'=>'image_preview', 'model' => $node->image_preview, 'label' => 'Feature image', 'input'=>'image_preview'
             ])
         </div><!-- feature-image -->
     </fieldset>
@@ -29,6 +29,6 @@ $featureImage = empty($general) ? array() : $general->getOption('feature_image')
 
     <fieldset>
         <legend>Custom CSS</legend>
-        <textarea name="meta[general][custom_css]" id="custom-css" class="form-control" rows="5"></textarea>
+        <textarea name="meta[general][customcss]" id="custom-css" class="form-control" rows="5"></textarea>
     </fieldset>
 </div>

@@ -83,6 +83,11 @@ $isEdit = empty($isEdit) ? false : true;
         margin-top: 20px;
     }
 
+    .create-template fieldset legend {
+        font-weight: bold;
+        color: #26b99a;
+    }
+
     .create-template .tab-pane {
         padding-top: 15px;
     }
