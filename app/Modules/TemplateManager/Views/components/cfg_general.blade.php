@@ -52,7 +52,7 @@ $customcss = empty($general) ? array() : $general->getOption('customcss');
                         </div><!-- feature-image -->
                         <div class="form-group col-md-4">
                             @include('TemplateManager::xform.input_upload',[
-                            'idModal'=>'background_image', 'model' => $backgroundImg, 'label' => 'Background image', 'input'=>'background_image'
+                            'idModal'=>'general_background_image', 'model' => $backgroundImg, 'label' => 'Background image', 'input'=>'meta[general][background_image]'
                             ])
                         </div><!-- feature-image -->
                     </fieldset>

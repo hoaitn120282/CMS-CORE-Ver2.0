@@ -94,13 +94,9 @@ class ThemeController extends Controller
 
             $clientOriginalName = $themeZip->getClientOriginalName();
             $themeName = explode(".{$extension}", $clientOriginalName)[0];
-            $countTheme = Themes::where('name', $themeName)->count();
-            if ($countTheme > 0) {
-                throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
-            }
             $themeZip->move(app_path('Themes/upload'), $clientOriginalName);
 
-            Theme::install($themeName);
+            $install = Theme::install($themeName);
             if (Theme::error()) {
                 $errors = implode(Theme::getErrors(), ", ");
                 throw new \Exception($errors);
@@ -108,7 +104,7 @@ class ThemeController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is installed successfully.")
+                'message' => array("Theme {$install['data']['name']} is installed successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();
@@ -140,7 +136,7 @@ class ThemeController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is uninstall successfully.")
+                'message' => array("Theme {$themeName} is uninstalled successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();

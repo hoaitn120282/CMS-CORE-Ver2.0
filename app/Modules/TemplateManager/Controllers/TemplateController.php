@@ -40,7 +40,7 @@ class TemplateController extends Controller
      * */
     public function listCreate()
     {
-        $nodes = Template::get();
+        $nodes = Template::paginate();
         return view('TemplateManager::list-create', compact('nodes'));
     }
 
@@ -67,7 +67,7 @@ class TemplateController extends Controller
      */
     public function install()
     {
-        $nodes = Themes::orderBy('status', 'desc')->where('parent_id', 0)->get();
+        $nodes = Themes::orderBy('status', 'desc')->where('parent_id', 0)->paginate();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
 
@@ -99,13 +99,9 @@ class TemplateController extends Controller
 
             $clientOriginalName = $themeZip->getClientOriginalName();
             $themeName = explode(".{$extension}", $clientOriginalName)[0];
-            $countTheme = Themes::where('name', $themeName)->count();
-            if ($countTheme > 0) {
-                throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
-            }
             $themeZip->move(app_path('Themes/upload'), $clientOriginalName);
 
-            Theme::install($themeName);
+            $install = Theme::install($themeName);
             if (Theme::error()) {
                 $errors = implode(Theme::getErrors(), ", ");
                 throw new \Exception($errors);
@@ -113,7 +109,7 @@ class TemplateController extends Controller
 
             $request->session()->flash('response', [
                 'success' => true,
-                'message' => array("Theme {$themeName} is installed successfully.")
+                'message' => array("Theme {$install['data']['name']} is installed successfully.")
             ]);
         } catch (\Exception $exception) {
             $messages = $exception->getMessage();
@@ -147,7 +143,7 @@ class TemplateController extends Controller
             }
             $input['name'] = $oldTemp['name'] . '_' . $input['name'];
             if (Template::where('name', $input['name'])->count() > 0) {
-                throw new \Exception("The {$input['name']} has already been taken.");
+                throw new \Exception("The name {$input['name']} has already existed.");
             }
             $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
             $input['status'] = 0;

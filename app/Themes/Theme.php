@@ -138,6 +138,8 @@ class Theme
                     $this->errors[] = $value . " Not found";
                 }
             }
+
+            return $file;
         } else {
             $this->errors[] = "config.php not found";
         }
@@ -159,21 +161,33 @@ class Theme
 
     public function install($name)
     {
+
+
         $path = app_path('Themes/upload') . "/" . $name . ".zip";
         if ($this->checkFileExist($path)):
             Helper::extract(app_path('Themes/tmp'), $path);
-            $this->checkFileConfig($name, false);
-            $this->insertToDB($name, false);
+            $file = $this->checkFileConfig($name, false);
+            $themeName = $file['name'];
+            $countTheme = Themes::where('name', $themeName)->count();
+            if ($countTheme > 0) {
+                throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
+            }
+
+            $this->insertToDB($themeName, false);
             if (!$this->error()) {
-                $copyPath = $this->setCopyPath($name);
-                $this->createThemeDir($name);
+                $copyPath = $this->setCopyPath($themeName);
+                $this->createThemeDir($themeName);
                 foreach ($this->defaulTmpPath as $key => $value) {
                     File::copyDirectory($value, $copyPath[$key]);
                 }
             }
             $this->removeTmp();
+
+            return array('success' => true, 'data' => ['name' => $themeName]);
         else:
             $this->errors[] = "file " . $name . ".zip not found";
+
+            return array('success' => false);
         endif;
     }
 
@@ -268,6 +282,7 @@ class Theme
             $theme->author_url = $file['author_url'];
             $theme->description = $file['description'];
             $theme->image_preview = $file['image_preview'];
+            $theme->theme_type_id = $file['theme_type_id'];
             $theme->is_publish = 1;
             $theme->save();
             foreach ($file['widget_position'] as $value) {
