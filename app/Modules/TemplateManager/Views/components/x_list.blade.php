@@ -63,7 +63,7 @@
         </div>
     </div>
 @endforeach
-
+{{$nodes->links()}}
 @push('scripts')
 @include('TemplateManager::components.script_delete')
 @endpush

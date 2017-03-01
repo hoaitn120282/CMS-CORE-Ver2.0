@@ -19,6 +19,7 @@
     @stack('style')
     <link href="{{ URL::to('/themes/dashboard/css/style.css') }}" rel="stylesheet">
     <link href="{{ URL::to('/themes/dashboard/css/custom.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 </head>
 
 <body class="nav-md footer_fixed">
@@ -87,7 +88,7 @@
                                 <a ><i class="fa  fa-sitemap"></i> Site Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('siteManager.index') }}">List of sites</a></li>
-                                    <li><a href="{{ Admin::route('siteManager.index') }}">Create new</a></li>
+                                    <li><a href="{{ Admin::route('siteManager.select-template') }}">Create new</a></li>
                                 </ul>
                             </li>
                             {{--Language manager--}}
