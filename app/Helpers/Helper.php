@@ -86,9 +86,9 @@ class Helper
 
     public function permissionList($role = 'administrator', $permissionAsigned)
     {
-        $this->permissionAsigned = ($permissionAsigned != null)?\GuzzleHttp\json_decode($permissionAsigned):[];
+        $this->permissionAsigned = ($permissionAsigned != null) ? \GuzzleHttp\json_decode($permissionAsigned) : [];
         $permissionsList = config("permission");
-        $permissionUI = "<ul class='list-group'><li class='list-group-item'><label><input type='checkbox' id='".$role."-role' name='fullaccess' value='".$role."'> Allow All Access</label></li>";
+        $permissionUI = "<ul class='list-group'><li class='list-group-item'><label><input type='checkbox' id='" . $role . "-role' name='fullaccess' value='" . $role . "'> Allow All Access</label></li>";
         $permissionUI .= $this->passingToList($permissionsList, $role);
         $permissionUI .= '</ul>';
 
@@ -98,21 +98,21 @@ class Helper
     public function passingToList($array, $role)
     {
         $permissionAsigned = [];
-        if($this->permissionAsigned != null){
+        if ($this->permissionAsigned != null) {
             $permissionAsigned = get_object_vars($this->permissionAsigned);
         }
         $out = "<ul  class='list-group'>";
         $assigned = '';
         foreach ($array as $key => $elem) {
             if (!is_array($elem)) {
-                $fieldData = explode('@',$elem);
-                $parentKey = $this->recursive_array_search($elem,$permissionAsigned);
-                if($parentKey !== false){
-                    $assigned = (array_key_exists($parentKey,$permissionAsigned) ? 'checked':'');
+                $fieldData = explode('@', $elem);
+                $parentKey = $this->recursive_array_search($elem, $permissionAsigned);
+                if ($parentKey !== false) {
+                    $assigned = (array_key_exists($parentKey, $permissionAsigned) ? 'checked' : '');
                 }
-                $out .= "<li class='list-group-item'><input id='checkBoxChild-{$role}' name='permission[{$fieldData[0]}][]' type='checkbox' value='{$elem}'  {$assigned}>". (ucfirst($fieldData[1])) . "</li>";
+                $out .= "<li class='list-group-item'><input id='checkBoxChild-{$role}' name='permission[{$fieldData[0]}][]' type='checkbox' value='{$elem}'  {$assigned}>" . (ucfirst($fieldData[1])) . "</li>";
             } else {
-                $out .= "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#{$key}'> ".(ucfirst(str_replace('-', ' ', $key)))."  <span class='glyphicon glyphicon-plus'></span></button><div id='{$key}' class='collapse'>";
+                $out .= "<button type='button' class='btn btn-info' data-toggle='collapse' data-target='#{$key}'> " . (ucfirst(str_replace('-', ' ', $key))) . "  <span class='glyphicon glyphicon-plus'></span></button><div id='{$key}' class='collapse'>";
                 $out .= "<li class='list-group-item'>" . $this->passingToList($elem, $role) . "</li></div>";
             }
         }
@@ -121,14 +121,45 @@ class Helper
         return $out;
     }
 
-    public function recursive_array_search($needle,$haystack) {
+    public function recursive_array_search($needle, $haystack)
+    {
 
-        foreach($haystack as $key=>$value) {
-            $current_key=$key;
-            if($needle===$value OR (is_array($value) && $this->recursive_array_search($needle,$value) !== false)) {
+        foreach ($haystack as $key => $value) {
+            $current_key = $key;
+            if ($needle === $value OR (is_array($value) && $this->recursive_array_search($needle, $value) !== false)) {
                 return $current_key;
             }
         }
         return false;
+    }
+
+    /**
+     * Recursive meta data
+     *
+     * @param array $meta
+     * @param string $metaKey
+     * @param array $request
+     * @param  array $out
+     * @return array $out
+     */
+    public function recursiveMeta($meta = [], $request = [], $out = [])
+    {
+        foreach ($meta as $key => $item) {
+            if (
+                isset($item['value']) &&
+                isset($request[$item['name']]['value'])
+            ) {
+                $item['value'] = $request[$item['name']]['value'];
+            }
+
+            if (!empty($item['items'])) {
+                $item['items'] = $this->recursiveMeta($item['items'], $request[$item['name']]);
+
+            }
+
+            $out[] = $item;
+        }
+
+        return $out;
     }
 }

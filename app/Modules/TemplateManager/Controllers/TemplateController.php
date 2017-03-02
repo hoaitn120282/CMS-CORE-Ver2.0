@@ -67,7 +67,7 @@ class TemplateController extends Controller
      */
     public function install()
     {
-        $nodes = Themes::orderBy('status', 'desc')->where('parent_id', 0)->paginate();
+        $nodes = Themes::where('theme_type_id', '<>', 3)->orderBy('status', 'desc')->where('parent_id', 0)->paginate();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
 
@@ -81,7 +81,7 @@ class TemplateController extends Controller
     {
         try {
             if (!$request->hasFile('theme_zip')) {
-                throw new \Exception('Theme not exists.');
+                throw new \Exception('Please select a theme to install.');
             }
 
             $themeZip = $request->file('theme_zip');
@@ -117,6 +117,8 @@ class TemplateController extends Controller
                 'success' => false,
                 'message' => is_array($messages) ? $messages : array($messages)
             ]);
+
+            return redirect(Admin::route('contentManager.theme.install'));
         }
 
         return redirect(Admin::route('templateManager.index'));

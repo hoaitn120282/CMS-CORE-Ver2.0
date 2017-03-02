@@ -2,6 +2,7 @@
 
 namespace App\Modules\ContentManager\Controllers;
 
+use App\Facades\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Facades\Theme;
@@ -32,13 +33,19 @@ class ThemeController extends Controller
         $beforeMeta = ThemeMeta::where('theme_id', $id)->where('meta_group', 'options')->get();
         foreach ($beforeMeta as $value) {
             $meta = unserialize($value->meta_value);
-            $newMeta = [];
+//            dd($meta);
+            /*$newMeta = [];
             foreach ($meta as $val) {
                 $val['value'] = $reqMeta[$value->meta_key][$val['name']]['value'];
                 $newMeta[] = $val;
-            }
+            }*/
+
+            $newMeta = Helper::recursiveMeta($meta, $reqMeta[$value->meta_key]);
+//            print_r('<pre>');
+//         var_dump($newMeta);
             ThemeMeta::where('theme_id', $id)->where('meta_key', $value->meta_key)->update(['meta_value' => serialize($newMeta)]);
         }
+//        die();
         return redirect(Admin::StrURL('contentManager/theme/' . $id))->with('success', 'Theme Option update success');;
     }
 
@@ -77,7 +84,7 @@ class ThemeController extends Controller
     {
         try {
             if (!$request->hasFile('theme_zip')) {
-                throw new \Exception('Theme not exists.');
+                throw new \Exception('Please select a theme to install.');
             }
 
             $themeZip = $request->file('theme_zip');
@@ -113,6 +120,8 @@ class ThemeController extends Controller
                 'success' => false,
                 'message' => is_array($messages) ? $messages : array($messages)
             ]);
+
+            return redirect(Admin::route('contentManager.theme.install'));
         }
 
         return redirect(Admin::route('contentManager.theme'));

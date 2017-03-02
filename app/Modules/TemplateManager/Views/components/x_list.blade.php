@@ -57,6 +57,7 @@
         </div>
     </div>
 @endforeach
+<div class="clearfix"></div>
 <div class="pull-right">
     {{$nodes->links()}}
 </div>

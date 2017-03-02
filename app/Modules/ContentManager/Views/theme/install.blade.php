@@ -16,6 +16,7 @@
                         <h2>Install new theme</h2>
                         <div class="clearfix"></div>
                     </div>
+                    @include('TemplateManager::components.alert')
                     <div class="x_content">
                         <p class="help-block text-center">If you have a theme in a .zip format, you may install it by uploading it here.</p>
                         <form id="install_theme" name="install_theme"
