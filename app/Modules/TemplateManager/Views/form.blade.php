@@ -7,7 +7,7 @@ $isEdit = empty($isEdit) ? false : true;
     <div class="create-template">
         <div class="row">
             <form action="{{ empty($isEdit) ? Admin::route('templateManager.store') : Admin::route('templateManager.update', ['id' => $node->id]) }}"
-                  method="post" enctype="multipart/form-data">
+                  method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <div class="x_panel">
                     <div class="x_title">
                         @if($isEdit)
@@ -264,5 +264,15 @@ $isEdit = empty($isEdit) ? false : true;
             }
         });
     }
+
+    function validateForm() {
+        var totalChecked = $('.icheckbox_flat-green.checked').length;
+        if (totalChecked == 0) {
+            swal("Please select at least one layout for the team!")
+            return false;
+        }
+        return true;
+    }
+
 </script>
 @endpush

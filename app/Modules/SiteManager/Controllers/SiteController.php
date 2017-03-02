@@ -42,10 +42,15 @@ class SiteController extends Controller
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
+<<<<<<< HEAD
+=======
        
         return view('SiteManager::site-detail', compact('clinic'));
     }
+>>>>>>> development
 
+        return view('SiteManager::site-detail', compact('clinic'));
+    }
     /*
      * Add new clinic site - step 1 : select template
      * @param : null
@@ -67,30 +72,70 @@ class SiteController extends Controller
 
     public function createInfo(Request $request){
         $input = Input::all();
-        $this->validate($request, [
-            'database-username' => 'required',
-        ]);
 
-//        $validator = Validator::make($request->all(), [
-//            'database-username' => 'required',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return redirect('post/create')
-//                ->withErrors($validator)
-//                ->withInput();
-//        }
+        $rules = array(
+            'site-name' => 'required',
+            'admin-name' => 'required',
+            'email-address' => 'required',
+            'address' => 'required',
+            'telephone' => 'required',
+            'domain' => 'required',
+            'host' => 'required',
+            'host-username' => 'required',
+            'host-password' => 'required',
+            'database-name' => 'required',
+            'database-host' => 'required',
+            'database-password' => 'required',
+            'database-username' => 'required',
+        );
+
+        $messages = [
+            'site-name.required' => 'The Site Name field is required.',
+            'admin-name.required' => 'The Admin Name field is required.',
+            'email-address.required' => 'The Email Address field is required.',
+            'address.required' => 'The Address field is required.',
+            'telephone.required' => 'The Telephone field is required.',
+            'domain.required' => 'The Domain field is required.',
+            'host.required' => 'The Host field is required.',
+            'host-username.required' => 'The Host Username field is required.',
+            'host-password.required' => 'The Host Password field is required.',
+            'database-name.required' => 'The Database Name field is required.',
+            'database-host.required' => 'The Database Host field is required.',
+            'database-password.required' => 'The Database Password field is required.',
+            'database-username.required' => 'The Database Username field is required.',
+        ];
+
+        $validator = Validator::make($input, $rules, $messages);
+
+        if ($validator->fails())
+        {
+            return redirect('admin/site-manager/add-info')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            dd($input);
+        }
+
     }
 
     /*
      * Push template to session
      * When sanmax admin check or uncheck session
      * */
-    public function toggleTemplateSession(){
-        $value = session('key');
+    public function toggleTemplateSession($id){
+        $templates = \Session::get('templates', []);
 
-        // Store a piece of data in the session...
-        session(['key' => 'value']);
+        if (($key = array_search($id, $templates)) !== false) {
+            unset($templates[$key]);
+        }else{
+            array_push($templates,$id);
+        }
+
+        \Session::set('templates', $templates);
+        \Session::save();
+        $templates = \Session::get('templates',[]);
+        dd($templates);
+
     }
 
 }
