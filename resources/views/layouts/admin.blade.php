@@ -19,7 +19,6 @@
     @stack('style')
     <link href="{{ URL::to('/themes/dashboard/css/style.css') }}" rel="stylesheet">
     <link href="{{ URL::to('/themes/dashboard/css/custom.css') }}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular.min.js"></script>
 </head>
 
 <body class="nav-md footer_fixed">

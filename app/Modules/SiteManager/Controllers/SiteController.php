@@ -47,4 +47,16 @@ class SiteController extends Controller
     public function addInfo(Request $request){
         return view('SiteManager::create.step-2-add-info');
     }
+
+    /*
+     * Push template to session
+     * When sanmax admin check or uncheck session
+     * */
+    public function toggleTemplateSession(){
+        $value = session('key');
+
+        // Store a piece of data in the session...
+        session(['key' => 'value']);
+    }
+
 }
