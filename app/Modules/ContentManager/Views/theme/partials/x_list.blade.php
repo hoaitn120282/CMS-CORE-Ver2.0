@@ -33,7 +33,7 @@
                 <p class="theme-name">{{ $node->name }}</p>
                 <ul>
                     <li>
-                        <a href="{{ Admin::route('contentManager.theme.view',['id'=>$node->id]) }}">
+                        <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank">
                             <i class="fa fa-eye"></i>
                         </a>
                     </li>

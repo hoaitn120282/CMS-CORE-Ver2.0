@@ -69,9 +69,19 @@
 
             if (this.checked) {
                 console.log('check roi '+this.value);
+
             }else{
                 console.log('chua check '+this.value);
             }
+            $.ajax({
+                type: 'POST',
+                url: "{{ Admin::route('siteManager.template-id') }}/"+this.value,
+                data: {"_token": "{{ csrf_token() }}"}
+            })
+                .done(function() {
+//                    swal("Deleted!", "Delete Success", "success");
+//                    location.reload();
+                });
         });
     </script>
 @endpush

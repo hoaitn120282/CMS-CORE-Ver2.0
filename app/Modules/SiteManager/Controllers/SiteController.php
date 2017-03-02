@@ -41,9 +41,9 @@ class SiteController extends Controller
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
-       
-        return view('SiteManager::site-detail', compact('clinic'));
 
+        return view('SiteManager::site-detail', compact('clinic'));
+    }
     /*
      * Add new clinic site - step 1 : select template
      * @param : null
@@ -68,11 +68,20 @@ class SiteController extends Controller
      * Push template to session
      * When sanmax admin check or uncheck session
      * */
-    public function toggleTemplateSession(){
-        $value = session('key');
+    public function toggleTemplateSession($id){
+        $templates = \Session::get('templates', []);
 
-        // Store a piece of data in the session...
-        session(['key' => 'value']);
+        if (($key = array_search($id, $templates)) !== false) {
+            unset($templates[$key]);
+        }else{
+            array_push($templates,$id);
+        }
+
+        \Session::set('templates', $templates);
+        \Session::save();
+        $templates = \Session::get('templates',[]);
+        dd($templates);
+
     }
 
 }

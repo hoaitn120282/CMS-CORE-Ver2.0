@@ -18,7 +18,22 @@
                             </option>
                         </select>
                     </div>
+
                     <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a href="{{ URL::to('/').'/themes/downloads/clinic_simple_final.zip' }}">
+                                <button type="button" class="btn btn-block btn-success"><i
+                                            class="fa fa-cloud-download"></i> &nbsp;Simple Template
+                                </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ URL::to('/').'/themes/downloads/clinic_medium_final.zip' }}">
+                                <button type="button" class="btn btn-block btn-success"><i
+                                            class="fa fa-cloud-download"></i> Medium Template
+                                </button>
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ Admin::route('templateManager.install') }}">
                                 <button type="button" class="btn btn-block btn-success"><i
