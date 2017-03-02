@@ -81,4 +81,16 @@ class SiteController extends Controller
 //                ->withInput();
 //        }
     }
+
+    /*
+     * Push template to session
+     * When sanmax admin check or uncheck session
+     * */
+    public function toggleTemplateSession(){
+        $value = session('key');
+
+        // Store a piece of data in the session...
+        session(['key' => 'value']);
+    }
+
 }

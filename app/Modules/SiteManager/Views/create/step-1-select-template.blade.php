@@ -58,5 +58,20 @@
 @endsection
 
 @push('scripts')
+    <script>
+//        $('.checkbox-input').change(function() {
+//            console.log('hello');
+//            // do stuff here. It will fire on any checkbox change
+//
+//        });
 
+        $('.checkbox-input').on('change', function() {
+
+            if (this.checked) {
+                console.log('check roi '+this.value);
+            }else{
+                console.log('chua check '+this.value);
+            }
+        });
+    </script>
 @endpush

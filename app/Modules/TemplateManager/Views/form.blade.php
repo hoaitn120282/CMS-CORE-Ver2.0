@@ -81,12 +81,15 @@ $isEdit = empty($isEdit) ? false : true;
 @push('style-top')
 <link rel="stylesheet" href="{{ asset('assets/colorpicker/css/colorpicker.css') }}">
 <style>
+    .create-template .form-group {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
     .create-template .form-control {
         width: auto;
         max-width: 100%;
         min-width: 155px;
-        margin-top: 15px;
-        margin-bottom: 15px;
     }
 
     .create-template textarea.form-control {
