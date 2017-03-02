@@ -57,7 +57,9 @@
         </div>
     </div>
 @endforeach
-{{$nodes->links()}}
+<div class="pull-right">
+    {{$nodes->links()}}
+</div>
 @push('scripts')
 @include('TemplateManager::components.script_delete')
 @endpush

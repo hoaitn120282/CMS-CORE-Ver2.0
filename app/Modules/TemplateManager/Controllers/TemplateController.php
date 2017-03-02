@@ -26,9 +26,9 @@ class TemplateController extends Controller
     public function index($theme_type = 0)
     {
         if ($theme_type == 0) {
-            $nodes = Template::paginate(6);
+            $nodes = Template::where('theme_type_id', '<>', 3)->paginate(6);
         } else {
-            $nodes = Template::where('theme_type_id', $theme_type)->paginate(6);
+            $nodes = Template::where('theme_type_id', '<>', 3)->where('theme_type_id', $theme_type)->paginate(6);
         }
         return view('TemplateManager::index', ['nodes' => $nodes, 'theme_type' => $theme_type]);
     }
@@ -40,7 +40,7 @@ class TemplateController extends Controller
      * */
     public function listCreate()
     {
-        $nodes = Template::paginate();
+        $nodes = Template::where('theme_type_id', '<>', 3)->paginate();
         return view('TemplateManager::list-create', compact('nodes'));
     }
 
