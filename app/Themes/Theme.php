@@ -182,6 +182,10 @@ class Theme
                 }
             }
             $this->removeTmp();
+            // delete file uploaded
+            if (File::isDirectory($path)) {
+                File::deleteDirectory($path);
+            }
 
             return array('success' => true, 'data' => ['name' => $themeName]);
         else:

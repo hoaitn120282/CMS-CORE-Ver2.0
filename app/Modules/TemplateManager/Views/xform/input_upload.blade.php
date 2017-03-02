@@ -7,12 +7,11 @@ $inputSlug = str_slug($input, '_');
     <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
         <i class="fa fa-upload"></i> Choose file...
     </button>
-
-<img id="btn-upload-{{$inputSlug}}-preview" class="img-responsive"
-     src="{{ empty($model) ? old($input) : $model }}"/>
-<input type="hidden" id="{{$inputSlug}}" class="form-control"
-       name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
-       placeholder="Choose file...">
+    <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"
+         style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'></div>
+    <input type="hidden" id="{{$inputSlug}}" class="form-control"
+           name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
+           placeholder="Choose file...">
 </div>
 <div class="modal fade" id="modal-{{$inputSlug}}" tabindex="-1" role="dialog" aria-labelledby="{{ $inputSlug }}Label">
     <div class="modal-dialog modal-lg" role="document">
@@ -63,6 +62,15 @@ $inputSlug = str_slug($input, '_');
     #btn-upload-{{$input}}-preview {
         margin: 0 auto;
     }
+
+    .img-res {
+        display: none;
+        height: 190px;
+        width: 250px;
+        background-size: contain;
+        border: 1px solid #f5f5f5;
+    }
+
 </style>
 @endpush
 @push('scripts')
@@ -110,7 +118,10 @@ $inputSlug = str_slug($input, '_');
 
     if (typeof setimage !== "function") {
         function setimage(img, input) {
-            $('#btn-upload-' + input + '-preview').attr("src", img);
+//            $('#btn-upload-' + input + '-preview').attr("src", img);
+            $('#btn-upload-' + input + '-preview').css('background-image', 'url(' + img + ')');
+            $('#btn-upload-' + input + '-preview').css('display', 'block');
+
             $('#modal-' + input).modal("hide");
             $('#' + input).val(img);
         }
