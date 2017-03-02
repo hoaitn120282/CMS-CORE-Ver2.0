@@ -20,13 +20,14 @@ class ThemeController extends Controller
 
     public function view($id)
     {
-        $model = Themes::find($id);
-        return view("ContentManager::theme.view", ['model' => $model]);
+        $node = Themes::find($id);
+        return view("ContentManager::theme.view", compact('node'));
     }
 
     public function update(Request $request)
     {
         $reqMeta = $request->meta;
+//        dd($reqMeta);
         $id = $request->idtheme;
         $beforeMeta = ThemeMeta::where('theme_id', $id)->where('meta_group', 'options')->get();
         foreach ($beforeMeta as $value) {
@@ -124,9 +125,11 @@ class ThemeController extends Controller
      * @param string $themeName
      * @response mixed
      */
-    public function uninstall(Request $request, $themeName)
+    public function uninstall(Request $request, $id)
     {
         try {
+            $theme = Themes::find($id);
+            $themeName = $theme->name;
             Theme::uninstall($themeName);
 
             if (Theme::error()) {

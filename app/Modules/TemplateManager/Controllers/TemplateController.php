@@ -133,7 +133,7 @@ class TemplateController extends Controller
         try {
             $themeId = $request->get('theme_id');
             $input = $request->all();
-            $validator = Validator::make($input, ['name' => 'required|regex:/^[a-zA-Z_0-9]+$/|max:255',]);
+            $validator = Validator::make($input, ['name' => 'required|max:255',]);
             if ($validator->fails()) {
                 throw new \Exception(implode(', ', $validator->errors()->all()));
             }
@@ -277,7 +277,7 @@ class TemplateController extends Controller
 
             $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
             if (File::exists($path_file)) {
-                $css_default_name = "{$template->name}.css";
+                $css_default_name = "{$template->id}.css";
                 $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
                 $css_path = "themes/{$folder}/css/{$css_name}";
 
@@ -483,7 +483,7 @@ class TemplateController extends Controller
             }
 
             $css = array();
-            $file = $template->name . '.css';
+            $file = $template->id . '.css';
             $folder = empty($template->parent) ? $template->name : $template->parent->name;
             $path_theme = public_path("themes/{$folder}");
             $path_css = public_path("themes/{$folder}/css");
@@ -542,15 +542,15 @@ class TemplateController extends Controller
     * @param string $themeName
     * @response mixed
     */
-    public function uninstall(Request $request, $themeName)
+    public function uninstall(Request $request, $id)
     {
         try {
             // Could not uninstall if theme has parent id = 0
-            $template = Template::where('name', $themeName)->first();
+            $template = Template::find($id);
             if (0 == $template->parent_id) {
                 throw new \Exception('It\'s not allowed to delete installed theme.');
             }
-
+            $themeName = $template->name;
             Theme::uninstall($themeName);
 
             if (Theme::error()) {

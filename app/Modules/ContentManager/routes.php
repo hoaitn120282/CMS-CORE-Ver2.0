@@ -32,7 +32,7 @@ Route::group(['prefix' => $this->admin, 'middleware' => ['web','admin'], 'namesp
 	Route::post('contentManager/theme', ['as' => $this->admin.'.contentManager.theme.update', 'uses' => 'ThemeController@update']);
 	Route::get('contentManager/theme/install', ['as' => $this->admin.'.contentManager.theme.install', 'uses' => 'ThemeController@install']);
 	Route::post('contentManager/theme/install', ['as' => $this->admin.'.contentManager.theme.install', 'uses' => 'ThemeController@installed']);
-	Route::delete('contentManager/theme/{themeName}', ['as' => $this->admin.'.contentManager.theme.uninstall', 'uses' => 'ThemeController@uninstall']);
+	Route::delete('contentManager/theme/{id}', ['as' => $this->admin.'.contentManager.theme.uninstall', 'uses' => 'ThemeController@uninstall']);
 
 	//-----Setting-----
 	Route::get('contentManager/setting', ['as' => $this->admin.'.contentManager.setting', 'uses' => 'OptionsController@index']);

@@ -54,20 +54,20 @@ $isEdit = empty($isEdit) ? false : true;
                             @else
                                 <button type="button" name="draft" class="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-target="#Popup-Save-{{$node->id}}"
                                         data-title="Save as Draft"
                                         data-options='{"is_publish":0}'>
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
                                 </button>
                                 <button type="button" name="publish" class="btn btn-success"
                                         data-toggle="modal"
-                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-target="#Popup-Save-{{$node->id}}"
                                         data-title="Publish"
                                         data-options='{"is_publish":1}'>
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
                                 </button>
 
-                                @include('TemplateManager::xform.popup_save', ['themeName' => $node->name])
+                                @include('TemplateManager::xform.popup_save', ['themeId' => $node->id, 'themeName' => $node->name])
                             @endif
                             <div class="clearfix"></div>
                         </div>

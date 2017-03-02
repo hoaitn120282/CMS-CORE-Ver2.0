@@ -46,7 +46,7 @@
                             <a href="#"
                                data-role="delete-template"
                                data-theme_id="{{$node->id}}"
-                               data-url="{{ Admin::route('templateManager.uninstall', ['themeName' => $node->name]) }}"
+                               data-url="{{ Admin::route('templateManager.uninstall', ['id' => $node->id]) }}"
                                title="Delete">
                                 <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </a>

@@ -1,4 +1,4 @@
-<div class="modal fade modal-popup-save" id="Popup-Save-{{$themeName}}" tabindex="-1" role="dialog">
+<div class="modal fade modal-popup-save" id="Popup-Save-{{$themeId}}" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -50,7 +50,7 @@
 @push('scripts')
 <script>
     (function ($) {
-        $("#Popup-Save-{{$themeName}}").on('show.bs.modal', function (event) {
+        $("#Popup-Save-{{$themeId}}").on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var title = button.data('title');
             var options = button.data('options');
