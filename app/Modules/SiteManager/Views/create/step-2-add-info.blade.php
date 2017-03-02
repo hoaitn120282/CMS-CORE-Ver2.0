@@ -14,6 +14,7 @@
                 <h2>Content step 2</h2>
                 <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
                     <div class="information">
                         <h3 class="text-center create-title">Account Information</h3>
                         <div class="row">
@@ -21,7 +22,8 @@
                                   <div class="form-group">
                                     <label for="site-name" class="col-sm-4 control-label">Site Name</label>
                                     <div class="col-sm-8">
-                                      <input type="text" class="form-control" id="site-name" name="site-name" placeholder="Site Name">
+                                        <input type="text" class="form-control" id="site-name" name="site-name" value="{{ old('site-name') }}" placeholder="Site Name">
+                                        @if ($errors->has('site-name')) <p class="error-message">{{ $errors->first('site-name') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
@@ -48,25 +50,29 @@
                                   <div class="form-group">
                                     <label for="admin-name" class="col-sm-3 control-label">Admin Name</label>
                                     <div class="col-sm-9">
-                                      <input type="text" class="form-control" id="admin-name" name="admin-name" placeholder="Admin Name">
+                                        <input type="text" class="form-control" id="admin-name" name="admin-name" value="{{ old('admin-name') }}" placeholder="Admin Name">
+                                        @if ($errors->has('admin-name')) <p class="error-message">{{ $errors->first('admin-name') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label for="email-address" class="col-sm-3 control-label">Email Address</label>
                                     <div class="col-sm-9">
-                                      <input type="email" class="form-control" id="email-address" name="email-address" placeholder="Email Address">
+                                        <input type="email" class="form-control" id="email-address" name="email-address" value="{{ old('email-address') }}"  placeholder="Email Address">
+                                        @if ($errors->has('email-address')) <p class="error-message">{{ $errors->first('email-address') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label for="address" class="col-sm-3 control-label">Address</label>
                                     <div class="col-sm-9">
-                                      <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+                                        <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}"  placeholder="Address">
+                                        @if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
                                     <label for="telephone" class="col-sm-3 control-label">Telephone</label>
                                     <div class="col-sm-9">
-                                      <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone">
+                                        <input type="text" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
+                                        @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
                                     </div>
                                   </div>
                             </div>
@@ -78,7 +84,8 @@
                                   <div class="form-group">
                                     <label for="domain" class="col-sm-4 control-label">Domain</label>
                                     <div class="col-sm-8">
-                                      <input type="text" class="form-control" id="domain" name="domain" placeholder="Domain">
+                                        <input type="text" class="form-control" id="domain" name="domain" value="{{ old('domain') }}"  placeholder="Domain">
+                                        @if ($errors->has('domain')) <p class="error-message">{{ $errors->first('domain') }}</p> @endif
                                     </div>
                                   </div>
 
@@ -88,21 +95,24 @@
                                       <div class="form-group infor-child">
                                         <label for="host" class="col-sm-4 control-label">Host</label>
                                         <div class="col-sm-8">
-                                          <input type="text" class="form-control" id="host" name="host" placeholder="Host">
+                                            <input type="text" class="form-control" id="host" name="host" value="{{ old('host') }}"  placeholder="Host">
+                                            @if ($errors->has('host')) <p class="error-message">{{ $errors->first('host') }}</p> @endif
                                         </div>
                                       </div>
 
                                       <div class="form-group infor-child">
                                         <label for="host-username" class="col-sm-4 control-label">Username</label>
                                         <div class="col-sm-8">
-                                          <input type="text" class="form-control" id="host-username" name="host-username" placeholder="Username">
+                                            <input type="text" class="form-control" id="host-username" name="host-username" value="{{ old('host-username') }}"  placeholder="Username">
+                                            @if ($errors->has('host-username')) <p class="error-message">{{ $errors->first('host-username') }}</p> @endif
                                         </div>
                                       </div>
 
                                       <div class="form-group infor-child">
                                         <label for="host-password" class="col-sm-4 control-label">Password</label>
                                         <div class="col-sm-8">
-                                          <input type="password" class="form-control" id="host-password" name="host-password" placeholder="Password">
+                                            <input type="password" class="form-control" id="host-password" name="host-password" value="{{ old('host-password') }}"  placeholder="Password">
+                                            @if ($errors->has('host-password')) <p class="error-message">{{ $errors->first('host-password') }}</p> @endif
                                         </div>
                                       </div>
                                     </div>
@@ -114,29 +124,32 @@
                                       <div class="form-group infor-child">
                                         <label for="database-name" class="col-sm-4 control-label">Name</label>
                                         <div class="col-sm-8">
-                                          <input type="text" class="form-control" id="database-name" name="database-name" placeholder="Name">
+                                            <input type="text" class="form-control" id="database-name" name="database-name" value="{{ old('database-name') }}"  placeholder="Name">
+                                            @if ($errors->has('database-name')) <p class="error-message">{{ $errors->first('database-name') }}</p> @endif
                                         </div>
                                       </div>
 
                                       <div class="form-group infor-child">
                                         <label for="database-host" class="col-sm-4 control-label">Host</label>
                                         <div class="col-sm-8">
-                                          <input type="text" class="form-control" name="database-host" id="database-host" placeholder="Host">
+                                            <input type="text" class="form-control" name="database-host" id="database-host" value="{{ old('database-host') }}"  placeholder="Host">
+                                            @if ($errors->has('database-host')) <p class="error-message">{{ $errors->first('database-host') }}</p> @endif
                                         </div>
                                       </div>
 
                                       <div class="form-group infor-child">
                                         <label for="database-username" class="col-sm-4 control-label">Username</label>
                                         <div class="col-sm-8">
-                                          <input type="text" class="form-control" id="database-username" name="database-username" placeholder="Username">
-                                          @if ($errors->has('database-username')) <p class="alert alert-danger">{{ $errors->message }}</p> @endif
+                                          <input type="text" class="form-control" id="database-username" name="database-username"  value="{{ old('database-username') }}" placeholder="Username">
+                                          @if ($errors->has('database-username')) <p class="error-message">{{ $errors->first('database-username') }}</p> @endif
                                         </div>
                                       </div>
 
                                       <div class="form-group infor-child">
                                         <label for="database-password" class="col-sm-4 control-label">Password</label>
                                         <div class="col-sm-8">
-                                          <input type="password" class="form-control" id="database-password" name="database-password" placeholder="Password">
+                                          <input type="password" class="form-control" id="database-password" name="database-password" value="{{ old('database-password') }}"  placeholder="Password">
+                                          @if ($errors->has('database-password')) <p class="error-message">{{ $errors->first('database-password') }}</p> @endif
                                         </div>
                                       </div>
                                     </div>
@@ -187,6 +200,11 @@
 
         .infor-child label{
             padding-left: 50px;
+        }
+        
+        .error-message{
+            margin-top: 5px;
+            color: red;
         }
     </style>
 @endpush
