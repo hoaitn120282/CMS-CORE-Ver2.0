@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Validator;
@@ -43,6 +44,7 @@ class SiteController extends Controller
         }
        
         return view('SiteManager::site-detail', compact('clinic'));
+    }
 
     /*
      * Add new clinic site - step 1 : select template
@@ -61,6 +63,34 @@ class SiteController extends Controller
      * */
     public function addInfo(Request $request){
         return view('SiteManager::create.step-2-add-info');
-
     }
+
+    public function createInfo(Request $request){
+        $input = Input::all();
+        $this->validate($request, [
+            'database-username' => 'required',
+        ]);
+
+//        $validator = Validator::make($request->all(), [
+//            'database-username' => 'required',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return redirect('post/create')
+//                ->withErrors($validator)
+//                ->withInput();
+//        }
+    }
+
+    /*
+     * Push template to session
+     * When sanmax admin check or uncheck session
+     * */
+    public function toggleTemplateSession(){
+        $value = session('key');
+
+        // Store a piece of data in the session...
+        session(['key' => 'value']);
+    }
+
 }
