@@ -20,7 +20,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                             location.reload();
+                              location.reload();
                             /*swal("Uninstall!", "Uninstall theme " + themeName + " success", "success");
                             $("#item-" + themeId).remove();*/
                         });

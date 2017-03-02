@@ -10,6 +10,7 @@ Route::group([
 
         Route::get('site-manager/select-template', ['as' => $this->admin . '.siteManager.select-template', 'uses' => 'SiteController@selectTemplate']);
         Route::any('site-manager/add-info', ['as' => $this->admin . '.siteManager.add-info', 'uses' => 'SiteController@addInfo']);
+        Route::post('site-manager/create-info', ['as' => $this->admin . '.siteManager.create-info', 'uses' => 'SiteController@createInfo']);
 
         Route::any('site-manager/template-id/{id?}', ['as' => $this->admin . '.siteManager.template-id', 'uses' => 'SiteController@toggleTemplateSession']);
 

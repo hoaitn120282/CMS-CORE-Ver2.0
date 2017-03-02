@@ -7,7 +7,7 @@ $isEdit = empty($isEdit) ? false : true;
     <div class="create-template">
         <div class="row">
             <form action="{{ empty($isEdit) ? Admin::route('templateManager.store') : Admin::route('templateManager.update', ['id' => $node->id]) }}"
-                  method="post" enctype="multipart/form-data">
+                  method="post" onsubmit="return validateForm()" enctype="multipart/form-data">
                 <div class="x_panel">
                     <div class="x_title">
                         @if($isEdit)
@@ -54,20 +54,20 @@ $isEdit = empty($isEdit) ? false : true;
                             @else
                                 <button type="button" name="draft" class="btn btn-primary"
                                         data-toggle="modal"
-                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-target="#Popup-Save-{{$node->id}}"
                                         data-title="Save as Draft"
                                         data-options='{"is_publish":0}'>
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Save as draft
                                 </button>
                                 <button type="button" name="publish" class="btn btn-success"
                                         data-toggle="modal"
-                                        data-target="#Popup-Save-{{$node->name}}"
+                                        data-target="#Popup-Save-{{$node->id}}"
                                         data-title="Publish"
                                         data-options='{"is_publish":1}'>
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
                                 </button>
 
-                                @include('TemplateManager::xform.popup_save', ['themeName' => $node->name])
+                                @include('TemplateManager::xform.popup_save', ['themeId' => $node->id, 'themeName' => $node->name])
                             @endif
                             <div class="clearfix"></div>
                         </div>
@@ -264,5 +264,15 @@ $isEdit = empty($isEdit) ? false : true;
             }
         });
     }
+
+    function validateForm() {
+        var totalChecked = $('.icheckbox_flat-green.checked').length;
+        if (totalChecked == 0) {
+            swal("Please select at least one layout for the team!")
+            return false;
+        }
+        return true;
+    }
+
 </script>
 @endpush

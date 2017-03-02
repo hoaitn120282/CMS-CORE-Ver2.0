@@ -42,7 +42,7 @@
                         <a href="#"
                            data-role="uninstall-theme"
                            data-theme_id="{{$node->id}}"
-                           data-url="{{ Admin::route('contentManager.theme.uninstall', ['themeName' => $node->name]) }}">
+                           data-url="{{ Admin::route('contentManager.theme.uninstall', ['id' => $node->id]) }}">
                             <i class="fa fa-times"></i></a>
                         </a>
                     </li>

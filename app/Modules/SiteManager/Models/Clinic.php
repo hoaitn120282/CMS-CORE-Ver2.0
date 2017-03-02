@@ -11,6 +11,10 @@ class Clinic extends Model
     public $timestamps = false;
     protected $fillable = array('domain', 'is_sanmax_hosting', 'contact_info', 'description');
 
+    public static $rules = [
+
+    ];
+
     /*
      *  relationship with hosting
      * */
@@ -49,4 +53,6 @@ class Clinic extends Model
     {
         return $this->hasMany('App\Modules\SiteManager\Models\ClinicTheme','clinic_id', 'clinic_id');
     }
+
+
 }

@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Validator;
@@ -41,6 +42,12 @@ class SiteController extends Controller
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
+<<<<<<< HEAD
+=======
+       
+        return view('SiteManager::site-detail', compact('clinic'));
+    }
+>>>>>>> development
 
         return view('SiteManager::site-detail', compact('clinic'));
     }
@@ -61,7 +68,23 @@ class SiteController extends Controller
      * */
     public function addInfo(Request $request){
         return view('SiteManager::create.step-2-add-info');
+    }
 
+    public function createInfo(Request $request){
+        $input = Input::all();
+        $this->validate($request, [
+            'database-username' => 'required',
+        ]);
+
+//        $validator = Validator::make($request->all(), [
+//            'database-username' => 'required',
+//        ]);
+//
+//        if ($validator->fails()) {
+//            return redirect('post/create')
+//                ->withErrors($validator)
+//                ->withInput();
+//        }
     }
 
     /*
