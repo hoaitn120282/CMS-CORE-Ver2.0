@@ -11,7 +11,21 @@
     <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/owl.carousel/dist/assets/owl.carousel.min.css" />
     <link rel="stylesheet" href="css/lightslider/lightslider.min.css" />
-    <link rel="stylesheet" href="css/main.css">
+<!--    <link rel="stylesheet" href="css/main.css">-->
+    <?php
+
+    $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $parts = parse_url($url);
+    if (isset($parts['query'])){
+        parse_str($parts['query'], $query);
+    }
+    if (isset($query['template'])) {
+        $templateId = $query['template'];
+    }else{
+        $templateId = null;
+    }
+    ?>
+	<link rel="stylesheet" href="css/<?php echo $templateId ?>.css">
 </head>
 <title>Simple Site Title</title>
 <body>
@@ -53,9 +67,9 @@
                     <!-- Collect the nav links, forms, and other content for toggling --> 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right nav-right-custom text-right">
-                            <li><a href="index.html" class="active">Home</a></li>
-                            <li><a href="info.html">INFO FOR PATIENT</a></li>
-                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="index.php?template=<?php  echo $templateId ?>" >Home</a></li>
+                            <li><a href="info.php?template=<?php echo $templateId ?>" class="active">INFO FOR PATIENT</a></li>
+                            <li><a href="contact.php?template=<?php echo $templateId ?>">Contact</a></li>
                             <li class="dropdown language-select">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">English <i class="fa fa-angle-down hidden-sm hidden-xs"></i></a>
                                 <ul class="dropdown-menu">
@@ -95,18 +109,11 @@
                 </div>
 
                 <div class="col-md-9 col-sm-12">
-                    <section class="content-dt">
-                        <ul id="lightSlider" class="gallery list-unstyled cS-hidden">
-                            <li data-thumb="images/content-img.jpg"> 
-                                <img src="images/content-img.jpg" />
-                            </li>
-                            <li data-thumb="images/content-img.jpg"> 
-                                <img src="images/content-img.jpg" />
-                            </li>
-                            <li data-thumb="images/content-img.jpg"> 
-                                <img src="images/content-img.jpg" />
-                            </li>
-                        </ul>
+                    <section class="content-dt content-info">
+                        <figure>
+                            <img src="images/content-img.jpg" />
+                        </figure>
+                        
                         <div class="ct-detail">
                             <h3>Example Title</h3>
                             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
