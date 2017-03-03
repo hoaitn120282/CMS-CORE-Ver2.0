@@ -1,16 +1,16 @@
 <?php
 
-$input = empty($input) ? "meta[{$meta->meta_key}][{$data['name']}][value]" : $input;
-$label = empty($label) ? $data['label'] : $label;
-$model = empty($model) ? $data['value'] : $model;
-$idModal = empty($idModal) ? "modal_{$data['name']}" : $idModal;
+$input = isset($input) ? $input : "meta[{$meta->meta_key}][{$data['name']}][value]";
+$label = isset($label) ? $label : $data['label'];
+$model = isset($model) ? $model : $data['value'];
+$idModal = isset($idModal) ? $idModal : "modal_{$data['name']}";
 $inputSlug = str_slug($input, '_');
 
 ?>
 
-<div class="frm - ctrl - wrap">
+<div class="frm-ctrl-wrap">
     <label for="feature_image">{{ $label }}</label>
-    <button id="btn -{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
+    <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
         <i class="fa fa-upload"></i> Choose file...
     </button>
     <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"

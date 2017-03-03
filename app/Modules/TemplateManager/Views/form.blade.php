@@ -81,6 +81,10 @@ $isEdit = empty($isEdit) ? false : true;
 @push('style-top')
 <link rel="stylesheet" href="{{ asset('assets/colorpicker/css/colorpicker.css') }}">
 <style>
+    .create-template form .x_panel {
+        padding-bottom: 70px;
+    }
+
     .create-template .form-group {
         margin-top: 15px;
         margin-bottom: 15px;
@@ -148,8 +152,13 @@ $isEdit = empty($isEdit) ? false : true;
 
     .create-template .toolbar-actions {
         margin-top: 15px;
-        padding: 15px;
+        padding: 15px 35px 15px 15px;
         overflow: hidden;
+        position: fixed;
+        width: 100%;
+        bottom: 36px;
+        z-index: 9;
+        left: 0;
     }
 
     .color-picker {

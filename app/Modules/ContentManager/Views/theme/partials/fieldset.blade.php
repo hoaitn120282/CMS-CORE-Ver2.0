@@ -1,6 +1,6 @@
 <?php
 
-$groups = empty($groups) ? '' : $groups;
+$groups = isset($groups) ? $groups : null;
 
 ?>
 <fieldset>
