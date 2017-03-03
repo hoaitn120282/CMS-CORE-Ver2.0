@@ -14,7 +14,6 @@
                 <h2>Content step 2</h2>
                 <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
                     <div class="information">
                         <h3 class="text-center create-title">Account Information</h3>
                         <div class="row">
@@ -29,13 +28,13 @@
                                   <div class="form-group">
                                     <label  class="col-sm-4 control-label">Default Language</label>
                                     <div class="col-sm-8">
-                                      <select class="form-control" id="">
-                                        <option>Select language</option>
-                                        <option>Dutch</option>
-                                        <option>English</option>
-                                        <option>French</option>
-                                        <option>German</option>
+                                      <select name="default-language" class="form-control" id="">
+                                        <option value="0">Select language</option>
+                                        @foreach($languages as $language)
+                                              <option value="{{ $language->language_id }}">{{ $language->name }}</option>
+                                        @endforeach
                                       </select>
+                                      @if ($errors->has('default-language')) <p class="error-message">{{ $errors->first('default-language') }}</p> @endif
                                     </div>
                                   </div>
                             </div>
