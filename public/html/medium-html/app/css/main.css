@@ -231,51 +231,6 @@ i {
     display: table-cell;
     vertical-align: middle; }
 
-.header-slide {
-  position: relative; }
-  .header-slide .owl-nav div {
-    opacity: .3;
-    -webkit-transition: all .5s ease-in-out;
-    -moz-transition: all .5s ease-in-out;
-    -ms-transition: all .5s ease-in-out;
-    -o-transition: all .5s ease-in-out;
-    transition: all .5s ease-in-out; }
-    .header-slide .owl-nav div:hover {
-      opacity: 1; }
-  .header-slide .owl-nav .disabled {
-    display: none; }
-  .header-slide .owl-nav .owl-prev {
-    position: absolute;
-    top: 50%;
-    left: 30px;
-    margin-top: -85px; }
-  .header-slide .owl-nav .owl-next {
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    margin-top: -85px; }
-  .header-slide .slide-item {
-    position: relative; }
-    .header-slide .slide-item .make-appointment {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin-top: -90px;
-      margin-left: -368px; }
-      .header-slide .slide-item .make-appointment .header-title {
-        color: #ffffff;
-        font-size: 50px;
-        font-family: "Raleway-Bold";
-        margin-bottom: 10px; }
-      .header-slide .slide-item .make-appointment .header-sologan {
-        font-size: 16px;
-        color: #ffffff;
-        margin-bottom: 35px; }
-      .header-slide .slide-item .make-appointment .btn-make-appointment {
-        padding: 12px 30px; }
-        .header-slide .slide-item .make-appointment .btn-make-appointment:hover {
-          color: #ffffff; }
-
 .btn-make-appointment {
   text-transform: uppercase;
   font-family: "Raleway-Black";
@@ -337,11 +292,7 @@ i {
   .header .language-select > a {
     display: inline-block; }
   .header .language-select > ul {
-    display: inline-block; }
-  .header-slide .slide-item .make-appointment .header-title {
-    font-size: 40px; }
-  .header-slide .slide-item .make-appointment {
-    width: 100%; } }
+    display: inline-block; } }
 
 @media (max-width: 480px) {
   .header .header-contact li {
@@ -354,32 +305,7 @@ i {
     padding-bottom: 0;
     min-height: 70px; }
     .header .navbar .navbar-brand {
-      padding-top: 15px; }
-  .header .header-slide {
-    height: 200px; }
-    .header .header-slide .owl-nav .owl-next {
-      top: 90%;
-      right: 5px;
-      max-width: 35px; }
-    .header .header-slide .owl-nav .owl-prev {
-      top: 90%;
-      left: 5px;
-      max-width: 35px; }
-  .header .owl-carousel .owl-item {
-    height: 285px;
-    width: 100%; }
-    .header .owl-carousel .owl-item img {
-      height: 285px;
-      width: 100%; }
-  .header .slide-item .make-appointment {
-    width: 100%;
-    left: 0;
-    top: 40%;
-    margin-left: 0;
-    margin-bottom: 0;
-    padding: 0 50px; }
-    .header .slide-item .make-appointment .header-title {
-      font-size: 20px; } }
+      padding-top: 15px; } }
 
 footer {
   background-color: #b3cdde; }
@@ -493,6 +419,53 @@ footer {
 
 section {
   padding: 50px 0; }
+
+.ss-slide {
+  padding: 0; }
+  .ss-slide .header-slide {
+    position: relative; }
+    .ss-slide .header-slide .owl-nav div {
+      opacity: .3;
+      -webkit-transition: all .5s ease-in-out;
+      -moz-transition: all .5s ease-in-out;
+      -ms-transition: all .5s ease-in-out;
+      -o-transition: all .5s ease-in-out;
+      transition: all .5s ease-in-out; }
+      .ss-slide .header-slide .owl-nav div:hover {
+        opacity: 1; }
+    .ss-slide .header-slide .owl-nav .disabled {
+      display: none; }
+    .ss-slide .header-slide .owl-nav .owl-prev {
+      position: absolute;
+      top: 50%;
+      left: 30px;
+      margin-top: -85px; }
+    .ss-slide .header-slide .owl-nav .owl-next {
+      position: absolute;
+      top: 50%;
+      right: 30px;
+      margin-top: -85px; }
+    .ss-slide .header-slide .slide-item {
+      position: relative; }
+      .ss-slide .header-slide .slide-item .make-appointment {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -90px;
+        margin-left: -368px; }
+        .ss-slide .header-slide .slide-item .make-appointment .header-title {
+          color: #ffffff;
+          font-size: 50px;
+          font-family: "Raleway-Bold";
+          margin-bottom: 10px; }
+        .ss-slide .header-slide .slide-item .make-appointment .header-sologan {
+          font-size: 16px;
+          color: #ffffff;
+          margin-bottom: 35px; }
+        .ss-slide .header-slide .slide-item .make-appointment .btn-make-appointment {
+          padding: 12px 30px; }
+          .ss-slide .header-slide .slide-item .make-appointment .btn-make-appointment:hover {
+            color: #ffffff; }
 
 .article-title {
   text-align: center;
@@ -675,11 +648,40 @@ section {
   .tips {
     padding-bottom: 0; }
     .tips .tip-detail {
-      margin-bottom: 20px; } }
+      margin-bottom: 20px; }
+  .ss-slide .header-slide .slide-item .make-appointment .header-title {
+    font-size: 40px; }
+  .ss-slide .header-slide .slide-item .make-appointment {
+    width: 100%; } }
 
 @media (max-width: 480px) {
   .header .navbar .navbar-brand {
-    padding-left: 0; } }
+    padding-left: 0; }
+  .ss-slide .header-slide {
+    height: 200px; }
+    .ss-slide .header-slide .owl-nav .owl-next {
+      top: 90%;
+      right: 5px;
+      max-width: 35px; }
+    .ss-slide .header-slide .owl-nav .owl-prev {
+      top: 90%;
+      left: 5px;
+      max-width: 35px; }
+    .ss-slide .header-slide .slide-item .make-appointment {
+      width: 100%;
+      left: 0;
+      top: 40%;
+      margin-left: 0;
+      margin-bottom: 0;
+      padding: 0 50px; }
+      .ss-slide .header-slide .slide-item .make-appointment .header-title {
+        font-size: 20px; }
+  .ss-slide .owl-carousel .owl-item {
+    height: 285px;
+    width: 100%; }
+    .ss-slide .owl-carousel .owl-item img {
+      height: 285px;
+      width: 100%; } }
 
 .news-page .new-detail {
   margin-top: inherit; }

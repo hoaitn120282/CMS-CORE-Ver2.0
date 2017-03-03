@@ -10,4 +10,8 @@ class ClinicTheme extends Model
     protected $primaryKey = 'clinic_theme_id';
     public $timestamps = false;
     protected $fillable = array('clinic_id', 'theme_id');
+
+    public function clinic() {
+        return $this->belongsTo('App\Modules\SiteManager\Models\Clinic','clinic_id');
+    }
 }

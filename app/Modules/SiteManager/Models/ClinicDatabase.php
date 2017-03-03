@@ -10,4 +10,8 @@ class ClinicDatabase extends Model
     protected $primaryKey = 'clinic_database_id';
     public $timestamps = false;
     protected $fillable = array('clinic_id', 'host', 'port', 'database_name', 'username', 'password', 'table_prefix');
+
+    public function clinic() {
+        return $this->belongsTo('App\Modules\SiteManager\Models\Clinic','clinic_id');
+    }
 }
