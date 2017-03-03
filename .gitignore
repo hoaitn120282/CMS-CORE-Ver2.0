@@ -6,6 +6,8 @@ Homestead.yaml
 Homestead.json
 .env
 /.idea
+/app/Themes/tmp/
+/app/Themes/upload/
 /public/uploads
 core-cms.rar
 /config/theme.php
