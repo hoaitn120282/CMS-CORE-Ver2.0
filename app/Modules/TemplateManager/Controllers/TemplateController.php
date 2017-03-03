@@ -514,6 +514,7 @@ class TemplateController extends Controller
                 ->first();
             if ($general) {
                 $css['custom'] = $general->getOption('customcss');
+                $css['general_background_image'] = $general->getOption('background_image');
             }
 
             $string_sass = View::make("themes.{$folder}.typography", compact('css'))->render();
