@@ -13,6 +13,13 @@
 		}
 	}
 
+	.sologan{
+		font-size: $sologan-font-size;
+		font-family: $sologan-font-family;
+		color: $sologan-color;
+		margin-top: 5px;
+	}
+
 	& .navbar{
 		margin: 0;
 		padding-top: 15px;
@@ -20,11 +27,20 @@
 
 		& .navbar-brand{
 			padding: 10px 15px;
+			padding-top: 0;
 			.site-title{
 				font-size: $site-title-size;
 				font-family: $site-title-font-family;
 				color: $site-title-color;
+				margin-left: 30px;
 			}
+
+			li{
+				span{
+					vertical-align: sub;
+				}
+			}
+
 		}
 
 		& .nav-right-custom{
@@ -291,7 +307,7 @@
 		.navbar{
 			padding-top: 0;
 			padding-bottom: 0;
-
+			min-height: 70px;
 			.navbar-brand{
 				padding-top: 15px;
 			}

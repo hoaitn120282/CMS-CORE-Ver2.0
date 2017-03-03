@@ -20,7 +20,10 @@ body {
   background: #ffffff;
   overflow-x: hidden;
   line-height: 25px;
-  position: relative; }
+  position: relative;
+  background-image: url(../images/backgroudn.png);
+  background-repeat: no-repeat;
+  background-position: left bottom; }
 
 p {
   margin: 0; }
@@ -139,6 +142,11 @@ i {
       font-family: "Raleway-Bold"; }
     .header .header-contact li {
       margin-left: 20px; }
+  .header .sologan {
+    font-size: 12px;
+    font-family: "Raleway-Bold";
+    color: #222222;
+    margin-top: 5px; }
   .header .slide-item {
     background: url(../images/banner.jpg) no-repeat center center;
     height: 350px;
@@ -148,11 +156,15 @@ i {
     padding-top: 15px;
     padding-bottom: 15px; }
     .header .navbar .navbar-brand {
-      padding: 10px 15px; }
+      padding: 10px 15px;
+      padding-top: 0; }
       .header .navbar .navbar-brand .site-title {
-        font-size: 30px;
+        font-size: 15px;
         font-family: "Raleway-Black";
-        color: #222222; }
+        color: #222222;
+        margin-left: 30px; }
+      .header .navbar .navbar-brand li span {
+        vertical-align: sub; }
     .header .navbar .nav-right-custom li {
       margin-left: 30px; }
       .header .navbar .nav-right-custom li a {
@@ -243,7 +255,8 @@ footer {
   border: 1px solid #e1e1e1;
   border-top: 2px solid #c2c7d1;
   text-align: center;
-  padding-bottom: 40px; }
+  padding-bottom: 40px;
+  background: #ffffff; }
   .sidebar-right .make-appointment {
     text-align: center;
     margin-top: 35px; }
@@ -258,7 +271,6 @@ footer {
       font-family: "Raleway-Bold";
       margin: 15px 0 10px; }
     .sidebar-right .make-appointment header p {
-      color: #909090;
       margin-bottom: 15px; }
     .sidebar-right .make-appointment header .btn-make-appointment {
       text-transform: uppercase;
@@ -285,7 +297,8 @@ footer {
   .content .content-dt {
     border: 1px solid #e1e1e1;
     padding: 30px;
-    border-radius: 3px; }
+    border-radius: 3px;
+    background-color: #ffffff; }
   .content .ct-detail h3 {
     font-family: "Raleway-Bold";
     font-size: 20px;

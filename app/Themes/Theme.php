@@ -161,22 +161,21 @@ class Theme
 
     public function install($name)
     {
-
-
         $path = app_path('Themes/upload') . "/" . $name . ".zip";
         if ($this->checkFileExist($path)):
             Helper::extract(app_path('Themes/tmp'), $path);
             $file = $this->checkFileConfig($name, false);
             $themeName = $file['name'];
+            $machineName = uniqid();//str_slug($name, '_') . '_' . uniqid();
             $countTheme = Themes::where('name', $themeName)->count();
             if ($countTheme > 0) {
                 throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
             }
 
-            $this->insertToDB($themeName, false);
+            $this->insertToDB($machineName, false);
             if (!$this->error()) {
-                $copyPath = $this->setCopyPath($themeName);
-                $this->createThemeDir($themeName);
+                $copyPath = $this->setCopyPath($machineName);
+                $this->createThemeDir($machineName);
                 foreach ($this->defaulTmpPath as $key => $value) {
                     File::copyDirectory($value, $copyPath[$key]);
                 }
@@ -195,10 +194,14 @@ class Theme
         endif;
     }
 
-    public function uninstall($name)
+    public function uninstall($machineName)
     {
-        $copyPath = $this->setCopyPath($name);
-        $file = app_path('Themes/upload') . "/" . $name . ".zip";
+        $theme = Themes::where('machine_name', $machineName)->first();
+        if (empty($theme)) {
+            return false;
+        }
+        $copyPath = $this->setCopyPath($machineName);
+        $file = app_path('Themes/upload') . "/" . $machineName . ".zip";
         foreach ($copyPath as $key => $value) {
             if (File::isDirectory($value)) {
                 File::deleteDirectory($value);
@@ -207,7 +210,9 @@ class Theme
         if (File::exists($file)) {
             File::delete($file);
         }
-        $this->deleteFromDB($name);
+        $this->deleteFromDB($machineName);
+
+        return true;
     }
 
     public function setCompress($name)
@@ -273,19 +278,20 @@ class Theme
         return $path['theme'] . "/config.php";
     }
 
-    public function insertToDB($name, $default = true)
+    public function insertToDB($machineName, $default = true)
     {
-        $pathFile = $this->setPathConfig($name, $default);
+        $pathFile = $this->setPathConfig($machineName, $default);
         if ($this->checkFileExist($pathFile)) {
             $file = include $pathFile;
-            $this->deleteFromDB($name);
+            $this->deleteFromDB($machineName);
             $theme = new Themes();
             $theme->name = $file['name'];
+            $theme->machine_name = $machineName;
             $theme->version = $file['version'];
             $theme->author = $file['author'];
             $theme->author_url = $file['author_url'];
             $theme->description = $file['description'];
-            $theme->image_preview = $file['image_preview'];
+            $theme->image_preview = asset("themes/{$machineName}/images/{$file['image_preview']}");
             $theme->theme_type_id = $file['theme_type_id'];
             $theme->is_publish = 1;
             $theme->save();
@@ -316,9 +322,9 @@ class Theme
         }
     }
 
-    private function deleteFromDB($name)
+    private function deleteFromDB($machineName)
     {
-        Themes::where("name", $name)->delete();
+        Themes::where("machine_name", $machineName)->delete();
     }
 
     private function setDataTheme()

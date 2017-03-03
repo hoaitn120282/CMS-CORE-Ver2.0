@@ -15,6 +15,13 @@
 		}
 	}
 
+	.sologan{
+		font-size: $sologan-font-size;
+		font-family: $sologan-font-family;
+		color: $sologan-color;
+		margin-top: 5px;
+	}
+
 	.slide-item{
 		background: url(../images/banner.jpg) no-repeat center center;
 		height: 350px;
@@ -28,10 +35,18 @@
 
 		& .navbar-brand{
 			padding: 10px 15px;
+			padding-top: 0;
 			.site-title{
 				font-size: $site-title-size;
 				font-family: $site-title-font-family;
 				color: $site-title-color;
+				margin-left: 30px;
+			}
+
+			li{
+				span{
+					vertical-align: sub;
+				}
 			}
 		}
 

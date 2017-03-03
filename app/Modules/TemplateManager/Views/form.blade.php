@@ -67,7 +67,7 @@ $isEdit = empty($isEdit) ? false : true;
                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Publish
                                 </button>
 
-                                @include('TemplateManager::xform.popup_save', ['themeId' => $node->id, 'themeName' => $node->name])
+                                @include('TemplateManager::xform.popup_save', ['themeId' => $node->id, 'themeType' => (1 == $node->theme_type_id) ? 'simple':'medium'])
                             @endif
                             <div class="clearfix"></div>
                         </div>

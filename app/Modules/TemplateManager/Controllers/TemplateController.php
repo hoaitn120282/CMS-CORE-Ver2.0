@@ -67,7 +67,7 @@ class TemplateController extends Controller
      */
     public function install()
     {
-        $nodes = Themes::orderBy('status', 'desc')->where('parent_id', 0)->paginate();
+        $nodes = Themes::where('theme_type_id', '<>', 3)->orderBy('status', 'desc')->where('parent_id', 0)->paginate();
         return view('TemplateManager::install', ['nodes' => $nodes]);
     }
 
@@ -81,7 +81,7 @@ class TemplateController extends Controller
     {
         try {
             if (!$request->hasFile('theme_zip')) {
-                throw new \Exception('Theme not exists.');
+                throw new \Exception('Please select a theme to install.');
             }
 
             $themeZip = $request->file('theme_zip');
@@ -117,6 +117,8 @@ class TemplateController extends Controller
                 'success' => false,
                 'message' => is_array($messages) ? $messages : array($messages)
             ]);
+
+            return redirect(Admin::route('contentManager.theme.install'));
         }
 
         return redirect(Admin::route('templateManager.index'));
@@ -141,12 +143,12 @@ class TemplateController extends Controller
             if (empty($oldTemp)) {
                 throw new \Exception('This template Id doesn\'t exist.');
             }
-            $input['name'] = $oldTemp['name'] . '_' . $input['name'];
+            $themeType = (1 == $oldTemp['theme_type_id']) ? 'simple' : 'medium';
+            $input['name'] = $themeType . '_' . $input['name'];
             if (Template::where('name', $input['name'])->count() > 0) {
                 throw new \Exception("The name {$input['name']} has already existed.");
             }
             $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
-            $input['status'] = 0;
             $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
             $input = array_merge($tempData->toArray(), $input);
             $newTemp = $this->storeData($input, $oldTemp);
@@ -273,15 +275,15 @@ class TemplateController extends Controller
                 throw new \Exception('This template Id doesn\'t exist.');
             }
 
-            $folder = empty($template->parent) ? $template->name : $template->parent->name;
+            $folder = empty($template->parent) ? $template->machine_name :$template->parent->machine_name;
 
             $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
             if (File::exists($path_file)) {
-                $css_default_name = "{$template->id}.css";
+                $css_default_name = "{$template->machine_name}.css";
                 $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
                 $css_path = "themes/{$folder}/css/{$css_name}";
 
-                return view("themes.{$folder}.preview", compact('css_path'));
+                return view("themes.{$folder}.preview", compact('css_path', 'folder'));
             }
 
         } catch (\Exception $exception) {
@@ -317,6 +319,8 @@ class TemplateController extends Controller
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
         if (empty($id)) {
+            $primaryInput['machine_name'] = uniqid();
+            $primaryInput['status'] = 0;
             $template = Template::create($primaryInput);
         } else {
             $template = Template::find($id);
@@ -483,8 +487,8 @@ class TemplateController extends Controller
             }
 
             $css = array();
-            $file = $template->id . '.css';
-            $folder = empty($template->parent) ? $template->name : $template->parent->name;
+            $file = $template->machine_name . '.css';
+            $folder = empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
             $path_theme = public_path("themes/{$folder}");
             $path_css = public_path("themes/{$folder}/css");
             $path_file = public_path("themes/{$folder}/css/{$file}");
@@ -510,6 +514,7 @@ class TemplateController extends Controller
                 ->first();
             if ($general) {
                 $css['custom'] = $general->getOption('customcss');
+                $css['general_background_image'] = $general->getOption('background_image');
             }
 
             $string_sass = View::make("themes.{$folder}.typography", compact('css'))->render();
@@ -551,7 +556,8 @@ class TemplateController extends Controller
                 throw new \Exception('It\'s not allowed to delete installed theme.');
             }
             $themeName = $template->name;
-            Theme::uninstall($themeName);
+            $machineName = $template->machine_name;
+            Theme::uninstall($machineName);
 
             if (Theme::error()) {
                 $errors = implode(Theme::getErrors(), ", ");

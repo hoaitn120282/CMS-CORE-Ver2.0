@@ -62,7 +62,17 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"><span class="site-title">Simple Site Title</span></a>
+                        <ul class="navbar-brand list-unstyled" >
+                            <li>
+                                <a href="index.html">
+                                    <img class="logo" src="images/logo.png" alt="">
+                                    <span class="site-title">Simple Site Title</span>
+                                </a>
+                            </li>
+                            <li class="sologan">
+                                <p>Sed ut perspiciatis unde omnis iste natus lorem ipsu</p>
+                            </li>
+                        </ul>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling --> 

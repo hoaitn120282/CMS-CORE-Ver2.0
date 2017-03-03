@@ -10,7 +10,7 @@
                 <div class="form-group">
                     <label for="theme_name">Name</label>
                     <div class="wrap-input">
-                        {{ $themeName."_" }}
+                        {{ $themeType."_" }}
                         <input class="form-control" id="theme_name" name="name">
                     </div>
                     <p class="help-text">Only text, number and dash are allowed to include in template name</p>

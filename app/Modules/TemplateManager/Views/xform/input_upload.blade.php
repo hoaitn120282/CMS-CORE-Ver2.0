@@ -68,7 +68,7 @@ $inputSlug = str_slug($input, '_');
         height: 190px;
         width: 250px;
         background-size: contain;
-        border: 1px solid #f5f5f5;
+        background-repeat: no-repeat;
     }
 
 </style>
