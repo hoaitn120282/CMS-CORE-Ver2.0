@@ -149,9 +149,7 @@ class TemplateController extends Controller
                 throw new \Exception("The name {$input['name']} has already existed.");
             }
             $tempData = ($oldTemp instanceof Collection) ? clone $oldTemp : clone new Collection($oldTemp);
-            $input['status'] = 0;
             $input['parent_id'] = ($tempData['parent_id'] == 0) ? $tempData['id'] : $tempData['parent_id'];
-            $input['machine_name'] = $tempData['machine_name'];
             $input = array_merge($tempData->toArray(), $input);
             $newTemp = $this->storeData($input, $oldTemp);
             $resGen = $this->generateCssFile($newTemp);
@@ -281,7 +279,7 @@ class TemplateController extends Controller
 
             $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
             if (File::exists($path_file)) {
-                $css_default_name = "{$template->id}.css";
+                $css_default_name = "{$template->machine_name}.css";
                 $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
                 $css_path = "themes/{$folder}/css/{$css_name}";
 
@@ -321,6 +319,8 @@ class TemplateController extends Controller
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
         if (empty($id)) {
+            $input['machine_name'] = uniqid();
+            $input['status'] = 0;
             $template = Template::create($primaryInput);
         } else {
             $template = Template::find($id);
@@ -487,7 +487,7 @@ class TemplateController extends Controller
             }
 
             $css = array();
-            $file = $template->id . '.css';
+            $file = $template->machine_name . '.css';
             $folder = empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
             $path_theme = public_path("themes/{$folder}");
             $path_css = public_path("themes/{$folder}/css");
@@ -555,7 +555,8 @@ class TemplateController extends Controller
                 throw new \Exception('It\'s not allowed to delete installed theme.');
             }
             $themeName = $template->name;
-            Theme::uninstall($id);
+            $machineName = $template->machine_name;
+            Theme::uninstall($machineName);
 
             if (Theme::error()) {
                 $errors = implode(Theme::getErrors(), ", ");

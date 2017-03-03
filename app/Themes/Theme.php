@@ -166,7 +166,7 @@ class Theme
             Helper::extract(app_path('Themes/tmp'), $path);
             $file = $this->checkFileConfig($name, false);
             $themeName = $file['name'];
-            $machineName = str_slug($name, '_') . '_' . uniqid();
+            $machineName = uniqid();//str_slug($name, '_') . '_' . uniqid();
             $countTheme = Themes::where('name', $themeName)->count();
             if ($countTheme > 0) {
                 throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
@@ -293,7 +293,7 @@ class Theme
             $theme->author = $file['author'];
             $theme->author_url = $file['author_url'];
             $theme->description = $file['description'];
-            $theme->image_preview = $file['image_preview'];
+            $theme->image_preview = asset("themes/{$machineName}/images/{$file['image_preview']}");
             $theme->theme_type_id = $file['theme_type_id'];
             $theme->is_publish = 1;
             $theme->save();
@@ -324,9 +324,9 @@ class Theme
         }
     }
 
-    private function deleteFromDB($id)
+    private function deleteFromDB($machineName)
     {
-        Themes::where("id", $id)->delete();
+        Themes::where("machine_name", $machineName)->delete();
     }
 
     private function setDataTheme()
