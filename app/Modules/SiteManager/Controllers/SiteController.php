@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\LanguageManager\Models\Language;
 use App\Modules\SiteManager\Models\ClinicDatabase;
 use App\Modules\SiteManager\Models\ClinicHosting;
 use App\Modules\SiteManager\Models\ClinicInfo;
@@ -77,82 +78,92 @@ class SiteController extends Controller
      * @param : null
      * */
     public function addInfo(Request $request){
-        return view('SiteManager::create.step-2-add-info');
+        $languages = Language::get();
+
+        return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
     }
 
     public function createInfo(Request $request){
         $input = Input::all();
+        dd($input['default-language']);
 
-        $clinic = new Clinic();
-        $clinic->domain = $input['domain'];
-        $clinic->save();
+        $rules = array(
+            'site-name' => 'required',
+            'admin-name' => 'required',
+            'email-address' => 'required',
+            'address' => 'required',
+            'telephone' => 'required',
+            'domain' => 'required',
+            'host' => 'required',
+            'host-username' => 'required',
+            'host-password' => 'required',
+            'database-name' => 'required',
+            'default-language' =>'required',
+            'database-host' => 'required',
+            'database-password' => 'required',
+            'database-username' => 'required',
+        );
 
-        $clinicInfo = new ClinicInfo();
-        $clinicInfo->site_name = $input['site-name'];
-        $clinicInfo->email = $input['email-address'];
-        $clinicInfo->clinic()->associate($clinic);
-        $clinicInfo->save();
+        $messages = [
+            'site-name.required' => 'The Site Name field is required.',
+            'admin-name.required' => 'The Admin Name field is required.',
+            'email-address.required' => 'The Email Address field is required.',
+            'address.required' => 'The Address field is required.',
+            'telephone.required' => 'The Telephone field is required.',
+            'domain.required' => 'The Domain field is required.',
+            'host.required' => 'The Host field is required.',
+            'host-username.required' => 'The Host Username field is required.',
+            'host-password.required' => 'The Host Password field is required.',
+            'database-name.required' => 'The Database Name field is required.',
+            'database-host.required' => 'The Database Host field is required.',
+            'database-password.required' => 'The Database Password field is required.',
+            'database-username.required' => 'The Database Username field is required.',
+            'default-language.required' => 'required',
+        ];
 
-        $clinicDatabase = new ClinicDatabase();
-        $clinicDatabase->host = $input['database-host'];
-        $clinicDatabase->username = $input['database-username'];
-        $clinicDatabase->password = $input['database-password'];
-        $clinicDatabase->clinic()->associate($clinic);
-        $clinicDatabase->save();
+        $validator = Validator::make($input, $rules, $messages);
 
-        $clinicHosting = new ClinicHosting();
-        $clinicHosting->host = $input['host'];
-        $clinicHosting->username = $input['host-username'];
-        $clinicHosting->password = $input['host-password'];
-        $clinicHosting->clinic()->associate($clinic);
-        $clinicHosting->save();
+        if ($validator->fails())
+        {
+            return redirect('admin/site-manager/add-info')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $clinic = new Clinic();
+            $clinic->domain = $input['domain'];
+            $clinic->save();
 
-        $clinicLanguage = new ClinicLanguage();
+            $clinicInfo = new ClinicInfo();
+            $clinicInfo->site_name = $input['site-name'];
+            $clinicInfo->email = $input['email-address'];
+            $clinicInfo->username = $input['admin-name'];
+            $clinicInfo->telephone = $input['telephone'];
+            $clinicInfo->address = $input['address'];
+            $clinicInfo->clinic()->associate($clinic);
+            $clinicInfo->save();
 
-        $clinicTheme = new ClinicTheme();
+            $clinicDatabase = new ClinicDatabase();
+            $clinicDatabase->database_name = $input['database-name'];
+            $clinicDatabase->host = $input['database-host'];
+            $clinicDatabase->username = $input['database-username'];
+            $clinicDatabase->password = bcrypt($input['database-password']);
+            $clinicDatabase->clinic()->associate($clinic);
+            $clinicDatabase->save();
 
-//        $rules = array(
-//            'site-name' => 'required',
-//            'admin-name' => 'required',
-//            'email-address' => 'required',
-//            'address' => 'required',
-//            'telephone' => 'required',
-//            'domain' => 'required',
-//            'host' => 'required',
-//            'host-username' => 'required',
-//            'host-password' => 'required',
-//            'database-name' => 'required',
-//            'database-host' => 'required',
-//            'database-password' => 'required',
-//            'database-username' => 'required',
-//        );
-//
-//        $messages = [
-//            'site-name.required' => 'The Site Name field is required.',
-//            'admin-name.required' => 'The Admin Name field is required.',
-//            'email-address.required' => 'The Email Address field is required.',
-//            'address.required' => 'The Address field is required.',
-//            'telephone.required' => 'The Telephone field is required.',
-//            'domain.required' => 'The Domain field is required.',
-//            'host.required' => 'The Host field is required.',
-//            'host-username.required' => 'The Host Username field is required.',
-//            'host-password.required' => 'The Host Password field is required.',
-//            'database-name.required' => 'The Database Name field is required.',
-//            'database-host.required' => 'The Database Host field is required.',
-//            'database-password.required' => 'The Database Password field is required.',
-//            'database-username.required' => 'The Database Username field is required.',
-//        ];
-//
-//        $validator = Validator::make($input, $rules, $messages);
-//
-//        if ($validator->fails())
-//        {
-//            return redirect('admin/site-manager/add-info')
-//                ->withErrors($validator)
-//                ->withInput();
-//        } else {
-//            dd($input);
-//        }
+            $clinicHosting = new ClinicHosting();
+            $clinicHosting->host = $input['host'];
+            $clinicHosting->username = $input['host-username'];
+            $clinicHosting->password =bcrypt($input['host-password']);
+            $clinicHosting->clinic()->associate($clinic);
+            $clinicHosting->save();
+
+            $clinicLanguage = new ClinicLanguage();
+            $clinicLanguage->country_id = $input['default-language'];
+            $clinicLanguage->clinic()->associate($clinic);
+            $clinicLanguage->save();
+
+            $clinicTheme = new ClinicTheme();
+        }
 
     }
 

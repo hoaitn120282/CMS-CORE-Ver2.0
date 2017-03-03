@@ -18,6 +18,7 @@
 		font-family: $sologan-font-family;
 		color: $sologan-color;
 		margin-top: 5px;
+		vertical-align: middle; 
 	}
 
 	& .navbar{
@@ -32,15 +33,7 @@
 				font-size: $site-title-size;
 				font-family: $site-title-font-family;
 				color: $site-title-color;
-				margin-left: 30px;
 			}
-
-			li{
-				span{
-					vertical-align: sub;
-				}
-			}
-
 		}
 
 		& .nav-right-custom{
