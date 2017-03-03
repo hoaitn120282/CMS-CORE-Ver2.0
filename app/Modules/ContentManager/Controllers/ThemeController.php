@@ -139,7 +139,7 @@ class ThemeController extends Controller
         try {
             $theme = Themes::find($id);
             $themeName = $theme->name;
-            Theme::uninstall($themeName);
+            Theme::uninstall($id);
 
             if (Theme::error()) {
                 $errors = implode(Theme::getErrors(), ", ");
