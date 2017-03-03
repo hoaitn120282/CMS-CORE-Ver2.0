@@ -10,4 +10,8 @@ class ClinicHosting extends Model
     protected $primaryKey = 'clinic_hosting_id';
     public $timestamps = false;
     protected $fillable = array('clinic_id', 'host', 'port', 'username','password');
+
+    public function clinic() {
+        return $this->belongsTo('App\Modules\SiteManager\Models\Clinic','clinic_id');
+    }
 }

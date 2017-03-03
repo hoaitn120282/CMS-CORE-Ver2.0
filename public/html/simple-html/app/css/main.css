@@ -23,7 +23,8 @@ body {
   position: relative;
   background-image: url(../images/backgroudn.png);
   background-repeat: no-repeat;
-  background-position: left bottom; }
+  background-position: center bottom;
+  background-size: 100%; }
 
 p {
   margin: 0; }
@@ -146,7 +147,8 @@ i {
     font-size: 12px;
     font-family: "Raleway-Bold";
     color: #222222;
-    margin-top: 5px; }
+    margin-top: 5px;
+    vertical-align: middle; }
   .header .slide-item {
     background: url(../images/banner.jpg) no-repeat center center;
     height: 350px;
@@ -161,10 +163,7 @@ i {
       .header .navbar .navbar-brand .site-title {
         font-size: 15px;
         font-family: "Raleway-Black";
-        color: #222222;
-        margin-left: 30px; }
-      .header .navbar .navbar-brand li span {
-        vertical-align: sub; }
+        color: #222222; }
     .header .navbar .nav-right-custom li {
       margin-left: 30px; }
       .header .navbar .nav-right-custom li a {
@@ -310,7 +309,7 @@ footer {
 
 .content .content-contact {
   border: none;
-  padding: 0; }
+  padding: 15px; }
   .content .content-contact .ct-detail h3 {
     font-size: 30px;
     font-family: "Raleway-Black";

@@ -10,4 +10,8 @@ class ClinicLanguage extends Model
     protected $primaryKey = 'clinic_language_id';
     public $timestamps = false;
     protected $fillable = array('language_id', 'clinic_id');
+
+    public function clinic() {
+        return $this->belongsTo('App\Modules\SiteManager\Models\Clinic','clinic_id');
+    }
 }
