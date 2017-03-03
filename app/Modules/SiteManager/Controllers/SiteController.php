@@ -42,12 +42,6 @@ class SiteController extends Controller
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
-<<<<<<< HEAD
-=======
-       
-        return view('SiteManager::site-detail', compact('clinic'));
-    }
->>>>>>> development
 
         return view('SiteManager::site-detail', compact('clinic'));
     }

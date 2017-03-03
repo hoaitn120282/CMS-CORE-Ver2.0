@@ -38,6 +38,8 @@ section{
 }
 
 .our-doctors {
+	background: #ffffff;
+
 	& .article-title{
 		margin-bottom: 50px;
 	}
@@ -80,9 +82,7 @@ section{
 }
 
 .news {
-	background-color: #f6f6f6;
 	padding-bottom: 50px;
-
 	& .btn-make-appointment{
 		margin-top: 40px;
 	}
@@ -179,11 +179,14 @@ section{
 }
 
 .tips {
+	position: relative;
+
 	& .tip-detail {
 		border-radius: 5px;
 		text-align: center;
 		padding: 20px;
 		border: 1px solid #ccc;
+		background-color: #ffffff;
 
 		& .tip-content{
 			& h3{
