@@ -194,14 +194,12 @@ class Theme
         endif;
     }
 
-    public function uninstall($id)
+    public function uninstall($machineName)
     {
-        $theme = Themes::find($id);
+        $theme = Themes::where('machine_name', $machineName)->first();
         if (empty($theme)) {
             return false;
         }
-        $machineName = $theme->machine_name;
-
         $copyPath = $this->setCopyPath($machineName);
         $file = app_path('Themes/upload') . "/" . $machineName . ".zip";
         foreach ($copyPath as $key => $value) {
@@ -212,7 +210,7 @@ class Theme
         if (File::exists($file)) {
             File::delete($file);
         }
-        $this->deleteFromDB($id);
+        $this->deleteFromDB($machineName);
 
         return true;
     }

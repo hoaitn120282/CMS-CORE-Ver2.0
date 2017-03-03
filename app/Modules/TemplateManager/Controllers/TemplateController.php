@@ -275,7 +275,7 @@ class TemplateController extends Controller
                 throw new \Exception('This template Id doesn\'t exist.');
             }
 
-            $folder = $template->machine_name;
+            $folder = empty($template->parent) ? $template->machine_name :$template->parent->machine_name;
 
             $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
             if (File::exists($path_file)) {
@@ -319,8 +319,8 @@ class TemplateController extends Controller
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
         if (empty($id)) {
-            $input['machine_name'] = uniqid();
-            $input['status'] = 0;
+            $primaryInput['machine_name'] = uniqid();
+            $primaryInput['status'] = 0;
             $template = Template::create($primaryInput);
         } else {
             $template = Template::find($id);

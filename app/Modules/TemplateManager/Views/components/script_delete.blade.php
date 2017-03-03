@@ -20,7 +20,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                             location.reload();
+                              location.reload();
                         });
             });
             return false;
