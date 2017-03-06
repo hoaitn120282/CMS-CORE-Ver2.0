@@ -500,9 +500,9 @@ class TemplateController extends Controller
             if ($typography) {
                 $typo_vals = $typography->getValue();
                 foreach ($typo_vals as $typo) {
-                    if (!empty($typo['items'])) {
+                    if (isset($typo['items']) && is_array($typo['items'])) {
                         foreach ($typo['items'] as $item) {
-                            if (!empty($item['value'])) {
+                            if (isset($item['value'])) {
                                 $css[str_slug($typo['name'] . "_" . $item['name'], '_')] = $item['value'];
                             }
                         }

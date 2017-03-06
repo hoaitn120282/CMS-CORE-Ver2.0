@@ -157,7 +157,7 @@ $isEdit = empty($isEdit) ? false : true;
         position: fixed;
         width: 100%;
         bottom: 36px;
-        z-index: 9;
+        z-index: 9999;
         left: 0;
     }
 
