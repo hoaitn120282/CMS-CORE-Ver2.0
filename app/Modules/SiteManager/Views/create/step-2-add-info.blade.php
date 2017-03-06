@@ -29,7 +29,7 @@
                                     <label  class="col-sm-4 control-label">Default Language</label>
                                     <div class="col-sm-8">
                                       <select name="default-language" class="form-control" id="">
-                                        <option value="0">Select language</option>
+                                        <option value="">Select language</option>
                                         @foreach($languages as $language)
                                               <option value="{{ $language->language_id }}">{{ $language->name }}</option>
                                         @endforeach
@@ -70,7 +70,7 @@
                                   <div class="form-group">
                                     <label for="telephone" class="col-sm-3 control-label">Telephone</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
+                                        <input type="number" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
                                         @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
                                     </div>
                                   </div>
