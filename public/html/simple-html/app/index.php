@@ -62,15 +62,18 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <ul class="navbar-brand list-unstyled" >
+                        <ul class="navbar-brand list-inline" >
                             <li>
                                 <a href="index.html">
                                     <img class="logo" src="images/logo.png" alt="">
-                                    <span class="site-title">Simple Site Title</span>
+                                    
                                 </a>
                             </li>
                             <li class="sologan">
-                                <p>Sed ut perspiciatis unde omnis iste natus lorem ipsu</p>
+                                <a href="index.html">
+                                    <p class="site-title">Simple Site Title</p>
+                                    <p>Sed ut perspiciatis</p>
+                                </a>
                             </li>
                         </ul>
                     </div>

@@ -3,22 +3,39 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\LanguageManager\Models\Language;
+use App\Modules\SiteManager\Models\ClinicDatabase;
+use App\Modules\SiteManager\Models\ClinicHosting;
+use App\Modules\SiteManager\Models\ClinicInfo;
+use App\Modules\SiteManager\Models\Hosting;
+use App\Modules\SiteManager\Models\ClinicLanguage;
+use App\Modules\SiteManager\Models\ClinicTheme;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
+use Flash;
 use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
 use App\Modules\ContentManager\Models\Themes;
 use App\Modules\SiteManager\Models\Clinic;
+use App\Repositories\ClinicRepository;
 
 use File;
 use View;
 
 class SiteController extends Controller
 {
+
+    /** @var  ClinicRepository */
+    private $clinicRepository;
+
+    public function __construct(ClinicRepository $clinicRepo) {
+        $this->clinicRepository = $clinicRepo;
+    }
+
     /**
      * Show list of site library.
      *
@@ -61,11 +78,14 @@ class SiteController extends Controller
      * @param : null
      * */
     public function addInfo(Request $request){
-        return view('SiteManager::create.step-2-add-info');
+        $languages = Language::get();
+
+        return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
     }
 
     public function createInfo(Request $request){
         $input = Input::all();
+        dd($input['default-language']);
 
         $rules = array(
             'site-name' => 'required',
@@ -78,6 +98,7 @@ class SiteController extends Controller
             'host-username' => 'required',
             'host-password' => 'required',
             'database-name' => 'required',
+            'default-language' =>'required',
             'database-host' => 'required',
             'database-password' => 'required',
             'database-username' => 'required',
@@ -97,6 +118,7 @@ class SiteController extends Controller
             'database-host.required' => 'The Database Host field is required.',
             'database-password.required' => 'The Database Password field is required.',
             'database-username.required' => 'The Database Username field is required.',
+            'default-language.required' => 'required',
         ];
 
         $validator = Validator::make($input, $rules, $messages);
@@ -107,7 +129,40 @@ class SiteController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            dd($input);
+            $clinic = new Clinic();
+            $clinic->domain = $input['domain'];
+            $clinic->save();
+
+            $clinicInfo = new ClinicInfo();
+            $clinicInfo->site_name = $input['site-name'];
+            $clinicInfo->email = $input['email-address'];
+            $clinicInfo->username = $input['admin-name'];
+            $clinicInfo->telephone = $input['telephone'];
+            $clinicInfo->address = $input['address'];
+            $clinicInfo->clinic()->associate($clinic);
+            $clinicInfo->save();
+
+            $clinicDatabase = new ClinicDatabase();
+            $clinicDatabase->database_name = $input['database-name'];
+            $clinicDatabase->host = $input['database-host'];
+            $clinicDatabase->username = $input['database-username'];
+            $clinicDatabase->password = bcrypt($input['database-password']);
+            $clinicDatabase->clinic()->associate($clinic);
+            $clinicDatabase->save();
+
+            $clinicHosting = new ClinicHosting();
+            $clinicHosting->host = $input['host'];
+            $clinicHosting->username = $input['host-username'];
+            $clinicHosting->password =bcrypt($input['host-password']);
+            $clinicHosting->clinic()->associate($clinic);
+            $clinicHosting->save();
+
+            $clinicLanguage = new ClinicLanguage();
+            $clinicLanguage->country_id = $input['default-language'];
+            $clinicLanguage->clinic()->associate($clinic);
+            $clinicLanguage->save();
+
+            $clinicTheme = new ClinicTheme();
         }
 
     }

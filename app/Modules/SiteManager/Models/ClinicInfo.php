@@ -11,4 +11,9 @@ class ClinicInfo extends Model
     public $timestamps = false;
     protected $fillable = array('clinic_id', 'site_name', 'site_slogan', 'username', 'email', 'password', 'description');
 
+    public function clinic() {
+        return $this->belongsTo('App\Modules\SiteManager\Models\Clinic','clinic_id');
+    }
+
+
 }

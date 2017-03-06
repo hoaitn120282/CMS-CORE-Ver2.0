@@ -123,6 +123,7 @@
 @endpush
 @push('scripts')
 <script src="{{ asset('assets/colorpicker/js/colorpicker.js') }}"></script>
+<script src="{{ asset('assets/dropzone/dropzone.min.js') }}"></script>
 <script>
     $('.color-picker').ColorPicker({
         onSubmit: function (hsb, hex, rgb, el) {

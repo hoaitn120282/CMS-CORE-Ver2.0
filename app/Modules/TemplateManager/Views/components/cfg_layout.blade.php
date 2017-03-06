@@ -23,7 +23,11 @@ if (!empty($values)) {
     @forelse($options as $option => $optionVal)
         <li>
             <div class="layout-thumbnail">
-                <img src='{{ url("/themes/$node->machine_name/images/$option.png") }}'>
+                @if(empty($node->parent))
+                    <img src='{{ url("/themes/$node->machine_name/images/$option.png") }}'>
+                @else
+                    <img src='{{ url("/themes/".$node->parent->machine_name."/images/$option.png") }}'>
+                @endif
                 <div class="text-center">
                     <label for="{{ $option }}">
                         <input type="checkbox"

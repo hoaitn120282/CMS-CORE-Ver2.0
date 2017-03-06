@@ -276,14 +276,15 @@ class TemplateController extends Controller
             }
 
             $folder = empty($template->parent) ? $template->machine_name :$template->parent->machine_name;
+            $page = $request->get('page', 'index');
+            $path_file = resource_path("views/themes/{$folder}/previews/{$page}.blade.php");
 
-            $path_file = resource_path("views/themes/{$folder}/preview.blade.php");
             if (File::exists($path_file)) {
                 $css_default_name = "{$template->machine_name}.css";
                 $css_name = File::exists(public_path("themes/{$folder}/css/{$css_default_name}")) ? "{$css_default_name}" : 'main.css';
                 $css_path = "themes/{$folder}/css/{$css_name}";
 
-                return view("themes.{$folder}.preview", compact('css_path', 'folder'));
+                return view("themes.{$folder}.previews.{$page}", compact('css_path', 'folder'));
             }
 
         } catch (\Exception $exception) {
@@ -499,9 +500,9 @@ class TemplateController extends Controller
             if ($typography) {
                 $typo_vals = $typography->getValue();
                 foreach ($typo_vals as $typo) {
-                    if (!empty($typo['items'])) {
+                    if (isset($typo['items']) && is_array($typo['items'])) {
                         foreach ($typo['items'] as $item) {
-                            if (!empty($item['value'])) {
+                            if (isset($item['value'])) {
                                 $css[str_slug($typo['name'] . "_" . $item['name'], '_')] = $item['value'];
                             }
                         }

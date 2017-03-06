@@ -1,7 +1,5 @@
 <?php
-if (empty($group)) {
-    $group = '';
-}
+$group = isset($group) ? $group : null;
 ?>
 <div class="frm-ctrl-wrap">
     <label for="{{ $group.'['.$data['name'].']' }}">{{ $data['label'] or $data['name'] }}</label>
