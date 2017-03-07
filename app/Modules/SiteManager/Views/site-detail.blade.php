@@ -12,7 +12,7 @@
 	                <h2 class="text-center">Account Information</h2>
 	                <ul class="list-unstyled site-name-language">
 	                	<li><span>Site Name </span>{{ $clinic->info->site_name }}</li>
-	                	<li><span>Default Language </span>{{ $clinic->clinic_id }}</li>
+	                	<li><span>Default Language </span> {{ $clinic->language[0]->country_id }}</li>
 	                </ul>
 	                <div class="row">
 	                	<div class="col-sm-6">
@@ -21,8 +21,8 @@
 	                			<ul class="list-unstyled">
 	                				<li><span>Admin Name </span>{{ $clinic->info->username }}</li>
 	                				<li><span>Email address </span>{{ $clinic->info->email }}</li>
-	                				<li><span>Address </span>{{ $clinic->clinic_id }}</li>
-	                				<li><span>Telephone </span>{{ $clinic->clinic_id }}</li>
+	                				<li><span>Address </span>{{ $clinic->info->address }}</li>
+	                				<li><span>Telephone </span>{{ $clinic->info->telephone }}</li>
 	                			</ul>
 	                		</div>
 	                	</div>
@@ -45,7 +45,7 @@
 										<ul class="list-unstyled">
 	                						<li><span>Name</span> {{ $clinic->database->database_name }}</li>
 	                						<li><span>Host</span> {{ $clinic->database->host }}</li>
-	                						<li><span>UserName</span> {{ $clinic->database->name }}</li>
+	                						<li><span>UserName</span> {{ $clinic->database->username }}</li>
 	                						<li><span>Password</span> {{ $clinic->database->password }}</li>
 	                					</ul>
 	                				</li>
@@ -61,7 +61,7 @@
 	                				@foreach($clinic->theme as $theme)
 										<li>
 											<span>Teamplate {{ $theme->clinic_theme_id }}</span>
-											<a class="btn btn-success" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}"">
+											<a class="btn btn-success" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
 					                            <i class="fa fa-eye"></i>
 					                        </a>
 										</li>
@@ -73,9 +73,11 @@
 	                </div>
                 </div>
                 <div class="toolbar-actions text-center">
-                    <button type="submit" name="update" class="btn btn-success">
-                        <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                    </button>
+					<a href="{{ Admin::route('siteManager.edit-info',['id'=>$clinic->clinic_id]) }}">
+						<button type="submit" name="update" class="btn btn-success">
+							<i class="fa fa-pencil" aria-hidden="true"></i> Edit
+						</button>
+					</a>
                     <button type="submit" name="update" class="btn btn-success">
                         <i class="fa fa-download" aria-hidden="true"></i> Download
                     </button>
