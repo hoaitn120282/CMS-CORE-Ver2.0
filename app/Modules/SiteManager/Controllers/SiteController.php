@@ -67,10 +67,23 @@ class SiteController extends Controller
      * @param : null
      * Save selected template to session
      * */
-    public function selectTemplate(){
-        $theme_type = 1;
-        $templates = Template::where('is_publish',1)->paginate(6);
-        return view('SiteManager::create.step-1-select-template', ['templates'=> $templates, 'theme_type' => $theme_type]);
+    public function selectTemplate($theme_type = 0){
+
+        $query = Input::get("q");
+        if ($theme_type == 0) {
+            $templates = Template::where('theme_type_id', '<>', 3)->where('name', 'like', '%'.$query.'%')->paginate(6);
+        } else {
+            $templates = Template::where('theme_type_id', '<>', 3)->where('name', 'like', '%'.$query.'%')->where('theme_type_id', $theme_type)->paginate(6);
+        }
+        $selected =  \Session::get('templates',[]);
+        return view('SiteManager::create.step-1-select-template',
+            [
+                'templates'=> $templates,
+                'theme_type' => $theme_type,
+                'selected' =>$selected,
+                'query' => $query
+            ]
+        );
     }
 
     /*
@@ -177,7 +190,8 @@ class SiteController extends Controller
         if (($key = array_search($id, $templates)) !== false) {
             unset($templates[$key]);
         }else{
-            array_push($templates,$id);
+//            array_push($templates,$id);
+            $templates[] = $id;
         }
 
         \Session::set('templates', $templates);

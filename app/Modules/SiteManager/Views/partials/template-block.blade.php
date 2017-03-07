@@ -30,7 +30,13 @@
                 </a>
             </div>
             <div class="checkbox-action">
-                <input type="checkbox" id="template-{{$node->id}}" value="{{$node->id}}" name="vehicle" class="regular-checkbox big-checkbox checkbox-input">
+                <input type="checkbox" id="template-{{$node->id}}" value="{{$node->id}}"
+                       <?php
+                            if(in_array($node->id, $selected)) {
+                              echo 'checked';
+                            }
+                       ?>
+                       name="vehicle" class="regular-checkbox big-checkbox checkbox-input">
                 <label for="template-{{$node->id}}"></label>
             </div>
         </div>

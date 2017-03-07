@@ -161,7 +161,7 @@
                         <div class="col-md-12">
                             <div class="pull-right">
                                 <a href="{{ Admin::route('siteManager.select-template') }}">
-                                    <button class="btn btn-success">Back</button>
+                                    <span class="btn btn-success">Back</span>
                                 </a>
                                  <button type="submit" class="btn btn-success">Create</button>
                                 <a href="{{ Admin::route('siteManager.add-info') }}">

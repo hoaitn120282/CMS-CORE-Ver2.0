@@ -3,6 +3,12 @@ $isEdit = empty($isEdit) ? false : true;
 ?>
 @extends(Admin::theme())
 
+@section('back')
+    <a href="{{ \URL::previous() }}">
+        <strong> <i class="fa fa-arrow-left"></i> &nbsp; Back</strong>
+    </a>
+@endsection
+
 @section('content')
     <div class="create-template">
         <div class="row">

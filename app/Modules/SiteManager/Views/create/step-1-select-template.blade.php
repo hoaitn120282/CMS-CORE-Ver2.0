@@ -17,18 +17,30 @@
                             <div class="box-filter col-md-6">
                                 <select name="theme_tyoe" id="themeType" class="form-control"
                                         onchange="window.location = this.options[this.selectedIndex].value;">
-                                    <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template</option>
-                                    <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
-                                        Simple Template
-                                    </option>
-                                    <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
-                                        Medium Template
-                                    </option>
+                                    @if(!$query)
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>0])}}">All Template</option>
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
+                                            Simple Template
+                                        </option>
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
+                                            Medium Template
+                                        </option>
+                                    @else
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>0]).'/?q='.$query}}">All Template</option>
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>1]).'/?q='.$query}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
+                                            Simple Template
+                                        </option>
+                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>2]).'/?q='.$query}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
+                                            Medium Template
+                                        </option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="box-search col-md-6">
-                                <input type="text" placeholder="Search by name" id="searchContent">
-                                <button class="btn btn-success btn-search"> <i class="fa  fa-search"></i> Search</button>
+                                <form class="form-horizontal"  method="get">
+                                    <input type="text" name="q" placeholder="Search by name" value="{{$query}}" id="searchContent">
+                                    <button type="submit" class="btn btn-success btn-search"> <i class="fa  fa-search"></i> Search</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -36,10 +48,12 @@
                 {{--end.top-content--}}
                 <div class="main-content">
                      <div class="row">
-                        @if(!empty($templates))
+                        @if(count($templates) > 0)
                             @foreach($templates as $template)
                                 @include('SiteManager::partials.template-block',['node'=> $template])
                             @endforeach
+                        @else
+                            @include('SiteManager::partials.no-result',['message'=>'No result is found!'])
                         @endif
                      </div>
                     {{ $templates->links() }}
