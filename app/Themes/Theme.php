@@ -240,7 +240,7 @@ class Theme
         }
     }
 
-    public function option($key, $name, $defaulValue = "")
+    public function option($key, $name, $defaultValue = "")
     {
         $tmp = ThemeMeta::where('theme_id', $this->activeID)->where('meta_group', 'options')->where('meta_key', $key)->first();
         $meta = unserialize($tmp->meta_value);
@@ -325,11 +325,6 @@ class Theme
     private function deleteFromDB($machineName)
     {
         Themes::where("machine_name", $machineName)->delete();
-    }
-
-    private function setDataTheme()
-    {
-
     }
 
     /**

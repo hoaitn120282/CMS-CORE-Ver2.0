@@ -12,6 +12,7 @@ class Themes extends Model
      * @var string
      */
     protected $table = 'themes';
+
     public $timestamps = false;
 
     /**

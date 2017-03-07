@@ -8,7 +8,14 @@ $inputSlug = str_slug($input, '_');
         <i class="fa fa-upload"></i> Choose file...
     </button>
     <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"
-         style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'></div>
+         style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'>
+        <div class="mask">
+            <a href="#" class="del-img"
+               onclick="deleteImage('{{$inputSlug}}');return false;">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
     <input type="hidden" id="{{$inputSlug}}" class="form-control"
            name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
            placeholder="Choose file...">
@@ -69,6 +76,45 @@ $inputSlug = str_slug($input, '_');
         width: 250px;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+
+    .img-res:hover .mask {
+        display: block;
+    }
+
+    .mask {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: none;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .mask:after {
+        background-color: #000000;
+        opacity: 0.5;
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .mask .del-img {
+        position: absolute;
+        color: #ffffff;
+        z-index: 2;
+        font-size: 28px;
+        top: 50%;
+        transform: translateX(-50%);
     }
 
 </style>
@@ -142,6 +188,14 @@ $inputSlug = str_slug($input, '_');
             }).fail(function () {
                 alert('Posts could not be loaded.');
             });
+        }
+    }
+
+    if (typeof deleteImage !== "function") {
+        function deleteImage(input) {
+            $('#btn-upload-' + input + '-preview').css('background-image', 'url()');
+            $('#btn-upload-' + input + '-preview').css('display', 'none');
+            $('#' + input).val("");
         }
     }
 

@@ -27,26 +27,29 @@ class ThemeController extends Controller
 
     public function update(Request $request)
     {
-        $reqMeta = $request->meta;
-//        dd($reqMeta);
-        $id = $request->idtheme;
-        $beforeMeta = ThemeMeta::where('theme_id', $id)->where('meta_group', 'options')->get();
-        foreach ($beforeMeta as $value) {
-            $meta = unserialize($value->meta_value);
-//            dd($meta);
-            /*$newMeta = [];
-            foreach ($meta as $val) {
-                $val['value'] = $reqMeta[$value->meta_key][$val['name']]['value'];
-                $newMeta[] = $val;
-            }*/
+        try {
+            $id = $request->idtheme;
+            $reqMeta = $request->meta;
+            $theme = Themes::find($id);
+            // Get before meta data of theme
+            $beforeMeta = ThemeMeta::metaGroup('options')->get();
 
-            $newMeta = Helper::recursiveMeta($meta, $reqMeta[$value->meta_key]);
-//            print_r('<pre>');
-//         var_dump($newMeta);
-            ThemeMeta::where('theme_id', $id)->where('meta_key', $value->meta_key)->update(['meta_value' => serialize($newMeta)]);
+            // Update meta data of theme if it exists in DB
+            foreach ($beforeMeta as $value) {
+                $meta = unserialize($value->meta_value);
+                if (isset($reqMeta[$value->meta_key])) {
+                    $newMeta = Helper::recursiveMeta($meta, $reqMeta[$value->meta_key]);
+                    $theme->meta()
+                        ->where('meta_key', $value->meta_key)
+                        ->update(['meta_key' => $value->meta_key, 'meta_value' => serialize($newMeta)]);
+                }
+            }
+
+        } catch (\Exception $exception) {
+
         }
-//        die();
-        return redirect(Admin::StrURL('contentManager/theme/' . $id))->with('success', 'Theme Option update success');;
+
+        return redirect(Admin::StrURL('contentManager/theme/' . $id))->with('success', 'Theme Option update success');
     }
 
     public function active($id, Request $request)
