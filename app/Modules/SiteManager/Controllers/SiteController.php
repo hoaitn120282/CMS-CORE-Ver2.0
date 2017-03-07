@@ -62,6 +62,23 @@ class SiteController extends Controller
 
         return view('SiteManager::site-detail', compact('clinic'));
     }
+
+    /**
+     * Show site edit.
+     *
+     * @return Response
+     */
+    public function editInfo($id)
+    {
+        $clinic = Clinic::find($id);
+        $languages = Language::get();
+        if (empty($clinic)) {
+            return redirect(Admin::route('siteManager.index'));
+        }
+
+        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages]);
+    }
+
     /*
      * Add new clinic site - step 1 : select template
      * @param : null
@@ -96,9 +113,9 @@ class SiteController extends Controller
         return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
     }
 
+
     public function createInfo(Request $request){
         $input = Input::all();
-        dd($input['default-language']);
 
         $rules = array(
             'site-name' => 'required',
@@ -131,7 +148,7 @@ class SiteController extends Controller
             'database-host.required' => 'The Database Host field is required.',
             'database-password.required' => 'The Database Password field is required.',
             'database-username.required' => 'The Database Username field is required.',
-            'default-language.required' => 'required',
+            'default-language.required' => 'The Language field is required.',
         ];
 
         $validator = Validator::make($input, $rules, $messages);
@@ -176,8 +193,46 @@ class SiteController extends Controller
             $clinicLanguage->save();
 
             $clinicTheme = new ClinicTheme();
+
+            return redirect('admin/site-manager');
         }
 
+    }
+
+    //Update clinic info
+    public function updateInfo($id, Request $request){
+        $clinic = Clinic::find($id);
+        $input = Input::all();;
+
+        $clinic->domain = $input['domain'];
+        $clinic->save();
+
+        $clinicInfo = ClinicInfo::find($id);
+        $clinicInfo->site_name = $input['site-name'];
+        $clinicInfo->email = $input['email-address'];
+        $clinicInfo->username = $input['admin-name'];
+        $clinicInfo->telephone = $input['telephone'];
+        $clinicInfo->address = $input['address'];
+        $clinicInfo->save();
+
+        $clinicDatabase = ClinicDatabase::find($id);
+        $clinicDatabase->database_name = $input['database-name'];
+        $clinicDatabase->host = $input['database-host'];
+        $clinicDatabase->username = $input['database-username'];
+        $clinicDatabase->password = bcrypt($input['database-password']);
+        $clinicDatabase->save();
+
+        $clinicHosting = ClinicHosting::find($id);
+        $clinicHosting->host = $input['host'];
+        $clinicHosting->username = $input['host-username'];
+        $clinicHosting->password =bcrypt($input['host-password']);
+        $clinicHosting->save();
+
+        $clinicLanguage = ClinicLanguage::find($id);
+        $clinicLanguage->country_id = $input['default-language'];
+        $clinicLanguage->save();
+
+        return redirect('admin/site-manager');
     }
 
     /*
