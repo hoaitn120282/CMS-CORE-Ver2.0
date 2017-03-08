@@ -70,8 +70,10 @@ class PageController extends Controller
     public function show($slug)
     {
         $model = Articles::where("post_name",$slug)->where("post_type","page")->where('post_status','publish')->firstOrFail();
+        $layout = Theme::layout('page');
         $viewTheme = Theme::active().'.page.view';
-        return view()->exists($viewTheme) ? view($viewTheme,['model'=>$model,'appTitle'=>$model->post_title]) : view("ContentManager::page.show",['model'=>$model,'appTitle'=>$model->post_title]);
+
+        return view()->exists($viewTheme) ? view($viewTheme,['model'=>$model,'appTitle'=>$model->post_title, 'layout'=>$layout]) : view("ContentManager::page.show",['model'=>$model,'appTitle'=>$model->post_title]);
     }
 
     /**

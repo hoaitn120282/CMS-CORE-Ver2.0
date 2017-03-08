@@ -23,15 +23,18 @@ class PostController extends Controller
                 'image'   => $value->getMetaValue('featured_img'),
             ];
         }
-        return response()->json(['datas' => $res]);
+
         //return view(Theme::active().'.post.index');
 
     }
 
+
     public function view($slug)
     {
         $model = Articles::where("post_name", $slug)->firstOrFail();
-        return view(Theme::active() . '.post.view', ["model" => $model]);
+        $layout = Theme::layout($model->post_type);
+
+        return view(Theme::active() . '.post.view', compact('model', 'layout'));
     }
 
     public function category($slug)

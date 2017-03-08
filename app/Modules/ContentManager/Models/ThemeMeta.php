@@ -33,7 +33,7 @@ class ThemeMeta extends Model
         foreach ($options as $option) {
             if ($option['name'] == $key) {
 
-                return $option[$value];
+                return isset($option[$value])?$option[$value]:[];
             }
         }
     }

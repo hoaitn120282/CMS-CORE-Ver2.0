@@ -26,7 +26,7 @@ if (!empty($values)) {
                         <input type="radio"
                                name="meta[layouts][layout_style][xvalue][{{$option}}]" value="{{ $key }}"
                                id="{{ $key }}" class="flat" data-role="checkbox"
-                                {{ ($template[$option] == $key) ? 'checked="checked"' : '' }}>
+                                {{ (isset($template[$option]) && ($template[$option] == $key)) ? 'checked="checked"' : '' }}>
                         {{ ucwords(str_replace("-", " ", $value)) }}
                     </label>
                 </div>

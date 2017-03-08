@@ -16,7 +16,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $blog = Articles::where('post_type','post')->where('post_status','publish')->orderBy('id', 'desc')->paginate(10);
-        return view(Theme::frontpage(),['blog'=>$blog]);
+        $layout = Theme::layout();
+        $folder = Theme::strActive();
+
+        $blog = Articles::where('post_type', 'post')
+            ->where('post_status', 'publish')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
+        return view(Theme::frontpage(), compact('blog', 'layout', 'folder'));
     }
 }

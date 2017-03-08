@@ -168,4 +168,16 @@ class Helper
 
         return $out;
     }
+
+    public function convertArray($array = [])
+    {
+        $result = null;
+
+        if (!empty($array)){
+            $result = implode('", "', $array);
+            $result = "\"{$result}\"";
+        }
+
+        return $result;
+    }
 }

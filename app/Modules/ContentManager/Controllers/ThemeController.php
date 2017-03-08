@@ -39,9 +39,11 @@ class ThemeController extends Controller
                 $meta = unserialize($value->meta_value);
                 if (isset($reqMeta[$value->meta_key])) {
                     $newMeta = Helper::recursiveMeta($meta, $reqMeta[$value->meta_key]);
-                    $theme->meta()
+                    /*$theme->meta()
                         ->where('meta_key', $value->meta_key)
-                        ->update(['meta_key' => $value->meta_key, 'meta_value' => serialize($newMeta)]);
+                        ->update(['meta_key' => $value->meta_key, 'meta_value' => serialize($newMeta)]);*/
+
+                    ThemeMeta::where('theme_id', $id)->where('meta_key', $value->meta_key)->update(['meta_value' => serialize($newMeta)]);
                 }
             }
 

@@ -76,6 +76,7 @@ $inputSlug = str_slug($input, '_');
         width: 250px;
         background-size: cover;
         background-repeat: no-repeat;
+        position: relative;
     }
 
     .img-res:hover .mask {
@@ -114,7 +115,7 @@ $inputSlug = str_slug($input, '_');
         z-index: 2;
         font-size: 28px;
         top: 50%;
-        transform: translateX(-50%);
+        transform: translateY(-50%);
     }
 
 </style>

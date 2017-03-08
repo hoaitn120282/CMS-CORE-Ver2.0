@@ -320,7 +320,7 @@ class TemplateController extends Controller
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
         if (empty($id)) {
-            $primaryInput['machine_name'] = uniqid();
+            $primaryInput['machine_name'] = uniqid("Sanmax");
             $primaryInput['status'] = 0;
             $template = Template::create($primaryInput);
         } else {
