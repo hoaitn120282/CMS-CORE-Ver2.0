@@ -8,7 +8,7 @@ class Clinic extends Model
 {
     protected $table = 'clinic';
     protected $primaryKey = 'clinic_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('domain', 'is_sanmax_hosting', 'contact_info', 'description');
 
     public static $rules = [

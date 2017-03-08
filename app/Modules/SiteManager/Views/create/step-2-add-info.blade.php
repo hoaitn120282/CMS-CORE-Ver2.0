@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('back')
+    <a href="{{ \URL::previous() }}">
+        <strong> <i class="fa fa-arrow-left"></i> &nbsp; Back</strong>
+    </a>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="x_panel">
@@ -26,15 +32,14 @@
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label  class="col-sm-4 control-label">Default Language</label>
+                                    <label  class="col-sm-4 control-label">Language</label>
                                     <div class="col-sm-8">
-                                      <select name="default-language" class="form-control" id="">
-                                        <option value="">Select language</option>
                                         @foreach($languages as $language)
-                                              <option value="{{ $language->language_id }}">{{ $language->name }}</option>
+                                          <label class="checkbox-inline">
+                                              <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"> {{ $language->name }}
+                                          </label>
                                         @endforeach
-                                      </select>
-                                      @if ($errors->has('default-language')) <p class="error-message">{{ $errors->first('default-language') }}</p> @endif
+                                        @if ($errors->has('language')) <p class="error-message">{{ $errors->first('language') }}</p> @endif
                                     </div>
                                   </div>
                             </div>
@@ -161,7 +166,7 @@
                         <div class="col-md-12">
                             <div class="pull-right">
                                 <a href="{{ Admin::route('siteManager.select-template') }}">
-                                    <button class="btn btn-success">Back</button>
+                                    <span class="btn btn-success">Back</span>
                                 </a>
                                  <button type="submit" class="btn btn-success">Create</button>
                                 <a href="{{ Admin::route('siteManager.add-info') }}">
