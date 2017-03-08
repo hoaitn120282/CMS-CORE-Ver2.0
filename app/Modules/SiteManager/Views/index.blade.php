@@ -82,7 +82,7 @@
                             <td class="action-site" style="width: 200px">
                                 <a href="{{ Admin::route('siteManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="View Detail"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a href="" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                <a href="" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                <a href="#" data-role="delete-post" data-clinicid="{{ $data->clinic_id }}" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -100,11 +100,10 @@
 <script>
     $( document ).ready(function() {
         $("a[data-role='delete-post']").on( "click", function() {
-            var idlanguage = $(this).data('idlanguage');
-            console.log(idlanguage);
+            var clinicid = $(this).data('clinicid');
             swal({
                 title: "Are you sure?",
-                text: "Delete this language",
+                text: "Delete this site info",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -115,64 +114,17 @@
             }, function () {
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ Admin::route('languageManager.destroy',['language'=>'']) }}/"+idlanguage,
+                    url: "{{ Admin::route('siteManager.destroy',['clinicid'=>'']) }}/"+clinicid,
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
                         swal("Deleted!", "Delete Success", "success");
-                        $("#tr-"+idlanguage).remove();
+                        $("#tr-"+clinicid).remove();
                     });
             });
             return false;
         });
 
-        $("#checkAll").change(function () {
-            $("input:checkbox[name=checkbox]").prop('checked', $(this).prop("checked"));
-            if($("#btn-sel-del").css('display') == 'none'){
-                $("#btn-sel-del").css("display","inline-block");
-            }else{
-                $("#btn-sel-del").css("display","none");
-            }
-        });
-
-        $( "input[type=checkbox]" ).on( "change", function () {
-            var n = $( "input:checked[name=checkbox]" ).length;
-            if(n == 0){
-                $("#btn-sel-del").css("display","none");
-            }else{
-                $("#btn-sel-del").css("display","inline-block");
-            }
-        });
-
-        $("#btn-sel-del").on("click",function(){
-            var array = new Array();
-            $("input:checkbox[name=checkbox]:checked").each(function(){
-                array.push($(this).val());
-            });
-            var id = array.join()
-            swal({
-                title: "Are you sure?",
-                text: "Delete the selected language",
-                type: "warning",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                showLoaderOnConfirm: true,
-                confirmButtonText: "Yes",
-                confirmButtonClass: "btn-danger",
-                cancelButtonText: "No"
-            }, function () {
-                $.ajax({
-                    type: 'DELETE',
-                    url: "{{ Admin::route('languageManager.destroy',['language'=>'']) }}/"+id,
-                    data: {"_token": "{{ csrf_token() }}"}
-                })
-                    .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
-                        location.reload();
-                    });
-            });
-            return false;
-        });
     });
 </script>
 @endpush

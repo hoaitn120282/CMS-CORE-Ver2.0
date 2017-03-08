@@ -328,7 +328,14 @@ class SiteController extends Controller
         \Session::save();
         $templates = \Session::get('templates',[]);
         dd($templates);
+    }
 
+    /*
+     * Destroy site info
+     * */
+    public function destroyInfo($clinicID){
+        // delete clinic
+        Clinic::destroy($clinicID);
     }
 
 }

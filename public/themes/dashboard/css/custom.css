@@ -169,3 +169,6 @@
 .table>tbody>tr>td {
     vertical-align: middle;
 }
+.sweet-alert h2{
+    display: inline-block;
+}
