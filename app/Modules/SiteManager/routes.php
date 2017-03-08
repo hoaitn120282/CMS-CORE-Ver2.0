@@ -16,4 +16,5 @@ Route::group([
 
         Route::any('site-manager/template-id/{id?}', ['as' => $this->admin . '.siteManager.template-id', 'uses' => 'SiteController@toggleTemplateSession']);
 
+        Route::any('site-manager/delete-info/{clinicid}', ['as' => $this->admin . '.siteManager.destroy', 'uses' => 'SiteController@destroyInfo']);
 });

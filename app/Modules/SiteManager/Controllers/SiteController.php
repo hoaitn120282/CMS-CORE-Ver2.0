@@ -49,7 +49,7 @@ class SiteController extends Controller
 
         if($theme_type_id !=0){
             // get all theme has theme_type_id = $theme_type_id
-            $templates = Template::where('theme_type_id', $theme_type_id)->where('status', 1)->get();
+            $templates = Template::where('theme_type_id', $theme_type_id)->where('is_publish', 1)->get();
 
             $clinic_ids = [];
             foreach ($templates as $temp){
@@ -58,19 +58,19 @@ class SiteController extends Controller
 
             if($status != -1){
                 // filter template, filter status
-                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('status', $status)->where('name', 'like', '%'.$query.'%')->get();
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('status', $status)->get();
             }else{
                 // filter template, not filter status
-                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('name', 'like', '%'.$query.'%')->get();
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->get();
             }
 
         }else{
             if($status!= -1) {
                 // No filter template, filter by status
-                $clinics = Clinic::where('status', $status)->where('name', 'like', '%'.$query.'%')->get();
+                $clinics = Clinic::where('status', $status)->get();
             }else{
                 // No filter all.
-                $clinics = Clinic::where('name', 'like', '%'.$query.'%')->get();
+                $clinics = Clinic::get();
             }
         }
 
@@ -126,12 +126,12 @@ class SiteController extends Controller
         $query = Input::get("q");
         if ($theme_type == 0) {
             $templates = Template::where('theme_type_id', '<>', 3)
-                ->where('status',1)
+                ->where('is_publish',1)
                 ->where('name', 'like', '%'.$query.'%')
                 ->paginate(6);
         } else {
             $templates = Template::where('theme_type_id', '<>', 3)
-                ->where('status',1)
+                ->where('is_publish',1)
                 ->where('name', 'like', '%'.$query.'%')
                 ->where('theme_type_id', $theme_type)
                 ->paginate(6);
@@ -304,7 +304,14 @@ class SiteController extends Controller
         \Session::save();
         $templates = \Session::get('templates',[]);
         dd($templates);
+    }
 
+    /*
+     * Destroy site info
+     * */
+    public function destroyInfo($clinicID){
+        // delete clinic
+        Clinic::destroy($clinicID);
     }
 
 }
