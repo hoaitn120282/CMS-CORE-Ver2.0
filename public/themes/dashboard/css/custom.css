@@ -162,3 +162,9 @@
     font-size: 30px;
     color: #f00;
 }
+.site-name a {
+    color: #0116b7;
+}
+.table>tbody>tr>td {
+    vertical-align: middle;
+}

@@ -10,6 +10,7 @@ use App\Modules\SiteManager\Models\ClinicInfo;
 use App\Modules\SiteManager\Models\Hosting;
 use App\Modules\SiteManager\Models\ClinicLanguage;
 use App\Modules\SiteManager\Models\ClinicTheme;
+use App\Modules\SiteManager\Models\ThemeType;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -41,10 +42,29 @@ class SiteController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($theme_type_id = 0, $status = -1)
     {
+        $theme_type = ThemeType::all();
+
+        if($theme_type_id !=0){
+            $clinic_theme = ClinicTheme::where('theme_id',$theme_type_id)->get();
+
+            $clinic_ids = [];
+            foreach ($clinic_theme as $cli_theme){
+                array_push($clinic_ids, $clinic_theme->clinic_id);
+            }
+        }
+
+        dd($clinic_theme);
+
         $clinics = Clinic::get();
-        return view('SiteManager::index', ['clinics' => $clinics]);
+
+        return view('SiteManager::index', [
+            'clinics' => $clinics,
+            'theme_type'=> $theme_type,
+            'theme_type_id' => $theme_type_id,
+            'status' => $status
+        ]);
     }
 
 
@@ -93,6 +113,7 @@ class SiteController extends Controller
             $templates = Template::where('theme_type_id', '<>', 3)->where('name', 'like', '%'.$query.'%')->where('theme_type_id', $theme_type)->paginate(6);
         }
         $selected =  \Session::get('templates',[]);
+
         return view('SiteManager::create.step-1-select-template',
             [
                 'templates'=> $templates,
@@ -163,6 +184,7 @@ class SiteController extends Controller
             $clinic->domain = $input['domain'];
             $clinic->save();
 
+            // save clinic info table
             $clinicInfo = new ClinicInfo();
             $clinicInfo->site_name = $input['site-name'];
             $clinicInfo->email = $input['email-address'];
@@ -172,6 +194,7 @@ class SiteController extends Controller
             $clinicInfo->clinic()->associate($clinic);
             $clinicInfo->save();
 
+            // save clinic database table
             $clinicDatabase = new ClinicDatabase();
             $clinicDatabase->database_name = $input['database-name'];
             $clinicDatabase->host = $input['database-host'];
@@ -180,6 +203,7 @@ class SiteController extends Controller
             $clinicDatabase->clinic()->associate($clinic);
             $clinicDatabase->save();
 
+            // save clinic hosting table
             $clinicHosting = new ClinicHosting();
             $clinicHosting->host = $input['host'];
             $clinicHosting->username = $input['host-username'];
@@ -187,14 +211,17 @@ class SiteController extends Controller
             $clinicHosting->clinic()->associate($clinic);
             $clinicHosting->save();
 
+            // save clinic language table
             $clinicLanguage = new ClinicLanguage();
-            $clinicLanguage->country_id = $input['default-language'];
+            $clinicLanguage->language_id = $input['default-language'];
             $clinicLanguage->clinic()->associate($clinic);
             $clinicLanguage->save();
 
             $clinicTheme = new ClinicTheme();
 
-            return redirect('admin/site-manager');
+            $clinics = Clinic::get();
+            return view('SiteManager::index', ['clinics' => $clinics]);
+//            return redirect('admin/site-manager');
         }
 
     }

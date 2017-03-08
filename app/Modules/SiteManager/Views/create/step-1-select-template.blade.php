@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 
+@section('back')
+    <a href="{{ \URL::previous() }}">
+        <strong> <i class="fa fa-arrow-left"></i> &nbsp; Back</strong>
+    </a>
+@endsection
+
 @section('content')
     <div class="row step-1-create-site">
         <div class="x_panel">

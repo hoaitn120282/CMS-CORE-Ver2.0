@@ -4,7 +4,7 @@ Route::group([
     'middleware' => ['web', 'admin'],
     'namespace' => 'App\Modules\SiteManager\Controllers'],
     function () {
-        Route::get('site-manager', ['as' => $this->admin . '.siteManager.index', 'uses' => 'SiteController@index']);
+        Route::get('site-manager/{theme_type_id?}/{status?}', ['as' => $this->admin . '.siteManager.index', 'uses' => 'SiteController@index']);
 
         Route::get('site-detail/{id}', ['as' => $this->admin . '.siteManager.preview', 'uses' => 'SiteController@getSiteDetail']);
         Route::get('site-manager/edit-info/{id}', ['as' => $this->admin . '.siteManager.edit-info', 'uses' => 'SiteController@editInfo']);
