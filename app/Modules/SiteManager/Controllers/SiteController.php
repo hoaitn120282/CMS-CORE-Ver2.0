@@ -45,25 +45,43 @@ class SiteController extends Controller
     public function index($theme_type_id = 0, $status = -1)
     {
         $theme_type = ThemeType::all();
+        $query = Input::get("q");
 
         if($theme_type_id !=0){
-            $clinic_theme = ClinicTheme::where('theme_id',$theme_type_id)->get();
+            // get all theme has theme_type_id = $theme_type_id
+            $templates = Template::where('theme_type_id', $theme_type_id)->where('status', 1)->get();
 
             $clinic_ids = [];
-            foreach ($clinic_theme as $cli_theme){
-                array_push($clinic_ids, $clinic_theme->clinic_id);
+            foreach ($templates as $temp){
+                array_push($clinic_ids, $temp->id);
+            }
+
+            if($status != -1){
+                // filter template, filter status
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('status', $status)->where('name', 'like', '%'.$query.'%')->get();
+            }else{
+                // filter template, not filter status
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('name', 'like', '%'.$query.'%')->get();
+            }
+
+        }else{
+            if($status!= -1) {
+                // No filter template, filter by status
+                $clinics = Clinic::where('status', $status)->where('name', 'like', '%'.$query.'%')->get();
+            }else{
+                // No filter all.
+                $clinics = Clinic::where('name', 'like', '%'.$query.'%')->get();
             }
         }
 
-        dd($clinic_theme);
-
-        $clinics = Clinic::get();
+//        $clinics = Clinic::get();
 
         return view('SiteManager::index', [
             'clinics' => $clinics,
             'theme_type'=> $theme_type,
             'theme_type_id' => $theme_type_id,
-            'status' => $status
+            'status' => $status,
+            'query'=> $query
         ]);
     }
 
@@ -105,12 +123,18 @@ class SiteController extends Controller
      * Save selected template to session
      * */
     public function selectTemplate($theme_type = 0){
-
         $query = Input::get("q");
         if ($theme_type == 0) {
-            $templates = Template::where('theme_type_id', '<>', 3)->where('name', 'like', '%'.$query.'%')->paginate(6);
+            $templates = Template::where('theme_type_id', '<>', 3)
+                ->where('status',1)
+                ->where('name', 'like', '%'.$query.'%')
+                ->paginate(6);
         } else {
-            $templates = Template::where('theme_type_id', '<>', 3)->where('name', 'like', '%'.$query.'%')->where('theme_type_id', $theme_type)->paginate(6);
+            $templates = Template::where('theme_type_id', '<>', 3)
+                ->where('status',1)
+                ->where('name', 'like', '%'.$query.'%')
+                ->where('theme_type_id', $theme_type)
+                ->paginate(6);
         }
         $selected =  \Session::get('templates',[]);
 
