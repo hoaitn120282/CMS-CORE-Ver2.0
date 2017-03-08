@@ -28,16 +28,15 @@
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">Default Language</label>
                                     <div class="col-sm-8">
-                                        <select name="default-language" class="form-control" id="">
-                                            <option value=""> Default Language </option>
+                                        <label  class="col-sm-4 control-label">Language</label>
+                                        <div class="col-sm-8">
                                             @foreach($languages as $language)
-                                                @if($language->language_id == $clinic->language[0]->country_id)
-                                                    <option value="{{ $language->language_id }}" selected>{{ $language->name }}</option>
-                                                @else
-                                                    <option value="{{ $language->language_id }}">{{ $language->name }}</option>
-                                                @endif
+                                                <label class="checkbox-inline">
+                                                    <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"> {{ $language->name }}
+                                                </label>
                                             @endforeach
-                                        </select>
+                                            @if ($errors->has('language')) <p class="error-message">{{ $errors->first('language') }}</p> @endif
+                                        </div>
                                         @if ($errors->has('default-language')) <p class="error-message">{{ $errors->first('default-language') }}</p> @endif
                                     </div>
                                 </div>
