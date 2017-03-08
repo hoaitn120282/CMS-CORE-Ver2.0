@@ -5,7 +5,38 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Site Manager</h2>
-
+                <div class="box-filter">
+                    {{--<span class="filter-title">Template Type</span>--}}
+                    <select name="theme_tyoe" id="themeType" class="form-control"
+                            onchange="window.location = this.options[this.selectedIndex].value;">
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=>0, 'status'=>$status])}}">All Template</option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=>1, 'status'=>$status])}}" <?php if ($theme_type_id == 1) echo 'selected'; ?>>
+                            Simple Template
+                        </option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=>2, 'status'=>$status])}}" <?php if ($theme_type_id == 2) echo 'selected'; ?>>
+                            Medium Template
+                        </option>
+                    </select>
+                </div>
+                <div class="box-filter">
+                    {{--<span class="filter-title">Status</span>--}}
+                    <select name="theme_tyoe" id="themeType" class="form-control"
+                            onchange="window.location = this.options[this.selectedIndex].value;">
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> -1 ])}}">All</option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> 0 ])}}" <?php if ($status == 0) echo 'selected'; ?>>
+                            Pending
+                        </option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> 1])}}" <?php if ($status == 1) echo 'selected'; ?>>
+                            Running
+                        </option>
+                    </select>
+                </div>
+                <div class="box-filter">
+                    <form class="form-horizontal"  method="get">
+                        <input type="text" name="q" placeholder="Search by name" value="{{$query}}" id="searchContent">
+                        <button type="submit" class="btn btn-success btn-search"> <i class="fa  fa-search"></i> Search</button>
+                    </form>
+                </div>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i>Delete Selected Site</a></li>
                     <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
