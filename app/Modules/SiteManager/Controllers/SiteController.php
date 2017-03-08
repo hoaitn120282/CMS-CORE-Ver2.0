@@ -118,7 +118,13 @@ class SiteController extends Controller
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages]);
+        $langs = $clinic->language;
+        $languageSelected = [];
+        foreach ($langs as $la) {
+            array_push($languageSelected, $la->language_id);
+        }
+
+        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages, 'languageSelected'=> $languageSelected]);
     }
 
     /*
@@ -278,7 +284,8 @@ class SiteController extends Controller
     public function updateInfo($id, Request $request){
         $clinic = Clinic::find($id);
         $input = Input::all();;
-
+        $query = Input::get("q");
+        $languages = $request->get('language');
         $clinic->domain = $input['domain'];
         $clinic->save();
 
@@ -303,11 +310,33 @@ class SiteController extends Controller
         $clinicHosting->password =bcrypt($input['host-password']);
         $clinicHosting->save();
 
-        $clinicLanguage = ClinicLanguage::find($id);
-        $clinicLanguage->country_id = $input['default-language'];
-        $clinicLanguage->save();
+        $a = count($languages);
+        $b = count($clinic->language);
 
-        return redirect('admin/site-manager');
+        for ($i = 0; $i < count($languages); $i++) {
+            if ($a > $b){
+                foreach ($languages as $langu){
+                    $clinicLanguage = new ClinicLanguage();
+                    $clinicLanguage->language_id = $langu;
+                    $clinicLanguage->clinic()->associate($clinic);
+                    $clinicLanguage->save();
+                }
+            } else {
+                $clinic->language[$i]->language_id = $languages[$i];
+                $clinic->language[$i]->save();
+            }
+        }
+
+        $clinics = Clinic::get();
+        $templates = \Session::set('templates', []);
+
+        return view('SiteManager::index', [
+            'clinics' => $clinics,
+            'theme_type'=> 0,
+            'theme_type_id' => 0,
+            'status' => -1,
+            'query' => $query
+        ]);
     }
 
     /*

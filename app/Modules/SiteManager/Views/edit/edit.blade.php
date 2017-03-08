@@ -26,19 +26,22 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-sm-4 control-label">Default Language</label>
+                                    <label  class="col-sm-4 control-label">Language</label>
                                     <div class="col-sm-8">
-                                        <label  class="col-sm-4 control-label">Language</label>
-                                        <div class="col-sm-8">
-                                            @foreach($languages as $language)
-                                                <label class="checkbox-inline">
-                                                    <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"> {{ $language->name }}
-                                                </label>
-                                            @endforeach
-                                            @if ($errors->has('language')) <p class="error-message">{{ $errors->first('language') }}</p> @endif
-                                        </div>
-                                        @if ($errors->has('default-language')) <p class="error-message">{{ $errors->first('default-language') }}</p> @endif
+                                        @foreach($languages as $language)
+                                            <label class="checkbox-inline">
+                                                <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"
+
+                                                <?php
+                                                        if(in_array($language->language_id, $languageSelected)) echo "checked";
+                                                    ?>
+
+                                                 > {{ $language->name }}
+                                            </label>
+                                        @endforeach
+                                        @if ($errors->has('language')) <p class="error-message">{{ $errors->first('language') }}</p> @endif
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -92,7 +95,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="email-address" class="col-sm-12 control-label">Hosting</label>
+                                    <label for="email-address" class="col-sm-12 control-label text-left">Hosting</label>
                                     <div class="col-sm-12">
                                         <div class="form-group infor-child">
                                             <label for="host" class="col-sm-4 control-label">Host</label>
