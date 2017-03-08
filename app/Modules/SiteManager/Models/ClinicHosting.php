@@ -8,7 +8,7 @@ class ClinicHosting extends Model
 {
     protected $table = 'clinic_hosting';
     protected $primaryKey = 'clinic_hosting_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('clinic_id', 'host', 'port', 'username','password');
 
     public function clinic() {

@@ -45,25 +45,25 @@ class SiteController extends Controller
     public function index($theme_type_id = 0, $status = -1)
     {
         $theme_type = ThemeType::all();
-
-        if($theme_type_id !=0){
-            $clinic_theme = ClinicTheme::where('theme_id',$theme_type_id)->get();
-
-            $clinic_ids = [];
-            foreach ($clinic_theme as $cli_theme){
-                array_push($clinic_ids, $clinic_theme->clinic_id);
-            }
-        }
-
-        dd($clinic_theme);
+//
+//        if($theme_type_id !=0){
+//            $clinic_theme = ClinicTheme::where('theme_id',$theme_type_id)->get();
+//
+//            $clinic_ids = [];
+//            foreach ($clinic_theme as $cli_theme){
+//                array_push($clinic_ids, $clinic_theme->clinic_id);
+//            }
+//        }
+//
+//        dd($clinic_theme);
 
         $clinics = Clinic::get();
 
         return view('SiteManager::index', [
             'clinics' => $clinics,
-            'theme_type'=> $theme_type,
-            'theme_type_id' => $theme_type_id,
-            'status' => $status
+//            'theme_type'=> $theme_type,
+//            'theme_type_id' => $theme_type_id,
+//            'status' => $status
         ]);
     }
 
@@ -76,11 +76,16 @@ class SiteController extends Controller
     public function getSiteDetail($id)
     {
         $clinic = Clinic::find($id);
+
+        $templates = \Session::get('templates', []);
+
+
+
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', compact('clinic'));
+        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates]);
     }
 
     /**
@@ -137,6 +142,8 @@ class SiteController extends Controller
 
     public function createInfo(Request $request){
         $input = Input::all();
+        $templates = \Session::get('templates', []);
+
 
         $rules = array(
             'site-name' => 'required',
@@ -217,7 +224,13 @@ class SiteController extends Controller
             $clinicLanguage->clinic()->associate($clinic);
             $clinicLanguage->save();
 
-            $clinicTheme = new ClinicTheme();
+            // save clinic theme table
+            foreach ($templates as $temp){
+                $clinicTheme = new ClinicTheme();
+                $clinicTheme->theme_id = $temp;
+                $clinicTheme->clinic()->associate($clinic);
+                $clinicTheme->save();
+            }
 
             $clinics = Clinic::get();
             return view('SiteManager::index', ['clinics' => $clinics]);

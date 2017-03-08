@@ -5,32 +5,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Site Manager</h2>
-                <div class="box-filter">
-                    <span class="filter-title">Template Type</span>
-                    <select name="theme_tyoe" id="themeType" class="form-control"
-                            onchange="window.location = this.options[this.selectedIndex].value;">
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template</option>
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
-                            Simple Template
-                        </option>
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
-                            Medium Template
-                        </option>
-                    </select>
-                </div>
-                <div class="box-filter">
-                    <span class="filter-title">Status</span>
-                    <select name="theme_tyoe" id="themeType" class="form-control"
-                            onchange="window.location = this.options[this.selectedIndex].value;">
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template</option>
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
-                            Simple Template
-                        </option>
-                        <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
-                            Medium Template
-                        </option>
-                    </select>
-                </div>
+
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i>Delete Selected Site</a></li>
                     <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>

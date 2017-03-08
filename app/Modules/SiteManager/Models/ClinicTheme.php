@@ -8,7 +8,7 @@ class ClinicTheme extends Model
 {
     protected $table = 'clinic_theme';
     protected $primaryKey = 'clinic_theme_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('clinic_id', 'theme_id');
 
     public function clinic() {
