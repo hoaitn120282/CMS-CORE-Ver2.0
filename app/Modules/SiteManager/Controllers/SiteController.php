@@ -81,10 +81,6 @@ class SiteController extends Controller
                 $clinics = Clinic::paginate(10);
             }
         }
-<<<<<<< HEAD
-//        $clinics = Clinic::get();
-=======
->>>>>>> development
 
         return view('SiteManager::index', [
             'clinics' => $clinics,
