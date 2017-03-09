@@ -288,7 +288,6 @@ class SiteController extends Controller
 
     //Update clinic info
     public function updateInfo($id, Request $request){
-        $templatesUpdate = \Session::get('templatesUpdate', []);
         $input = Input::all();;
 
         $languages = $request->get('language');
@@ -327,18 +326,6 @@ class SiteController extends Controller
             $clinicLanguage->save();
         }
 
-        // edit clinic theme table
-        foreach ($clinic->theme as $theme){
-            $theme->delete();
-        }
-
-        foreach ($templatesUpdate as $temp){
-            $clinicTheme = new ClinicTheme();
-            $clinicTheme->theme_id = $temp;
-            $clinicTheme->clinic()->associate($clinic);
-            $clinicTheme->save();
-        }
-        $templatesUpdate = \Session::set('templatesUpdate', []);
         return redirect(Admin::route('siteManager.index'));
     }
 
@@ -378,6 +365,31 @@ class SiteController extends Controller
     }
 
     /*
+    * Save clinic template
+    * @param : clinic_id
+    * Save selected template to table
+    * */
+    public function saveTemplate($id) {
+        $clinic = Clinic::find($id);
+        $templatesUpdate = \Session::get('templatesUpdate', []);
+
+        // edit clinic theme table
+        foreach ($clinic->theme as $theme){
+            $theme->delete();
+        }
+
+        foreach ($templatesUpdate as $temp){
+            $clinicTheme = new ClinicTheme();
+            $clinicTheme->theme_id = $temp;
+            $clinicTheme->clinic()->associate($clinic);
+            $clinicTheme->save();
+        }
+
+        $templatesUpdate = \Session::set('templatesUpdate', []);
+        return redirect(Admin::route('siteManager.edit-info', ['id' => $id]));
+    }
+
+    /*
      * Push template to session
      * When sanmax admin check or uncheck session
      * */
@@ -387,7 +399,6 @@ class SiteController extends Controller
         if (($key = array_search($id, $templates)) !== false) {
             unset($templates[$key]);
         }else{
-//            array_push($templates,$id);
             $templates[] = $id;
         }
 
