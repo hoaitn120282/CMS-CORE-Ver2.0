@@ -88,6 +88,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                 {{$clinics->appends(['q' => $query])->links()}}
                 @else
                     <h2>You do not have clinics site!</h2>
                 @endif

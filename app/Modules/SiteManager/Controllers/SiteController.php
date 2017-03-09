@@ -51,29 +51,35 @@ class SiteController extends Controller
             // get all theme has theme_type_id = $theme_type_id
             $templates = Template::where('theme_type_id', $theme_type_id)->where('is_publish', 1)->get();
 
-            $clinic_ids = [];
+            $theme_ids = [];
             foreach ($templates as $temp){
-                array_push($clinic_ids, $temp->id);
+                array_push($theme_ids, $temp->id);
+            }
+
+            $clinicThemes = ClinicTheme::whereIn('theme_id',$theme_ids)->get();
+            $clinic_ids = [];
+
+            foreach ($clinicThemes as $ct){
+                array_push($clinic_ids, $ct->clinic_id);
             }
 
             if($status != -1){
                 // filter template, filter status
-                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('status', $status)->get();
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->where('status', $status)->paginate(10);
             }else{
                 // filter template, not filter status
-                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->get();
+                $clinics = Clinic::whereIn('clinic_id', $clinic_ids)->paginate(10);
             }
 
         }else{
             if($status!= -1) {
                 // No filter template, filter by status
-                $clinics = Clinic::where('status', $status)->get();
+                $clinics = Clinic::where('status', $status)->paginate(10);
             }else{
                 // No filter all.
-                $clinics = Clinic::get();
+                $clinics = Clinic::paginate(10);
             }
         }
-
 //        $clinics = Clinic::get();
 
         return view('SiteManager::index', [
