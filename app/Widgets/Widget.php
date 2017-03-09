@@ -12,11 +12,12 @@ class Widget
         $themeActive = Theme::getID();
         //$themeActive
         $group = WidgetGroups::where("name", $nameGroup)->where('theme_id', $themeActive)->first();
-        foreach ($group->widget() as $value) {
-            $class = new $value->class_name();
-            $class->init(unserialize($value->options));
-            echo $class->run();
-        }
+        if (!empty($group))
+            foreach ($group->widget() as $value) {
+                $class = new $value->class_name();
+                $class->init(unserialize($value->options));
+                echo $class->run();
+            }
     }
 
     /**
@@ -28,9 +29,8 @@ class Widget
     public function existsGroup($nameGroup)
     {
         $themeActive = Theme::getID();
-        //$themeActive
         $group = WidgetGroups::where("name", $nameGroup)->where('theme_id', $themeActive)->first();
 
-        return ($group->widget()->count() > 0) ? true : false;
+        return (empty($group) ? false : ($group->widget()->count() > 0) ? true : false);
     }
 }

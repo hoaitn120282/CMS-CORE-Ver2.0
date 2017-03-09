@@ -22,10 +22,10 @@ if (!empty($values)) {
                     <img src='{{ url("/themes/".$node->parent->machine_name."/images/$key.png") }}'>
                 @endif
                 <div class="text-center">
-                    <label for="{{ $key }}">
+                    <label for="{{ "{$option}-{$key}" }}">
                         <input type="radio"
                                name="meta[layouts][layout_style][xvalue][{{$option}}]" value="{{ $key }}"
-                               id="{{ $key }}" class="flat" data-role="checkbox"
+                               id="{{ "{$option}-{$key}" }}" class="flat" data-role="checkbox"
                                 {{ (isset($template[$option]) && ($template[$option] == $key)) ? 'checked="checked"' : '' }}>
                         {{ ucwords(str_replace("-", " ", $value)) }}
                     </label>

@@ -264,15 +264,26 @@ class Theme
      */
     public function layout($page = 'default')
     {
-        $meta = ThemeMeta::where('theme_id', $this->activeID)
-            ->optionsKey('layouts')
-            ->first();
+        $meta = ThemeMeta::where('theme_id', $this->activeID)->optionsKey('layouts')->first();
         $templates = empty($meta) ? [] : $meta->getOption('layout_style', 'xvalue');
-        if (isset($templates[$page])) {
-            return $templates[$page];
-        }
 
-        return null;
+        return isset($templates[$page]) ? $templates[$page] : (isset($templates['default']) ? $templates['default'] : null);
+    }
+
+    /**
+     * Check view has been overwrite
+     *
+     * @param string $pageType
+     * @param string $viewName
+     * @return string
+     */
+    public function pageNode($pageType = 'frontend', $viewName = 'view')
+    {
+        $themeActive = Theme::active();
+        $viewBase = "{$themeActive}.{$pageType}.view";
+        $viewOverwrite = "{$themeActive}.{$pageType}.{$viewName}";
+
+        return view()->exists($viewOverwrite) ? $viewOverwrite : (view()->exists($viewBase) ? $viewBase : "ContentManager::{$pageType}.show");
     }
 
     /**
@@ -288,7 +299,7 @@ class Theme
         $css_file_base = "/themes/{$folder}/css/{$fileBase}";
         $css_file_generate = "themes/{$folder}/css/{$active}.css";
 
-        return File::exists(public_path($css_file_generate)) ? public_path($css_file_generate) : asset($css_file_base);
+        return File::exists(public_path($css_file_generate)) ? asset($css_file_generate) : asset($css_file_base);
     }
 
     public function menu($group)
@@ -389,6 +400,11 @@ class Theme
         return $str;
     }
 
+    /**
+     * Make widgets with template
+     *
+     * @param string $theme
+     */
     protected function makeWidgets($theme)
     {
         try {

@@ -17,13 +17,11 @@ class HomeController extends Controller
     public function index()
     {
         $layout = Theme::layout();
-        $folder = Theme::strActive();
-
         $blog = Articles::where('post_type', 'post')
             ->where('post_status', 'publish')
             ->orderBy('id', 'desc')
             ->paginate(10);
 
-        return view(Theme::frontpage(), compact('blog', 'layout', 'folder'));
+        return view(Theme::frontpage(), compact('blog', 'layout'));
     }
 }

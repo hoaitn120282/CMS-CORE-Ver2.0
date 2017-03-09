@@ -9,6 +9,7 @@ use App\Modules\ContentManager\Models\TermRelationships;
 use App\Http\Controllers\Controller;
 use Admin;
 use Theme;
+
 class PageController extends Controller
 {
     /**
@@ -18,8 +19,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        $model = Articles::where('post_type','page')->orderBy('id', 'desc')->paginate(10);
-        return view("ContentManager::page.index",['model' => $model]);
+        $model = Articles::where('post_type', 'page')->orderBy('id', 'desc')->paginate(10);
+        return view("ContentManager::page.index", ['model' => $model]);
     }
 
     /**
@@ -29,13 +30,18 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view("ContentManager::page.create",["model"=>""]);
+        $theme = $this->currentTheme();
+        $meta = $theme->meta()->optionsKey('layouts')->first();
+        $layouts = $meta->getOption('layout_style');
+        $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
+
+        return view("ContentManager::page.create", ["model" => "", 'layouts' => $layouts]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,50 +55,57 @@ class PageController extends Controller
         $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "page";
-        $model->post_name = str_slug($request->post_title,"-");
+        $model->post_name = str_slug($request->post_title, "-");
         $model->post_title = $request->post_title;
         $model->post_content = $content;
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Create page '.$request->post_title);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request->post_title);
         foreach ($request->meta as $key => $value) {
-           $model->meta()->updateOrCreate(["meta_key"=>$key],["meta_key"=>$key,"meta_value"=>$value]);
+            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
-        return redirect(Admin::StrURL('contentManager/page')); 
+        return redirect(Admin::StrURL('contentManager/page'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
-        $model = Articles::where("post_name",$slug)->where("post_type","page")->where('post_status','publish')->firstOrFail();
-        $layout = Theme::layout('page');
-        $viewTheme = Theme::active().'.page.view';
+        $model = Articles::where("post_name", $slug)->where("post_type", "page")->where('post_status', 'publish')->firstOrFail();
+        $layout = empty($model->getMetaValue('layout')) ? Theme::layout('page') : $model->getMetaValue('layout');
+        $appTitle = $model->post_title;
 
-        return view()->exists($viewTheme) ? view($viewTheme,['model'=>$model,'appTitle'=>$model->post_title, 'layout'=>$layout]) : view("ContentManager::page.show",['model'=>$model,'appTitle'=>$model->post_title]);
+        return view(Theme::pageNode('page', $model->post_name), compact('model', 'appTitle', 'layout'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
+        $theme = $this->currentTheme();
+        $meta = $theme->meta()
+            ->optionsKey('layouts')
+            ->first();
+        $layouts = $meta->getOption('layout_style');
+        $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
-        return view("ContentManager::page.update",['model' => $model]);
+
+        return view("ContentManager::page.update", ['model' => $model, 'layouts' => $layouts]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -105,14 +118,14 @@ class PageController extends Controller
         ]);
         $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
         $model->post_type = "page";
-        $model->post_name = str_slug($request->post_title,"-");
+        $model->post_name = str_slug($request->post_title, "-");
         $model->post_title = $request->post_title;
         $model->post_content = $content;
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Update page '.$request->post_title);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update page ' . $request->post_title);
         foreach ($request->meta as $key => $value) {
-           $model->meta()->updateOrCreate(["meta_key"=>$key],["meta_key"=>$key,"meta_value"=>$value]);
+            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
         return redirect(Admin::StrURL('contentManager/page'));
     }
@@ -120,17 +133,17 @@ class PageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $tmp = explode(",", $id);
-        if(is_array($tmp)){
+        if (is_array($tmp)) {
             Articles::destroy($tmp);
-        }else{
-            Articles::destroy($id);              
+        } else {
+            Articles::destroy($id);
         }
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Delete page id :'.$id);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete page id :' . $id);
     }
 }

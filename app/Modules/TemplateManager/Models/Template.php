@@ -36,4 +36,13 @@ class Template extends Model
     {
         return $this->meta()->where("meta_group", "options")->get();
     }
+
+    /**
+     * Relation ship widget groups
+     *
+     */
+    public function widgetGroups()
+    {
+        return $this->hasMany('App\Modules\ContentManager\Models\WidgetGroups', 'theme_id');
+    }
 }
