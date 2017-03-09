@@ -265,7 +265,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Thank for using ITLSVN-CMS 1.0
+                Thank for using QSOFT-CMS 1.0
             </div>
             <div class="clearfix"></div>
         </footer>

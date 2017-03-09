@@ -1,6 +1,7 @@
 <?php 
 namespace App\Modules;
-use Illuminate\Foundation\AliasLoader; 
+use App\Modules\ContentManager\Models\Themes;
+use Illuminate\Foundation\AliasLoader;
 /**
 * ServiceProvider
 *
@@ -38,6 +39,7 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
                 ], 'migrations');
             }
         }
+
     }
 
     public function register() {
