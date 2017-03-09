@@ -19,7 +19,7 @@ $general = $node->meta()
         <div class="row">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Theme {{ ucfirst($node->name) }}</h2>
+                    <h2>Theme info</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         @if($node->status)
                             <li><a href="#" onclick="return false;">Actived</a></li>
@@ -38,20 +38,20 @@ $general = $node->meta()
                         </div>
                     @endif
                     <div class="row">
+                        <div class="col-md-8">
+                            <dl>
+                                <dt><span class="labl">Name theme</span> <span class="text">{{$node->name}}</span></dt>
+                                <dt><span class="labl">Author name</span> <a href="{{$node->author_url}}"><span class="text">{{$node->author}}</span></a></dt>
+                                <dt><span class="labl">Name Theme</span> <span class="text">{{$node->name}}</span></dt>
+                                <dt><span class="labl">Description</span></dt>
+                                <dd>{{$node->description}}</dd>
+                            </dl>
+                        </div>
                         <div class="col-md-4">
                             <img style="width: 100%; display: block;"
                                  src="{{ url($node->image_preview) }}" alt="image">
                         </div>
-                        <div class="col-md-8">
-                            <dl>
-                                <dt>Name Theme</dt>
-                                <dd>{{$node->name}}</dd>
-                                <dt>Author Theme</dt>
-                                <dd><a href="{{$node->author_url}}">{{$node->author}}</a></dd>
-                                <dt>Description</dt>
-                                <dd>{{$node->description}}</dd>
-                            </dl>
-                        </div>
+
                         <div class="col-md-12">
                             <div class="x_panel">
                                 <div class="x_title">
@@ -68,29 +68,29 @@ $general = $node->meta()
                                         <ul class="nav nav-tabs" role="tablist">
                                             <li class="active">
                                                 <a href="#tab-general"
-                                                   data-toggle="tab">{{ ucwords(str_replace("_", " ", $general->meta_key)) }}</a>
+                                                   data-toggle="tab">General Configuration</a>
+                                            </li>
+                                            <li><a href="#tab-{{$layout->meta_key}}"
+                                                   data-toggle="tab">{{ ucwords(str_replace("_", " ", $layout->meta_key)) }}</a>
                                             </li>
                                             @foreach($options as $key => $meta)
                                                 <li><a href="#tab-{{$meta->meta_key}}"
                                                        data-toggle="tab">{{ ucwords(str_replace("_", " ", $meta->meta_key)) }}</a>
                                                 </li>
                                             @endforeach
-                                            <li><a href="#tab-{{$layout->meta_key}}"
-                                                   data-toggle="tab">{{ ucwords(str_replace("_", " ", $layout->meta_key)) }}</a>
-                                            </li>
                                         </ul>
                                     </div>
                                     <form method="POST" action="{{ Admin::route('contentManager.theme.update') }}">
                                         {{ csrf_field() }}
                                         <input type="hidden" value="{{ $node->id }}" name="idtheme">
-                                        <div class="col-xs-9">
+                                        <div class="col-xs-12">
                                             <!-- Tab panes -->
                                             <div class="tab-content">
                                                 @include('ContentManager::theme.partials.cfg_general', ['meta' => $general])
+                                                @include('ContentManager::theme.partials.layouts', ['meta' => $layout])
                                                 @foreach($options as $key => $meta)
                                                     @include('ContentManager::theme.partials.generate', ['meta' => $meta])
                                                 @endforeach
-                                                @include('ContentManager::theme.partials.layouts', ['meta' => $layout])
                                             </div>
                                             <div class="toolbar-actions">
                                                 <div class="pull-right">
@@ -117,6 +117,16 @@ $general = $node->meta()
 @push('style-top')
 <link rel="stylesheet" href="{{ asset('assets/colorpicker/css/colorpicker.css') }}">
 <style>
+    .frm-edit-theme dl dt {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .frm-edit-theme dl .labl {
+        margin-right: 40px;
+    }
+    .frm-edit-theme dl span.text {
+        color: #0671b9;
+    }
     .frm-edit-theme .x_panel {
         padding-bottom: 90px;
     }
