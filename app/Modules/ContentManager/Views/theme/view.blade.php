@@ -1,10 +1,14 @@
 <?php
 $options = $node->meta()
         ->optionsKey('layouts', '<>')
-        ->optionsKey('templates', '<>')
+        ->optionsKey('typography', '<>')
+        ->optionsKey('general', '<>')
         ->get();
 $layout = $node->meta()
         ->optionsKey('layouts')
+        ->first();
+$general = $node->meta()
+        ->optionsKey('general')
         ->first();
 
 ?>
@@ -60,18 +64,16 @@ $layout = $node->meta()
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
-                                    <div class="col-xs-3">
-                                        <ul class="nav nav-tabs tabs-left">
+                                    <div class="col-xs-12">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="active">
+                                                <a href="#tab-general"
+                                                   data-toggle="tab">{{ ucwords(str_replace("_", " ", $general->meta_key)) }}</a>
+                                            </li>
                                             @foreach($options as $key => $meta)
-                                                @if($key == 0)
-                                                    <li class="active"><a href="#tab-{{$meta->meta_key}}"
-                                                                          data-toggle="tab">{{ ucwords(str_replace("_", " ", $meta->meta_key)) }}</a>
-                                                    </li>
-                                                @else
-                                                    <li><a href="#tab-{{$meta->meta_key}}"
-                                                           data-toggle="tab">{{ ucwords(str_replace("_", " ", $meta->meta_key)) }}</a>
-                                                    </li>
-                                                @endif
+                                                <li><a href="#tab-{{$meta->meta_key}}"
+                                                       data-toggle="tab">{{ ucwords(str_replace("_", " ", $meta->meta_key)) }}</a>
+                                                </li>
                                             @endforeach
                                             <li><a href="#tab-{{$layout->meta_key}}"
                                                    data-toggle="tab">{{ ucwords(str_replace("_", " ", $layout->meta_key)) }}</a>
@@ -84,7 +86,7 @@ $layout = $node->meta()
                                         <div class="col-xs-9">
                                             <!-- Tab panes -->
                                             <div class="tab-content">
-
+                                                @include('ContentManager::theme.partials.cfg_general', ['meta' => $general])
                                                 @foreach($options as $key => $meta)
                                                     @include('ContentManager::theme.partials.generate', ['meta' => $meta])
                                                 @endforeach

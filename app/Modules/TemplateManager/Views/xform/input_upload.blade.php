@@ -74,7 +74,9 @@ $inputSlug = str_slug($input, '_');
         display: none;
         height: 190px;
         width: 250px;
+        max-width: 100%;
         background-size: cover;
+        background-position: 50% 50%;
         background-repeat: no-repeat;
         position: relative;
     }

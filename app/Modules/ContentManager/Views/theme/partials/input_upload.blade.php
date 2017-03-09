@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 $input = isset($input) ? $input : "meta[{$meta->meta_key}][{$data['name']}][value]";
 $label = isset($label) ? $label : $data['label'];
@@ -80,7 +80,10 @@ $inputSlug = str_slug($input, '_');
         display: none;
         height: 190px;
         width: 250px;
+        max-width: 100%;
         background-size: contain;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
         border: 1px solid #f5f5f5;
         position: relative;
     }
