@@ -8,7 +8,7 @@ class ClinicLanguage extends Model
 {
     protected $table = 'clinic_language';
     protected $primaryKey = 'clinic_language_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('language_id', 'clinic_id');
 
     public function clinic() {

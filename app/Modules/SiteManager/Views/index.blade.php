@@ -77,7 +77,7 @@
                             <td>{{$data->info->username}}</td>
                             <td>{{ date('F j, Y',strtotime($data->created_at)) }}</td>
                             <td>
-                                {{$data->status == 1? 'Running' : 'Pending'}}
+                                {{$data->is_publish == 1? 'Running' : 'Pending'}}
                             </td>
                             <td class="action-site" style="width: 200px">
                                 <a href="{{ Admin::route('siteManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="View Detail"><i class="fa fa-eye" aria-hidden="true"></i></a>

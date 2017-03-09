@@ -32,15 +32,14 @@
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label  class="col-sm-4 control-label">Default Language</label>
+                                    <label  class="col-sm-4 control-label">Language</label>
                                     <div class="col-sm-8">
-                                      <select name="default-language" class="form-control" id="">
-                                        <option value="">Select language</option>
                                         @foreach($languages as $language)
-                                              <option value="{{ $language->language_id }}">{{ $language->name }}</option>
+                                          <label class="checkbox-inline">
+                                              <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"> {{ $language->name }}
+                                          </label>
                                         @endforeach
-                                      </select>
-                                      @if ($errors->has('default-language')) <p class="error-message">{{ $errors->first('default-language') }}</p> @endif
+                                        @if ($errors->has('language')) <p class="error-message">{{ $errors->first('language') }}</p> @endif
                                     </div>
                                   </div>
                             </div>

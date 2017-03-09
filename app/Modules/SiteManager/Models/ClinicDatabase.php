@@ -8,7 +8,7 @@ class ClinicDatabase extends Model
 {
     protected $table = 'clinic_database';
     protected $primaryKey = 'clinic_database_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('clinic_id', 'host', 'port', 'database_name', 'username', 'password', 'table_prefix');
 
     public function clinic() {

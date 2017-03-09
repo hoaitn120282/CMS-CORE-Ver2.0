@@ -45,6 +45,7 @@ class SiteController extends Controller
     public function index($theme_type_id = 0, $status = -1)
     {
         $theme_type = ThemeType::all();
+
         $query = Input::get("q");
 
         if($theme_type_id !=0){
@@ -80,7 +81,10 @@ class SiteController extends Controller
                 $clinics = Clinic::paginate(10);
             }
         }
+<<<<<<< HEAD
 //        $clinics = Clinic::get();
+=======
+>>>>>>> development
 
         return view('SiteManager::index', [
             'clinics' => $clinics,
@@ -100,11 +104,16 @@ class SiteController extends Controller
     public function getSiteDetail($id)
     {
         $clinic = Clinic::find($id);
+
+        $templates = \Session::get('templates', []);
+
+
+
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', compact('clinic'));
+        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates]);
     }
 
     /**
@@ -120,7 +129,13 @@ class SiteController extends Controller
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages]);
+        $langs = $clinic->language;
+        $languageSelected = [];
+        foreach ($langs as $la) {
+            array_push($languageSelected, $la->language_id);
+        }
+
+        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages, 'languageSelected'=> $languageSelected]);
     }
 
     /*
@@ -167,6 +182,10 @@ class SiteController extends Controller
 
     public function createInfo(Request $request){
         $input = Input::all();
+        $query = Input::get("q");
+        $templates = \Session::get('templates', []);
+
+        $languages = $request->get('language');
 
         $rules = array(
             'site-name' => 'required',
@@ -179,7 +198,7 @@ class SiteController extends Controller
             'host-username' => 'required',
             'host-password' => 'required',
             'database-name' => 'required',
-            'default-language' =>'required',
+            'language' =>'required',
             'database-host' => 'required',
             'database-password' => 'required',
             'database-username' => 'required',
@@ -199,7 +218,7 @@ class SiteController extends Controller
             'database-host.required' => 'The Database Host field is required.',
             'database-password.required' => 'The Database Password field is required.',
             'database-username.required' => 'The Database Username field is required.',
-            'default-language.required' => 'The Language field is required.',
+            'language.required' => 'The Language field is required.',
         ];
 
         $validator = Validator::make($input, $rules, $messages);
@@ -242,16 +261,32 @@ class SiteController extends Controller
             $clinicHosting->save();
 
             // save clinic language table
-            $clinicLanguage = new ClinicLanguage();
-            $clinicLanguage->language_id = $input['default-language'];
-            $clinicLanguage->clinic()->associate($clinic);
-            $clinicLanguage->save();
+            foreach ($languages as $langu){
+                $clinicLanguage = new ClinicLanguage();
+                $clinicLanguage->language_id = $langu;
+                $clinicLanguage->clinic()->associate($clinic);
+                $clinicLanguage->save();
+            }
 
-            $clinicTheme = new ClinicTheme();
+            // save clinic theme table
+            foreach ($templates as $temp){
+                $clinicTheme = new ClinicTheme();
+                $clinicTheme->theme_id = $temp;
+                $clinicTheme->clinic()->associate($clinic);
+                $clinicTheme->save();
+            }
 
             $clinics = Clinic::get();
-            return view('SiteManager::index', ['clinics' => $clinics]);
-//            return redirect('admin/site-manager');
+            $templates = \Session::set('templates', []);
+
+            return view('SiteManager::index', [
+                'clinics' => $clinics,
+                'theme_type'=> 0,
+                'theme_type_id' => 0,
+                'status' => -1,
+                'query' => $query
+            ]);
+
         }
 
     }
@@ -260,7 +295,8 @@ class SiteController extends Controller
     public function updateInfo($id, Request $request){
         $clinic = Clinic::find($id);
         $input = Input::all();;
-
+        $query = Input::get("q");
+        $languages = $request->get('language');
         $clinic->domain = $input['domain'];
         $clinic->save();
 
@@ -285,11 +321,33 @@ class SiteController extends Controller
         $clinicHosting->password =bcrypt($input['host-password']);
         $clinicHosting->save();
 
-        $clinicLanguage = ClinicLanguage::find($id);
-        $clinicLanguage->country_id = $input['default-language'];
-        $clinicLanguage->save();
+        $a = count($languages);
+        $b = count($clinic->language);
 
-        return redirect('admin/site-manager');
+        for ($i = 0; $i < count($languages); $i++) {
+            if ($a > $b){
+                foreach ($languages as $langu){
+                    $clinicLanguage = new ClinicLanguage();
+                    $clinicLanguage->language_id = $langu;
+                    $clinicLanguage->clinic()->associate($clinic);
+                    $clinicLanguage->save();
+                }
+            } else {
+                $clinic->language[$i]->language_id = $languages[$i];
+                $clinic->language[$i]->save();
+            }
+        }
+
+        $clinics = Clinic::get();
+        $templates = \Session::set('templates', []);
+
+        return view('SiteManager::index', [
+            'clinics' => $clinics,
+            'theme_type'=> 0,
+            'theme_type_id' => 0,
+            'status' => -1,
+            'query' => $query
+        ]);
     }
 
     /*

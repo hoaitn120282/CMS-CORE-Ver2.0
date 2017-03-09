@@ -8,7 +8,7 @@ class ClinicInfo extends Model
 {
     protected $table = 'clinic_info';
     protected $primaryKey = 'clinic_info_id';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = array('clinic_id', 'site_name', 'site_slogan', 'username', 'email', 'password', 'description');
 
     public function clinic() {
