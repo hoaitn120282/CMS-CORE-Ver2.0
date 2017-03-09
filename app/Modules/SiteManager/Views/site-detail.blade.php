@@ -19,8 +19,8 @@
 	                <ul class="list-unstyled site-name-language">
 	                	<li><span>Site Name </span>{{ $clinic->info->site_name }}</li>
 	                	<li><span>Default Language </span>
-							@foreach($clinic->language as $lang)
-								{{ $lang->language_id }}
+							@foreach($languageSelected as $lang)
+								{{ $lang }} ,
 							@endforeach
 						</li>
 	                </ul>
@@ -71,7 +71,7 @@
 	                				@foreach($clinic->theme as $theme)
 										<li>
 											<span>Teamplate {{ $theme->clinic_theme_id }}</span>
-											<a class="btn btn-success" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
+											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
 					                            <i class="fa fa-eye"></i>
 					                        </a>
 										</li>
@@ -91,9 +91,12 @@
                     <button type="submit" name="update" class="btn btn-success">
                         <i class="fa fa-download" aria-hidden="true"></i> Download
                     </button>
-                    <button type="submit" name="update" class="btn btn-danger">
-                        <i class="fa fa-ban" aria-hidden="true"></i> Delete
-                    </button>
+
+					<a href="#" data-role="delete-post" data-clinicid="{{ $clinic->clinic_id }}" data-toggle="tooltip" title="Delete">
+						<button type="submit" name="update" class="btn btn-danger">
+							<i class="fa fa-ban" aria-hidden="true"></i> Delete
+						</button>
+					</a>
                 </div>
             </div>
         </div>
@@ -132,4 +135,38 @@
 			padding-left: 20px;
 		}
 	</style>
+@endpush
+
+@push('scripts')
+<script>
+    $( document ).ready(function() {
+        $("a[data-role='delete-post']").on( "click", function() {
+            var clinicid = $(this).data('clinicid');
+            swal({
+                title: "Are you sure?",
+                text: "Delete this site info",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn-danger",
+                cancelButtonText: "No"
+            }, function () {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ Admin::route('siteManager.destroy',['clinicid'=>'']) }}/"+clinicid,
+                    data: {"_token": "{{ csrf_token() }}"}
+                })
+                    .done(function() {
+                        swal("Deleted!", "Delete Success", "success");
+                        window.location.href = "{{ Admin::route('siteManager.index') }}";
+                        $("#tr-"+clinicid).remove();
+                    });
+            });
+            return false;
+        });
+
+    });
+</script>
 @endpush

@@ -103,13 +103,13 @@ class SiteController extends Controller
         $languageSelected = [];
         $languages = Language::get();
 
-        foreach ($clinic->language as $la) {
-            array_push($languageSelected, $la->language_id);
+        for($i=0 ; $i < count($clinic->language) ; $i++) {
+            foreach ($languages as $lang) {
+                if ($lang->language_id == $clinic->language[$i]->language_id) {
+                    array_push($languageSelected, $lang->name);
+                }
+            }
         }
-
-//        for($i=0 ; $i < count($languages) ; $i++) {
-//            if ($clinic->language)
-//        }
 
         $templates = \Session::get('templates', []);
 
@@ -183,10 +183,9 @@ class SiteController extends Controller
         return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
     }
 
-
+    //Create clinic
     public function createInfo(Request $request){
         $input = Input::all();
-        $query = Input::get("q");
         $templates = \Session::get('templates', []);
 
         $languages = $request->get('language');
@@ -280,56 +279,47 @@ class SiteController extends Controller
                 $clinicTheme->save();
             }
 
-            $clinics = Clinic::get();
             $templates = \Session::set('templates', []);
 
-            return view('SiteManager::index', [
-                'clinics' => $clinics,
-                'theme_type'=> 0,
-                'theme_type_id' => 0,
-                'status' => -1,
-                'query' => $query
-            ]);
-
+            return redirect(Admin::route('siteManager.index'));
         }
 
     }
 
     //Update clinic info
     public function updateInfo($id, Request $request){
-        $clinic = Clinic::find($id);
+        $templatesUpdate = \Session::get('templatesUpdate', []);
         $input = Input::all();;
-        $query = Input::get("q");
+
         $languages = $request->get('language');
+
+        $clinic = Clinic::find($id);
         $clinic->domain = $input['domain'];
         $clinic->save();
 
-        $clinicInfo = ClinicInfo::find($id);
-        $clinicInfo->site_name = $input['site-name'];
-        $clinicInfo->email = $input['email-address'];
-        $clinicInfo->username = $input['admin-name'];
-        $clinicInfo->telephone = $input['telephone'];
-        $clinicInfo->address = $input['address'];
-        $clinicInfo->save();
+        $clinic->info->site_name = $input['site-name'];
+        $clinic->info->email = $input['email-address'];
+        $clinic->info->username = $input['admin-name'];
+        $clinic->info->telephone = $input['telephone'];
+        $clinic->info->address = $input['address'];
+        $clinic->info->save();
 
-        $clinicDatabase = ClinicDatabase::find($id);
-        $clinicDatabase->database_name = $input['database-name'];
-        $clinicDatabase->host = $input['database-host'];
-        $clinicDatabase->username = $input['database-username'];
-        $clinicDatabase->password = bcrypt($input['database-password']);
-        $clinicDatabase->save();
+        $clinic->database->database_name = $input['database-name'];
+        $clinic->database->host = $input['database-host'];
+        $clinic->database->username = $input['database-username'];
+        $clinic->database->password = bcrypt($input['database-password']);
+        $clinic->database->save();
 
-        $clinicHosting = ClinicHosting::find($id);
-        $clinicHosting->host = $input['host'];
-        $clinicHosting->username = $input['host-username'];
-        $clinicHosting->password =bcrypt($input['host-password']);
-        $clinicHosting->save();
+        $clinic->hosting->host = $input['host'];
+        $clinic->hosting->username = $input['host-username'];
+        $clinic->hosting->password =bcrypt($input['host-password']);
+        $clinic->hosting->save();
 
+        // edit clinic language table
         foreach ($clinic->language as $lang){
             $lang->delete();
         }
 
-        // save clinic language table
         foreach ($languages as $langu){
             $clinicLanguage = new ClinicLanguage();
             $clinicLanguage->language_id = $langu;
@@ -337,16 +327,54 @@ class SiteController extends Controller
             $clinicLanguage->save();
         }
 
-        $clinics = Clinic::get();
-        $templates = \Session::set('templates', []);
+        // edit clinic theme table
+        foreach ($clinic->theme as $theme){
+            $theme->delete();
+        }
 
-        return view('SiteManager::index', [
-            'clinics' => $clinics,
-            'theme_type'=> 0,
-            'theme_type_id' => 0,
-            'status' => -1,
-            'query' => $query
-        ]);
+        foreach ($templatesUpdate as $temp){
+            $clinicTheme = new ClinicTheme();
+            $clinicTheme->theme_id = $temp;
+            $clinicTheme->clinic()->associate($clinic);
+            $clinicTheme->save();
+        }
+        $templatesUpdate = \Session::set('templatesUpdate', []);
+        return redirect(Admin::route('siteManager.index'));
+    }
+
+    /*
+    * Edit clinic site : select template
+    * @param : clinic_id
+    * Save selected template to session
+    * */
+    public function updateTemplate($id) {
+        $theme_type = 0;
+        $query = Input::get("q");
+
+        if ($theme_type == 0) {
+            $templatesUpdate = Template::where('theme_type_id', '<>', 3)
+                ->where('is_publish',1)
+                ->where('name', 'like', '%'.$query.'%')
+                ->paginate(6);
+        } else {
+            $templatesUpdate = Template::where('theme_type_id', '<>', 3)
+                ->where('is_publish',1)
+                ->where('name', 'like', '%'.$query.'%')
+                ->where('theme_type_id', $theme_type)
+                ->paginate(6);
+        }
+
+        $selected =  \Session::get('templatesUpdate',[]);
+
+        return view('SiteManager::edit.edit-template',
+            [
+                'id' => $id,
+                'templatesUpdate'=> $templatesUpdate,
+                'theme_type' => $theme_type,
+                'selected' =>$selected,
+                'query' => $query
+            ]
+        );
     }
 
     /*
@@ -366,7 +394,24 @@ class SiteController extends Controller
         \Session::set('templates', $templates);
         \Session::save();
         $templates = \Session::get('templates',[]);
-        dd($templates);
+    }
+
+    /*
+    * Push templatesUpdate to session
+    * When sanmax admin check or uncheck session
+    * */
+    public function toggleUpdateTemplateSession($id){
+        $templatesUpdate = \Session::get('templatesUpdate', []);
+
+        if (($key = array_search($id, $templatesUpdate)) !== false) {
+            unset($templatesUpdate[$key]);
+        }else{
+            $templatesUpdate[] = $id;
+        }
+
+        \Session::set('templatesUpdate', $templatesUpdate);
+        \Session::save();
+        $templatesUpdate = \Session::get('templatesUpdate',[]);
     }
 
     /*

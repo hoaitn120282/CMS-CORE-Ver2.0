@@ -168,9 +168,9 @@
                                 <a href="{{ Admin::route('siteManager.select-template') }}">
                                     <span class="btn btn-success">Back</span>
                                 </a>
-                                 <button type="submit" class="btn btn-success">Create</button>
-                                <a href="{{ Admin::route('siteManager.add-info') }}">
-                                    <button class="btn btn-success">Cancel</button>
+                                <button type="submit" class="btn btn-success">Create</button>
+                                <a href="{{ Admin::route('siteManager.index') }}">
+                                    <span class="btn btn-success">Cancel</span>
                                 </a>
                             </div>
                         </div>
