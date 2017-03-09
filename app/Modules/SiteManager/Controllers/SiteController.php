@@ -93,16 +93,24 @@ class SiteController extends Controller
     public function getSiteDetail($id)
     {
         $clinic = Clinic::find($id);
+        $languageSelected = [];
+        $languages = Language::get();
+
+        foreach ($clinic->language as $la) {
+            array_push($languageSelected, $la->language_id);
+        }
+
+//        for($i=0 ; $i < count($languages) ; $i++) {
+//            if ($clinic->language)
+//        }
 
         $templates = \Session::get('templates', []);
-
-
 
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates]);
+        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected]);
     }
 
     /**
@@ -310,21 +318,16 @@ class SiteController extends Controller
         $clinicHosting->password =bcrypt($input['host-password']);
         $clinicHosting->save();
 
-        $a = count($languages);
-        $b = count($clinic->language);
+        foreach ($clinic->language as $lang){
+            $lang->delete();
+        }
 
-        for ($i = 0; $i < count($languages); $i++) {
-            if ($a > $b){
-                foreach ($languages as $langu){
-                    $clinicLanguage = new ClinicLanguage();
-                    $clinicLanguage->language_id = $langu;
-                    $clinicLanguage->clinic()->associate($clinic);
-                    $clinicLanguage->save();
-                }
-            } else {
-                $clinic->language[$i]->language_id = $languages[$i];
-                $clinic->language[$i]->save();
-            }
+        // save clinic language table
+        foreach ($languages as $langu){
+            $clinicLanguage = new ClinicLanguage();
+            $clinicLanguage->language_id = $langu;
+            $clinicLanguage->clinic()->associate($clinic);
+            $clinicLanguage->save();
         }
 
         $clinics = Clinic::get();

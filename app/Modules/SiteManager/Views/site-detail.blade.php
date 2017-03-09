@@ -18,7 +18,11 @@
 	                <h2 class="text-center">Account Information</h2>
 	                <ul class="list-unstyled site-name-language">
 	                	<li><span>Site Name </span>{{ $clinic->info->site_name }}</li>
-	                	<li><span>Default Language </span> {{ $clinic->language[0]->country_id }}</li>
+	                	<li><span>Default Language </span>
+							@foreach($clinic->language as $lang)
+								{{ $lang->language_id }}
+							@endforeach
+						</li>
 	                </ul>
 	                <div class="row">
 	                	<div class="col-sm-6">
