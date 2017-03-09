@@ -25,12 +25,12 @@ return [
     * General Theme
     *
     */
-	'name' => 'smallpine',
+    'name' => 'smallpine',
     'version' => '1.0.0',
     'author' => 'ITLSVN',
     'author_url' => 'https://www.facebook.com/hoainam.tran.355',
     'description' => 'Smallpine Theme',
-	'theme_type_id' => 3,
+    'theme_type_id' => 3,
     'image_preview' => 'preview.jpg',
 
     /*
@@ -38,258 +38,451 @@ return [
     * Set menu position on theme
     *
     */
-    'menu_position' => ['menu-top','menu-bottom','menu-left','menu-right'],
+    'menu_position' => ['menu-top', 'menu-bottom', 'menu-left', 'menu-right'],
 
     /*
     *
     * Set widget position on theme
     *
     */
-    'widget_position' => ['post_slider','sidebar'],
+    'widget_position' => ['post_slider', 'sidebar'],
 
     /*
     *
     * Set Theme Options
     *
     */
-	"options"=>[
-		"general"=>[
-			[
-				'name'=>'logo',
-                'type'=>'imageupload',
-                'value'=>'Default Theme',
-                'label'=>'Logo',
-            ],
-			[
-				'name'=>'feature_image',
-                'type'=>'input_upload',
-                'value'=>'http://sbd639.loc/uploads/hoangdv-log-checkout-240117.png',
-                'label'=>'Feature image',
+    "options" => [
+        "general" => [
+            [
+                'name' => 'logo',
+                'type' => 'imageupload',
+                'value' => 'Default Theme',
+                'label' => 'Logo',
             ],
             [
-				'name'=>'copyright',
-                'type'=>'text',
-                'value'=>'Copyright &copy; 2016 ITLSVN',
-                'label'=>'Copyright Text',
+                'name' => 'feature_image',
+                'type' => 'input_upload',
+                'value' => 'http://sbd639.loc/uploads/hoangdv-log-checkout-240117.png',
+                'label' => 'Feature image',
             ],
             [
-				'name'=>'customcss',
-                'type'=>'textarea',
-                'value'=>'',
-                'label'=>'Custom CSS',
+                'name' => 'copyright',
+                'type' => 'text',
+                'value' => 'Copyright &copy; 2016 ITLSVN',
+                'label' => 'Copyright Text',
             ],
-		],
-		
-		"social_media"=>[
-			[
-				'name'=>'facebook',
-                'type'=>'text',
-                'value'=>'',
-                'label'=>'Facebook',
-			],
-			[
-				'name'=>'twitter',
-                'type'=>'text',
-                'value'=>'',
-                'label'=>'Twitter',
-			],
-			[
-				'name'=>'google_plus',
-                'type'=>'text',
-                'value'=>'',
-                'label'=>'Google Plus',
-			],
-			[
-				'name'=>'youtube',
-                'type'=>'text',
-                'value'=>'',
-                'label'=>'Youtube',
-			],
-		],
-		
-		"layouts"=>[
-			[
-				'name'=>'layout_style',
-                'type'=>'combobox',
-                'options'=>[
-                    'right-sidebar'=>'Right Sidebar',
-                    'left-sidebar'=>'Left Sidebar',
-                    'none-sidebar'=>'None Sidebar',
-                    'center-content'=>'Center Content',
-                    'content'=>'Content',
+            [
+                'name' => 'customcss',
+                'type' => 'textarea',
+                'value' => '',
+                'label' => 'Custom CSS',
+            ],
+        ],
+
+        "social_media" => [
+            [
+                'name' => 'facebook',
+                'type' => 'text',
+                'value' => '',
+                'label' => 'Facebook',
+            ],
+            [
+                'name' => 'twitter',
+                'type' => 'text',
+                'value' => '',
+                'label' => 'Twitter',
+            ],
+            [
+                'name' => 'google_plus',
+                'type' => 'text',
+                'value' => '',
+                'label' => 'Google Plus',
+            ],
+            [
+                'name' => 'youtube',
+                'type' => 'text',
+                'value' => '',
+                'label' => 'Youtube',
+            ],
+        ],
+
+        "layouts" => [
+            [
+                'name' => 'layout_style',
+                'type' => 'combobox',
+                'options' => [
+                    'right-sidebar' => 'Right Sidebar',
+                    'left-sidebar' => 'Left Sidebar',
+                    'none-sidebar' => 'None Sidebar',
+                    'center-content' => 'Center Content',
+                    'content' => 'Content',
                 ],
-                'value'=>'none-sidebar',
-                'label'=>'Layout Style',
-			]
-		],
-		"typography" => [
-			[
-				'name' => 'general',
-				'label' => '',
-				'type' => 'fieldset',
-				'items' => [
-					[
-						'name' => 'background_image',
-						'label' => 'Background image',
-						'value' => 'http://sbd639.loc/uploads/hoangdv-log-checkout-240117.png',
-						'type' => 'input_upload'
-					],
-					[
-                        'name' => 'font_family',
-                        'label' => 'Font family',
-						'value' => 'tahoma',
-                        'type' => 'combobox',
-                        'options' => [
-                            'arial' => 'Arial',
-                            'tahoma' => 'Tahoma',
+                'value' => 'none-sidebar',
+                'label' => 'Layout Style',
+            ]
+        ],
+        /*
+                 * Variable for build sass to css
+                 * */
+        'typography' => [
+            // Site title
+            [
+                "name" => "site_title",
+                "label" => "Site title",
+                "type" => "fieldset",
+                "items" => [
+                    [
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#222222",
+                        "type" => "colorpicker"
+                    ],
+                    [
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Black",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
                         ]
                     ],
-				]
-			],
-            [
-                'name' => 'site_title',
-                'label' => 'Site title',
-				'type' => 'fieldset',
-                'items' => [
                     [
-                        'name' => 'color',
-                        'label' => 'Color',
-                        'value' => '#ff0000',
-						'type' => 'colorpicker'
-                    ],
-                    [
-                        'name' => 'font_size',
-                        'label' => 'Font size',
-						'value' => '16px',
-                        'type' => 'combobox',
-                        'options' => [
-                            '14px' => '14 px',
-                            '15px' => '15 px',
-                            '16px' => '16 px',
-                        ]
-                    ],
-                ]
-            ],
-            [
-                'name' => 'sologan',
-                'label' => 'Sologan',
-				'type' => 'fieldset',
-                'items' => [
-                    [
-                        'name' => 'color',
-                        'label' => 'Color',
-						'value' => '#cccccc',
-                        'type' => 'colorpicker'
-                    ],
-                    [
-                        'name' => 'font_size',
-                        'label' => 'Font size',
-						'value' => '15px',
-                        'type' => 'combobox',
-                        'options' => [
-                            '14px' => '14 px',
-                            '15px' => '15 px',
-                            '16px' => '16 px',
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "20px",
+                        "type" => "combobox",
+                        "options" => [
+                            "25px" => "25px",
+                            "26px" => "26px",
+                            "27px" => "27px",
+                            "28px" => "28px",
+                            "29px" => "29px",
+                            "30px" => "30px",
+                            "31px" => "31px",
+                            "32px" => "32px",
+                            "33px" => "33px",
+                            "34px" => "34px",
+                            "35px" => "35px",
                         ]
                     ],
                 ]
             ],
+            // Slogan
             [
-                'name' => 'text',
-                'label' => 'Text',
-				'type' => 'fieldset',
-                'items' => [
+                "name" => "slogan",
+                "label" => "Slogan",
+                "type" => "fieldset",
+                "items" => [
                     [
-                        'name' => 'color',
-                        'label' => 'Color',
-						'value' => '#26B99A',
-                        'type' => 'colorpicker'
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#222222",
+                        "type" => "colorpicker"
                     ],
                     [
-                        'name' => 'font_size',
-                        'label' => 'Font size',
-						'value' => '15px',
-                        'type' => 'combobox',
-                        'options' => [
-                            '14px' => '14 px',
-                            '15px' => '15 px',
-                            '16px' => '16 px',
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Bold",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
+                    ],
+                    [
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "12px",
+                        "type" => "combobox",
+                        "options" => [
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "25px" => "25px",
+                            "16px" => "16px",
+                            "17px" => "17px",
+                            "18px" => "18px",
+                            "19px" => "19px",
+                            "20px" => "20px",
+                            "21px" => "21px",
+                            "22px" => "22px",
                         ]
                     ],
                 ]
             ],
+            // Text (Page)
             [
-                'name' => 'link',
-                'label' => 'Link',
-				'type' => 'fieldset',
-                'items' => [
+                "name" => "page",
+                "label" => "Text",
+                "type" => "fieldset",
+                "items" => [
                     [
-                        'name' => 'color',
-                        'label' => 'Normal',
-						'value' => '#f26726',
-                        'type' => 'colorpicker'
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#222222",
+                        "type" => "colorpicker"
                     ],
                     [
-                        'name' => 'color_hover',
-                        'label' => 'Hover',
-						'value' => '#6fcf6c',
-                        'type' => 'colorpicker'
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Medium",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
                     ],
                     [
-                        'name' => 'font_size',
-                        'label' => 'Font size',
-						'value' => '15px',
-                        'type' => 'combobox',
-                        'options' => [
-                            '14px' => '14 px',
-                            '15px' => '15 px',
-                            '16px' => '16 px',
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "14px",
+                        "type" => "combobox",
+                        "options" => [
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "25px" => "25px",
+                            "16px" => "16px",
+                            "17px" => "17px",
+                            "18px" => "18px",
+                            "19px" => "19px",
+                            "20px" => "20px",
+                            "21px" => "21px",
+                            "22px" => "22px",
                         ]
                     ],
                 ]
             ],
+            // Link
             [
-				'name' => 'button',
-				'label' => 'Button',
-				'type' => 'fieldset',
-				'items' => [
-					[
-						'name' => 'color',
-						'label' => 'Normal',
-						'value' => '#27b4f0',
-						'type' => 'colorpicker'
-					],
-					[
-						'name' => 'color_hover',
-						'label' => 'Text Hover',
-						'value' => '#f26726',
-						'type' => 'colorpicker'
-					],
-					[
-						'name' => 'font_size',
-						'label' => 'Font size',
-						'value' => '13px',
-						'type' => 'combobox',
-						'options' => [
-							'13px' => '13 px',
-							'14px' => '14 px',
-							'15px' => '15 px',
-						]
-					],
-					[
-						'name' => 'background_color',
-						'label' => 'Background color',
-						'value' => '#ea87ed',
-						'type' => 'colorpicker'
-					],
-					[
-						'name' => 'background_hover',
-						'label' => 'Background Hover',
-						'value' => '#f26726',
-						'type' => 'colorpicker'
-					],
-				]
-			]
-        ]
-	]
+                "name" => "link",
+                "label" => "Link",
+                "type" => "fieldset",
+                "items" => [
+                    [
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#222222",
+                        "type" => "colorpicker",
+                    ],
+                    [
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Black",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
+                    ],
+                    [
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "12px",
+                        "type" => "combobox",
+                        "options" => [
+                            "10px" => "10px",
+                            "11px" => "11px",
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "25px" => "25px",
+                            "16px" => "16px",
+                            "17px" => "17px",
+                            "18px" => "18px",
+                            "19px" => "19px",
+                            "20px" => "20px",
+                        ]
+                    ],
+                    [
+                        "name" => "hover_color",
+                        "label" => "Hover color",
+                        "value" => "#c2c7d1",
+                        "type" => "colorpicker",
+                    ],
+                ]
+            ],
+            // Button
+            [
+                "name" => "button",
+                "label" => "Button",
+                "type" => "fieldset",
+                "items" => [
+                    [
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#ffffff",
+                        "type" => "colorpicker"
+                    ],
+                    [
+                        "name" => "hover_color",
+                        "label" => "Text hover color",
+                        "value" => "#222222",
+                        "type" => "colorpicker"
+                    ],
+                    [
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Medium",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
+                    ],
+                    // row 2
+                    [
+                        "name" => "background_color",
+                        "label" => "Background color",
+                        "value" => "#f48100",
+                        "type" => "colorpicker"
+                    ],
+                    [
+                        "name" => "background_hover_color",
+                        "label" => "Background hover color",
+                        "value" => "#ffffff",
+                        "type" => "colorpicker"
+                    ],
+                    [
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "14px",
+                        "type" => "combobox",
+                        "options" => [
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "15px" => "15px",
+                            "16px" => "16px",
+                            "17px" => "17px",
+                            "18px" => "18px",
+                            "19px" => "19px",
+                            "20px" => "20px",
+                            "21px" => "21px",
+                            "22px" => "22px",
+                        ]
+                    ],
+                    // row 3
+                    // [
+                    //     "name" => "border_color",
+                    //     "label" => "Border color",
+                    //     "value" => "#f48100",
+                    //     "type" => "colorpicker"
+                    // ],
+                    // [
+                    //     "name" => "border_hover_color",
+                    //     "label" => "Border hover",
+                    //     "value" => "#222222",
+                    //     "type" => "colorpicker"
+                    // ],
+                ]
+            ],
+            // Header
+            [
+                "name" => "header",
+                "label" => "Header",
+                "type" => "fieldset",
+                "items" => [
+                    [
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#ffffff",
+                        "type" => "colorpicker",
+                    ],
+                    [
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Black",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
+                    ],
+                    [
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "12px",
+                        "type" => "combobox",
+                        "options" => [
+                            "10px" => "10px",
+                            "11px" => "11px",
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "15px" => "15px",
+                            "16px" => "16px",
+                        ]
+                    ],
+                    [
+                        "name" => "background_color",
+                        "label" => "Background color",
+                        "value" => "#c2c7d1",
+                        "type" => "colorpicker",
+                    ],
+                ]
+            ],
+            // Footer
+            [
+                "name" => "footer",
+                "label" => "Footer",
+                "type" => "fieldset",
+                "items" => [
+                    [
+                        "name" => "color",
+                        "label" => "Text color",
+                        "value" => "#222222",
+                        "type" => "colorpicker",
+                    ],
+                    [
+                        "name" => "font_family",
+                        "label" => "Font family",
+                        "value" => "Raleway-Bold",
+                        "type" => "combobox",
+                        "options" => [
+                            "Raleway-Black" => "Raleway Black",
+                            "Raleway-Bold" => "Raleway Bold",
+                            "Raleway-Medium" => "Raleway Medium",
+                            "Raleway-Italic" => "Raleway Italic",
+                        ]
+                    ],
+                    [
+                        "name" => "font_size",
+                        "label" => "Font size",
+                        "value" => "12px",
+                        "type" => "combobox",
+                        "options" => [
+                            "10px" => "10px",
+                            "11px" => "11px",
+                            "12px" => "12px",
+                            "13px" => "13px",
+                            "14px" => "14px",
+                            "15px" => "15px",
+                            "16px" => "16px",
+                        ]
+                    ],
+                    [
+                        "name" => "background_color",
+                        "label" => "Background color",
+                        "value" => "#fafafa",
+                        "type" => "colorpicker",
+                    ],
+                ]
+            ],
+        ],
+    ]
 ];
