@@ -81,6 +81,28 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="doctor-infor">
+                                <h3 class="text-center create-title">Selected Template</h3>
+                                @foreach($clinic->theme as $theme)
+                                    <div class="form-group">
+                                        <label for="telephone" class="col-sm-3 control-label">Teamplate {{ $theme->clinic_theme_id }}</label>
+                                        <div class="col-sm-9">
+                                            <a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <div class="form-group">
+                                    <label for="telephone" class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-9">
+                                        <a class="btn btn-success"  href="{{ Admin::route('siteManage.update-template',['id'=>$clinic->clinic_id]) }}" >
+                                            Select Templates
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-sm-7">
@@ -161,6 +183,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="step-bottom row">
@@ -181,3 +204,18 @@
         </div>
     </div>
 @endsection
+@push('style-top')
+    <style>
+        .doctor-infor li span{
+            font-weight: bold;
+            color: #000000;
+            width: 150px;
+            display: inline-block;
+
+        }
+
+        .doctor-infor li ul{
+            padding-left: 20px;
+        }
+    </style>
+@endpush
