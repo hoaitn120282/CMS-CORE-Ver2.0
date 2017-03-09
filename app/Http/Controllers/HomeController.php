@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Helper;
 use App\Http\Requests;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Theme;
 use App\Modules\ContentManager\Models\Articles;
@@ -17,11 +19,21 @@ class HomeController extends Controller
     public function index()
     {
         $layout = Theme::layout();
-        $blog = Articles::where('post_type', 'post')
-            ->where('post_status', 'publish')
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        $showOnFront = Helper::option('show_on_front');
+        $pageOnFront = Helper::option('page_on_front');
 
-        return view(Theme::frontpage(), compact('blog', 'layout'));
+        if (!empty($showOnFront) && ('page' == $showOnFront) && !empty($pageOnFront)) {
+            $blog = Articles::where('post_type', 'page')
+                ->where('post_name', $pageOnFront)
+                ->first();
+            $blogs = new Collection([$blog]);
+        } else {
+            $blogs = Articles::where('post_type', 'post')
+                ->where('post_status', 'publish')
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+        }
+
+        return view(Theme::frontpage(), compact('blogs', 'layout'));
     }
 }

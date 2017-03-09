@@ -61,21 +61,42 @@
                                     <label>Front page displays</label>
                                     <div class="">
                                         <div class="form-group">
-                                            <label for="show_on_front_posts" style="font-weight: 400; cursor: pointer; margin-right: 15px;">
+                                            <label for="show_on_front_posts"
+                                                   style="font-weight: 400; cursor: pointer; margin-right: 15px;">
+                                                <?php
+                                                $page_on_front = isset($model['show_on_front']) ? $model['show_on_front'] : 'posts';
+                                                ?>
                                                 <input type="radio" id="show_on_front_posts"
+                                                       init="show_on_front"
                                                        name="opt[show_on_front]"
-                                                       value="posts" class="flat"
-                                                       data-role="checkbox">
+                                                       value="posts" class=" show_on_front"
+                                                       data-role="checkbox"
+                                                        {{ ('posts' == $page_on_front) ? 'checked':'' }}>
                                                 Your latest posts
                                             </label>
 
                                             <label for="show_on_front_page" style="font-weight: 400; cursor: pointer;">
                                                 <input type="radio" id="show_on_front_page"
+                                                       init="show_on_front"
                                                        name="opt[show_on_front]"
-                                                       value="page" class="flat"
-                                                       data-role="checkbox">
+                                                       value="page" class=" show_on_front"
+                                                       data-role="checkbox"
+                                                        {{ ('page' == $page_on_front) ? 'checked':'' }}>
                                                 A static page (select below)
                                             </label>
+                                        </div>
+                                        <div class="form-group" id="page_on_front"
+                                             style="{{ ('page' == $page_on_front) ? 'display:block':'display:none' }}">
+                                            <label for="page_on_front">Select page</label>
+                                            <select class="form-control" name="opt[page_on_front]" id="page_on_front">
+                                                @foreach($pages as $page)
+                                                    <option value="{{$page->post_name}}"
+                                                            {{ (isset($model['page_on_front']) &&
+                                                             ($page->post_name == $model['page_on_front'])) ? "selected" : "" }}>
+                                                        {{ $page->post_title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -169,3 +190,19 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    jQuery(document).ready(function ($) {
+        $('input.show_on_front').on('change', function () {
+            console.log($(this).val());
+            if ($(this).val() == 'page') {
+                $("#page_on_front").css('display', 'block');
+            } else {
+                $("#page_on_front").css('display', 'none');
+            }
+        });
+    });
+
+</script>
+@endpush
