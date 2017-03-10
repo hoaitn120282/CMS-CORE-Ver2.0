@@ -430,20 +430,26 @@ class SiteController extends Controller
         $clinic = Clinic::find($id);
         $templatesUpdate = \Session::get('templatesUpdate', []);
 
-        // edit clinic theme table
-        foreach ($clinic->theme as $theme){
-            $theme->delete();
-        }
+        if (count($templatesUpdate) == 0) {
+            Session::flash('message', 'Please select at least 1 template!');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect('admin/site-manager/update-template/'.$id);
+//            return redirect(Admin::route('siteManager.update-template/'.$id));
+        } else {
+            // edit clinic theme table
+            foreach ($clinic->theme as $theme){
+                $theme->delete();
+            }
 
-        foreach ($templatesUpdate as $temp){
-            $clinicTheme = new ClinicTheme();
-            $clinicTheme->theme_id = $temp;
-            $clinicTheme->clinic()->associate($clinic);
-            $clinicTheme->save();
+            foreach ($templatesUpdate as $temp){
+                $clinicTheme = new ClinicTheme();
+                $clinicTheme->theme_id = $temp;
+                $clinicTheme->clinic()->associate($clinic);
+                $clinicTheme->save();
+            }
+            $templatesUpdate = \Session::set('templatesUpdate', []);
+            return redirect(Admin::route('siteManager.edit-info', ['id' => $id]));
         }
-
-        $templatesUpdate = \Session::set('templatesUpdate', []);
-        return redirect(Admin::route('siteManager.edit-info', ['id' => $id]));
     }
 
     /*

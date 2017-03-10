@@ -14,6 +14,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @if(Session::has('message'))
+                    <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                @endif
                 <div class="top-content row">
                     <div class="col-md-6">
                         <h3>Please select at least 1 template!</h3>
