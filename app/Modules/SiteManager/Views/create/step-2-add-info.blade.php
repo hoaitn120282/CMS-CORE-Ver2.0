@@ -61,7 +61,7 @@
                                   <div class="form-group">
                                     <label for="email-address" class="col-sm-3 control-label">Email Address <span class="require">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email-address" name="email-address" value="{{ old('email-address') }}"  placeholder="Email Address">
+                                        <input type="text" class="form-control" id="email-address" name="email-address" value="{{ old('email-address') }}"  placeholder="Email Address">
                                         @if ($errors->has('email-address')) <p class="error-message">{{ $errors->first('email-address') }}</p> @endif
                                     </div>
                                   </div>
@@ -75,7 +75,7 @@
                                   <div class="form-group">
                                     <label for="telephone" class="col-sm-3 control-label">Telephone <span class="require">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
+                                        <input type="text" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
                                         @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
                                     </div>
                                   </div>
