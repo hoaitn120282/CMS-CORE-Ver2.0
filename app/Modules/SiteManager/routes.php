@@ -8,7 +8,7 @@ Route::group([
         Route::get('site-detail/{id}', ['as' => $this->admin . '.siteManager.preview', 'uses' => 'SiteController@getSiteDetail']);
         Route::get('site-manager/edit-info/{id}', ['as' => $this->admin . '.siteManager.edit-info', 'uses' => 'SiteController@editInfo']);
         Route::post('site-manager/edit-info/{id}', ['as' => $this->admin . '.siteManager.edit-info', 'uses' => 'SiteController@updateInfo']);
-        Route::get('site-manager/update-template/{id}', ['as' => $this->admin . '.siteManage.update-template', 'uses'=> 'SiteController@updateTemplate'])->where('theme_type', '[0-9]+');
+        Route::get('site-manager/update-template/{id}/{theme_type?}', ['as' => $this->admin . '.siteManage.update-template', 'uses'=> 'SiteController@updateTemplate'])->where('theme_type', '[0-9]+');
         Route::get('site-manager/save-template/{id}', ['as' => $this->admin . '.siteManager.save-template', 'uses' => 'SiteController@saveTemplate']);
 
 //        Route::get('site-manager/save-template/{id}', ['as' => $this->admin . '.siteManage.save-template', 'uses' => 'SiteController@saveTemplate']);

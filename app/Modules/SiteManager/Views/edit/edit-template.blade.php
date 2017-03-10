@@ -27,19 +27,19 @@
                                 <select name="theme_tyoe" id="themeType" class="form-control"
                                         onchange="window.location = this.options[this.selectedIndex].value;">
                                     @if(!$query)
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>0])}}">All Template</option>
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>0])}}">All Template</option>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
                                             Simple Template
                                         </option>
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
                                             Medium Template
                                         </option>
                                     @else
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>0]).'/?q='.$query}}">All Template</option>
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>1]).'/?q='.$query}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>0]).'/?q='.$query}}">All Template</option>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>1]).'/?q='.$query}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
                                             Simple Template
                                         </option>
-                                        <option value="{{Admin::route('siteManager.select-template',['theme_type'=>2]).'/?q='.$query}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
+                                        <option value="{{Admin::route('siteManage.update-template',['id'=>$id,'theme_type'=>2]).'/?q='.$query}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
                                             Medium Template
                                         </option>
                                     @endif
