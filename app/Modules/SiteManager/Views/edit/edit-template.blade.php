@@ -68,11 +68,10 @@
                 <div class="step-bottom row">
                     <div class="col-md-12">
                         <a href="{{ Admin::route('siteManager.edit-info',['id' => $id]) }}">
-                            <button class="btn btn-success pull-right">Save</button>
-                        </a>
-
-                        <a href="">
                             <button class="btn btn-success pull-right">Cancel</button>
+                        </a>
+                        <a href="{{ Admin::route('siteManager.save-template',['id' => $id]) }}">
+                            <button class="btn btn-success pull-right">Update</button>
                         </a>
                     </div>
                 </div>

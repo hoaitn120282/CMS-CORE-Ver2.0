@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Facades\Admin;
 use App\Facades\Theme;
+
 class PostController extends Controller
 {
 
@@ -24,8 +25,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $model = Articles::where('post_type','post')->orderBy('id', 'desc')->paginate(10);
-        return view("ContentManager::post.index",['model' => $model]);
+        $model = Articles::where('post_type', 'post')->orderBy('id', 'desc')->paginate(10);
+        return view("ContentManager::post.index", ['model' => $model]);
     }
 
     /**
@@ -35,14 +36,14 @@ class PostController extends Controller
      */
     public function create()
     {
-        $category = Terms::where("taxonomy","category")->where("parent",0)->get();
-        return view("ContentManager::post.create",["category"=>$category,"model"=>""]);
+        $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
+        return view("ContentManager::post.create", ["category" => $category, "model" => ""]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,73 +56,69 @@ class PostController extends Controller
         ]);
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title,"-");
+        $model->post_name = str_slug($request->post_title, "-");
         $model->post_title = $request->post_title;
         $model->comment_status = $request->comment_status;
         $model->post_content = $model->cleanContent($request->post_content);
         $model->post_excerpt = $model->cleanContent($request->post_excerpt);
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Create post '.$request->post_title);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create post ' . $request->post_title);
         TermRelationships::destroy($model->id);
         foreach ($request->meta as $key => $value) {
-           $model->meta()->updateOrCreate(["meta_key"=>$key],["meta_key"=>$key,"meta_value"=>$value]);
+            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
-        $tags = array_filter(explode(",",$request->tags));
+        $tags = array_filter(explode(",", $request->tags));
         foreach ($tags as $tag) {
-            $tr = Terms::updateOrCreate(['slug' => str_slug($tag,"-")],['name'=>$tag,"slug"=>str_slug($tag,"-"),"taxonomy"=>"tag"]);
-            TermRelationships::create(["object_id" => $model->id,"term_taxonomy_id" => $tr->term_id]);
+            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ['name' => $tag, "slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $tr->term_id]);
         }
-        if(count($request->catname) > 0):
-        foreach ($request->catname as $cat) {
-            TermRelationships::create(["object_id" => $model->id,"term_taxonomy_id" => $cat]);
-        }
+        if (count($request->catname) > 0):
+            foreach ($request->catname as $cat) {
+                TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $cat]);
+            }
         endif;
-        return redirect(Admin::StrURL('contentManager/post'));            
+        return redirect(Admin::StrURL('contentManager/post'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $slug
+     * @param  int $slug
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
-        $model = Articles::where("post_name",$slug)->where("post_type","post")->where('post_status','publish')->firstOrFail();
-        $model->post_hit = $model->post_hit+1;
+        $model = Articles::where("post_name", $slug)->where("post_type", "post")->where('post_status', 'publish')->firstOrFail();
+        $model->post_hit = $model->post_hit + 1;
         $model->save();
-        $prevPost = Articles::where('id', '<', $model->id)->where("post_type","post")->where('post_status','publish')->orderBy("id","desc")->first();
-        $nextPost = Articles::where('id', '>', $model->id)->where("post_type","post")->where('post_status','publish')->orderBy("id","asc")->first();
-        $viewTheme = Theme::active().'.post.view';
-        $shared = [
-            'model'=>$model,
-            'appTitle'=>$model->post_title,
-            'nextPost'=>$nextPost,
-            'prevPost'=>$prevPost,
-        ];
-        return view()->exists($viewTheme) ? view($viewTheme,$shared) : view("ContentManager::post.show",$shared);
+        $prevPost = Articles::where('id', '<', $model->id)->where("post_type", "post")->where('post_status', 'publish')->orderBy("id", "desc")->first();
+        $nextPost = Articles::where('id', '>', $model->id)->where("post_type", "post")->where('post_status', 'publish')->orderBy("id", "asc")->first();
+        $layout = empty($model->getMetaValue('layout')) ? Theme::layout('post') : $model->getMetaValue('layout');
+        $appTitle = $model->post_title;
+
+        return view(Theme::pageNode('post', $model->post_name), compact('model', 'appTitle', 'layout', 'nextPost', 'prevPost'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $model = Articles::find($id);
-        $category = Terms::where("taxonomy","category")->where("parent",0)->get();
-        $tags = TermRelationships::where("object_id",$id)->with("terms")->get();
-        return view("ContentManager::post.update",['model' => $model,"category"=>$category,"tags"=>$tags]);
+        $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
+        $tags = TermRelationships::where("object_id", $id)->with("terms")->get();
+        return view("ContentManager::post.update", ['model' => $model, "category" => $category, "tags" => $tags]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -133,27 +130,27 @@ class PostController extends Controller
             'post_title' => 'required|max:255',
         ]);
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title,"-");
+        $model->post_name = str_slug($request->post_title, "-");
         $model->post_title = $request->post_title;
         $model->comment_status = $request->comment_status;
         $model->post_content = $model->cleanContent($request->post_content);
         $model->post_excerpt = $model->cleanContent($request->post_excerpt);
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Update post '.$request->post_title);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update post ' . $request->post_title);
         TermRelationships::destroy($model->id);
         foreach ($request->meta as $key => $value) {
-           $model->meta()->updateOrCreate(["meta_key"=>$key],["meta_key"=>$key,"meta_value"=>$value]);
+            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
-        $tags = array_filter(explode(",",$request->tags));
+        $tags = array_filter(explode(",", $request->tags));
         foreach ($tags as $tag) {
-            $tr = Terms::updateOrCreate(['slug' => str_slug($tag,"-")],['name'=>$tag,"slug"=>str_slug($tag,"-"),"taxonomy"=>"tag"]);
-            TermRelationships::create(["object_id" => $model->id,"term_taxonomy_id" => $tr->term_id]);
+            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ['name' => $tag, "slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $tr->term_id]);
         }
-        if(count($request->catname) > 0):
-        foreach ($request->catname as $cat) {
-            TermRelationships::create(["object_id" => $model->id,"term_taxonomy_id" => $cat]);
-        }
+        if (count($request->catname) > 0):
+            foreach ($request->catname as $cat) {
+                TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $cat]);
+            }
         endif;
         return redirect(Admin::StrURL('contentManager/post'));
     }
@@ -161,37 +158,39 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $tmp = explode(",", $id);
-        if(is_array($tmp)){
+        if (is_array($tmp)) {
             Articles::destroy($tmp);
-            TermRelationships::destroy($tmp);    
-        }else{
-            Articles::destroy($id);  
-            TermRelationships::destroy($id);      
+            TermRelationships::destroy($tmp);
+        } else {
+            Articles::destroy($id);
+            TermRelationships::destroy($id);
         }
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Delete post id :'.$id);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete post id :' . $id);
     }
 
-    public function tagsJson(){
-        $array = ['result'=>[
-                                'test'=>'tesadasst',
-                                'tesft'=>'tesagdfdasst',
-                                'tes2t'=>'tesagdfgdfdasst',
-                                'tes3t'=>'tesagfdgdfdasst',
-                                'tesst'=>'tesandfgdasst',
-                            ]
-                ];
+    public function tagsJson()
+    {
+        $array = ['result' => [
+            'test' => 'tesadasst',
+            'tesft' => 'tesagdfdasst',
+            'tes2t' => 'tesagdfgdfdasst',
+            'tes3t' => 'tesagfdgdfdasst',
+            'tesst' => 'tesandfgdasst',
+        ]
+        ];
         return json_encode($array);
         //return Terms::where("taxonomy","tag")->get()->toJson();
     }
 
-    public function addComment(Request $request, $slug){
-        $model = Articles::where("post_name",$slug)->firstOrFail();
+    public function addComment(Request $request, $slug)
+    {
+        $model = Articles::where("post_name", $slug)->firstOrFail();
         $this->validate($request, [
             'comment_name' => 'required',
             'comment_email' => 'required|email',
@@ -203,16 +202,17 @@ class PostController extends Controller
         $comment->email = $request->comment_email;
         $comment->content = $request->comment_content;
         $comment->save();
-        
-        return redirect(url('/'.$slug)); 
+
+        return redirect(url('/' . $slug));
     }
 
-    public function blog(){
-        $model = Articles::where("post_type","post")->get();
-        $viewTheme = Theme::active().'.post.index';
-        if(view()->exists($viewTheme)){
-            view($viewTheme,['model'=>$model]);
-        }else{
+    public function blog()
+    {
+        $model = Articles::where("post_type", "post")->get();
+        $viewTheme = Theme::active() . '.post.index';
+        if (view()->exists($viewTheme)) {
+            view($viewTheme, ['model' => $model]);
+        } else {
             abort(404);
         }
     }
