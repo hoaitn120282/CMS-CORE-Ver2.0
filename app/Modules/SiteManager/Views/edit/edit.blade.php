@@ -19,14 +19,14 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="form-group">
-                                    <label for="site-name" class="col-sm-4 control-label">Site Name</label>
+                                    <label for="site-name" class="col-sm-4 control-label">Site Name <span class="require">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" class="form-control" id="site-name" name="site-name" value="{{ $clinic->info->site_name }}" placeholder="Site Name">
                                         @if ($errors->has('site-name')) <p class="error-message">{{ $errors->first('site-name') }}</p> @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-sm-4 control-label">Language</label>
+                                    <label  class="col-sm-4 control-label">Language <span class="require">*</span></label>
                                     <div class="col-sm-8">
                                         @foreach($languages as $language)
                                             <label class="checkbox-inline">
@@ -53,28 +53,28 @@
                                 <h3 class="text-center create-title">Doctor Information</h3>
 
                                 <div class="form-group">
-                                    <label for="admin-name" class="col-sm-3 control-label">Admin Name</label>
+                                    <label for="admin-name" class="col-sm-3 control-label">Admin Name <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="admin-name" name="admin-name" value="{{ $clinic->info->username }}" placeholder="Admin Name">
                                         @if ($errors->has('admin-name')) <p class="error-message">{{ $errors->first('admin-name') }}</p> @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email-address" class="col-sm-3 control-label">Email Address</label>
+                                    <label for="email-address" class="col-sm-3 control-label">Email Address <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="email" class="form-control" id="email-address" name="email-address" value="{{ $clinic->info->email }}"  placeholder="Email Address">
                                         @if ($errors->has('email-address')) <p class="error-message">{{ $errors->first('email-address') }}</p> @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="address" class="col-sm-3 control-label">Address</label>
+                                    <label for="address" class="col-sm-3 control-label">Address <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="address" name="address" value="{{ $clinic->info->address }}"  placeholder="Address">
                                         @if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="telephone" class="col-sm-3 control-label">Telephone</label>
+                                    <label for="telephone" class="col-sm-3 control-label">Telephone <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="number" class="form-control" id="telephone" name="telephone" value="{{ $clinic->info->telephone }}"  placeholder="Telephone">
                                         @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
@@ -217,5 +217,14 @@
         .doctor-infor li ul{
             padding-left: 20px;
         }
+        .error-message{
+            margin-top: 5px;
+            color: red;
+        }
+
+        .require{
+            color: red;
+        }
+
     </style>
 @endpush
