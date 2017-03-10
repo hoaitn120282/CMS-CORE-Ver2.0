@@ -14,6 +14,7 @@ use App\Modules\SiteManager\Models\ThemeType;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Session;
 use Validator;
 use DB;
 use Flash;
@@ -179,8 +180,15 @@ class SiteController extends Controller
      * */
     public function addInfo(Request $request){
         $languages = Language::get();
+        $templates = \Session::get('templates', []);
 
-        return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
+        if (count($templates) == 0) {
+            Session::flash('message', 'Please select at least 1 template!');
+            Session::flash('alert-class', 'alert-danger');
+            return redirect(Admin::route('siteManager.select-template'));
+        } else {
+            return view('SiteManager::create.step-2-add-info', ['languages' => $languages]);
+        }
     }
 
     //Create clinic
@@ -193,34 +201,36 @@ class SiteController extends Controller
         $rules = array(
             'site-name' => 'required',
             'admin-name' => 'required',
-            'email-address' => 'required',
+            'email-address' => 'required|email',
             'address' => 'required',
-            'telephone' => 'required',
-            'domain' => 'required',
-            'host' => 'required',
-            'host-username' => 'required',
-            'host-password' => 'required',
-            'database-name' => 'required',
+            'telephone' => 'required|numeric',
             'language' =>'required',
-            'database-host' => 'required',
-            'database-password' => 'required',
-            'database-username' => 'required',
+//            'domain' => 'required',
+//            'host' => 'required',
+//            'host-username' => 'required',
+//            'host-password' => 'required',
+//            'database-name' => 'required',
+//            'database-host' => 'required',
+//            'database-password' => 'required',
+//            'database-username' => 'required',
         );
 
         $messages = [
             'site-name.required' => 'The Site Name field is required.',
             'admin-name.required' => 'The Admin Name field is required.',
             'email-address.required' => 'The Email Address field is required.',
+            'email-address.email' => 'Please enter a valid email address.',
             'address.required' => 'The Address field is required.',
             'telephone.required' => 'The Telephone field is required.',
-            'domain.required' => 'The Domain field is required.',
-            'host.required' => 'The Host field is required.',
-            'host-username.required' => 'The Host Username field is required.',
-            'host-password.required' => 'The Host Password field is required.',
-            'database-name.required' => 'The Database Name field is required.',
-            'database-host.required' => 'The Database Host field is required.',
-            'database-password.required' => 'The Database Password field is required.',
-            'database-username.required' => 'The Database Username field is required.',
+            'telephone.numeric' => 'Táde field.',
+//            'domain.required' => 'The Domain field is required.',
+//            'host.required' => 'The Host field is required.',
+//            'host-username.required' => 'The Host Username field is required.',
+//            'host-password.required' => 'The Host Password field is required.',
+//            'database-name.required' => 'The Database Name field is required.',
+//            'database-host.required' => 'The Database Host field is required.',
+//            'database-password.required' => 'The Database Password field is required.',
+//            'database-username.required' => 'The Database Username field is required.',
             'language.required' => 'The Language field is required.',
         ];
 
