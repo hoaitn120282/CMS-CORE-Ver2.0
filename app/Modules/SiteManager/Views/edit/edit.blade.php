@@ -34,7 +34,7 @@
 
                                                 <?php
                                                         if(in_array($language->language_id, $languageSelected)) echo "checked";
-                                                    ?>
+                                                 ?>
 
                                                  > {{ $language->name }}
                                             </label>
