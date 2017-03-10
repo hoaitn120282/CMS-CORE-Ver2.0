@@ -17,11 +17,12 @@ class TagController extends Controller
      */
     public function index()
     {
-        $model = Terms::where("taxonomy","tag")->orderBy('term_id', 'desc')->paginate(10);
+        $model = "";
+        $nodes = Terms::where("taxonomy","tag")->orderBy('term_id', 'desc')->paginate(10);
          $category = Terms::where("taxonomy","tag")
         ->where("parent",0)
         ->get();
-        return view("ContentManager::tag.index",['model' => $model,"category"=>$category]);
+        return view("ContentManager::tag.index",compact('model', 'nodes', 'category'));
     }
 
     /**
@@ -75,11 +76,12 @@ class TagController extends Controller
     public function edit($id)
     {
         $model = Terms::find($id);
-        $modelAll = Terms::where("taxonomy","tag")->orderBy('term_id', 'desc')->paginate(10);
+        $nodes = Terms::where("taxonomy","tag")->orderBy('term_id', 'desc')->paginate(10);
         $category = Terms::where("taxonomy","tag")
         ->where("parent",0)
         ->get();
-        return view("ContentManager::tag.update",['model' => $model,"category"=>$category,"modelAll"=>$modelAll]);
+
+        return view("ContentManager::tag.update",compact('model', 'nodes', 'category'));
     }
 
     /**

@@ -191,14 +191,14 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12 toolbar-actions">
+        <div class="toolbar-actions">
             <div class="pull-right">
                 <button type="submit" class="btn btn-success">
                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     {{ ($model != "" ) ? "Save Post" : "Publish Post" }}
                 </button>
                 <a href="{{ Admin::route('contentManager.page.index') }}"
-                   role="button" class="btn btn-success">
+                   role="button" class="btn btn-primary">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                     Cancel
                 </a>
@@ -206,6 +206,21 @@
         </div>
     </div><!-- /.action -->
 </form>
+
+@push('style-top')
+<style>
+    .toolbar-actions {
+        margin-top: 15px;
+        padding: 15px 35px 15px 15px;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        bottom: 36px;
+        z-index: 9999;
+        left: 0;
+    }
+</style>
+@endpush
 
 
 

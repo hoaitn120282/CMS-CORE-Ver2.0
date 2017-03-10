@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 toolbar-actions">
+        <div class="toolbar-actions">
             <div class="pull-right">
                 <button type="submit" class="btn btn-success">
                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -99,4 +99,17 @@
         </div>
     </div>
 </form>
-
+@push('style-top')
+<style>
+    .toolbar-actions {
+        margin-top: 15px;
+        padding: 15px 35px 15px 15px;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        bottom: 36px;
+        z-index: 9999;
+        left: 0;
+    }
+</style>
+@endpush
