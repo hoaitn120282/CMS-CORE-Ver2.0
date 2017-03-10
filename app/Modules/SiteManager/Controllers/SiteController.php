@@ -231,7 +231,7 @@ class SiteController extends Controller
             'email-address.email' => 'Please enter a valid email address.',
             'address.required' => 'The Address field is required.',
             'telephone.required' => 'The Telephone field is required.',
-            'telephone.numeric' => 'Táde field.',
+            'telephone.numeric' => 'Please enter a valid number.',
 //            'domain.required' => 'The Domain field is required.',
 //            'host.required' => 'The Host field is required.',
 //            'host-username.required' => 'The Host Username field is required.',
@@ -326,7 +326,7 @@ class SiteController extends Controller
             'email-address.email' => 'Please enter a valid email address.',
             'address.required' => 'The Address field is required.',
             'telephone.required' => 'The Telephone field is required.',
-            'telephone.numeric' => 'Táde field.',
+            'telephone.numeric' => 'Please enter a valid number.',
             'language.required' => 'The Language field is required.',
         ];
 
