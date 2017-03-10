@@ -6,7 +6,7 @@
       @include('ContentManager::partials.errormessage')
       <div class="x_panel">
         <div class="x_title">
-          <h2>Edit tag</h2>
+          <h2>Create tag</h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">

@@ -8,6 +8,8 @@ use App\Modules\ContentManager\Models\TermRelationships;
 use App\Facades\Admin;
 use App\Http\Controllers\Controller;
 use App\Facades\Theme;
+use Validator;
+
 class CategoryController extends Controller
 {
     /**
@@ -27,6 +29,19 @@ class CategoryController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $model = '';
+        $category = Terms::where("taxonomy","category")->where("parent",0)->get();
+
+        return view("ContentManager::category.create", compact('model', 'category'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,10 +50,19 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $model = new Terms();
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'parent' => 'required',
         ]);
+        if ($validator->fails()) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => $validator->errors()->all()
+            ]);
+
+            return redirect(Admin::route('contentManager.category.create'));
+        }
+
         $model->name = $request->name;
         if(!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug,"-");
@@ -49,11 +73,26 @@ class CategoryController extends Controller
         $model->taxonomy = "category";
         $model->description = $request->description;
         $model->parent = $request->parent;
-        $model->save();
+        $response  = $model->save();
         if($request->ajax()){
             return json_encode(["id"=>$model->term_id,"parent"=>$model->parent]);
         }
-        return redirect(Admin::StrURL('contentManager/category'));
+
+        if ($response) {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => ['The category has been created successfully.']
+            ]);
+
+            return redirect(Admin::StrURL('contentManager/category'));
+        } else {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => ['The category has been created failure.']
+            ]);
+        }
+
+        return redirect(Admin::route('contentManager.category.create'));
     }
 
     /**
@@ -98,10 +137,18 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $model = Terms::find($id);
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'parent' => 'required',
         ]);
+        if ($validator->fails()) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => $validator->errors()->all()
+            ]);
+
+            return redirect(Admin::route('contentManager.category.edit', ['id' => $id]));
+        }
         $model->name = $request->name;
         if(!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug,"-");
@@ -112,8 +159,23 @@ class CategoryController extends Controller
         $model->taxonomy = "category";
         $model->description = $request->description;
         $model->parent = $request->parent;
-        $model->save();
-        return redirect(Admin::StrURL('contentManager/category'));
+        $response = $model->save();
+
+        if ($response) {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => ['The category has been updated successfully.']
+            ]);
+
+            return redirect(Admin::StrURL('contentManager/category'));
+        } else {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => ['The category has been updated failure.']
+            ]);
+        }
+
+        return redirect(Admin::route('contentManager.category.edit', ['id' => $id]));
     }
 
     /**
