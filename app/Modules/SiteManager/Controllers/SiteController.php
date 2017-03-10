@@ -358,6 +358,15 @@ class SiteController extends Controller
         $theme_type = 0;
         $query = Input::get("q");
 
+        \Session::set('templatesUpdate',[]);
+
+        $clinicThemes =  ClinicTheme::where('clinic_id',$id)->get();
+        $templates = [];
+        foreach ($clinicThemes as $ct){
+                array_push($templates, $ct->theme_id);
+        }
+        \Session::set('templatesUpdate',$templates);
+
         if ($theme_type == 0) {
             $templatesUpdate = Template::where('theme_type_id', '<>', 3)
                 ->where('is_publish',1)
