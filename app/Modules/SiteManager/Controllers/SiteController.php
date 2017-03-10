@@ -382,8 +382,7 @@ class SiteController extends Controller
     * @param : clinic_id
     * Save selected template to session
     * */
-    public function updateTemplate($id) {
-        $theme_type = 0;
+    public function updateTemplate($id, $theme_type = 0) {
         $query = Input::get("q");
 
         \Session::set('templatesUpdate',[]);
