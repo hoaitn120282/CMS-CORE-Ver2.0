@@ -22,9 +22,9 @@ class GenerateController extends Controller
             mkdir(public_path().'/generate/temp', 0777, true);
         }
 
-//        $this->recurse_copy(public_path().'/generate/original',public_path().'/generate/temp');
-//        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination','new-site');
-//        $this->removeFolder(public_path().'/generate/temp');
+        $this->recurse_copy(public_path().'/generate/original',public_path().'/generate/temp');
+        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination','new-site');
+        $this->removeFolder(public_path().'/generate/temp');
 
         $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
     }
@@ -101,9 +101,9 @@ class GenerateController extends Controller
      * upload file to server
      * */
     public function uploadUseFTP($local_file,$ftp_path){
-        $host = 'tooeasyweb.com';
-        $usr = 'jwl615@tooeasyweb.com';
-        $pwd = '^s..VE9Un1~o';
+        $host = '2ezcms.com';
+        $usr = 'sbd639-1@2ezcms.com';
+        $pwd = 'GMW)=bIK$WqC';
 
 // file to move:
 //        $local_file = 'C:\wamp\www\demo.zip';
