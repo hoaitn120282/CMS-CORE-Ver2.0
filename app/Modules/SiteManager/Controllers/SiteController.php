@@ -205,7 +205,7 @@ class SiteController extends Controller
             'address' => 'required',
             'telephone' => 'required|numeric',
             'language' =>'required',
-            'domain' => 'required',
+//            'domain' => 'required',
 //            'host' => 'required',
 //            'host-username' => 'required',
 //            'host-password' => 'required',
