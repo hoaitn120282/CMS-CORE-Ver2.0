@@ -189,10 +189,10 @@
                     <div class="step-bottom row">
                         <div class="col-md-12">
                             <div class="pull-right">
-                                <a href="{{ Admin::route('siteManager.select-template') }}">
-                                    <button class="btn btn-success">Back</button>
-                                </a>
-                                <button type="submit" class="btn btn-success">Save</button>
+                                {{--<a href="{{ Admin::route('siteManager.select-template') }}">--}}
+                                    {{--<button class="btn btn-success">Back</button>--}}
+                                {{--</a>--}}
+                                <button type="submit" class="btn btn-success">Update</button>
                                 <a href="{{ Admin::route('siteManager.add-info') }}">
                                     <button class="btn btn-success">Cancel</button>
                                 </a>

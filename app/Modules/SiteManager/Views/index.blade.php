@@ -38,7 +38,7 @@
                     </form>
                 </div>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i class="fa fa-trash"></i>Delete Selected Site</a></li>
+                    <li><a href="{{ Admin::route('siteManager.compress') }}" class="btn-toolbox success">Demo compress</a></li>
                     <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
                 </ul>
                 <div class="clearfix"></div>
@@ -80,7 +80,7 @@
                                 {{$data->is_publish == 1? 'Running' : 'Pending'}}
                             </td>
                             <td class="action-site" style="width: 200px">
-                                <a href="{{ Admin::route('siteManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="View Detail"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a target="_blank" href="{{ Admin::route('templateManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="Preview"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a href="{{ Admin::route('siteManager.edit-info', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 <a href="#" data-role="delete-post" data-clinicid="{{ $data->clinic_id }}" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>

@@ -83,6 +83,15 @@ class SiteController extends Controller
             }
         }
 
+        foreach ($clinics as &$clinic){
+            $clinicThemes =  ClinicTheme::where('clinic_id',$clinic->clinic_id)->first();
+            if($clinicThemes){
+                $clinic->firstThemeId = $clinicThemes->theme_id;
+            }else{
+                $clinic->firstThemeId = 0;
+            }
+        }
+
         return view('SiteManager::index', [
             'clinics' => $clinics,
             'theme_type'=> $theme_type,
@@ -336,7 +345,8 @@ class SiteController extends Controller
             $clinicLanguage->save();
         }
 
-        return redirect(Admin::route('siteManager.index'));
+//        return redirect(Admin::route('siteManager.index'));
+        return $this->getSiteDetail($id);
     }
 
     /*
