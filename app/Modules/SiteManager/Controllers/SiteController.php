@@ -45,6 +45,7 @@ class SiteController extends Controller
      */
     public function index($theme_type_id = 0, $status = -1)
     {
+        $templates = \Session::set('templates', []);
         $theme_type = ThemeType::all();
 
         $query = Input::get("q");

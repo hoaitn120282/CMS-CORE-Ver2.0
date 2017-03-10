@@ -80,6 +80,8 @@
                                         @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
                                     </div>
                                 </div>
+
+
                             </div>
 
                             <div class="doctor-infor">
@@ -206,6 +208,34 @@
 @endsection
 @push('style-top')
     <style>
+        .information{
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 60px;
+        }
+
+        .doctor-infor{
+            border: 1px solid #cccccc;
+            margin-bottom: 20px;
+        }
+
+        .information label{
+            text-align: left !important;
+        }
+
+        .create-title{
+            margin-bottom: 15px;
+        }
+
+        .step-bottom{
+            margin-bottom: 50px;
+        }
+
+        .infor-child label{
+            padding-left: 50px;
+        }
+
         .doctor-infor li span{
             font-weight: bold;
             color: #000000;

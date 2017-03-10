@@ -104,7 +104,7 @@
             var clinicid = $(this).data('clinicid');
             swal({
                 title: "Are you sure?",
-                text: "Delete this site info",
+                text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

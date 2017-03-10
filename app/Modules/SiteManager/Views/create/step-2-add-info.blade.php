@@ -17,7 +17,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h2>Content step 2</h2>
+                <h2>Please input all the fields below</h2>
                 <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="information">
