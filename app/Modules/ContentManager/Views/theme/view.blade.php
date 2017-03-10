@@ -19,10 +19,10 @@ $general = $node->meta()
         <div class="row">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Theme info</h2>
+                    <h2>Theme infomation</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         @if($node->status)
-                            <li><a href="#" onclick="return false;">Actived</a></li>
+                            <li><a href="#" onclick="return false;"><strong class="text-primary">Activated</strong></a></li>
                         @else
                             <li><a href="{{Admin::route('contentManager.theme.active', ['id'=>$node->id])}}"
                                    style="background-color:#449d44;color:#fff;padding-left:20px;padding-right:20px">Active</a>
@@ -40,11 +40,9 @@ $general = $node->meta()
                     <div class="row">
                         <div class="col-md-8">
                             <dl>
-                                <dt><span class="labl">Name theme</span> <span class="text">{{$node->name}}</span></dt>
+                                <dt><span class="labl">Theme name</span> <span class="text">{{$node->name}}</span></dt>
                                 <dt><span class="labl">Author name</span> <a href="{{$node->author_url}}"><span class="text">{{$node->author}}</span></a></dt>
-                                <dt><span class="labl">Name Theme</span> <span class="text">{{$node->name}}</span></dt>
-                                <dt><span class="labl">Description</span></dt>
-                                <dd>{{$node->description}}</dd>
+                                <dt><span class="labl">Description</span> <span class="text">{{$node->description}}</span></dt>
                             </dl>
                         </div>
                         <div class="col-md-4">
@@ -57,8 +55,7 @@ $general = $node->meta()
                                 <div class="x_title">
                                     <h2>Theme Options</h2>
                                     <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                                        <li><a class="close-link"><i class="fa fa-close"></i></a>
+                                        <li class="pull-right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                                         </li>
                                     </ul>
                                     <div class="clearfix"></div>
@@ -71,7 +68,7 @@ $general = $node->meta()
                                                    data-toggle="tab">General Configuration</a>
                                             </li>
                                             <li><a href="#tab-{{$layout->meta_key}}"
-                                                   data-toggle="tab">{{ ucwords(str_replace("_", " ", $layout->meta_key)) }}</a>
+                                                   data-toggle="tab">Layout settings</a>
                                             </li>
                                             @foreach($options as $key => $meta)
                                                 <li><a href="#tab-{{$meta->meta_key}}"
@@ -126,6 +123,7 @@ $general = $node->meta()
     }
     .frm-edit-theme dl span.text {
         color: #0671b9;
+        font-weight: 400;
     }
     .frm-edit-theme .x_panel {
         padding-bottom: 90px;

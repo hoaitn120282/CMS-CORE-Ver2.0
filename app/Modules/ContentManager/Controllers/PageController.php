@@ -136,7 +136,7 @@ class PageController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $tmp = explode(",", $id);
         if (is_array($tmp)) {
@@ -144,6 +144,7 @@ class PageController extends Controller
         } else {
             Articles::destroy($id);
         }
+        $request->session()->flash('response', ['success' => true, 'message' => ['The page has been deleted successfully.']]);
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete page id :' . $id);
     }
 }

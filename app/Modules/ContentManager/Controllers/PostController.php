@@ -36,8 +36,13 @@ class PostController extends Controller
      */
     public function create()
     {
+        $theme = $this->currentTheme();
+        $meta = $theme->meta()->optionsKey('layouts')->first();
+        $layouts = $meta->getOption('layout_style');
+        $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
-        return view("ContentManager::post.create", ["category" => $category, "model" => ""]);
+
+        return view("ContentManager::post.create", ["category" => $category, "model" => "", 'layouts' => $layouts]);
     }
 
     /**
@@ -108,10 +113,15 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $theme = $this->currentTheme();
+        $meta = $theme->meta()->optionsKey('layouts')->first();
+        $layouts = $meta->getOption('layout_style');
+        $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
         $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
         $tags = TermRelationships::where("object_id", $id)->with("terms")->get();
-        return view("ContentManager::post.update", ['model' => $model, "category" => $category, "tags" => $tags]);
+
+        return view("ContentManager::post.update", compact('model', 'category', 'tags', 'layouts'));
     }
 
     /**
@@ -161,7 +171,7 @@ class PostController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $tmp = explode(",", $id);
         if (is_array($tmp)) {
@@ -171,6 +181,7 @@ class PostController extends Controller
             Articles::destroy($id);
             TermRelationships::destroy($id);
         }
+        $request->session()->flash('response', ['success' => true, 'message' => ['The post has been deleted successfully.']]);
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete post id :' . $id);
     }
 

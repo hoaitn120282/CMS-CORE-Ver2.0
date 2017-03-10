@@ -22,7 +22,7 @@
             </tr> 
         </thead> 
         <tbody>
-            @foreach ($model as $data)
+            @foreach ($nodes as $data)
             <tr id="tr-{{ $data->term_id }}"> 
                 <td>
                     <input type="checkbox" name="checkbox" class="flat" data-role="checkbox" value="{{$data->term_id}}" /> 
@@ -43,6 +43,6 @@
             @endforeach  
         </tbody> 
     </table>
-    {{ $model->links() }}
+    {{ $nodes->links() }}
   </div>
 </div>

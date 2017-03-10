@@ -51,7 +51,7 @@ class ThemeController extends Controller
 
         }
 
-        return redirect(Admin::StrURL('contentManager/theme/' . $id))->with('success', 'Theme Option update success');
+        return redirect(Admin::StrURL('contentManager/theme/' . $id))->with('success', 'Theme options are updated successfully');
     }
 
     public function active($id, Request $request)

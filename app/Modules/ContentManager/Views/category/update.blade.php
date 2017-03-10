@@ -9,7 +9,7 @@
 	  @include('ContentManager::category.partials.form')
   </div>
   <div class="col-md-8">
-	  @include('ContentManager::category.partials.tablemanage',['model'=>$modelAll]) 
+	  @include('ContentManager::category.partials.tablemanage') 
   </div>
 </div>
 @endsection

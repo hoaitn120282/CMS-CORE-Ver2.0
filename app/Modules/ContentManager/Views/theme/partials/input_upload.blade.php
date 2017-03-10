@@ -73,7 +73,7 @@ $inputSlug = str_slug($input, '_');
 <link href="{{ asset('assets/dropzone/dropzone.min.css') }}" rel="stylesheet">
 <style>
     #btn-upload-{{$input}}-preview {
-        margin: 0 auto;
+        /*margin: 0 auto;*/
     }
 
     .img-res {

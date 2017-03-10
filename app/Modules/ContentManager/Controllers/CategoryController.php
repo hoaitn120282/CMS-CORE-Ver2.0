@@ -17,11 +17,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $model = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
-         $category = Terms::where("taxonomy","category")
-        ->where("parent",0)
-        ->get();
-        return view("ContentManager::category.index",['model' => $model,"category"=>$category]);
+        $model = "";
+        $nodes = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
+        $category = Terms::where("taxonomy","category")
+            ->where("parent",0)
+            ->get();
+
+        return view("ContentManager::category.index", compact('model', 'nodes', 'category'));
     }
 
     /**
@@ -78,11 +80,12 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $model = Terms::find($id);
-        $modelAll = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
+        $nodes = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
         $category = Terms::where("taxonomy","category")
-        ->where("parent",0)
-        ->get();
-        return view("ContentManager::category.update",['model' => $model,"category"=>$category,"modelAll"=>$modelAll]);
+            ->where("parent",0)
+            ->get();
+
+        return view("ContentManager::category.update", compact('model', 'nodes', 'category'));
     }
 
     /**
