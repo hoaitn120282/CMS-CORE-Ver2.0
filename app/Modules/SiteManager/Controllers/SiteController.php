@@ -308,45 +308,73 @@ class SiteController extends Controller
     //Update clinic info
     public function updateInfo($id, Request $request){
         $input = Input::all();;
-
         $languages = $request->get('language');
 
-        $clinic = Clinic::find($id);
-        $clinic->domain = $input['domain'];
-        $clinic->save();
+        $rules = array(
+            'site-name' => 'required',
+            'admin-name' => 'required',
+            'email-address' => 'required|email',
+            'address' => 'required',
+            'telephone' => 'required|numeric',
+            'language' =>'required',
+        );
 
-        $clinic->info->site_name = $input['site-name'];
-        $clinic->info->email = $input['email-address'];
-        $clinic->info->username = $input['admin-name'];
-        $clinic->info->telephone = $input['telephone'];
-        $clinic->info->address = $input['address'];
-        $clinic->info->save();
+        $messages = [
+            'site-name.required' => 'The Site Name field is required.',
+            'admin-name.required' => 'The Admin Name field is required.',
+            'email-address.required' => 'The Email Address field is required.',
+            'email-address.email' => 'Please enter a valid email address.',
+            'address.required' => 'The Address field is required.',
+            'telephone.required' => 'The Telephone field is required.',
+            'telephone.numeric' => 'Táde field.',
+            'language.required' => 'The Language field is required.',
+        ];
 
-        $clinic->database->database_name = $input['database-name'];
-        $clinic->database->host = $input['database-host'];
-        $clinic->database->username = $input['database-username'];
-        $clinic->database->password = bcrypt($input['database-password']);
-        $clinic->database->save();
+        $validator = Validator::make($input, $rules, $messages);
 
-        $clinic->hosting->host = $input['host'];
-        $clinic->hosting->username = $input['host-username'];
-        $clinic->hosting->password =bcrypt($input['host-password']);
-        $clinic->hosting->save();
+        if ($validator->fails())
+        {
+            return redirect('admin/site-manager/edit-info/'.$id)
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            $clinic = Clinic::find($id);
+            $clinic->domain = $input['domain'];
+            $clinic->save();
 
-        // edit clinic language table
-        foreach ($clinic->language as $lang){
-            $lang->delete();
+            $clinic->info->site_name = $input['site-name'];
+            $clinic->info->email = $input['email-address'];
+            $clinic->info->username = $input['admin-name'];
+            $clinic->info->telephone = $input['telephone'];
+            $clinic->info->address = $input['address'];
+            $clinic->info->save();
+
+            $clinic->database->database_name = $input['database-name'];
+            $clinic->database->host = $input['database-host'];
+            $clinic->database->username = $input['database-username'];
+            $clinic->database->password = bcrypt($input['database-password']);
+            $clinic->database->save();
+
+            $clinic->hosting->host = $input['host'];
+            $clinic->hosting->username = $input['host-username'];
+            $clinic->hosting->password =bcrypt($input['host-password']);
+            $clinic->hosting->save();
+
+            // edit clinic language table
+            foreach ($clinic->language as $lang){
+                $lang->delete();
+            }
+
+            foreach ($languages as $langu){
+                $clinicLanguage = new ClinicLanguage();
+                $clinicLanguage->language_id = $langu;
+                $clinicLanguage->clinic()->associate($clinic);
+                $clinicLanguage->save();
+            }
+
+    //        return redirect(Admin::route('siteManager.index'));
+            return $this->getSiteDetail($id);
         }
-
-        foreach ($languages as $langu){
-            $clinicLanguage = new ClinicLanguage();
-            $clinicLanguage->language_id = $langu;
-            $clinicLanguage->clinic()->associate($clinic);
-            $clinicLanguage->save();
-        }
-
-//        return redirect(Admin::route('siteManager.index'));
-        return $this->getSiteDetail($id);
     }
 
     /*
