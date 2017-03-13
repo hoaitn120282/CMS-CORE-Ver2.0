@@ -45,4 +45,30 @@ class Template extends Model
     {
         return $this->hasMany('App\Modules\ContentManager\Models\WidgetGroups', 'theme_id');
     }
+
+    /**
+     * Relation ship clinic site
+     */
+    public function clinics()
+    {
+        return $this->belongsToMany(
+            'App\Modules\SiteManager\Models\Clinic',
+            'clinic_theme', 'theme_id', 'clinic_id'
+        );
+    }
+
+    /**
+     * Boot model
+     * @return mixed
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // Listen event deleting
+        static::deleting(function ($node) {
+            // Detach relation ship clinic site
+            $node->clinics()->detach();
+        });
+    }
 }
