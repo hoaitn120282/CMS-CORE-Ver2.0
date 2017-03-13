@@ -56,7 +56,7 @@
 										<li>
 											<span>Teamplate {{ $theme->clinic_theme_id }}</span>
 											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
-												<i class="fa fa-eye"></i>
+												Preview
 											</a>
 										</li>
 									@endforeach
@@ -187,7 +187,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
+                        swal("Deleted!", "Delete Successfully", "success");
                         window.location.href = "{{ Admin::route('siteManager.index') }}";
                         $("#tr-"+clinicid).remove();
                     });
