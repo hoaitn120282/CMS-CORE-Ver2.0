@@ -18,6 +18,7 @@ use Session;
 use Validator;
 use DB;
 use Flash;
+use Mail;
 use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
@@ -100,6 +101,24 @@ class SiteController extends Controller
             'status' => $status,
             'query'=> $query
         ]);
+    }
+
+    /**
+     * @return view send email
+     */
+
+    public function sendEmail(Request $request) {
+        $email = $request->all();
+        Mail::send('SiteManager::email', array(
+            'adminName'=>$email["adminName"],
+            'password'=>$email['password'],
+            'usernameName'=>$email['usernameName'],
+            'siteName'=>$email['siteName']
+        ), function($message) use ($email) {
+            $message->to($email['email'], 'Visitor')->subject('Visitor Feedback!');
+        });
+        Session::flash('flash_message', 'Send message successfully!');
+
     }
 
 
