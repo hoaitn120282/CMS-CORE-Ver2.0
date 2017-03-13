@@ -144,30 +144,35 @@
                         </div>
                     </div>
                 </div><!-- /.custom-menu -->
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingFive">
+                        <div class="panel-title">
+                            <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#coll-location" aria-expanded="false" aria-controls="collapseFive">
+                                Menu location
+                            </a>
+                        </div>
+                    </div>
+                    <div id="coll-location" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="theme-group-name">Menu Location Theme</label>
+                                <select id="theme-group-name" class="form-control">
+                                    <option value="">Select Menu</option>
+                                    @foreach($themeMenu as $tm)
+                                        <option {{ $tm->meta_value == $groupActive ? "selected" : "" }} value="{{$tm->meta_key}}">{{ ucwords(str_replace("-", " ", $tm->meta_key)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.menu-location -->
             </div><!-- /.add-menu-group -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        Menu location
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="theme-group-name">Menu Location Theme</label>
-                        <select id="theme-group-name" class="form-control">
-                            <option value="">Select Menu</option>
-                            @foreach($themeMenu as $tm)
-                                <option {{ $tm->meta_value == $groupActive ? "selected" : "" }} value="{{$tm->meta_key}}">{{ ucwords(str_replace("-", " ", $tm->meta_key)) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="pull-right">
-                        <button id="save-menu" class="form-group btn btn-success">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /.menu-location -->
+            <div class="pull-right">
+                <button id="save-menu" class="form-group btn btn-success">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                </button>
+            </div>
         </div>
 
         <div class="col-md-8">

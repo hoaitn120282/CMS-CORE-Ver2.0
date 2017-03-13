@@ -26,7 +26,7 @@ class LanguageController extends Controller
     public function index()
     {
         $model = Language::orderBy('language_id', 'desc')->paginate(10);
-        return view('LanguageManager::index', ['model' => $model]);
+        return view('LanguageManager::language.index', ['model' => $model]);
     }
 
     /*
@@ -56,7 +56,7 @@ class LanguageController extends Controller
             return redirect(Admin::StrURL('language-manager'));
         }
 
-        return view('LanguageManager::create', ['countries'=>$countries]);
+        return view('LanguageManager::language.create', ['countries'=>$countries]);
     }
 
     /**
@@ -107,7 +107,7 @@ class LanguageController extends Controller
             return redirect(Admin::StrURL('language-manager'));
         }
 
-        return view('LanguageManager::edit', ['countries' => $countries, 'current_language' => $current_language]);
+        return view('LanguageManager::language.edit', ['countries' => $countries, 'current_language' => $current_language]);
     }
 
 }

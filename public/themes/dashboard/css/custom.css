@@ -190,3 +190,8 @@
     margin: 0 auto;
     text-align: center;
 }
+
+.vcenter {
+    vertical-align: middle!important;
+    float: none;
+}

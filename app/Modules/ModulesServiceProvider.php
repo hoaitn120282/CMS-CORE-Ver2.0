@@ -1,7 +1,8 @@
 <?php 
 namespace App\Modules;
-use App\Modules\ContentManager\Models\Themes;
+
 use Illuminate\Foundation\AliasLoader;
+use App\Helpers\Trans;
 /**
 * ServiceProvider
 *
@@ -46,10 +47,16 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
             $loader->alias('Admin', 'App\Facades\Admin');
+            $loader->alias('Trans', 'App\Facades\Trans');
+
             $file = app_path('Helpers/Admin.php');
             if (file_exists($file)) {
                 include $file;
             }
+
+            $this->app->singleton(Trans::class, function ($app) {
+                return new Trans();
+            });
         });
 
     }
