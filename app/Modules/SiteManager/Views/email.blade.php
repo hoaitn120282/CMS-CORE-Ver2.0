@@ -14,14 +14,14 @@
 </style>
 <body>
     <div class="container">
-        <h3 style="color: red">Hi {{ $adminName }}</h3>
+        <h3 style="font-weight: bold">Hi {{ $adminName }}</h3>
         <p> Your website {{ $siteName }} has just been created successfully!</p>
         <p>To deploy the website, please clicking on the link for backend site first and then input the log-in information below. </p>
-        <p style="margin-left: 20px">Link for frontend site: abcxyz@sanmax.com</p>
-        <p style="margin-left: 20px">Link for backend site: abcxyz@sanmax.com/admin</p>
-        <p style="margin-left: 20px">Username: {{ $siteName }}</p>
-        <p style="margin-left: 20px">Password: {{ $password }}</p>
-        <p>Best regards,</p>
+        <p>Link for frontend site: abcxyz@sanmax.com</p>
+        <p>Link for backend site: abcxyz@sanmax.com/admin</p>
+        <p>Username: {{ $siteName }}</p>
+        <p>Password: {{ $password }}</p>
+        <p style="font-weight: bold">Best regards,</p>
     </div>
 </body>
 </html>
