@@ -68,8 +68,8 @@
         $("a[data-role='delete-post']").on("click", function () {
             var idpost = $(this).data('idpost');
             swal({
-                title: "Are you sure?",
-                text: "Delete this page",
+                title: "Are you sure to delete the selected page?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -115,8 +115,8 @@
             });
             var id = array.join()
             swal({
-                title: "Are you sure?",
-                text: "Delete the selected page",
+                title: "Are you sure to delete the selected page?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

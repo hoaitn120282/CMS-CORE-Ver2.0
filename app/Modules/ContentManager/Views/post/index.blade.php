@@ -81,8 +81,8 @@
             var idpost = $(this).data('idpost');
             var url = $(this).data('url');
             swal({
-                title: "Are you sure?",
-                text: "Delete this post",
+                title: "Are you sure to delete the selected post?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -130,8 +130,8 @@
             });
             var id = array.join()
             swal({
-                title: "Are you sure?",
-                text: "Delete the selected post",
+                title: "Are you sure to delete the selected post?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

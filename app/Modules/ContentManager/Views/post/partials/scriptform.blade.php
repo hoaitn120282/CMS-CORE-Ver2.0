@@ -10,7 +10,7 @@
 <script src="{{ Url('/assets/summernote') }}/summernote.js"></script>
 <script>
 $( document ).ready(function() {
-  $('#content-post').summernote({
+  $('.content-post').summernote({
     height: 300,               
     minHeight: null,             
     maxHeight: null,             

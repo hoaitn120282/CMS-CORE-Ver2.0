@@ -24,18 +24,23 @@
                          id="{{ "language_{$language->country->locale}" }}">
                         <div class="form-group">
                             <label for="title-post">Page Title</label>
-                            <input type="text" class="form-control" name="trans[{{$language->country->locale}}][post_title]"
-                                   value="{{ ($model != "" ) ? $model->post_title : old('post_title') }}" id="title-post"
+                            <input type="text" class="form-control"
+                                   name="trans[{{$language->country->locale}}][post_title]"
+                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
+                                   id="title-post"
                                    placeholder="Title Page">
                             @if($model != "")
-                                <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ Url('/') }}
-                                        /{{ $model->post_name }}</span></p>
+                                <p class="help-block">
+                                    <strong>Permalink : </strong>
+                                    <span id="slug-permalink">{{ Url('/') }}/{{ $model->post_name }}</span>
+                                </p>
                             @endif
                         </div>
                         <div class="form-group">
                             <label for="content-post">Content</label>
-                            <textarea id="content-post" name="trans[{{$language->country->locale}}]post_content" class="form-control"
-                                      rows="18">{{ ($model != "" ) ? $model->post_content : old('post_content') }}</textarea>
+                            <textarea name="trans[{{$language->country->locale}}][post_content]"
+                                      class="form-control content-post"
+                                      rows="18">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_content : old('post_content') }}</textarea>
                         </div>
                     </div>
                 @endforeach

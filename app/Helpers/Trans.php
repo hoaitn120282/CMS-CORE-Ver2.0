@@ -6,6 +6,7 @@ use App\Modules\LanguageManager\Models\Translate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use App\Modules\LanguageManager\Models\Language;
+use Illuminate\Support\Facades\Request;
 
 class Trans
 {
@@ -15,7 +16,6 @@ class Trans
     {
         $this->locale = App::getLocale();
     }
-
 
     /**
      * Get locale
@@ -72,5 +72,55 @@ class Trans
     public function languages()
     {
         return Language::where('status', true)->orderBy('language_id', 'desc')->get();
+    }
+
+    public function currentLocale($url = null)
+    {
+        $langs = [];
+        $languages = $this->languages();
+        if ($languages) {
+            $currentUrl = Request::url();
+            $locale = $this->locale();
+            $baseUrl = Request::root();
+            $path = explode("{$baseUrl}/{$locale}", $currentUrl)[1];
+            foreach ($languages as $language) {
+                if ($locale == $language->country->locale) {
+                    $langs['locale'] = $language->country->locale;
+                    $langs['name'] = $language->name;
+                    $url = empty($url) ? $path : $url;
+                    $langs['url'] = url($language->country->locale . '/' . trim($url, '/'));
+                }
+            }
+        }
+
+        return $langs;
+    }
+
+    /**
+     * List language using switch language
+     *
+     * @param string $url
+     * @return array
+     */
+    public function switchLanguage($url = '')
+    {
+        $langs = [];
+        $languages = $this->languages();
+        if ($languages) {
+            $currentUrl = Request::url();
+            $locale = $this->locale();
+            $baseUrl = Request::root();
+            $path = explode("{$baseUrl}/{$locale}", $currentUrl)[1];
+            foreach ($languages as $language) {
+                if ($locale != $language->country->locale) {
+                    $langs[$language->country->locale]['locale'] = $language->country->locale;
+                    $langs[$language->country->locale]['name'] = $language->name;
+                    $url = $url ?: $path;
+                    $langs[$language->country->locale]['url'] = url($language->country->locale . '/' . trim($url, '/'));
+                }
+            }
+        }
+
+        return $langs;
     }
 }
