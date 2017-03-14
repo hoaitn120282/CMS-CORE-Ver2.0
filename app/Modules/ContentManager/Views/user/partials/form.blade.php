@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             {!! Form::label('Role', 'Role:') !!}
-            @if($roles)
+            @if(empty($roles))
                 <?php $selectionRole = null; ?>
                 @foreach($roles as $role)
                     <?php  $selectionRole[$role->id] = $role->name;?>

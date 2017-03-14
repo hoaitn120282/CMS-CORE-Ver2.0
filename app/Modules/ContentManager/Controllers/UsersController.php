@@ -78,7 +78,8 @@ class UsersController extends Controller
     public function edit($id)
     {
         $model = User::find($id);
-        return view("ContentManager::user.create",['model' => $model]);
+        $roles = [];
+        return view("ContentManager::user.create",['model' => $model, 'roles' => $roles]);
     }
 
     /**

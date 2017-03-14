@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Trans;
+use App;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -72,6 +73,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebLocaleRoutes(Router $router)
     {
+        $this->locale = App::getLocale();
+        $router->get('/', function (){
+            return redirect($this->locale);
+        });
+
         $locales = \App\Modules\LanguageManager\Models\Countries::all()->pluck('locale')->toArray();
         $locale = \Illuminate\Support\Facades\Request::segment(1);
         if (in_array($locale, $locales)) {

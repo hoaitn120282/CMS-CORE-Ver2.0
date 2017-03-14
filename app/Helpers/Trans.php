@@ -82,7 +82,8 @@ class Trans
             $currentUrl = Request::url();
             $locale = $this->locale();
             $baseUrl = Request::root();
-            $path = explode("{$baseUrl}/{$locale}", $currentUrl)[1];
+            $explode = explode("{$baseUrl}/{$locale}", $currentUrl);
+            $path = empty($explode[1]) ? '' : $explode[1];
             foreach ($languages as $language) {
                 if ($locale == $language->country->locale) {
                     $langs['locale'] = $language->country->locale;
@@ -110,7 +111,8 @@ class Trans
             $currentUrl = Request::url();
             $locale = $this->locale();
             $baseUrl = Request::root();
-            $path = explode("{$baseUrl}/{$locale}", $currentUrl)[1];
+            $explode = explode("{$baseUrl}/{$locale}", $currentUrl);
+            $path = empty($explode[1]) ? '' : $explode[1];
             foreach ($languages as $language) {
                 if ($locale != $language->country->locale) {
                     $langs[$language->country->locale]['locale'] = $language->country->locale;

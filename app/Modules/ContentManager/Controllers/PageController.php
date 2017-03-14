@@ -49,7 +49,7 @@ class PageController extends Controller
 
         $locale = Trans::locale();
         $this->validate($request, [
-            "trans.{$locale}.post_title" => 'required|max:255|unique:posts,post_name',
+            "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
         ]);
@@ -122,7 +122,7 @@ class PageController extends Controller
         $model = Articles::find($id);
         $locale = Trans::locale();
         $this->validate($request, [
-            "trans.{$locale}.post_title" => 'required|max:255|unique:posts,post_name,' . $id . ',id',
+            "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
         ]);
