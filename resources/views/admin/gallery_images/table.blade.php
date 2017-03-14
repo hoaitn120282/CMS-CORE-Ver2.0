@@ -13,7 +13,7 @@
             <td><img width="150" src="/uploads/gallery/{{$galleryImages->gallery_id}}/{{$galleryImages->image_name}}"></td>
             <td>{!! $galleryImages->image_title !!}</td>
             <td>{!! $galleryImages->image_description !!}</td>
-            <td>{!! $galleryImages->gallery->gallery_name !!}</td>
+            <td>{!! $galleryImages->gallery->gallery_name or null !!}</td>
             <td>{!! (($galleryImages->image_status == true)? '<span class="label label-success">Active</span>':'<span class="label label-danger">Deactive</span>') !!}</td>
             <td>
                 {!! Form::open(['route' => ['admin.galleryImages.destroy', $galleryImages->id], 'method' => 'delete']) !!}

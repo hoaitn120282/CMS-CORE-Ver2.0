@@ -23,10 +23,10 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.', 'middl
     Route::get('{driver}/callback', 'SocialController@handleProviderCallback')->name('social.callback');
 });
 
-Route::get('logout', function () {
+/*Route::get('logout', function () {
     Auth::guard('member')->logout();
     return redirect('/');
-})->middleware('auth:member');
+})->middleware('auth:member');*/
 
 /*
 |--------------------------------------------------------------------------

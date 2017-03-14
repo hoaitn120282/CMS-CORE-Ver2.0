@@ -2,7 +2,8 @@
 namespace App\Modules;
 
 use Illuminate\Foundation\AliasLoader;
-use App\Helpers\Trans;
+use Trans;
+use Admin;
 /**
 * ServiceProvider
 *
@@ -21,8 +22,15 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public $admin;
 
+    /**
+     * Will make sure that the locale
+     * @var string
+     */
+//    public $locale;
+
     public function boot()
     {
+        parent::boot();
         // For each of the registered modules, include their routes and Views
         $modules = config("module.modules");
         $this->admin = config("module.backend");
@@ -49,10 +57,13 @@ class ModulesServiceProvider extends \Illuminate\Support\ServiceProvider
             $loader->alias('Admin', 'App\Facades\Admin');
             $loader->alias('Trans', 'App\Facades\Trans');
 
-            $file = app_path('Helpers/Admin.php');
+            /*$file = app_path('Helpers/Admin.php');
             if (file_exists($file)) {
                 include $file;
-            }
+            }*/
+            $this->app->singleton(Admin::class, function ($app) {
+                return new Admin();
+            });
 
             $this->app->singleton(Trans::class, function ($app) {
                 return new Trans();
