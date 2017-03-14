@@ -56,7 +56,7 @@
 										<li>
 											<span>Teamplate {{ $theme->clinic_theme_id }}</span>
 											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
-												<i class="fa fa-eye"></i>
+												Preview
 											</a>
 										</li>
 									@endforeach
@@ -91,16 +91,44 @@
 	                	</div>
 	                </div>
                 </div>
+				<!-- Modal -->
+				<div id="myModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<p>The name.sanmax.com has been deployed. Send an email to {{ $clinic->info->username }} to notify that the website is available use now!</p>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<input id="email-send" type="text" class="form-control" name="email-send" value="{{ $clinic->info->email }}" >
+									<input id="site-name" type="hidden" value="{{ $clinic->info->site_name }}">
+									<input id="admin-name" type="hidden" value="{{ $clinic->info->username }}">
+									<input id="username-name" type="hidden" value="{{ $clinic->hosting->username }}">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<a  data-role="send-email">
+									<button type="button" class="btn btn-success" data-dismiss="modal">Send</button>
+								</a>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
                 <div class="toolbar-actions text-center">
 					<a href="{{ Admin::route('siteManager.edit-info',['id'=>$clinic->clinic_id]) }}">
 						<button type="submit" name="update" class="btn btn-success">
 							<i class="fa fa-pencil" aria-hidden="true"></i> Edit
 						</button>
 					</a>
-                    <button type="submit" name="update" class="btn btn-success">
-                        <i class="fa fa-download" aria-hidden="true"></i> Download
-                    </button>
-
+					<a data-toggle="modal" data-target="#myModal">
+						<button type="submit" name="update" class="btn btn-success">
+							<i class="fa fa-download" aria-hidden="true"></i> Download
+						</button>
+					</a>
 					<a href="#" data-role="delete-post" data-clinicid="{{ $clinic->clinic_id }}" data-toggle="tooltip" title="Delete">
 						<button type="submit" name="update" class="btn btn-danger">
 							<i class="fa fa-ban" aria-hidden="true"></i> Delete
@@ -168,6 +196,43 @@
 @push('scripts')
 <script>
     $( document ).ready(function() {
+        $("a[data-role='send-email']").on("click", function () {
+            var email = $('#email-send').val();
+            var siteName = $('#site-name').val();
+            var adminName = $('#admin-name').val();
+            var usernameName = $('#username-name').val();
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure to send this email information?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn-success",
+                cancelButtonText: "No"
+            }, function () {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ Admin::route('siteManager.send-email') }}",
+                    data: {
+                        "email": email,
+                        "siteName": siteName,
+                        "adminName": adminName,
+                        "usernameName": usernameName,
+                        "password": '123456a@',
+						"_token": "{{ csrf_token() }}"
+
+                    }
+                })
+                    .done(function() {
+                        swal("Send!", "Send Successfully", "success");
+                        $('#myModal').modal('hide');
+                    });
+            });
+            return false;
+        });
+
         $("a[data-role='delete-post']").on( "click", function() {
             var clinicid = $(this).data('clinicid');
             swal({
@@ -187,7 +252,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
+                        swal("Deleted!", "Delete Successfully", "success");
                         window.location.href = "{{ Admin::route('siteManager.index') }}";
                         $("#tr-"+clinicid).remove();
                     });
