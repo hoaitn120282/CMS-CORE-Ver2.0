@@ -49,7 +49,7 @@
           </ul>
         </div>
       </div>
-    </nav>    
+    </nav>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
@@ -75,7 +75,7 @@
         </div>
     </div>
 
-   
+
 
     <!-- JavaScripts -->
     <script src="{{URL::to('/')}}/assets/jquery/dist/jquery.min.js"></script>

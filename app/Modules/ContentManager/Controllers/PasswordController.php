@@ -29,7 +29,11 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        //$this->middleware('admin');
         $this->linkRequestView = 'ContentManager::.'.$this->linkRequestView;
     }
+
+   /* public function getForgotPassword() {
+
+    }*/
 }
