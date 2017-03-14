@@ -21,6 +21,7 @@ class PasswordController extends Controller
     use ResetsPasswords;
 
     protected $linkRequestView = 'auth.passwords.email';
+    protected $resetView ='auth.passwords.reset';
 
     /**
      * Create a new password controller instance.
@@ -31,6 +32,7 @@ class PasswordController extends Controller
     {
         //$this->middleware('admin');
         $this->linkRequestView = 'ContentManager::.'.$this->linkRequestView;
+        $this->resetView = 'ContentManager::.'.$this->resetView;
     }
 
    /* public function getForgotPassword() {

@@ -25,18 +25,27 @@
         </div>
         <div class="form-group">
             {!! Form::label('Role', 'Role:') !!}
-            @if($roles)
-                <?php $selectionRole = null; ?>
+            <select name="roleuser" class="form-control" >
+                <option value="0">Select role</option>
                 @foreach($roles as $role)
-                    <?php  $selectionRole[$role->id] = $role->name;?>
+                    <option value="{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
-            @endif
-            {!! Form::select('role_id', [$selectionRole], 1, ['class' => 'form-control']) !!}
+            </select>
+            </select>
         </div>
         @if($model == "")
             <div class="form-group">
                 <label for="password" class="control-label">Password</label>
                 <input id="password" type="password" class="form-control" name="password">
+            </div>
+        @else
+            <div class="form-group">
+                <label for="password" class="control-label">Old Password</label>
+                <input id="password" type="password" class="form-control" name="password">
+                <label for="password" class="control-label">New Password</label>
+                <input id="password" type="password" class="form-control" name="password">
+                <label for="password" class="control-label">Confirm New Password</label>
+                <input id="comfirm-password" type="password" class="form-control" name="password">
             </div>
         @endif
         @if($model == "")
