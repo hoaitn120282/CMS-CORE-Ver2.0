@@ -196,7 +196,7 @@
                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     {{ ($model != "" ) ? "Save Post" : "Publish Post" }}
                 </button>
-                <a href="{{ Admin::route('contentManager.page.index') }}"
+                <a href="{{ Admin::route('contentManager.post.index') }}"
                    role="button" class="btn btn-primary">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                     Cancel

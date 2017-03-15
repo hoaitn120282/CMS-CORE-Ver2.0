@@ -18,6 +18,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="col-md-12">
+                    @include('LanguageManager::partials.message_alert')
+                </div>
                 <table class="table table-striped table-bordered jambo_table bulk_action">
                     <thead>
                     <tr>

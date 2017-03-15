@@ -90,8 +90,12 @@ class Trans
                     $langs['name'] = $language->name;
                     $url = empty($url) ? $path : $url;
                     $langs['url'] = url($language->country->locale . '/' . trim($url, '/'));
+                    break;
                 }
             }
+            $langs['locale'] ?: $locale;
+            $langs['name'] ?: '';
+            $langs['url'] ?: '#';
         }
 
         return $langs;

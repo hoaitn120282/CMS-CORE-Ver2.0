@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <form method="POST" action="{{ Admin::route('languageManager.edit',['id'=>$current_language->language_id]) }}">
+    <form method="POST" action="{{ Admin::route('languageManager.language.edit',['id'=>$current_language->language_id]) }}">
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
         <div class="row">
             <div class="col-md-12">

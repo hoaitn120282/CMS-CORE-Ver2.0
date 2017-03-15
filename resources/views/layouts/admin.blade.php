@@ -65,10 +65,10 @@
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('contentManager.page.index') }}">Pages</a></li>
                                     <li><a href="{{ Admin::route('contentManager.post.index') }}">Posts</a></li>
-                                    <li><a href="{{ Admin::route('contentManager.comment') }}">Comments </a></li>
-                                    <li><a href="{{ Admin::route('contentManager.category.index') }}">Categories</a>
-                                    </li>
+                                    {{--<li><a href="{{ Admin::route('contentManager.comment') }}">Comments </a></li>--}}
+                                    <li><a href="{{ Admin::route('contentManager.category.index') }}">Categories</a></li>
                                     <li><a href="{{ Admin::route('contentManager.tag.index') }}">Tags</a></li>
+                                    <li><a href="{{ Admin::route('contentManager.doctor.index') }}">Doctors</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -101,7 +101,7 @@
                             <li>
                                 <a><i class="fa fa-language"></i> Language Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('languageManager.index') }}">Manager language</a></li>
+                                    <li><a href="{{ Admin::route('languageManager.language.index') }}">Manage language</a></li>
                                     <li><a href="{{ Admin::route('languageManager.translate.index') }}">Translation</a>
                                     </li>
                                 </ul>
@@ -115,21 +115,9 @@
                                             Theme Active</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{ Admin::route('contentManager.widget') }}"><i class="fa fa-clone"></i> Widget
-                                    Manager </a></li>
-                            @if(count(Admin::listModule()) > 0)
-                                <li><a><i class="fa fa-edit"></i> Modules Manager <span
-                                                class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        @foreach(Admin::listModule() as $module => $routeIndex)
-                                            <li>
-                                                <a href="{{ Admin::route($routeIndex) }}">{{ ucwords(str_replace("_"," ",snake_case($module))) }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
-                            {{--<li><a href="/admin/contentManager/filemanager"><i class="fa fa-image"></i> File Manager </a></li>--}}
+                            <li><a href="{{ Admin::route('contentManager.widget') }}">
+                                    <i class="fa fa-clone"></i> Widget Manager
+                                </a></li>
                             @include('layouts.generated-menu')
                             <li><a href="{{ Admin::route('contentManager.user.index') }}"><i class="fa fa-users"></i>
                                     Users Manager </a></li>

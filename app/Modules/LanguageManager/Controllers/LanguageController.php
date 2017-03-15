@@ -65,15 +65,33 @@ class LanguageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request )
     {
-        $tmp = explode(",", $id);
-        if(is_array($tmp)){
-            Language::destroy($tmp);
-        }else{
-            Language::destroy($id);
+        try{
+            $tmp = explode(",", $id);
+            $ids = is_array($tmp) ? $tmp : [$id];
+            $instance = new Language();
+            $key = $instance->getKeyName();
+            foreach ($instance->whereIn($key, $ids)->get() as $model) {
+                if ($model->clinics()->count() > 0) {
+                    throw new \Exception("This language has been in use. It's not allowed to delete it.");
+                }
+                $model->delete();
+            }
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => array("This language has been deleted successfully.")
+            ]);
+        } catch(\Exception $exception) {
+            $messages = $exception->getMessage();
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => is_array($messages) ? $messages : array($messages)
+            ]);
         }
         Admin::userLog(\Auth::guard('admin')->user()->id,'Delete language id :'.$id);
+
+        redirect(Admin::route('languageManager.language.index'));
     }
 
     /*

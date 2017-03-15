@@ -4,12 +4,12 @@
     <div class="row">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Post Manage</h2>
+                <h2>Doctor Manage</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i
-                                    class="fa fa-trash"></i> Delete Selected post</a></li>
-                    <li><a href="{{ Admin::route('contentManager.post.create') }}" class="btn-toolbox success"><i
-                                    class="fa fa-plus"></i> Create post</a></li>
+                                    class="fa fa-trash"></i> Delete Selected doctor</a></li>
+                    <li><a href="{{ Admin::route('contentManager.doctor.create') }}" class="btn-toolbox success"><i
+                                    class="fa fa-plus"></i> Create doctor</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -19,13 +19,9 @@
                     <thead>
                     <tr>
                         <th><input id="checkAll" type="checkbox" class="flat"></th>
-                        <th>Post Title</th>
-                        <th>Categories</th>
-                        <th>Tags</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Created date</th>
-                        {{--<th>Feature post</th>--}}
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Appointment link</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -33,29 +29,22 @@
                     @foreach ($model as $data)
                         <tr id="tr-{{ $data->id }}">
                             <td>
-                                <input type="checkbox" class="flat" name="checkbox" data-role="checkbox"
+                                <input type="checkbox" class="flat"
+                                       name="checkbox" data-role="checkbox"
                                        value="{{$data->id}}"/>
                                 <input type="hidden" id="idPost" value="{{ $data->id }}">
                             </td>
                             <td>{{$data->post_title}}</td>
-                            <td>{!! Helper::taxonomyLink($data->categories,false) !!}</td>
-                            <td>{!! Helper::taxonomyLink($data->tags,false) !!}</td>
-                            <td>{{$data->user->name}}</td>
-                            <td>{{ ('publish' == $data->post_status) ? 'Publish' : 'Draft' }}</td>
-                            <td>{{$data->updated_at->format("M dS, Y")}}</td>
-                            {{--<td>--}}
-                                {{--@if($data->getMetaValue('featured_post') == 'on')--}}
-                                    {{--<span class="label label-primary">Featured</span>--}}
-                                    {{--@else--}}
-                                    {{--<span class="label label-danger">No Featured</span>--}}
-                                {{--@endif--}}
-                            {{--</td>--}}
+                            <td>{{$data->post_excerpt}}</td>
+                            <td>{{$data->post_content}}</td>
                             <td class="action">
-                                <a href="{{ Admin::route('contentManager.post.edit',['page'=>$data->id]) }}"
+                                <a href="{{ Admin::route('contentManager.doctor.edit',['id'=>$data->id]) }}"
                                    class="text-success">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a> |
-                                <a href="#" data-role="delete-post" data-idpost="{{ $data->id }}" data-url="{{ Admin::route('contentManager.post.destroy', ['id'=>$data->id]) }}"
+                                <a href="#" data-role="delete-doctor"
+                                   data-id="{{ $data->id }}"
+                                   data-url="{{ Admin::route('contentManager.doctor.destroy', ['id'=>$data->id]) }}"
                                    class="text-danger">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                 </a>
@@ -77,11 +66,10 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        $("a[data-role='delete-post']").on("click", function () {
-            var idpost = $(this).data('idpost');
+        $("a[data-role='delete-doctor']").on("click", function () {
             var url = $(this).data('url');
             swal({
-                title: "Are you sure to delete the selected post?",
+                title: "Are you sure to delete the selected doctor?",
                 text: "",
                 type: "warning",
                 showCancelButton: true,
@@ -98,8 +86,6 @@
                 })
                         .done(function () {
                             location.reload();
-//                            swal("Deleted!", "Delete Success", "success");
-//                            $("#tr-" + idpost).remove();
                         });
             });
             return false;
@@ -130,7 +116,7 @@
             });
             var id = array.join()
             swal({
-                title: "Are you sure to delete the selected post?",
+                title: "Are you sure to delete the selected doctor?",
                 text: "",
                 type: "warning",
                 showCancelButton: true,
@@ -142,7 +128,7 @@
             }, function () {
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ Admin::route('contentManager.post.destroy',['post'=>'']) }}/" + id,
+                    url: "{{ Admin::route('contentManager.doctor.destroy',['id'=>'']) }}/" + id,
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {

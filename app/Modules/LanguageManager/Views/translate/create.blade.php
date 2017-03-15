@@ -11,12 +11,19 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="col-md-6 col-xs-12 col-md-offset-3">
-                    <p class="help-block">To create new key, please input all the fields below.</p>
-                </div>
-                <div class="col-md-6 col-xs-12 col-md-offset-3">
-                @include('LanguageManager::translate.partials.form')
+                <div class="row">
+                    <div class="col-md-12">
+                        @include('LanguageManager::partials.message_alert')
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12 col-md-offset-3">
+                        <p class="help-block">To create new key, please input all the fields below.</p>
+                    </div>
+                    <div class="col-md-6 col-xs-12 col-md-offset-3">
+                        @include('LanguageManager::translate.partials.form')
+                    </div>
+                </div>
             </div>
         </div>
     </div>
