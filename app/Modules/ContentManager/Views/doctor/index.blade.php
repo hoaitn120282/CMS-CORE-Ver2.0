@@ -36,7 +36,7 @@
                             </td>
                             <td>{{$data->post_title}}</td>
                             <td>{{$data->post_excerpt}}</td>
-                            <td>{{$data->post_content}}</td>
+                            <td>{{$data->getMetaValue('appointment_link')}}</td>
                             <td class="action">
                                 <a href="{{ Admin::route('contentManager.doctor.edit',['id'=>$data->id]) }}"
                                    class="text-success">

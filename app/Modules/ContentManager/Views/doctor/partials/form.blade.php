@@ -1,5 +1,5 @@
 <form method="POST"
-      action="{{ ($model != "") ? Admin::route('contentManager.doctor.update',['post'=>$model->id]) : Admin::route('contentManager.doctor.store') }}">
+      action="{{ ($model != "") ? Admin::route('contentManager.doctor.update',['post'=>$model->id]) : Admin::route('contentManager.doctor.store') }}" style="margin-bottom: 70px;">
     <div class="row">
         <div class="col-md-9">
             {{ csrf_field() }}
@@ -27,7 +27,7 @@
                                    name="trans[{{$language->country->locale}}][post_title]"
                                    value="{{ ($model != "" ) ?
                                    $model->getTranslation($language->country->locale)->post_title :
-                                   old("trans[{$language->country->locale}][post_title]") }}"
+                                   old("trans.{$language->country->locale}.post_title") }}"
                                    id="title-post"
                                    placeholder="Name">
                         </div><!-- /.name -->
@@ -36,11 +36,9 @@
                             <label for="content-post">Position <span class="text-danger">*</span></label>
                             <textarea id="post-excerpt" name="trans[{{$language->country->locale}}][post_excerpt]"
                                       class="form-control"
-                                      rows="5">
-                                {{ ($model != "" ) ?
+                                      rows="5">{{ ($model != "" ) ?
                                 $model->getTranslation($language->country->locale)->post_excerpt :
-                                old("trans[{$language->country->locale}][post_excerpt]") }}
-                            </textarea>
+                                old("trans.{$language->country->locale}.post_excerpt") }}</textarea>
                         </div><!-- /.position -->
 
                         <div class="form-group">
@@ -50,7 +48,7 @@
                                       rows="18">
                                 {{ ($model != "" ) ?
                                 Helper::bbcode($model->getTranslation($language->country->locale)->post_content) :
-                                old("trans[{$language->country->locale}][post_content]") }}
+                                old("trans.{$language->country->locale}.post_content") }}
                             </textarea>
                         </div><!-- /.description -->
                     </div>
@@ -59,8 +57,8 @@
                 <div class="form-group">
                     <label for="title-post">Appointment link <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="title-post"
-                           name="meta[appointment_link]" placeholder="Doctor name"
-                           value="{{ ($model != "" ) ? $model->getMetaValue('appointment_link') : old('meta[featured_img]') }}">
+                           name="meta[appointment_link]" placeholder="http://"
+                           value="{{ ($model != "" ) ? $model->getMetaValue('appointment_link') : old('meta.appointment_link') }}">
                 </div><!-- /.appointment-link -->
             </div>
         </div><!-- /.main-col -->

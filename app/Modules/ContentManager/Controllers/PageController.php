@@ -54,13 +54,9 @@ class PageController extends Controller
             "status" => 'required',
         ]);
 
-//        $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request['trans'][$locale]['post_content']);
-//        $content = $request['trans'][$locale]['post_content'];
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "page";
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
-//        $model->post_title = $request['trans'][$locale]['post_title'];
-//        $model->post_content = $content;
         $model->post_status = $request->status;
         $model->save();
         foreach ($request['trans'] as $locale => $input) {
@@ -68,11 +64,11 @@ class PageController extends Controller
             $model->translateOrNew($locale)->post_content = $input['post_content'];
         }
         $model->save();
-
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request['trans'][$locale]['post_title']);
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
+
         return redirect(Admin::StrURL('contentManager/page'));
     }
 

@@ -57,8 +57,8 @@
             var idlanguage = $(this).data('idlanguage');
             console.log(idlanguage);
             swal({
-                title: "Are you sure?",
-                text: "Delete this language",
+                title: "Are you sure to delete this language?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -73,8 +73,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
-                        $("#tr-"+idlanguage).remove();
+                        location.reload();
                     });
             });
             return false;
@@ -105,8 +104,8 @@
             });
             var id = array.join()
             swal({
-                title: "Are you sure?",
-                text: "Delete the selected language",
+                title: "Are you sure to delete the selected language?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -121,7 +120,6 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
                         location.reload();
                     });
             });

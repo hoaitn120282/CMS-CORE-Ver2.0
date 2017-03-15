@@ -58,6 +58,7 @@ class PostController extends Controller
         $this->validate($request, [
             "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
+            "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
         ]);
         $model->post_author = \Auth::guard('admin')->user()->id;

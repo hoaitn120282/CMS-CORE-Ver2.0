@@ -1,5 +1,5 @@
 <form method="POST"
-      action="{{ ($model != "") ? Admin::route('contentManager.post.update',['post'=>$model->id]) : Admin::route('contentManager.post.store') }}">
+      action="{{ ($model != "") ? Admin::route('contentManager.post.update',['post'=>$model->id]) : Admin::route('contentManager.post.store') }}" style="margin-bottom: 70px;">
     <div class="row">
         <div class="col-md-9">
             {{ csrf_field() }}
@@ -29,23 +29,26 @@
                         <div class="form-group">
                             <label for="title-post">Post Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="trans[{{$language->country->locale}}][post_title]"
-                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
+                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old("trans.{$language->country->locale}.post_title") }}"
                                    id="title-post"
-                                   placeholder="Title Post">
+                                   placeholder="Post Title">
                             @if($model != "")
-                                <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ Url('/') }}
-                                        /{{ $model->post_name }}</span></p>
+                                <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ url("{$language->country->locale}/{$model->post_name}") }}</span></p>
                             @endif
                         </div>
                         <div class="form-group">
                             <label for="content-post">Content <span class="text-danger">*</span></label>
                             <textarea name="trans[{{$language->country->locale}}][post_content]" class="form-control content-post"
-                                      rows="18">{{ ($model != "" ) ? Helper::bbcode($model->getTranslation($language->country->locale)->post_content) : old('post_content') }}</textarea>
+                                      rows="18">{{ ($model != "" ) ?
+                                      Helper::bbcode($model->getTranslation($language->country->locale)->post_content) :
+                                      old("trans.{$language->country->locale}.post_content") }}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="content-post">Post Excerpt <span class="text-danger">*</span></label>
+                            <label for="content-post">Post Excerpt</label>
                             <textarea id="post-excerpt" name="trans[{{$language->country->locale}}][post_excerpt]" class="form-control"
-                                      rows="5">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_excerpt : old('post_excerpt') }}</textarea>
+                                      rows="5">{{ ($model != "" ) ?
+                                      $model->getTranslation($language->country->locale)->post_excerpt :
+                                      old("trans.{$language->country->locale}.post_excerpt") }}</textarea>
                         </div>
                     </div>
                 @endforeach

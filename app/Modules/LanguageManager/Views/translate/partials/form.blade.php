@@ -7,7 +7,7 @@
     @endif
     {{ csrf_field() }}
     <div class="form-group">
-        <label for="trans_key">Key</label>
+        <label for="trans_key">Key <span class="text-danger">*</span></label>
         <input type="text" name="trans_key" value="{{ $node->trans_key or old('trans_key') }}"
                id="trans_key" class="form-control">
     </div><!-- /.trans_key -->

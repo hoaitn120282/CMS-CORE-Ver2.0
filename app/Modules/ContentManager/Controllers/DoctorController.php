@@ -52,6 +52,7 @@ class DoctorController extends Controller
             "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_excerpt" => 'required',
             "trans.{$locale}.post_content" => 'required',
+            "meta.appointment_link" => 'required|url',
             "status" => 'required',
         ]);
         if ($validator->fails()) {
@@ -60,7 +61,7 @@ class DoctorController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.doctor.create'));
+            return redirect(Admin::route('contentManager.doctor.create'))->withInput($request->input());
         }
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "doctor";
@@ -82,6 +83,8 @@ class DoctorController extends Controller
             foreach ($request->meta as $key => $value) {
                 $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
             }
+
+            return redirect(Admin::route('contentManager.doctor.index'));
         } else {
             $request->session()->flash('response', [
                 'success' => false,
@@ -89,7 +92,7 @@ class DoctorController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.doctor.index'));
+        return redirect(Admin::route('contentManager.doctor.create'))->withInput($request->input());
     }
 
     /**
@@ -141,6 +144,7 @@ class DoctorController extends Controller
             "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_excerpt" => 'required',
             "trans.{$locale}.post_content" => 'required',
+            "meta.appointment_link" => 'required|url',
             "status" => 'required',
         ]);
         if ($validator->fails()) {
@@ -149,7 +153,7 @@ class DoctorController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.doctor.edit', ['id' => $id]));
+            return redirect(Admin::route('contentManager.doctor.edit', ['id' => $id]))->withInput($request->input());
         }
         $model->post_type = "doctor";
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
@@ -170,6 +174,8 @@ class DoctorController extends Controller
             foreach ($request->meta as $key => $value) {
                 $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
             }
+            
+            return redirect(Admin::route('contentManager.doctor.index'));
         } else {
             $request->session()->flash('response', [
                 'success' => true,
@@ -177,7 +183,7 @@ class DoctorController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.doctor.index'));
+        return redirect(Admin::route('contentManager.doctor.edit', ['id' => $id]))->withInput($request->input());
     }
 
     /**
@@ -194,7 +200,7 @@ class DoctorController extends Controller
         } else {
             Articles::destroy($id);
         }
-        $request->session()->flash('response', ['success' => true, 'message' => ['The page has been deleted successfully.']]);
+        $request->session()->flash('response', ['success' => true, 'message' => ['The doctor information has been deleted successfully.']]);
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete page id :' . $id);
     }
 }

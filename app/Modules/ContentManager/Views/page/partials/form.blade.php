@@ -1,5 +1,5 @@
 <form method="POST"
-      action="{{ ($model != "") ? Admin::route('contentManager.page.update',['page'=>$model->id]) : Admin::route('contentManager.page.store') }}">
+      action="{{ ($model != "") ? Admin::route('contentManager.page.update',['page'=>$model->id]) : Admin::route('contentManager.page.store') }}" style="margin-bottom: 70px;">
     <div class="row">
         <div class="col-md-9">
             {{ csrf_field() }}
@@ -26,13 +26,15 @@
                             <label for="title-post">Page Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control"
                                    name="trans[{{$language->country->locale}}][post_title]"
-                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
+                                   value="{{ ($model != "" ) ?
+                                   $model->getTranslation($language->country->locale)->post_title :
+                                   old("trans.{$language->country->locale}.post_title") }}"
                                    id="title-post"
-                                   placeholder="Title Page">
+                                   placeholder="Page Title">
                             @if($model != "")
                                 <p class="help-block">
                                     <strong>Permalink : </strong>
-                                    <span id="slug-permalink">{{ Url('/') }}/{{ $model->post_name }}</span>
+                                    <span id="slug-permalink">{{ url("{$language->country->locale}/{$model->post_name}.html") }}</span>
                                 </p>
                             @endif
                         </div>
@@ -40,7 +42,9 @@
                             <label for="content-post">Content <span class="text-danger">*</span></label>
                             <textarea name="trans[{{$language->country->locale}}][post_content]"
                                       class="form-control content-post"
-                                      rows="18">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_content : old('post_content') }}</textarea>
+                                      rows="18">{{ ($model != "" ) ?
+                                      $model->getTranslation($language->country->locale)->post_content :
+                                      old("trans.{$language->country->locale}.post_content") }}</textarea>
                         </div>
                     </div>
                 @endforeach
