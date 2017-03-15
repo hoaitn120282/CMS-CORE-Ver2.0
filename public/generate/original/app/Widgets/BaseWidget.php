@@ -1,16 +1,19 @@
-<?php 
+<?php
 
 namespace App\Widgets;
+
+use App\Facades\XCollection;
 
 abstract class BaseWidget
 {
     protected $id;
-	public $name;
-	public $description;
+    public $name;
+    public $description;
     public $options;
 
-    public function __construct() {
-    	$this->name = get_class($this);
+    public function __construct()
+    {
+        $this->name = get_class($this);
         $this->description = 'No Descriptions';
         $this->options = [
             "baseID" => str_random(10),
@@ -18,9 +21,10 @@ abstract class BaseWidget
         ];
     }
 
-    public function init($options){
+    public function init($options)
+    {
         $this->id = $options['baseID'];
-        $this->options = array_unique(array_merge($this->options,$options), SORT_REGULAR);
+        $this->options = XCollection::array_unique_key(array_merge($this->options, $options), SORT_REGULAR);
     }
 
     abstract protected function form();

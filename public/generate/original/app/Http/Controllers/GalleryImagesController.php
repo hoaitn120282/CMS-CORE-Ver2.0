@@ -180,7 +180,7 @@ class GalleryImagesController extends AppBaseController
         $fileName = time().'-'.$file->getClientOriginalName();
 
         if(!is_dir($pathUpload)){
-            mkdir($pathUpload);
+            @mkdir($pathUpload);
         }
         if($file->move($pathUpload,$fileName)){
             return $fileName;
