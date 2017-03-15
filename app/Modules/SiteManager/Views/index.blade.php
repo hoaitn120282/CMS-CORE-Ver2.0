@@ -80,7 +80,9 @@
                                 {{$data->is_publish == 1? 'Running' : 'Pending'}}
                             </td>
                             <td class="action-site" style="width: 200px">
+                                @if(count($data->theme)>0)
                                 <a target="_blank" href="{{ Admin::route('templateManager.preview', ['id' => $data->theme[0]->theme_id]) }}" data-toggle="tooltip" title="Preview"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                @endif
                                 <a href="{{ Admin::route('siteManager.edit-info', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 <a href="#" data-role="delete-post" data-clinicid="{{ $data->clinic_id }}" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>

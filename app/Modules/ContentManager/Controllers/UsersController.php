@@ -80,7 +80,9 @@ class UsersController extends Controller
     public function edit($id)
     {
         $model = User::find($id);
+
         $roles = Roles::all(['id','name']);
+
         return view("ContentManager::user.create",['model' => $model, 'roles' => $roles]);
     }
 

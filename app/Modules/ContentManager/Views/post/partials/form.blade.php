@@ -14,42 +14,41 @@
         @endif
         <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active">
-                    <a href="#english" aria-controls="home" role="tab"
-                       data-toggle="tab">English</a>
-                </li>
-                <li role="presentation">
-                    <a href="#vietnamese" aria-controls="home" role="tab"
-                       data-toggle="tab">Tiếng Việt</a>
-                </li>
+                @foreach(Trans::languages() as $key => $language)
+                    <li role="presentation" class="{{ (0 == $key) ? 'active': '' }}">
+                        <a href="#{{ "language_{$language->country->locale}" }}" role="tab"
+                           aria-controls="{{ "language_{$language->country->locale}" }}"
+                           data-toggle="tab">{{ $language->name }}</a>
+                    </li>
+                @endforeach
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="english">
-                    <div class="form-group">
-                        <label for="title-post">Post Title</label>
-                        <input type="text" class="form-control" name="post_title"
-                               value="{{ ($model != "" ) ? $model->post_title : old('post_title') }}" id="title-post"
-                               placeholder="Title Post">
-                        @if($model != "")
-                            <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ Url('/') }}
-                                    /{{ $model->post_name }}</span></p>
-                        @endif
+                @foreach(Trans::languages() as $key => $language)
+                    <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}" id="{{ "language_{$language->country->locale}" }}">
+                        <div class="form-group">
+                            <label for="title-post">Post Title</label>
+                            <input type="text" class="form-control" name="trans[{{$language->country->locale}}][post_title]"
+                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
+                                   id="title-post"
+                                   placeholder="Title Post">
+                            @if($model != "")
+                                <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ Url('/') }}
+                                        /{{ $model->post_name }}</span></p>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label for="content-post">Content</label>
+                            <textarea name="trans[{{$language->country->locale}}][post_content]" class="form-control content-post"
+                                      rows="18">{{ ($model != "" ) ? Helper::bbcode($model->getTranslation($language->country->locale)->post_content) : old('post_content') }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content-post">Post Excerpt</label>
+                            <textarea id="post-excerpt" name="trans[{{$language->country->locale}}][post_excerpt]" class="form-control"
+                                      rows="5">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_excerpt : old('post_excerpt') }}</textarea>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="content-post">Content</label>
-                        <textarea id="content-post" name="post_content" class="form-control"
-                                  rows="18">{{ ($model != "" ) ? Helper::bbcode($model->post_content) : old('post_content') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="content-post">Post Excerpt</label>
-                        <textarea id="post-excerpt" name="post_excerpt" class="form-control"
-                                  rows="5">{{ ($model != "" ) ? $model->post_excerpt : old('post_excerpt') }}</textarea>
-                    </div>
-                </div>
-                <div role="tabpanel" class="tab-pane active" id="vietnamese">
-                    Tiếng Việt
-                </div>
+                @endforeach
             </div>
         </div>
         <div class="col-md-3" style="">
