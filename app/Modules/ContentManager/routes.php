@@ -17,6 +17,7 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => $this->admin, 'middleware' => ['web','admin'], 'namespace' => 'App\Modules\ContentManager\Controllers'], function () {
 	Route::get('logout',['as' => $this->admin.'.logout', 'uses' => 'AuthController@logout']);
     Route::get('forgot-password',['as' => $this->admin.'.forgot-password', 'uses' => 'PasswordController@getForgotPassword']);
+	Route::post('change-password', ['as' => $this->admin.'.change-password', 'uses' => 'PasswordController@changePassword']);
 
 	Route::get('contentManager/index', ['as' => $this->admin.'.contentManager.index','uses' => 'DefaultController@index']);
 	Route::get('contentManager/imageTiny', ['as' => $this->admin.'.contentManager.imageTiny', 'uses' => 'DefaultController@imageTiny']);

@@ -4,6 +4,11 @@ namespace App\Modules\ContentManager\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Session;
+use App\User;
 
 class PasswordController extends Controller
 {
@@ -35,7 +40,21 @@ class PasswordController extends Controller
         $this->resetView = 'ContentManager::.'.$this->resetView;
     }
 
-   /* public function getForgotPassword() {
+    public function getResetSuccessResponse($response)
+    {
+        Session::flash('message', 'Forgot password successfully!');
+        Session::flash('alert-class', 'alert-success');
+        return redirect('admin');
+    }
 
-    }*/
+    public function changePassword(Request $request) {
+        $input = $request->all();
+
+        $user = User::find($input['userid']);
+
+        if (Hash::check($input['passwordold'], $user['password']) && $input['passwordnew']== $input['passwordconfirm']) {
+            $user->password = bcrypt($input['passwordnew']);
+            $user->save();
+        }
+    }
 }
