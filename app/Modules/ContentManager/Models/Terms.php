@@ -3,13 +3,18 @@
 namespace App\Modules\ContentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Dimsav\Translatable\Translatable;
 
 class Terms extends Model
 {
+    use Translatable;
+
     protected $table = 'terms';
     protected $primaryKey = 'term_id';
     public $timestamps = false;
     protected $fillable = array('slug', 'name','taxonomy');
+    public $translatedAttributes = ['name', 'description'];
+    protected $translationForeignKey = 'term_id';
 
     public function children()
 	{

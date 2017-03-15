@@ -299,16 +299,6 @@ class TemplateController extends Controller
     }
 
     /**
-     * Delete the template
-     *
-     * @param int $id
-     */
-    public function delete($id)
-    {
-
-    }
-
-    /**
      * Store data of template
      *
      * @param array $input
@@ -565,6 +555,10 @@ class TemplateController extends Controller
             $template = Template::find($id);
             if (0 == $template->parent_id) {
                 throw new \Exception('It\'s not allowed to delete installed theme.');
+            }
+
+            if ($template->clinics()->count() > 0) {
+                throw new \Exception("This template has been in use. It's not allowed to delete it.");
             }
             $themeName = $template->name;
             $machineName = $template->machine_name;

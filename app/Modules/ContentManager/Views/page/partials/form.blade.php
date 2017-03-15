@@ -23,7 +23,7 @@
                     <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}"
                          id="{{ "language_{$language->country->locale}" }}">
                         <div class="form-group">
-                            <label for="title-post">Page Title</label>
+                            <label for="title-post">Page Title <span class="text-danger">*</span></label>
                             <input type="text" class="form-control"
                                    name="trans[{{$language->country->locale}}][post_title]"
                                    value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
@@ -37,7 +37,7 @@
                             @endif
                         </div>
                         <div class="form-group">
-                            <label for="content-post">Content</label>
+                            <label for="content-post">Content <span class="text-danger">*</span></label>
                             <textarea name="trans[{{$language->country->locale}}][post_content]"
                                       class="form-control content-post"
                                       rows="18">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_content : old('post_content') }}</textarea>

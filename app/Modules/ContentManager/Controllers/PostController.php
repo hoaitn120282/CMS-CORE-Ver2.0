@@ -9,7 +9,6 @@ use App\Modules\ContentManager\Models\Articles;
 use App\Modules\ContentManager\Models\Comments;
 use App\Modules\ContentManager\Models\Terms;
 use App\Modules\ContentManager\Models\TermRelationships;
-use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Facades\Admin;
 use App\Facades\Theme;
@@ -57,16 +56,13 @@ class PostController extends Controller
         $model = new Articles();
         $locale = Trans::locale();
         $this->validate($request, [
-            "trans.{$locale}.post_title" => 'required|max:255|unique:posts,post_name',
+            "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
         ]);
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title, "-");
-//        $model->post_title = $request->post_title;
-//        $model->post_content = $model->cleanContent($request->post_content);
-//        $model->post_excerpt = $model->cleanContent($request->post_excerpt);
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->comment_status = $request->get('comment_status', 'close');
         $model->post_status = $request->status;
         $model->save();
@@ -77,7 +73,7 @@ class PostController extends Controller
         }
         $model->save();
 
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create post ' . $request->post_title);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create post ' . $request['trans'][$locale]['post_title']);
         TermRelationships::destroy($model->id);
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
@@ -143,13 +139,14 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $model = Articles::find($id);
+        $locale = Trans::locale();
         $this->validate($request, [
-            'post_content' => 'required',
-            'status' => 'required',
-            'post_title' => 'required|max:255',
+            "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_content" => 'required',
+            "status" => 'required',
         ]);
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title, "-");
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
 //        $model->post_title = $request->post_title;\
 //        $model->post_content = $model->cleanContent($request->post_content);
 //        $model->post_excerpt = $model->cleanContent($request->post_excerpt);

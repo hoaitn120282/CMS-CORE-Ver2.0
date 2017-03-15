@@ -10,7 +10,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    @include('ContentManager::tag.partials.form')
+                    @include('ContentManager::category.partials.form')
                 </div>
             </div>
         </div>
