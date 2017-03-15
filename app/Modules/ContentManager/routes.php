@@ -1,8 +1,10 @@
 <?php
 Route::group(['middleware' => ['web']], function () {
-    Route::post($this->admin, ['as' => $this->admin . '.login', 'uses' => 'App\Modules\ContentManager\Controllers\AuthController@login']);
-    Route::get($this->admin, ['as' => $this->admin . '.showlogin', 'uses' => 'App\Modules\ContentManager\Controllers\AuthController@showLoginForm']);
-
+	Route::post($this->admin,['as' => $this->admin.'.login', 'uses' => 'App\Modules\ContentManager\Controllers\AuthController@login']);
+	Route::get($this->admin,['as' => $this->admin.'.showlogin', 'uses' => 'App\Modules\ContentManager\Controllers\AuthController@showLoginForm']);
+    Route::get('/password',['as' => $this->admin.'.password', 'uses' => 'App\Modules\ContentManager\Controllers\PasswordController@showLinkRequestForm']);
+    Route::get('/password/reset/{token?}',['as' => $this->admin.'.password.reset', 'uses' => 'App\Modules\ContentManager\Controllers\PasswordController@showResetForm']);
+    Route::post('/password/reset/',['as' => $this->admin.'.password.reset', 'uses' => 'App\Modules\ContentManager\Controllers\PasswordController@reset']);
     Route::get('/blog', 'App\Modules\ContentManager\Controllers\PostController@blog');
     Route::post('/{slug?}/addcomment', 'App\Modules\ContentManager\Controllers\PostController@addcomment');
 
@@ -10,6 +12,8 @@ Route::group(['middleware' => ['web']], function () {
 
 Route::group(['prefix' => $this->admin, 'middleware' => ['web', 'admin'], 'namespace' => 'App\Modules\ContentManager\Controllers'], function () {
     Route::get('logout', ['as' => $this->admin . '.logout', 'uses' => 'AuthController@logout']);
+    Route::get('forgot-password',['as' => $this->admin.'.forgot-password', 'uses' => 'PasswordController@getForgotPassword']);
+	Route::post('change-password', ['as' => $this->admin.'.change-password', 'uses' => 'PasswordController@changePassword']);
 
     Route::get('contentManager/index', ['as' => $this->admin . '.contentManager.index', 'uses' => 'DefaultController@index']);
     Route::get('contentManager/imageTiny', ['as' => $this->admin . '.contentManager.imageTiny', 'uses' => 'DefaultController@imageTiny']);

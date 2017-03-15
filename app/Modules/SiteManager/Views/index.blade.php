@@ -105,7 +105,7 @@
         $("a[data-role='delete-post']").on( "click", function() {
             var clinicid = $(this).data('clinicid');
             swal({
-                title: "Are you sure?",
+                title: "",
                 text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,

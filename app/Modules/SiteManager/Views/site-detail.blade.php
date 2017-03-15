@@ -54,7 +54,7 @@
 								<ul class="list-unstyled">
 									@foreach($clinic->theme as $theme)
 										<li>
-											<span>Teamplate {{ $theme->clinic_theme_id }}</span>
+											<span>Template {{ $theme->clinic_theme_id }}</span>
 											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
 												Preview
 											</a>
@@ -98,7 +98,7 @@
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<p>The name.sanmax.com has been deployed. Send an email to {{ $clinic->info->username }} to notify that the website is available use now!</p>
+								<p>The name.sanmax.com has been deployed. Send an email to notify that the website is available for use now</p>
 							</div>
 							<div class="modal-body">
 								<div class="form-group">
@@ -129,7 +129,7 @@
 							<i class="fa fa-download" aria-hidden="true"></i> Download
 						</button>
 					</a>
-					<a href="#" data-role="delete-post" data-clinicid="{{ $clinic->clinic_id }}" data-toggle="tooltip" title="Delete">
+					<a href="#" data-role="delete-post" data-clinicid="{{ $clinic->clinic_id }}" >
 						<button type="submit" name="update" class="btn btn-danger">
 							<i class="fa fa-ban" aria-hidden="true"></i> Delete
 						</button>
@@ -203,7 +203,7 @@
             var usernameName = $('#username-name').val();
             swal({
                 title: "Are you sure?",
-                text: "Are you sure to send this email information?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -226,7 +226,7 @@
                     }
                 })
                     .done(function() {
-                        swal("Send!", "Send Successfully", "success");
+                        swal("", "Sent successfully", "success");
                         $('#myModal').modal('hide');
                     });
             });
@@ -236,7 +236,7 @@
         $("a[data-role='delete-post']").on( "click", function() {
             var clinicid = $(this).data('clinicid');
             swal({
-                title: "Are you sure?",
+                title: "",
                 text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,

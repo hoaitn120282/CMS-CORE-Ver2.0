@@ -115,12 +115,11 @@ class SiteController extends Controller
             'usernameName'=>$email['usernameName'],
             'siteName'=>$email['siteName']
         ), function($message) use ($email) {
-            $message->to($email['email'], 'Visitor')->subject('Visitor Feedback!');
+            $message->to($email['email'], 'Sanmax')->subject('Sanmax email!');
         });
         Session::flash('flash_message', 'Send message successfully!');
 
     }
-
 
     /**
      * Show site detqail.
