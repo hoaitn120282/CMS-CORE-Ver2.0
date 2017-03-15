@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Facades\Admin;
 use Theme;
 use Validator;
+use Trans;
 
 class TagController extends Controller
 {
@@ -49,8 +50,9 @@ class TagController extends Controller
     public function store(Request $request)
     {
         $model = new Terms();
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
         ]);
         if ($validator->fails()) {
             $request->session()->flash('response', [
@@ -60,16 +62,19 @@ class TagController extends Controller
 
             return redirect(Admin::route('contentManager.tag.create'));
         }
-        $model->name = $request->name;
         if (!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug, "-");
         else:
-            $model->slug = str_slug($request->name, "-");
+            $model->slug = str_slug($request['trans'][$locale]['name'], "-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "tag";
-        $model->description = $request->description;
         $model->parent = 0;
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
         $response = $model->save();
 
         if ($response) {
@@ -132,8 +137,9 @@ class TagController extends Controller
     public function update(Request $request, $id)
     {
         $model = Terms::find($id);
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
         ]);
         if ($validator->fails()) {
             $request->session()->flash('response', [
@@ -143,16 +149,19 @@ class TagController extends Controller
 
             return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]));
         }
-        $model->name = $request->name;
         if (!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug, "-");
         else:
-            $model->slug = str_slug($request->name, "-");
+            $model->slug = str_slug($request['trans'][$locale]['name'], "-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "tag";
-        $model->description = $request->description;
         $model->parent = 0;
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
         $response = $model->save();
 
         if ($response) {

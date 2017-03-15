@@ -56,35 +56,42 @@
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             <li>
-                                <a href="{{ Admin::route('contentManager.index') }}"><i class="fa fa-home"></i> Dashboard</a>
+                                <a href="{{ Admin::route('contentManager.index') }}"><i class="fa fa-home"></i>
+                                    Dashboard</a>
                             </li>
                             <li {{ Admin::requestIs('contentManager/post*') ? ' class=active' : '' }}>
-                                <a><i class="fa fa-newspaper-o"></i> Content Manager <span class="fa fa-chevron-down"></span></a>
+                                <a><i class="fa fa-newspaper-o"></i> Content Manager <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('contentManager.page.index') }}">Pages</a></li>
                                     <li><a href="{{ Admin::route('contentManager.post.index') }}">Posts</a></li>
                                     <li><a href="{{ Admin::route('contentManager.comment') }}">Comments </a></li>
-                                    <li><a href="{{ Admin::route('contentManager.category.index') }}">Categories</a></li>
+                                    <li><a href="{{ Admin::route('contentManager.category.index') }}">Categories</a>
+                                    </li>
                                     <li><a href="{{ Admin::route('contentManager.tag.index') }}">Tags</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="{{ Admin::route('contentManager.menu.index') }}"><i class="fa fa-sitemap"></i> Menu Manager</a>
+                                <a href="{{ Admin::route('contentManager.menu.index') }}"><i class="fa fa-sitemap"></i>
+                                    Menu Manager</a>
                             </li>
                             <li>
-                                <a href="{{ Admin::route('contentManager.media') }}"><i class="fa fa-file-image-o"></i> Media Manager</a>
+                                <a href="{{ Admin::route('contentManager.media') }}"><i class="fa fa-file-image-o"></i>
+                                    Media Manager</a>
                             </li>
                             {{--Template manager--}}
                             <li>
-                                <a><i class="fa fa-windows"></i> Template Manager <span class="fa fa-chevron-down"></span></a>
+                                <a><i class="fa fa-windows"></i> Template Manager <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('templateManager.index') }}">Template Library</a></li>
-                                    <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a></li>
+                                    <li><a href="{{ Admin::route('templateManager.index', ['theme_type'=>0]) }}">Template Library</a></li>
+                                    <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a>
+                                    </li>
                                 </ul>
                             </li>
                             {{--Site manager--}}
                             <li>
-                                <a ><i class="fa  fa-sitemap"></i> Site Manager <span class="fa fa-chevron-down"></span></a>
+                                <a><i class="fa  fa-sitemap"></i> Site Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('siteManager.index') }}">List of sites</a></li>
                                     <li><a href="{{ Admin::route('siteManager.select-template') }}">Create new</a></li>
@@ -92,13 +99,20 @@
                             </li>
                             {{--Language manager--}}
                             <li>
-                                <a href="{{ Admin::route('languageManager.index') }}"><i class="fa fa-language"></i> Language Manager</a>
+                                <a><i class="fa fa-language"></i> Language Manager <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{ Admin::route('languageManager.index') }}">Manager language</a></li>
+                                    <li><a href="{{ Admin::route('languageManager.translate.index') }}">Translation</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <a><i class="fa fa-desktop"></i> Theme Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ Admin::route('contentManager.theme') }}">Manage Theme</a></li>
-                                    <li><a href="{{ Admin::route('contentManager.theme.view',['id'=>Theme::getID()]) }}">Edit Theme Active</a></li>
+                                    <li>
+                                        <a href="{{ Admin::route('contentManager.theme.view',['id'=>Theme::getID()]) }}">Edit
+                                            Theme Active</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ Admin::route('contentManager.widget') }}"><i class="fa fa-clone"></i> Widget

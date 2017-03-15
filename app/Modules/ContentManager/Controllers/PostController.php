@@ -9,10 +9,10 @@ use App\Modules\ContentManager\Models\Articles;
 use App\Modules\ContentManager\Models\Comments;
 use App\Modules\ContentManager\Models\Terms;
 use App\Modules\ContentManager\Models\TermRelationships;
-use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Facades\Admin;
 use App\Facades\Theme;
+use Trans;
 
 class PostController extends Controller
 {
@@ -54,21 +54,26 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $model = new Articles();
+        $locale = Trans::locale();
         $this->validate($request, [
-            'post_content' => 'required',
-            'status' => 'required',
-            'post_title' => 'required|max:255',
+            "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_content" => 'required',
+            "status" => 'required',
         ]);
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title, "-");
-        $model->post_title = $request->post_title;
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->comment_status = $request->get('comment_status', 'close');
-        $model->post_content = $model->cleanContent($request->post_content);
-        $model->post_excerpt = $model->cleanContent($request->post_excerpt);
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create post ' . $request->post_title);
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_content = $input['post_content'];
+            $model->translateOrNew($locale)->post_excerpt = $model->cleanContent($input['post_excerpt']);
+        }
+        $model->save();
+
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create post ' . $request['trans'][$locale]['post_title']);
         TermRelationships::destroy($model->id);
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
@@ -134,19 +139,28 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $model = Articles::find($id);
+        $locale = Trans::locale();
         $this->validate($request, [
-            'post_content' => 'required',
-            'status' => 'required',
-            'post_title' => 'required|max:255',
+            "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_content" => 'required',
+            "status" => 'required',
         ]);
         $model->post_type = "post";
-        $model->post_name = str_slug($request->post_title, "-");
-        $model->post_title = $request->post_title;
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
+//        $model->post_title = $request->post_title;\
+//        $model->post_content = $model->cleanContent($request->post_content);
+//        $model->post_excerpt = $model->cleanContent($request->post_excerpt);
         $model->comment_status = $request->comment_status;
-        $model->post_content = $model->cleanContent($request->post_content);
-        $model->post_excerpt = $model->cleanContent($request->post_excerpt);
         $model->post_status = $request->status;
         $model->save();
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_content = $input['post_content'];
+            $model->translateOrNew($locale)->post_excerpt = $model->cleanContent($input['post_excerpt']);
+        }
+        $model->save();
+
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Update post ' . $request->post_title);
         TermRelationships::destroy($model->id);
         foreach ($request->meta as $key => $value) {

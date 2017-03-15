@@ -4,6 +4,7 @@ Route::group([
     'middleware' => ['web', 'admin'],
     'namespace' => 'App\Modules\TemplateManager\Controllers'],
     function () {
+        Route::get('templateManager', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index']);
         Route::get('templateManager/{theme_type?}', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index'])->where('theme_type', '[0-9]+');
         Route::get('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@install']);
         Route::post('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@installed']);

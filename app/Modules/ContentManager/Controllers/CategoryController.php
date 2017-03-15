@@ -9,6 +9,7 @@ use App\Facades\Admin;
 use App\Http\Controllers\Controller;
 use App\Facades\Theme;
 use Validator;
+use Trans;
 
 class CategoryController extends Controller
 {
@@ -50,8 +51,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $model = new Terms();
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
             'parent' => 'required',
         ]);
         if ($validator->fails()) {
@@ -63,17 +65,21 @@ class CategoryController extends Controller
             return redirect(Admin::route('contentManager.category.create'));
         }
 
-        $model->name = $request->name;
         if(!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug,"-");
         else:
-            $model->slug = str_slug($request->name,"-");
+            $model->slug = str_slug($request['trans'][$locale]['name'],"-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "category";
-        $model->description = $request->description;
         $model->parent = $request->parent;
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
         $response  = $model->save();
+
         if($request->ajax()){
             return json_encode(["id"=>$model->term_id,"parent"=>$model->parent]);
         }
@@ -137,8 +143,9 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $model = Terms::find($id);
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
             'parent' => 'required',
         ]);
         if ($validator->fails()) {
@@ -149,17 +156,20 @@ class CategoryController extends Controller
 
             return redirect(Admin::route('contentManager.category.edit', ['id' => $id]));
         }
-        $model->name = $request->name;
         if(!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug,"-");
         else:
-            $model->slug = str_slug($request->name,"-");
+            $model->slug = str_slug($request['trans'][$locale]['name'],"-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "category";
-        $model->description = $request->description;
         $model->parent = $request->parent;
-        $response = $model->save();
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
+        $response  = $model->save();
 
         if ($response) {
             $request->session()->flash('response', [
