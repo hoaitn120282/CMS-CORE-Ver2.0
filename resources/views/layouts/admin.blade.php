@@ -168,10 +168,9 @@
                     </div>
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            {{--<a href="{{ url('/') }}" target="_blank">
+                            <a href="{{ url('/') }}" target="_blank">
                                 <strong>View Website <i class="fa fa-arrow-right"></i></strong>
-                            </a>--}}
-                            @yield('back')
+                            </a>
                         </li>
                     </ul>
 
