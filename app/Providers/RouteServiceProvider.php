@@ -73,6 +73,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebLocaleRoutes(Router $router)
     {
+
         $this->locale = App::getLocale();
         $router->get('/', function (){
             return redirect($this->locale);
@@ -80,6 +81,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $locales = \App\Modules\LanguageManager\Models\Countries::all()->pluck('locale')->toArray();
         $locale = \Illuminate\Support\Facades\Request::segment(1);
+
         if (in_array($locale, $locales)) {
             $this->locale = Trans::setLocale($locale)->locale();
 

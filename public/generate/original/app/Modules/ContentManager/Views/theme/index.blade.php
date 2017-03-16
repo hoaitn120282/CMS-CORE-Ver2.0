@@ -7,8 +7,7 @@
                 <div class="x_title">
                     <h2>Theme Manager</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                        <li><a href="{{ Admin::route('contentManager.theme.install') }}">Install Theme</a></li>
-                        <li><a class="close-link"><i class="fa fa-close"></i></a></li>
+                        {{--<li><a href="{{ Admin::route('contentManager.theme.install') }}">Install Theme</a></li>--}}
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -27,6 +26,13 @@
         position: relative;
         overflow: hidden;
     }
+    .list-templates .thumbnail .theme-name {
+        padding: 5px 10px;
+        line-height: 1.5;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        display: block;
+    }
 
     .list-templates .thumbnail .wrap-theme:after {
         content: '';
@@ -42,7 +48,7 @@
         transition: all 0.3s ease;
     }
 
-    .list-templates .thumbnail:hover .wrap-theme:after {
+    .list-templates .thumbnail .wrap-theme:hover:after {
         opacity: 0.5;
     }
 

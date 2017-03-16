@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\ContentManager\Models\ThemeMeta;
 use App\Modules\LanguageManager\Models\Language;
 use App\Modules\SiteManager\Models\ClinicDatabase;
 use App\Modules\SiteManager\Models\ClinicHosting;
@@ -283,6 +284,7 @@ class SiteController extends Controller
             $clinic = new Clinic();
             $clinic->domain = $input['domain'];
             $clinic->save();
+            $clinicId = $clinic->clinic_id;
 
             // save clinic info table
             $clinicInfo = new ClinicInfo();
@@ -329,9 +331,11 @@ class SiteController extends Controller
 
             $templates = \Session::set('templates', []);
 
+//            GenerateController::compress($clinicId);
+            app('App\Modules\SiteManager\Controllers\GenerateController')->compress($clinicId);
+
             return redirect(Admin::route('siteManager.index'));
         }
-
     }
 
     //Update clinic info
@@ -524,4 +528,19 @@ class SiteController extends Controller
         Clinic::destroy($clinicID);
     }
 
+    /*
+     * Download template
+     * */
+    public function download($filename = null){
+        $file_path = public_path().'/generate/destination/'.$filename;
+        if (file_exists($file_path))
+        {
+            return response()->download($file_path);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    }
 }

@@ -151,6 +151,12 @@ class Helper
             ) {
                 $item['value'] = $request[$item['name']]['value'];
             }
+            if (
+                isset($item['xvalue']) &&
+                isset($request[$item['name']]['xvalue'])
+            ) {
+                $item['xvalue'] = $request[$item['name']]['xvalue'];
+            }
 
             if (!empty($item['items'])) {
                 $item['items'] = $this->recursiveMeta($item['items'], $request[$item['name']]);
@@ -161,5 +167,17 @@ class Helper
         }
 
         return $out;
+    }
+
+    public function convertArray($array = [])
+    {
+        $result = null;
+
+        if (!empty($array)){
+            $result = implode('", "', $array);
+            $result = "\"{$result}\"";
+        }
+
+        return $result;
     }
 }
