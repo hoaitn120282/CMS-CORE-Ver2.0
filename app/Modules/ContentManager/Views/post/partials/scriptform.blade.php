@@ -10,30 +10,15 @@
 <script src="{{ Url('/assets/summernote') }}/summernote.js"></script>
 <script>
     $(document).ready(function () {
-        $('.content-post').summernote({
-            height: 300,
-            minHeight: null,
-            maxHeight: null,
-            focus: true,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline']],
-                ['para', ['ul', 'ol', 'paragraph', 'style']],
-                ['misc', ['link', 'fullscreen', 'codeview', 'SImage', 'video']]
-            ],
-            buttons: {
-                SImage: imageMedia
-            }
-        });
-
-        $("#input-category").hide();
+            $("#input-category").hide();
         $("#btn-add-category").on("click", function () {
             $("#input-category").toggle();
             return false;
         });
 
         $('#tags').tagsInput({
-            width: 'auto'
-            //autocomplete_url: '{{ Admin::route("contentManager.post.tags") }}'
+            width: 'auto',
+            autocomplete_url: '{{ Admin::route("contentManager.post.tags") }}'
         });
 
         $("#add-category").on("click", function () {
@@ -51,7 +36,7 @@
                         "parent": parentcat,
                         "trans[{{Trans::locale()}}][description]": ""
                     },
-                      dataType: "json"
+                    dataType: "json"
                 })
                         .done(function (data) {
                             if (parentcat == 0) {
@@ -74,16 +59,16 @@
 
     });
     var summer = false;
-    var imageMedia = function (context) {
+    var imageMedia = function (locale) {
         var ui = $.summernote.ui;
 
         var button = ui.button({
             contents: '<i class="fa fa-image"/>',
+            data: {'locale': locale},
             tooltip: 'Image Media',
             click: function () {
-                summer = true;
                 defaultActive();
-                $('#featuredImage').modal('show')
+                $('#featuredImage').modal('show', {'locale': locale})
             }
         });
 

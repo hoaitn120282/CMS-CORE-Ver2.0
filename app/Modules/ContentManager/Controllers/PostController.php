@@ -81,7 +81,11 @@ class PostController extends Controller
         }
         $tags = array_filter(explode(",", $request->tags));
         foreach ($tags as $tag) {
-            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ['name' => $tag, "slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ["slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            foreach (Trans::languages() as $language) {
+                $tr->translateOrNew($language->country->locale)->name = $tag;
+            }
+            $tr->save();
             TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $tr->term_id]);
         }
         if (count($request->catname) > 0):
@@ -169,9 +173,14 @@ class PostController extends Controller
         }
         $tags = array_filter(explode(",", $request->tags));
         foreach ($tags as $tag) {
-            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ['name' => $tag, "slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ["slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            foreach (Trans::languages() as $language) {
+                $tr->translateOrNew($language->country->locale)->name = $tag;
+            }
+            $tr->save();
             TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $tr->term_id]);
         }
+
         if (count($request->catname) > 0):
             foreach ($request->catname as $cat) {
                 TermRelationships::create(["object_id" => $model->id, "term_taxonomy_id" => $cat]);

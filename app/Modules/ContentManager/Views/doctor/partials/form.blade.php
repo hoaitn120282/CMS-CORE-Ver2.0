@@ -44,12 +44,19 @@
                         <div class="form-group">
                             <label for="content-post">Desription <span class="text-danger">*</span></label>
                             <textarea name="trans[{{$language->country->locale}}][post_content]"
-                                      class="form-control content-post"
-                                      rows="18">
-                                {{ ($model != "" ) ?
-                                Helper::bbcode($model->getTranslation($language->country->locale)->post_content) :
-                                old("trans.{$language->country->locale}.post_content") }}
-                            </textarea>
+                                      data-locale="{{$language->country->locale}}"
+                                      data-modal="{{ "summer_{$language->country->locale}_image" }}"
+                                      id="{{ "summer_{$language->country->locale}_image" }}"
+                                      class="content-post-{{$language->country->locale}} content-post form-control"
+                                      rows="18">{{ ($model != "" ) ?
+                                      Helper::bbcode($model->getTranslation($language->country->locale)->post_content) :
+                                      old("trans.{$language->country->locale}.post_content") }}</textarea>
+                            <!-- /.Insert image -->
+                            @include('ContentManager::partials.summernote.img_upload', [
+                                'data' => [
+                                    'name' => "summer_{$language->country->locale}_image"
+                                ]
+                            ])
                         </div><!-- /.description -->
                     </div>
                 @endforeach
@@ -124,7 +131,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Avatar</div>
                 <div class="panel-body">
-                    @include('ContentManager::partials.inputBtnUpload',['idModal'=>'featuredImage','setInput'=>'meta_featured_img'])
+                    @include('ContentManager::partials.x_form.btn_upload', [
+                            'idModal'=>'modal_featuredImage',
+                            'model' => ($model != "" ? $model->getMetaValue('featured_img') : ''),
+                            'label' => '',
+                            'input'=>'meta[featured_img]'
+                    ])
                 </div>
             </div><!-- /.feature-image -->
 
