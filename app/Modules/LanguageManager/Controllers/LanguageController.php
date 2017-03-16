@@ -46,6 +46,7 @@ class LanguageController extends Controller
 
             $this->validate($request, [
                 'name' => 'required',
+                'countries' => 'required'
             ]);
 
             $data = $request->all();

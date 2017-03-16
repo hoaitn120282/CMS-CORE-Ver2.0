@@ -195,3 +195,19 @@
     vertical-align: middle!important;
     float: none;
 }
+
+.toolbar-actions {
+    margin-top: 15px;
+    padding: 15px 35px 15px 15px;
+    overflow: hidden;
+    position: fixed;
+    width: 50%!important;
+    bottom: 36px;
+    z-index: 9999;
+    right: 0!important;
+    left: auto!important;
+}
+
+.panel-default>.panel-heading {
+    font-weight: 700;
+}

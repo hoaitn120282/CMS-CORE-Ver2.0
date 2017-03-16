@@ -312,6 +312,7 @@ class TemplateController extends Controller
         $metaInput = $input['meta'];
         if (empty($id)) {
             $primaryInput['machine_name'] = uniqid("Sanmax");
+            $primaryInput['theme_root'] = ($oldTemp instanceof Template) ? $oldTemp->theme_root : $primaryInput['machine_name'];
             $primaryInput['status'] = 0;
             $template = Template::create($primaryInput);
             if ($oldTemp instanceof Template) {
@@ -489,7 +490,7 @@ class TemplateController extends Controller
 
             $css = array();
             $file = $template->machine_name . '.css';
-            $folder = empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
+            $folder = $template->theme_root;// empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
             $path_theme = public_path("themes/{$folder}");
             $path_css = public_path("themes/{$folder}/css");
             $path_file = public_path("themes/{$folder}/css/{$file}");

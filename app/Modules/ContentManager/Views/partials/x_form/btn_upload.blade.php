@@ -1,19 +1,12 @@
-    <?php
-
-$input = isset($input) ? $input : "meta[{$meta->meta_key}][{$data['name']}][value]";
-$label = isset($label) ? $label : $data['label'];
-$model = isset($model) ? $model : $data['value'];
-$idModal = isset($idModal) ? $idModal : "modal_{$data['name']}";
+<?php
 $inputSlug = str_slug($input, '_');
 
 ?>
-
 <div class="frm-ctrl-wrap">
     <label for="feature_image">{{ $label }}</label>
-    <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
+    <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md btn-block" style="display: block;">
         <i class="fa fa-upload"></i> Choose file...
     </button>
-    @if(!empty($help_text))<p class="block-text">{{$help_text}}</p>@endif
     <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"
          style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'>
         <div class="mask">
@@ -59,7 +52,27 @@ $inputSlug = str_slug($input, '_');
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="{{$inputSlug}}-image">
-                        @include('ContentManager::theme.partials.selectimage',['model'=>Admin::media(), 'selectImage' => $inputSlug])
+                        <div class="row">
+                            <?php $medias = Admin::media(); ?>
+                            @foreach($medias as $value)
+                                <div class="col-md-4">
+                                    <div class="image-select">
+                                        @if(isset($data['name']))
+                                            <a href="#" class="btn-add-image-preview"
+                                               onclick="setimage{{$data['name']}}('{{ url('/uploads').'/'.$value->post_name }}', '{{$inputSlug or null}}');return false;">
+                                                <img class="img-responsive" src="{{ url('/uploads').'/'.$value->post_name }}" /></a>
+                                        @else
+                                            <a href="#" class="btn-add-image-preview"
+                                               onclick="setimage('{{ url('/uploads').'/'.$value->post_name }}', '{{$inputSlug or null}}');return false;">
+                                                <img class="img-responsive" src="{{ url('/uploads').'/'.$value->post_name }}" /> </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                            <div class="col-md-12">
+                                {{ $medias->links() }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,7 +87,7 @@ $inputSlug = str_slug($input, '_');
 <link href="{{ asset('assets/dropzone/dropzone.min.css') }}" rel="stylesheet">
 <style>
     #btn-upload-{{$input}}-preview {
-        /*margin: 0 auto;*/
+        margin: 0 auto;
     }
 
     .img-res {
@@ -82,10 +95,9 @@ $inputSlug = str_slug($input, '_');
         height: 190px;
         width: 250px;
         max-width: 100%;
-        background-size: contain;
+        background-size: cover;
         background-position: 50% 50%;
         background-repeat: no-repeat;
-        border: 1px solid #f5f5f5;
         position: relative;
     }
 
@@ -175,7 +187,6 @@ $inputSlug = str_slug($input, '_');
 
     if (typeof setimage !== "function") {
         function setimage(img, input) {
-//            $('#btn-upload-' + input + '-preview').attr("src", img);
             $('#btn-upload-' + input + '-preview').css('background-image', 'url(' + img + ')');
             $('#btn-upload-' + input + '-preview').css('display', 'block');
 
@@ -193,7 +204,6 @@ $inputSlug = str_slug($input, '_');
                 },
                 dataType: 'json',
             }).done(function (data) {
-                console.log(data);
                 $('#' + input + '-image').html(data);
                 defaultActive(input, "image");
             }).fail(function () {
@@ -209,5 +219,6 @@ $inputSlug = str_slug($input, '_');
             $('#' + input).val("");
         }
     }
+
 </script>
 @endpush
