@@ -68,7 +68,7 @@ class Theme
             $model->status = 1;
             $model->save();
             $activeId = $model->id;
-            $activeName = empty($model->parent) ? $model->machine_name : $model->parent->machine_name;
+            $activeName = $model->theme_root; //empty($model->parent) ? $model->machine_name : $model->parent->machine_name;
             $activeExtraName = $model->machine_name;
             $this->activeID = $activeId;
             $this->activeName = $activeName;
@@ -339,6 +339,7 @@ class Theme
             $theme = new Themes();
             $theme->name = $file['name'];
             $theme->machine_name = $machineName;
+            $theme->theme_root = $machineName;
             $theme->version = $file['version'];
             $theme->author = $file['author'];
             $theme->author_url = $file['author_url'];

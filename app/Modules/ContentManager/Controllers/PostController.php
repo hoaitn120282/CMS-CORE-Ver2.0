@@ -81,7 +81,12 @@ class PostController extends Controller
         }
         $tags = array_filter(explode(",", $request->tags));
         foreach ($tags as $tag) {
-            $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ["slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            // $tr = Terms::updateOrCreate(['slug' => str_slug($tag, "-")], ["slug" => str_slug($tag, "-"), "taxonomy" => "tag"]);
+            $tr = Terms::where(['slug' => str_slug($tag, "-")])->first();
+            $tr = empty($str) ? new Terms() : $str;
+            $tr->slug = str_slug($tag, "-");
+            $tr->taxonomy = "tag";
+            $tr->save();
             foreach (Trans::languages() as $language) {
                 $tr->translateOrNew($language->country->locale)->name = $tag;
             }
