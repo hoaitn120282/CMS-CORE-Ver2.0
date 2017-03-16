@@ -131,6 +131,16 @@ class SiteController extends Controller
         $clinic = Clinic::find($id);
         $languageSelected = [];
         $languages = Language::get();
+        $templatesList = Template::get();
+        $temClinic = [];
+
+        for($j=0 ; $j < count($clinic->theme) ; $j++) {
+            foreach ($templatesList as $tem) {
+                if ($tem->id == $clinic->theme[$j]->theme_id) {
+                    array_push($temClinic, $tem);
+                }
+            }
+        }
 
         for($i=0 ; $i < count($clinic->language) ; $i++) {
             foreach ($languages as $lang) {
@@ -146,7 +156,7 @@ class SiteController extends Controller
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected]);
+        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected, 'temClinic' => $temClinic]);
     }
 
     /**
