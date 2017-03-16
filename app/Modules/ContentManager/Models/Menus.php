@@ -5,15 +5,19 @@ namespace App\Modules\ContentManager\Models;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use Trans;
+use Dimsav\Translatable\Translatable;
 
 class Menus extends Model
 {
+    use Translatable;
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'posts';
+    public $translatedAttributes = ['post_title', 'post_excerpt', 'post_content'];
+    protected $translationForeignKey = 'post_id';
 
     public function user()
     {

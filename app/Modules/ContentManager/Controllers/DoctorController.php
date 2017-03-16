@@ -8,8 +8,9 @@ use App\Http\Controllers\Controller;
 use Admin;
 use Theme;
 use Trans;
+use Validator;
 
-class PageController extends Controller
+class DoctorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +19,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        $model = Articles::where('post_type', 'page')->orderBy('id', 'desc')->paginate(10);
-        return view("ContentManager::page.index", ['model' => $model]);
+        $model = Articles::where('post_type', 'doctor')->orderBy('id', 'desc')->paginate(10);
+        return view("ContentManager::doctor.index", ['model' => $model]);
     }
 
     /**
@@ -34,7 +35,7 @@ class PageController extends Controller
         $layouts = $meta->getOption('layout_style');
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
 
-        return view("ContentManager::page.create", ["model" => "", 'layouts' => $layouts]);
+        return view("ContentManager::doctor.create", ["model" => "", 'layouts' => $layouts]);
     }
 
     /**
@@ -46,30 +47,52 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $model = new Articles();
-
         $locale = Trans::locale();
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_excerpt" => 'required',
             "trans.{$locale}.post_content" => 'required',
+            "meta.appointment_link" => 'required|url',
             "status" => 'required',
         ]);
+        if ($validator->fails()) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => $validator->errors()->all()
+            ]);
 
+            return redirect(Admin::route('contentManager.doctor.create'))->withInput($request->input());
+        }
         $model->post_author = \Auth::guard('admin')->user()->id;
-        $model->post_type = "page";
+        $model->post_type = "doctor";
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
         $model->save();
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_excerpt = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $input['post_excerpt']);
             $model->translateOrNew($locale)->post_content = $input['post_content'];
         }
-        $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request['trans'][$locale]['post_title']);
-        foreach ($request->meta as $key => $value) {
-            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
+        if ($model->save()) {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => ['The doctor has been created successfully.']
+            ]);
+
+            Admin::userLog(\Auth::guard('admin')->user()->id, 'Create doctor ' . $request['trans'][$locale]['post_title']);
+            foreach ($request->meta as $key => $value) {
+                $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
+            }
+
+            return redirect(Admin::route('contentManager.doctor.index'));
+        } else {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => ['The doctor has been created failure.']
+            ]);
         }
 
-        return redirect(Admin::StrURL('contentManager/page'));
+        return redirect(Admin::route('contentManager.doctor.create'))->withInput($request->input());
     }
 
     /**
@@ -103,7 +126,7 @@ class PageController extends Controller
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
 
-        return view("ContentManager::page.update", ['model' => $model, 'layouts' => $layouts]);
+        return view("ContentManager::doctor.update", ['model' => $model, 'layouts' => $layouts]);
     }
 
     /**
@@ -117,26 +140,50 @@ class PageController extends Controller
     {
         $model = Articles::find($id);
         $locale = Trans::locale();
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_excerpt" => 'required',
             "trans.{$locale}.post_content" => 'required',
+            "meta.appointment_link" => 'required|url',
             "status" => 'required',
         ]);
-        $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
-        $model->post_type = "page";
+        if ($validator->fails()) {
+            $request->session()->flash('response', [
+                'success' => false,
+                'message' => $validator->errors()->all()
+            ]);
+
+            return redirect(Admin::route('contentManager.doctor.edit', ['id' => $id]))->withInput($request->input());
+        }
+        $model->post_type = "doctor";
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
         $model->save();
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_excerpt = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $input['post_excerpt']);
             $model->translateOrNew($locale)->post_content = $input['post_content'];
         }
-        $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update page ' . $request->post_title);
-        foreach ($request->meta as $key => $value) {
-            $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
+        if ($model->save()) {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => ['The doctor has been updated successfully.']
+            ]);
+
+            Admin::userLog(\Auth::guard('admin')->user()->id, 'Update doctor ' . $request->post_title);
+            foreach ($request->meta as $key => $value) {
+                $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
+            }
+            
+            return redirect(Admin::route('contentManager.doctor.index'));
+        } else {
+            $request->session()->flash('response', [
+                'success' => true,
+                'message' => ['The doctor has been updated failure.']
+            ]);
         }
-        return redirect(Admin::StrURL('contentManager/page'));
+
+        return redirect(Admin::route('contentManager.doctor.edit', ['id' => $id]))->withInput($request->input());
     }
 
     /**
@@ -153,7 +200,7 @@ class PageController extends Controller
         } else {
             Articles::destroy($id);
         }
-        $request->session()->flash('response', ['success' => true, 'message' => ['The page has been deleted successfully.']]);
+        $request->session()->flash('response', ['success' => true, 'message' => ['The doctor information has been deleted successfully.']]);
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete page id :' . $id);
     }
 }

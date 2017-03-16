@@ -4,21 +4,21 @@
     <div class="row">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Create post</h2>
+                <h2>Create doctor</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="col-md-12">
-                    @include('ContentManager::partials.errormessage')
+                    @include('ContentManager::partials.alert')
                 </div>
-                @include('ContentManager::post.partials.form')
+                @include('ContentManager::doctor.partials.form')
             </div>
         </div>
     </div>
 @endsection
 
 @section('back')
-    <a href="{{ Admin::route('contentManager.post.index') }}">
+    <a href="{{ Admin::route('contentManager.doctor.index') }}">
         <strong>
             <i class="fa fa-angle-left" aria-hidden="true"></i>
             Back
@@ -27,7 +27,7 @@
 @endsection
 
 @push('scripts')
-@include('ContentManager::post.partials.scriptform')
+@include('ContentManager::doctor.partials.scriptform')
 <script type="text/javascript">
     $(function () {
         $('#tags').tagsInput({

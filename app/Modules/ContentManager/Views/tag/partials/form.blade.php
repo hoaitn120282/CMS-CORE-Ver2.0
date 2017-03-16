@@ -20,16 +20,16 @@
             <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}"
                  id="{{ "language_{$language->country->locale}" }}">
                 <div class="form-group">
-                    <label for="name-tag">Name *</label>
+                    <label for="name-tag">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control"
-                           value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->name : old('name') }}"
+                           value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->name : old("trans.{$language->country->locale}.name") }}"
                            name="trans[{{$language->country->locale}}][name]"
                            id="name-tag" placeholder="Name Tag">
                 </div>
                 <div class="form-group">
                     <label for="desctiption-tag">Description</label>
                     <textarea class="form-control" name="trans[{{$language->country->locale}}][description]"
-                              rows="3">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->description : old('description') }}</textarea>
+                              rows="3">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->description : old("trans.{$language->country->locale}.description") }}</textarea>
                 </div>
             </div>
         @endforeach

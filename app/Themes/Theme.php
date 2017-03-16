@@ -50,6 +50,11 @@ class Theme
         }
     }
 
+    public function asset($path = '')
+    {
+        return url("{$this->activeName}/" . trim($path, '/'));
+    }
+
     /**
      * Set theme active
      *

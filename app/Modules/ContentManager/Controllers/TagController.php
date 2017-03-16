@@ -60,7 +60,7 @@ class TagController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.tag.create'));
+            return redirect(Admin::route('contentManager.tag.create'))->withInput($request->input());
         }
         if (!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug, "-");
@@ -91,7 +91,7 @@ class TagController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.tag.create'));
+        return redirect(Admin::route('contentManager.tag.create'))->withInput($request->input());
     }
 
     /**
@@ -147,7 +147,7 @@ class TagController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]));
+            return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]))->withInput($request->input());
         }
         if (!empty(trim($request->slug))):
             $model->slug = str_slug($request->slug, "-");
@@ -178,7 +178,7 @@ class TagController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]));
+        return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]))->withInput($request->input());
     }
 
     /**

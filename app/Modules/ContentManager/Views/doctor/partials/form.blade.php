@@ -1,16 +1,10 @@
 <form method="POST"
-      action="{{ ($model != "") ? Admin::route('contentManager.post.update',['post'=>$model->id]) : Admin::route('contentManager.post.store') }}">
+      action="{{ ($model != "") ? Admin::route('contentManager.doctor.update',['post'=>$model->id]) : Admin::route('contentManager.doctor.store') }}" style="margin-bottom: 70px;">
     <div class="row">
         <div class="col-md-9">
             {{ csrf_field() }}
             @if($model != "")
                 <input name="_method" type="hidden" value="PUT">
-            <?php $val = array() ?>
-            @foreach($tags as $tag)
-                @if($tag->terms->taxonomy == "tag")
-                    <?php $val[] = $tag->terms->name ?>
-                @endif
-            @endforeach
         @endif
         <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
@@ -25,32 +19,49 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 @foreach(Trans::languages() as $key => $language)
-                    <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}" id="{{ "language_{$language->country->locale}" }}">
+                    <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}"
+                         id="{{ "language_{$language->country->locale}" }}">
                         <div class="form-group">
-                            <label for="title-post">Post Title <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="trans[{{$language->country->locale}}][post_title]"
-                                   value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_title : old('post_title') }}"
+                            <label for="title-post">Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control"
+                                   name="trans[{{$language->country->locale}}][post_title]"
+                                   value="{{ ($model != "" ) ?
+                                   $model->getTranslation($language->country->locale)->post_title :
+                                   old("trans.{$language->country->locale}.post_title") }}"
                                    id="title-post"
-                                   placeholder="Title Post">
-                            @if($model != "")
-                                <p class="help-block"><strong>Permalink : </strong><span id="slug-permalink">{{ Url('/') }}
-                                        /{{ $model->post_name }}</span></p>
-                            @endif
-                        </div>
+                                   placeholder="Name">
+                        </div><!-- /.name -->
+
                         <div class="form-group">
-                            <label for="content-post">Content <span class="text-danger">*</span></label>
-                            <textarea name="trans[{{$language->country->locale}}][post_content]" class="form-control content-post"
-                                      rows="18">{{ ($model != "" ) ? Helper::bbcode($model->getTranslation($language->country->locale)->post_content) : old('post_content') }}</textarea>
-                        </div>
+                            <label for="content-post">Position <span class="text-danger">*</span></label>
+                            <textarea id="post-excerpt" name="trans[{{$language->country->locale}}][post_excerpt]"
+                                      class="form-control"
+                                      rows="5">{{ ($model != "" ) ?
+                                $model->getTranslation($language->country->locale)->post_excerpt :
+                                old("trans.{$language->country->locale}.post_excerpt") }}</textarea>
+                        </div><!-- /.position -->
+
                         <div class="form-group">
-                            <label for="content-post">Post Excerpt <span class="text-danger">*</span></label>
-                            <textarea id="post-excerpt" name="trans[{{$language->country->locale}}][post_excerpt]" class="form-control"
-                                      rows="5">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->post_excerpt : old('post_excerpt') }}</textarea>
-                        </div>
+                            <label for="content-post">Desription <span class="text-danger">*</span></label>
+                            <textarea name="trans[{{$language->country->locale}}][post_content]"
+                                      class="form-control content-post"
+                                      rows="18">
+                                {{ ($model != "" ) ?
+                                Helper::bbcode($model->getTranslation($language->country->locale)->post_content) :
+                                old("trans.{$language->country->locale}.post_content") }}
+                            </textarea>
+                        </div><!-- /.description -->
                     </div>
                 @endforeach
+
+                <div class="form-group">
+                    <label for="title-post">Appointment link <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="title-post"
+                           name="meta[appointment_link]" placeholder="http://"
+                           value="{{ ($model != "" ) ? $model->getMetaValue('appointment_link') : old('meta.appointment_link') }}">
+                </div><!-- /.appointment-link -->
             </div>
-        </div>
+        </div><!-- /.main-col -->
         <div class="col-md-3" style="">
             <div class="panel panel-default">
                 <div class="panel-heading">Publish</div>
@@ -65,9 +76,6 @@
                             <li class="list-group-item"><i class="fa fa-calendar"></i> Create at : {{ date("d F Y") }}
                             </li>
                         @endif
-                        <li class="list-group-item"><i class="fa fa-user"></i> Author
-                            : {{ Auth::guard('admin')->user()->name }}
-                        </li>
                         @if($model != "")
                             <li class="list-group-item">
                                 <select name="status" class="form-control">
@@ -86,21 +94,6 @@
                                 </select>
                             </li>
                         @endif
-                        {{--@if($model != "")--}}
-                        {{--<li class="list-group-item">--}}
-                        {{--<select name="comment_status" class="form-control">--}}
-                        {{--<option {{ ($model->comment_status == "open") ? "selected" : "" }} value="open">Open Comment</option>--}}
-                        {{--<option {{ ($model->comment_status == "close") ? "selected" : "" }} value="close">Close Comment</option>--}}
-                        {{--</select>--}}
-                        {{--</li>--}}
-                        {{--@else--}}
-                        {{--<li class="list-group-item">--}}
-                        {{--<select name="comment_status" class="form-control">--}}
-                        {{--<option value="open">Open Comment</option>--}}
-                        {{--<option value="close">Close Comment</option>--}}
-                        {{--</select>--}}
-                        {{--</li>--}}
-                        {{--@endif--}}
                     </ul>
                 </div>
 
@@ -128,65 +121,14 @@
                 </div>
             </div><!-- /.layout -->
 
-            <div class="featured-post">
-                <label>
-                    <div class="labelFeaturedPost">
-                        Featured Post
-                    </div>
-                    <input type="checkbox" class="js-switch"
-                           name="meta[featured_post]" {{ ($model != "" ) ? ($model->getMetaValue('featured_post') ? "checked" : ""  ) : old('meta[featured_img]') }} />
-                </label>
-                <div class="clearfix"></div>
-            </div><!--/.feature-post -->
-
             <div class="panel panel-default">
-                <div class="panel-heading">Categories</div>
-                <div class="panel-body list-category">
-                    <ul id="parent-0" class="list-unstyled category-list-scroll">
-                        @foreach($category as $node)
-                            @if(count($node->children()) > 0 )
-                                @include('ContentManager::post.partials.categorylist', ['datas' => $node->children(),'post'=>($model != "" ) ? $model->id : false])
-                            @endif
-                        @endforeach
-                    </ul>
-                    <a id="btn-add-category" class="btn btn-success btn-sm btn-block" href="#"> + Add Category</a>
-                    <div id="input-category">
-                        <div class="form-group">
-                            <label for="name-category">Name Category</label>
-                            <input type="text" class="form-control" id="name-category" placeholder="Name Category">
-                        </div>
-                        <div class="form-group">
-                            <label for="parent-category">Parent</label>
-                            <select class="form-control" id="parent-category">
-                                <option value="0">Select Parent</option>
-                                @foreach($category as $node)
-                                    @if(count($node->children()) > 0 )
-                                        @include('ContentManager::partials.categoryoption', ['datas' => $node->children(),'select'=>($model != "" ) ? $model->parent : 0])
-                                    @endif
-                                @endforeach
-                            </select>
-                        </div>
-                        <a href="#" id="add-category" class="btn btn-default btn-sm">Add Category</a>
-                    </div>
-                </div>
-            </div><!-- /.categories -->
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Tags</div>
-                <div class="panel-body">
-                    <input type="text" class="form-control" name="tags" id="tags"
-                           value="{{ ($model != "" ) ? implode(',',$val) : old('tags') }}" data-role="tagsinput">
-                </div>
-            </div><!-- /.tags -->
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Featured Image</div>
+                <div class="panel-heading">Avatar</div>
                 <div class="panel-body">
                     @include('ContentManager::partials.inputBtnUpload',['idModal'=>'featuredImage','setInput'=>'meta_featured_img'])
                 </div>
             </div><!-- /.feature-image -->
 
-        </div>
+        </div><!-- /.right-col -->
     </div>
 
     <div class="row">
@@ -194,9 +136,9 @@
             <div class="pull-right">
                 <button type="submit" class="btn btn-success">
                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                    {{ ($model != "" ) ? "Save Post" : "Publish Post" }}
+                    {{ ($model != "" ) ? "Save" : "Create" }}
                 </button>
-                <a href="{{ Admin::route('contentManager.page.index') }}"
+                <a href="{{ Admin::route('contentManager.doctor.index') }}"
                    role="button" class="btn btn-primary">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                     Cancel

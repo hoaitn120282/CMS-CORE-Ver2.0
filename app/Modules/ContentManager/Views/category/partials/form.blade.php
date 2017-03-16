@@ -20,19 +20,23 @@
             <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}" id="{{ "language_{$language->country->locale}" }}">
                 <div class="form-group">
                     <label for="name-category">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" value="{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->name : old("trans.{$language->country->locale}.name") }}" name="trans[{{$language->country->locale}}][name]"
+                    <input type="text" class="form-control" value="{{ ($model != "" ) ?
+                    $model->getTranslation($language->country->locale)->name :
+                    old("trans.{$language->country->locale}.name") }}" name="trans[{{$language->country->locale}}][name]"
                            id="name-category" placeholder="Name Category">
                 </div>
                 <div class="form-group">
                     <label for="desctiption-category">Description</label>
                     <textarea class="form-control" name="trans[{{$language->country->locale}}][description]"
-                              rows="3">{{ ($model != "" ) ? $model->getTranslation($language->country->locale)->description : old("trans.{$language->country->locale}.description") }}</textarea>
+                              rows="3">{{ ($model != "" ) ?
+                              $model->getTranslation($language->country->locale)->description :
+                              old("trans.{$language->country->locale}.description") }}</textarea>
                 </div>
             </div>
             @endforeach
         </div>
     <div class="form-group">
-        <label for="parent-category">parent</label>
+        <label for="parent-category">Parent</label>
         <select class="form-control" name="parent" id="parent-category">
             <option value="0">Select Parent</option>
             @foreach($category as $node)

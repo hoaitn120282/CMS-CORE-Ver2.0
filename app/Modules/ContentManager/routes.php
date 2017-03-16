@@ -51,6 +51,7 @@ Route::group(['prefix' => $this->admin, 'middleware' => ['web', 'admin'], 'names
     Route::resource('contentManager/page', 'PageController', ['except' => ['show']]);
     Route::resource('contentManager/category', 'CategoryController', ['except' => ['show']]);
     Route::resource('contentManager/tag', 'TagController', ['except' => ['show']]);
+    Route::resource('contentManager/doctor', 'DoctorController', ['except' => ['show']]);
     Route::resource('contentManager/user', 'UsersController');
 
     //----comment --------

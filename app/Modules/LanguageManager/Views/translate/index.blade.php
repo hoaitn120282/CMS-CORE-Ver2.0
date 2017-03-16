@@ -18,6 +18,9 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="col-md-12">
+                    @include('LanguageManager::partials.message_alert')
+                </div>
                 <table class="table table-striped table-bordered jambo_table bulk_action">
                     <thead>
                     <tr>
@@ -75,8 +78,8 @@
             var id_trans = $(this).data('id');
             var url_trans = $(this).data('url');
             swal({
-                title: "Are you sure?",
-                text: "Delete this tranlation",
+                title: "Are you sure to delete this translation?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -91,8 +94,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                            swal("Deleted!", "Delete Success", "success");
-                            $("#tr-" + id_trans).remove();
+                            location.reload();
                         });
             });
             return false;
@@ -123,8 +125,8 @@
             });
             var id = array.join();
             swal({
-                title: "Are you sure?",
-                text: "Delete the selected language",
+                title: "Are you sure to delete the selected translation?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -139,7 +141,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                            swal("Deleted!", "Delete Success", "success");
+//                            swal("Deleted!", "Delete Success", "success");
                             location.reload();
                         });
             });
