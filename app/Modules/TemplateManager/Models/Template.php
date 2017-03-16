@@ -9,7 +9,7 @@ class Template extends Model
     protected $table = 'themes';
     protected $primaryKey = 'id';
     public $timestamps = false;
-    protected $fillable = array('parent_id', 'theme_type_id', 'name', 'machine_name', 'version', 'author', 'author_url', 'description', 'image_preview', 'status', 'is_publish');
+    protected $fillable = array('parent_id', 'theme_type_id', 'name', 'machine_name', 'theme_root', 'version', 'author', 'author_url', 'description', 'image_preview', 'status', 'is_publish');
 
     /**
      * Relationship belongs to theme

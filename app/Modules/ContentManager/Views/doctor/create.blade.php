@@ -28,6 +28,7 @@
 
 @push('scripts')
 @include('ContentManager::doctor.partials.scriptform')
+@include('ContentManager::partials.summernote.x_summernote')
 <script type="text/javascript">
     $(function () {
         $('#tags').tagsInput({

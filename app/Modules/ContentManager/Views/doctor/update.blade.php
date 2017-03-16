@@ -28,4 +28,5 @@
 
 @push('scripts')
 @include('ContentManager::post.partials.scriptform')
+@include('ContentManager::partials.summernote.x_summernote')
 @endpush

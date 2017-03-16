@@ -240,7 +240,7 @@ $languages = Trans::languages();
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 @foreach(Trans::languages() as $key => $language)
-                    <li role="presentation" class="{{ (0 == $key) ? 'active': '' }}">
+                    <li role="presentation" class="{{ (Trans::locale() == $language->country->locale) ? 'active': '' }}">
                         <a href="#{{ "language_{$language->country->locale}" }}" role="tab"
                            aria-controls="{{ "language_{$language->country->locale}" }}"
                            data-toggle="tab">{{ $language->name }}</a>
@@ -250,7 +250,7 @@ $languages = Trans::languages();
             <!-- Tab panes -->
             <div class="tab-content sortables">
                 @foreach(Trans::languages() as $key => $language)
-                    <div role="tabpanel" class="tab-pane {{ (0 == $key) ? 'active': '' }}"
+                    <div role="tabpanel" class="tab-pane {{ (Trans::locale() == $language->country->locale) ? 'active': '' }}"
                          id="{{ "language_{$language->country->locale}" }}">
                         <ol id="con-menu" class="sortable" style="padding-left:0;background:#eee">
                             @foreach($model as $node)
