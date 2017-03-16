@@ -48,8 +48,8 @@ Route::group(['prefix' => $this->admin, 'middleware' => ['web','admin'], 'namesp
 	//-----post,page,category,tag,user------
 	Route::resource('contentManager/post', 'PostController',['except' => ['show']]);
 	Route::resource('contentManager/page', 'PageController',['except' => ['show']]);
-	Route::resource('contentManager/category', 'CategoryController',['except' => ['show','create']]);
-	Route::resource('contentManager/tag', 'TagController',['except' => ['show','create']]);
+	Route::resource('contentManager/category', 'CategoryController',['except' => ['show']]);
+	Route::resource('contentManager/tag', 'TagController',['except' => ['show']]);
 	Route::resource('contentManager/user', 'UsersController');	
 
 	//----comment --------

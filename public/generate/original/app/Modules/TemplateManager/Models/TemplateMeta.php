@@ -47,9 +47,9 @@ class TemplateMeta extends Model
      * @param string $key
      * @return Illuminate\Database\Query\Builder
      */
-    public function scopeOptionsKey($query, $key)
+    public function scopeOptionsKey($query, $key, $operator = '=')
     {
         return $query->where('meta_group', 'options')
-            ->where('meta_key', $key);
+            ->where('meta_key', $operator, $key);
     }
 }

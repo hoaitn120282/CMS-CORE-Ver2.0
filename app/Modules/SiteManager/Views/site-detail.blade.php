@@ -124,7 +124,12 @@
 							<i class="fa fa-pencil" aria-hidden="true"></i> Edit
 						</button>
 					</a>
-					<a data-toggle="modal" data-target="#myModal">
+					{{--<a data-toggle="modal" data-target="#myModal">
+						<button type="submit" name="update" class="btn btn-success">
+							<i class="fa fa-download" aria-hidden="true"></i> Download
+						</button>
+					</a>--}}
+					<a href="{{ Admin::route('siteManager.download', ['filename' => $clinic->clinic_id.'.zip' ])  }}" >
 						<button type="submit" name="update" class="btn btn-success">
 							<i class="fa fa-download" aria-hidden="true"></i> Download
 						</button>

@@ -172,6 +172,7 @@ return [
         Infinety\FileManager\FileManagerServiceProvider::class,
         Qsoftvn\ShoppingCart\ShoppingServiceProvider::class,
         Dimsav\Translatable\TranslatableServiceProvider::class,
+        'Chumper\Zipper\ZipperServiceProvider'
     ],
 
     /*
@@ -226,6 +227,7 @@ return [
         'Html'      => Collective\Html\HtmlFacade::class,
         'Flash'     => Laracasts\Flash\Flash::class,
         'Debugbar'  => Barryvdh\Debugbar\Facade::class,
+        'Zipper' => 'Chumper\Zipper\Zipper'
     ],
 
 ];

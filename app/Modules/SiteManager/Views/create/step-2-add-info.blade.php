@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+    <div class="mask-loading" style="display: none">
+        <div class="loader"></div>
+    </div>
     <div class="row">
         <div class="x_panel">
             <div class="x_title">
@@ -18,7 +21,7 @@
             </div>
             <div class="x_content">
                 <h2>Please input all the fields below</h2>
-                <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
+                <form class="form-horizontal" id="create-new-form"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="information">
                         <h3 class="text-center create-title">Account Information</h3>
@@ -168,7 +171,9 @@
                                 <a href="{{ Admin::route('siteManager.select-template') }}">
                                     <span class="btn btn-success">Back</span>
                                 </a>
-                                <button type="submit" class="btn btn-success">Create</button>
+                                {{--<button type="submit" class="btn btn-success">Create</button>--}}
+                                <span class="btn btn-success" id="create-new-site">Create</span>
+
                                 <a href="{{ Admin::route('siteManager.index') }}">
                                     <span class="btn btn-success">Cancel</span>
                                 </a>
@@ -214,5 +219,46 @@
         .require{
             color: red;
         }
+
+        .mask-loading {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            opacity: 0.5;
+            left: 0px;
+            top: 0px;
+            z-index: 1;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            left: 50%;
+            position: fixed;
+            top: 50%;
+            margin-left: -60px;
+            margin-top: -60px;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#create-new-site').on('click',function () {
+                $('.mask-loading').css('display','block');
+                $('#create-new-form').submit();
+            });
+        });
+    </script>
 @endpush

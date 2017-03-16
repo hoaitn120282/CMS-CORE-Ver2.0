@@ -19,35 +19,45 @@
             <div class="wrap-theme">
                 <div class="image view-{{$node->id}} background-image" style="background-image: url('{{$previewImg}}')">
                 </div>
-
+                <div class="action">
+                    <ul>
+                        <li>
+                            <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ Admin::route('contentManager.theme.view', ['id' => $node->id]) }}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        @if(!$node->status)
+                            <li>
+                                <a href="#"
+                                   data-role="uninstall-theme"
+                                   data-theme_id="{{$node->id}}"
+                                   data-url="{{ Admin::route('contentManager.theme.uninstall', ['id' => $node->id]) }}">
+                                    <i class="fa fa-times"></i></a>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
             </div>
             <div class="caption">
-                @if($node->status)
-                    <a href="#" class="btn btn-disabled btn-block btn-sm">Activated</a>
-                @else
-                    <a href="{{ Admin::route('contentManager.theme.active',['id'=>$node->id]) }}"
-                       class="btn btn-success btn-block btn-sm">Active Theme</a>
-                @endif
-            </div>
-            <div class="action">
-                <p class="theme-name">{{ $node->name }}</p>
-                <ul>
-                    <li>
-                        <a href="{{ Admin::route('templateManager.preview', ['id' => $node->id]) }}" target="_blank">
-                            <i class="fa fa-eye"></i>
-                        </a>
+                <ul class="list-inline">
+                    <li class="pull-left"><strong class="theme-name">{{ $node->name }}</strong></li>
+                    <li class="pull-right">
+                        @if($node->status)
+                            <strong class="btn btn-disabled btn-sm">Activated</strong>
+                        @else
+                            <a href="{{ Admin::route('contentManager.theme.active',['id'=>$node->id]) }}"
+                               class="btn btn-success btn-sm">Active Theme</a>
+                        @endif
                     </li>
-                    @if(!$node->status)
-                    <li>
-                        <a href="#"
-                           data-role="uninstall-theme"
-                           data-theme_id="{{$node->id}}"
-                           data-url="{{ Admin::route('contentManager.theme.uninstall', ['id' => $node->id]) }}">
-                            <i class="fa fa-times"></i></a>
-                        </a>
-                    </li>
-                    @endif
-                </ul>
+                    <div class="clearfix"></div>
+                    </ul>
+
             </div>
         </div>
     </div>

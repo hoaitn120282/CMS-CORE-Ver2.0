@@ -82,14 +82,7 @@
                                     <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a></li>
                                 </ul>
                             </li>
-                            {{--Site manager--}}
-                            <li>
-                                <a ><i class="fa  fa-sitemap"></i> Site Manager <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('siteManager.index') }}">List of sites</a></li>
-                                    <li><a href="{{ Admin::route('siteManager.select-template') }}">Create new</a></li>
-                                </ul>
-                            </li>
+                           
                             {{--Language manager--}}
                             <li>
                                 <a href="{{ Admin::route('languageManager.index') }}"><i class="fa fa-language"></i> Language Manager</a>
@@ -103,18 +96,7 @@
                             </li>
                             <li><a href="{{ Admin::route('contentManager.widget') }}"><i class="fa fa-clone"></i> Widget
                                     Manager </a></li>
-                            @if(count(Admin::listModule()) > 0)
-                                <li><a><i class="fa fa-edit"></i> Modules Manager <span
-                                                class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        @foreach(Admin::listModule() as $module => $routeIndex)
-                                            <li>
-                                                <a href="{{ Admin::route($routeIndex) }}">{{ ucwords(str_replace("_"," ",snake_case($module))) }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
+                            
                             {{--<li><a href="/admin/contentManager/filemanager"><i class="fa fa-image"></i> File Manager </a></li>--}}
                             @include('layouts.generated-menu')
                             <li><a href="{{ Admin::route('contentManager.user.index') }}"><i class="fa fa-users"></i>
@@ -265,7 +247,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Thank for using ITLSVN-CMS 1.0
+                Thank for using QSOFT-CMS 1.0
             </div>
             <div class="clearfix"></div>
         </footer>

@@ -108,13 +108,15 @@
 @push('scripts')
 <script src="{{ url('/assets/jquery.ui') }}/jquery-ui.min.js"></script>
 <script type="text/javascript" src="{{ url('/assets/js') }}/jquery.mjs.nestedSortable.js"></script>
+<script src="{{asset("assets/dropzone/dropzone.min.js")}}"></script>
+
 <script>
 $( document ).ready(function() {
 	var ns = $('ol.sortable').nestedSortable({
 		forcePlaceholderSize: true,
 		handle: 'div',
 		helper:	'clone',
-		items: 'li',
+		items: 'li.widget-item',
 		opacity: .6,
 		placeholder: 'placeholder',
 		revert: 250,
@@ -148,7 +150,7 @@ $( document ).ready(function() {
                 data: {"_token": "{{ csrf_token() }}","widget":tmp}
             })
           .done(function() {
-            
+			  location.reload();
         });
         return false;
     });
