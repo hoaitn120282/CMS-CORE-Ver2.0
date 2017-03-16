@@ -3,13 +3,13 @@
 @section('content')
   <div class="row">
     <div class="col-md-12">
-      @include('ContentManager::partials.alert')
       <div class="x_panel">
         <div class="x_title">
           <h2>Create tag</h2>
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
+          @include('ContentManager::partials.alert')
           @include('ContentManager::tag.partials.form')
         </div>
       </div>

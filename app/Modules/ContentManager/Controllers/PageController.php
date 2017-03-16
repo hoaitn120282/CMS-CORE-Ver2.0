@@ -11,6 +11,23 @@ use Trans;
 
 class PageController extends Controller
 {
+    protected $messages;
+    protected $attributes = [];
+
+    public function __construct()
+    {
+        $locale = Trans::currentLocale();
+        $this->messages = [
+            'required' => "{$locale['name']} is active, :attribute in this language are required.",
+            'max' => 'The :attribute may not be greater than :max characters.'
+        ];
+        $this->attributes = [
+            "trans.{$locale['locale']}.post_title" => "title",
+            "trans.{$locale['locale']}.post_content" => "content",
+            "status" => "status",
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -52,7 +69,7 @@ class PageController extends Controller
             "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
 
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "page";
@@ -121,7 +138,7 @@ class PageController extends Controller
             "trans.{$locale}.post_title" => 'required|max:255',
             "trans.{$locale}.post_content" => 'required',
             "status" => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
         $model->post_type = "page";
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");

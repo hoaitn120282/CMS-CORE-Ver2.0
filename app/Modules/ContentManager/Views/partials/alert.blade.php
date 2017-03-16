@@ -9,7 +9,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         @foreach($message as $msg)
-            <p><i class="fa fa-check"></i> {{ $msg }}</p>
+            <p>{!! $success ? "<i class=\"fa fa-check\"></i>" : "<i class=\"fa fa-close\"></i>" !!} {{ $msg }}</p>
         @endforeach
     </div>
 @endif
