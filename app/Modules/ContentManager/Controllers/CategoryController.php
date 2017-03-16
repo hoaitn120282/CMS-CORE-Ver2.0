@@ -13,6 +13,21 @@ use Trans;
 
 class CategoryController extends Controller
 {
+    protected $messages;
+    protected $attributes = [];
+
+    public function __construct()
+    {
+        $locale = Trans::currentLocale();
+        $this->messages = [
+            'required' => "{$locale['name']} is active, :attribute in this language are required.",
+            'max' => 'The :attribute may not be greater than :max characters.'
+        ];
+        $this->attributes = [
+            "trans.{$locale['locale']}.name" => "name",
+            "parent" => "parent",
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +70,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             "trans.{$locale}.name" => 'required',
             'parent' => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         if ($validator->fails()) {
             $request->session()->flash('response', [
                 'success' => false,
@@ -147,7 +162,7 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             "trans.{$locale}.name" => 'required',
             'parent' => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         if ($validator->fails()) {
             $request->session()->flash('response', [
                 'success' => false,

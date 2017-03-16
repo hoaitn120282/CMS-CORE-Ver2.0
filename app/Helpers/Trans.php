@@ -94,7 +94,7 @@ class Trans
                 }
             }
             $langs['locale'] ?: $locale;
-            $langs['name'] ?: '';
+            $langs['name'] ?: $langs['locale'];
             $langs['url'] ?: '#';
         }
 
