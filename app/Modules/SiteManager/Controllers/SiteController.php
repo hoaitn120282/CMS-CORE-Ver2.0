@@ -518,4 +518,19 @@ class SiteController extends Controller
         Clinic::destroy($clinicID);
     }
 
+    /*
+     * Download template
+     * */
+    public function download($filename = null){
+        $file_path = public_path().'/generate/destination/'.$filename;
+        if (file_exists($file_path))
+        {
+            return response()->download($file_path);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    }
 }

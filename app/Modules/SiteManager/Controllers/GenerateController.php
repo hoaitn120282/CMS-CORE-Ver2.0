@@ -35,8 +35,10 @@ class GenerateController extends Controller
         $this->moveTemplateFile($siteID);
 
 //        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination',$siteID);
+        $files = glob(public_path().'/generate/temp');
+        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($files)->close();
 
-//        $this->removeFolder(public_path().'/generate/temp');
+        $this->removeFolder(public_path().'/generate/temp');
 
 //        $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
     }
