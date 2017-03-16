@@ -114,7 +114,8 @@
                         "_token": "{{ csrf_token() }}"
                     }
                 })
-                .done(function() {
+                .done(function(res) {
+                    console.log(res);
                     swal("", "Change password successfully", "success");
                     $('#myModal').modal('hide');
                 });

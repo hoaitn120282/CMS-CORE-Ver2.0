@@ -55,6 +55,9 @@ class PasswordController extends Controller
         if (Hash::check($input['passwordold'], $user['password']) && $input['passwordnew']== $input['passwordconfirm']) {
             $user->password = bcrypt($input['passwordnew']);
             $user->save();
+            return 1;
+        } else {
+            return 2;
         }
     }
 }
