@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\ContentManager\Models\ThemeMeta;
 use App\Modules\LanguageManager\Models\Language;
 use App\Modules\SiteManager\Models\ClinicDatabase;
 use App\Modules\SiteManager\Models\ClinicHosting;
@@ -18,6 +19,7 @@ use Session;
 use Validator;
 use DB;
 use Flash;
+use Mail;
 use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
@@ -102,6 +104,23 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @return view send email
+     */
+
+    public function sendEmail(Request $request) {
+        $email = $request->all();
+        Mail::send('SiteManager::email', array(
+            'adminName'=>$email["adminName"],
+            'password'=>$email['password'],
+            'usernameName'=>$email['usernameName'],
+            'siteName'=>$email['siteName']
+        ), function($message) use ($email) {
+            $message->to($email['email'], 'Sanmax')->subject('Sanmax email!');
+        });
+        Session::flash('flash_message', 'Send message successfully!');
+
+    }
 
     /**
      * Show site detqail.
@@ -255,6 +274,7 @@ class SiteController extends Controller
             $clinic = new Clinic();
             $clinic->domain = $input['domain'];
             $clinic->save();
+            $clinicId = $clinic->clinic_id;
 
             // save clinic info table
             $clinicInfo = new ClinicInfo();
@@ -301,9 +321,11 @@ class SiteController extends Controller
 
             $templates = \Session::set('templates', []);
 
+//            GenerateController::compress($clinicId);
+            app('App\Modules\SiteManager\Controllers\GenerateController')->compress($clinicId);
+
             return redirect(Admin::route('siteManager.index'));
         }
-
     }
 
     //Update clinic info
@@ -496,4 +518,19 @@ class SiteController extends Controller
         Clinic::destroy($clinicID);
     }
 
+    /*
+     * Download template
+     * */
+    public function download($filename = null){
+        $file_path = public_path().'/generate/destination/'.$filename;
+        if (file_exists($file_path))
+        {
+            return response()->download($file_path);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    }
 }

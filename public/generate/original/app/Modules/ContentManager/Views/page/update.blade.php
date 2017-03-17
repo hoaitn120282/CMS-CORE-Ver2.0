@@ -33,5 +33,5 @@
 @endsection
 
 @push('scripts')
-@include('ContentManager::partials.summernote')
+@include('ContentManager::partials.summernote.x_summernote')
 @endpush

@@ -52,6 +52,8 @@ class UsersController extends Controller
         $model->password = bcrypt($request->password);
         $model->description = $request->description;
         $model->photo = $request->photo;
+        $model->role_id = $request->roleuser;
+        $model->is_admin = 0;
         $model->save();
         return redirect(Admin::StrURL('contentManager/user'));
     }
@@ -78,7 +80,10 @@ class UsersController extends Controller
     public function edit($id)
     {
         $model = User::find($id);
-        return view("ContentManager::user.create",['model' => $model]);
+
+        $roles = Roles::all(['id','name']);
+
+        return view("ContentManager::user.create",['model' => $model, 'roles' => $roles]);
     }
 
     /**

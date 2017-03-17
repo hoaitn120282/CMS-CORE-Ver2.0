@@ -13,3 +13,5 @@ core-cms.rar
 /config/theme.php
 /resources/views/themes
 /public/themes
+/public/generate
+/public/temp

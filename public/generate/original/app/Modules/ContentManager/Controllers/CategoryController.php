@@ -9,6 +9,7 @@ use App\Facades\Admin;
 use App\Http\Controllers\Controller;
 use App\Facades\Theme;
 use Validator;
+use Trans;
 
 class CategoryController extends Controller
 {
@@ -20,9 +21,9 @@ class CategoryController extends Controller
     public function index()
     {
         $model = "";
-        $nodes = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
-        $category = Terms::where("taxonomy","category")
-            ->where("parent",0)
+        $nodes = Terms::where("taxonomy", "category")->orderBy('term_id', 'desc')->paginate(10);
+        $category = Terms::where("taxonomy", "category")
+            ->where("parent", 0)
             ->get();
 
         return view("ContentManager::category.index", compact('model', 'nodes', 'category'));
@@ -36,7 +37,7 @@ class CategoryController extends Controller
     public function create()
     {
         $model = '';
-        $category = Terms::where("taxonomy","category")->where("parent",0)->get();
+        $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
 
         return view("ContentManager::category.create", compact('model', 'category'));
     }
@@ -44,14 +45,15 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $model = new Terms();
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
             'parent' => 'required',
         ]);
         if ($validator->fails()) {
@@ -60,22 +62,26 @@ class CategoryController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.category.create'));
+            return redirect(Admin::route('contentManager.category.create'))->withInput($request->input());
         }
 
-        $model->name = $request->name;
-        if(!empty(trim($request->slug))):
-            $model->slug = str_slug($request->slug,"-");
+        if (!empty(trim($request->slug))):
+            $model->slug = str_slug($request->slug, "-");
         else:
-            $model->slug = str_slug($request->name,"-");
+            $model->slug = str_slug($request['trans'][$locale]['name'], "-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "category";
-        $model->description = $request->description;
         $model->parent = $request->parent;
-        $response  = $model->save();
-        if($request->ajax()){
-            return json_encode(["id"=>$model->term_id,"parent"=>$model->parent]);
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
+        $response = $model->save();
+
+        if ($request->ajax()) {
+            return json_encode(["id" => $model->term_id, "parent" => $model->parent]);
         }
 
         if ($response) {
@@ -92,18 +98,18 @@ class CategoryController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.category.create'));
+        return redirect(Admin::route('contentManager.category.create'))->withInput($request->input());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($slug)
     {
-        $model = Terms::where("slug",$slug)->where('taxonomy','category')->firstOrFail();
+        $model = Terms::where("slug", $slug)->where('taxonomy', 'category')->firstOrFail();
         $layout = Theme::layout('category');
         $appTitle = $model->name;
 
@@ -113,15 +119,15 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $model = Terms::find($id);
-        $nodes = Terms::where("taxonomy","category")->orderBy('term_id', 'desc')->paginate(10);
-        $category = Terms::where("taxonomy","category")
-            ->where("parent",0)
+        $nodes = Terms::where("taxonomy", "category")->orderBy('term_id', 'desc')->paginate(10);
+        $category = Terms::where("taxonomy", "category")
+            ->where("parent", 0)
             ->get();
 
         return view("ContentManager::category.update", compact('model', 'nodes', 'category'));
@@ -130,15 +136,16 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $model = Terms::find($id);
+        $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            "trans.{$locale}.name" => 'required',
             'parent' => 'required',
         ]);
         if ($validator->fails()) {
@@ -147,18 +154,21 @@ class CategoryController extends Controller
                 'message' => $validator->errors()->all()
             ]);
 
-            return redirect(Admin::route('contentManager.category.edit', ['id' => $id]));
+            return redirect(Admin::route('contentManager.category.edit', ['id' => $id]))->withInput($request->input());
         }
-        $model->name = $request->name;
-        if(!empty(trim($request->slug))):
-            $model->slug = str_slug($request->slug,"-");
+        if (!empty(trim($request->slug))):
+            $model->slug = str_slug($request->slug, "-");
         else:
-            $model->slug = str_slug($request->name,"-");
+            $model->slug = str_slug($request['trans'][$locale]['name'], "-");
         endif;
         $model->term_group = 0;
         $model->taxonomy = "category";
-        $model->description = $request->description;
         $model->parent = $request->parent;
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->name = $input['name'];
+            $model->translateOrNew($locale)->description = $input['description'];
+        }
         $response = $model->save();
 
         if ($response) {
@@ -175,26 +185,26 @@ class CategoryController extends Controller
             ]);
         }
 
-        return redirect(Admin::route('contentManager.category.edit', ['id' => $id]));
+        return redirect(Admin::route('contentManager.category.edit', ['id' => $id]))->withInput($request->input());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         $tmp = explode(",", $id);
-        if(is_array($tmp)){
+        if (is_array($tmp)) {
             Terms::destroy($tmp);
             foreach ($tmp as $value) {
-                TermRelationships::where("term_taxonomy_id",$value)->delete();
+                TermRelationships::where("term_taxonomy_id", $value)->delete();
             }
-        }else{
-            Terms::destroy($id);  
-            TermRelationships::where("term_taxonomy_id",$id)->delete();
+        } else {
+            Terms::destroy($id);
+            TermRelationships::where("term_taxonomy_id", $id)->delete();
         }
     }
 }

@@ -17,20 +17,20 @@
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
-        <table class="table table-striped jambo_table bulk_action">
+        <table class="table table-striped table-bordered jambo_table bulk_action">
             <thead>
             <tr>
                 <th class="icheck"><input id="checkAll" type="checkbox" class="flat"></th>
                 <th>Name</th>
-                <th>Desciption</th>
+                <th>Description</th>
                 <th>Slug</th>
                 <th class="action">Action</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($nodes as $data)
-                <tr id="tr-{{ $data->term_id }}" class="icheck">
-                    <td>
+                <tr id="tr-{{ $data->term_id }}">
+                    <td  class="icheck">
                         <input type="checkbox" name="checkbox" class="flat" data-role="checkbox"
                                value="{{$data->term_id}}"/>
                         <input type="hidden" id="idPost" value="{{ $data->term_id }}">
