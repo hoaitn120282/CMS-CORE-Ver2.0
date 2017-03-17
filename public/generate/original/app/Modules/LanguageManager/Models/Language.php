@@ -18,4 +18,15 @@ class Language extends Model
     {
         return $this->hasOne('App\Modules\LanguageManager\Models\Countries','country_id','country_id');
     }
+
+    /**
+     * Relation ship clinic site
+     */
+    public function clinics()
+    {
+        return $this->belongsToMany(
+            'App\Modules\SiteManager\Models\Clinic',
+            'clinic_language', 'language_id', 'clinic_id'
+        );
+    }
 }

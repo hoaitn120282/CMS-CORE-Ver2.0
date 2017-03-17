@@ -11,7 +11,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h2>Content step 2</h2>
+                <h2>Edit site</h2>
                 <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.edit-info', ['id' => $clinic->clinic_id]) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="information">

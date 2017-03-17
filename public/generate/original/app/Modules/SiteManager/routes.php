@@ -22,4 +22,11 @@ Route::group([
 
         // Generate Website
         Route::any('site-manager/generate/compress', ['as' => $this->admin . '.siteManager.compress', 'uses' => 'GenerateController@compress']);
-});
+
+        //Send mail
+        Route::post('site-manage/send-email/' , ['as' => $this->admin . '.siteManager.send-email', 'uses' => 'SiteController@sendEmail']);
+
+        // Download Route
+        Route::get('download/{filename}' , ['as' => $this->admin . '.siteManager.download', 'uses' => 'SiteController@download']);
+
+    });

@@ -13,6 +13,7 @@ $copyRight = $meta->getOption('copyright');
                 'idModal'=>'modal_general_logo',
                 'model' => $logo,
                 'label' => 'Logo',
+                'help_text' => 'Logo resolution is 116x40px',
                 'input' => 'meta[general][logo][value]'
                 ])
             </div>

@@ -105,8 +105,8 @@
                     <tr>
                       <td>{{ $value->post_title }}</td>
                       <td>{!! Helper::taxonomyLink($value->categories,false) !!}</td>
-                      <td>{!! Helper::taxonomyLink($value->tags,false) !!}</td> 
-                      <td>{{$value->updated_at->format("M d, Y")}}</td> 
+                      <td>{!! Helper::taxonomyLink($value->tags,false) !!}</td>
+                      <td>{{$value->updated_at->format("M d, Y")}}</td>
                     </tr>
                     @endforeach
                   </tbody>

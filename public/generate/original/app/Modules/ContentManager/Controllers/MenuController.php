@@ -9,11 +9,12 @@ use App\Modules\ContentManager\Models\Articles;
 use App\Modules\ContentManager\Models\Terms;
 use App\Modules\ContentManager\Models\Options;
 use App\Modules\ContentManager\Models\ThemeMeta;
-use App\Modules\ContentManager\Models\TermRelationships;
 use App\Http\Controllers\Controller;
 use DB;
 use App\Facades\Admin;
 use App\Facades\Theme;
+use Trans;
+
 class MenuController extends Controller
 {
     public function index($name = "main-menu")
@@ -70,8 +71,11 @@ class MenuController extends Controller
             $idPost = $data[$i]["id"];
             $label =  $data[$i]["label"];
             $model = Menus::find($idPost);
-            $model->post_title = $label;
             $model->menu_order = $i;
+            $model->save();
+            foreach ($label as $locale => $input) {
+                $model->translateOrNew($locale)->post_title = $input;
+            }
             $model->save();
             ArticleMeta::where("post_id",$idPost)->where("meta_key","_nav_item_parent")->update(['meta_value' => $data[$i]["parent_id"]]);
         }
@@ -93,16 +97,19 @@ class MenuController extends Controller
     {
         $this->validate($request, [
             'url' => 'required',
-            'label' => 'required',
+            "label" => 'required',
         ]);
         $model = new Menus();
     	$model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "nav-menu";
         $model->post_name = str_slug($request->label,"-");
-        $model->post_title = $request->label;
         $model->menu_group = $request->group;
         $model->post_mime_type = "nav-menu";
         $model->comment_status = "close";
+        $model->save();
+        foreach (Trans::languages() as $language) {
+            $model->translateOrNew($language->country->locale)->post_title = $request->label;
+        }
         $model->save();
         $meta = array(
 		    array('post_id'=>$model->id, 'meta_key'=> '_nav_item_parent','meta_value'=> ""),
@@ -118,16 +125,20 @@ class MenuController extends Controller
         $this->validate($request, [
             'datamenu' => 'required',
         ]);
+        $locale = Trans::locale();
         foreach ($request->datamenu as $value) {
             $type = $value["type"];
             $model = new Menus();
             $model->post_author = \Auth::guard('admin')->user()->id;
             $model->post_type = "nav-menu";
-            $model->post_name = str_slug($value["label"],"-");
-            $model->post_title = $value["label"];
+            $model->post_name = str_slug($value["label"][$locale],"-");
             $model->menu_group = $request->group;
             $model->post_mime_type = "nav-menu";
             $model->comment_status = "close";
+            $model->save();
+            foreach ($value["label"] as $locale => $input) {
+                $model->translateOrNew($locale)->post_title = $input;
+            }
             $model->save();
             $meta = array(
                 array('post_id'=>$model->id, 'meta_key'=> '_nav_item_parent','meta_value'=> ""),

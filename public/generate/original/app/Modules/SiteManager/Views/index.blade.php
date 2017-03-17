@@ -80,7 +80,9 @@
                                 {{$data->is_publish == 1? 'Running' : 'Pending'}}
                             </td>
                             <td class="action-site" style="width: 200px">
-                                <a target="_blank" href="{{ Admin::route('templateManager.preview', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="Preview"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                @if(count($data->theme)>0)
+                                <a target="_blank" href="{{ Admin::route('templateManager.preview', ['id' => $data->theme[0]->theme_id]) }}" data-toggle="tooltip" title="Preview"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                @endif
                                 <a href="{{ Admin::route('siteManager.edit-info', ['id' => $data->clinic_id]) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                                 <a href="#" data-role="delete-post" data-clinicid="{{ $data->clinic_id }}" data-toggle="tooltip" title="Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>
@@ -90,7 +92,7 @@
                 </table>
                  {{$clinics->appends(['q' => $query])->links()}}
                 @else
-                    <h2>You do not have clinics site!</h2>
+                    <h2>No clinic site is available. Please create new one.</h2>
                 @endif
             </div>
         </div>
@@ -103,7 +105,7 @@
         $("a[data-role='delete-post']").on( "click", function() {
             var clinicid = $(this).data('clinicid');
             swal({
-                title: "Are you sure?",
+                title: "",
                 text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,
@@ -119,7 +121,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Success", "success");
+                        swal("Deleted!", "Delete Successfully", "success");
                         $("#tr-"+clinicid).remove();
                     });
             });
