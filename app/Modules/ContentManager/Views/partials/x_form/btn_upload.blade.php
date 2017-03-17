@@ -7,8 +7,9 @@ $inputSlug = str_slug($input, '_');
     <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md btn-block" style="display: block;">
         <i class="fa fa-upload"></i> Choose file...
     </button>
+    <?php $inputOld = trim(preg_replace('!['.preg_quote('[]').']+!u', '.', $input), '.') ?>
     <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"
-         style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'>
+         style='background-image: url("{{ empty($model) ? old($inputOld) : $model }}"); display: {{ (empty($model) && empty(old($inputOld))) ? 'none':'block' }}'>
         <div class="mask">
             <a href="#" class="del-img"
                onclick="deleteImage('{{$inputSlug}}');return false;">
@@ -17,7 +18,7 @@ $inputSlug = str_slug($input, '_');
         </div>
     </div>
     <input type="hidden" id="{{$inputSlug}}" class="form-control"
-           name="{{$input}}" value="{{ empty($model) ? old($input) : $model }}"
+           name="{{$input}}" value="{{ empty($model) ? old($inputOld) : $model }}"
            placeholder="Choose file...">
 </div>
 <div class="modal fade" id="modal-{{$inputSlug}}" tabindex="-1" role="dialog" aria-labelledby="{{ $inputSlug }}Label">

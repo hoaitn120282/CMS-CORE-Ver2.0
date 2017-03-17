@@ -146,7 +146,6 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                            swal("Deleted!", "Delete Success", "success");
                             location.reload();
                         });
             });
