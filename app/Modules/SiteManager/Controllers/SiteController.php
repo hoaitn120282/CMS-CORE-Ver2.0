@@ -334,7 +334,7 @@ class SiteController extends Controller
 //            GenerateController::compress($clinicId);
             app('App\Modules\SiteManager\Controllers\GenerateController')->compress($clinicId);
 
-            return redirect(Admin::route('siteManager.index'));
+            return redirect(Admin::route('siteManager.preview', ['id' => $clinicId]));
         }
     }
 
