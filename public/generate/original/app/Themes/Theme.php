@@ -44,10 +44,15 @@ class Theme
             $this->activeID = isset($this->config['active_id']) ? $this->config['active_id'] : 1;
         } else {
             $active = Themes::where('status', true)->first();
-            $this->activeName = $active->name;
-            $this->activeExtraName = empty($active->parent) ? $active->name : $active->parent->name;
+            $this->activeName = $active->machine_name;
+            $this->activeExtraName = empty($active->parent) ? $active->machine_name : $active->parent->machine_name;
             $this->activeID = $active->id;
         }
+    }
+
+    public function asset($path = '')
+    {
+        return url("{$this->activeName}/" . trim($path, '/'));
     }
 
     /**
@@ -63,8 +68,8 @@ class Theme
             $model->status = 1;
             $model->save();
             $activeId = $model->id;
-            $activeName = empty($model->parent) ? $model->name : $model->parent->name;
-            $activeExtraName = $model->name;
+            $activeName = $model->theme_root; //empty($model->parent) ? $model->machine_name : $model->parent->machine_name;
+            $activeExtraName = $model->machine_name;
             $this->activeID = $activeId;
             $this->activeName = $activeName;
             $this->activeExtraName = $activeExtraName;
@@ -166,7 +171,7 @@ class Theme
             Helper::extract(app_path('Themes/tmp'), $path);
             $file = $this->checkFileConfig($name, false);
             $themeName = $file['name'];
-            $machineName = uniqid();//str_slug($name, '_') . '_' . uniqid();
+            $machineName = uniqid("Sanmax");
             $countTheme = Themes::where('name', $themeName)->count();
             if ($countTheme > 0) {
                 throw new \Exception("Theme {$themeName} has been installed already. Please choose other theme.");
@@ -179,6 +184,7 @@ class Theme
                 foreach ($this->defaulTmpPath as $key => $value) {
                     File::copyDirectory($value, $copyPath[$key]);
                 }
+                $this->makeWidgets($machineName);
             }
             $this->removeTmp();
             // delete file uploaded
@@ -240,7 +246,7 @@ class Theme
         }
     }
 
-    public function option($key, $name, $defaulValue = "")
+    public function option($key, $name, $defaultValue = "")
     {
         $tmp = ThemeMeta::where('theme_id', $this->activeID)->where('meta_group', 'options')->where('meta_key', $key)->first();
         $meta = unserialize($tmp->meta_value);
@@ -253,6 +259,52 @@ class Theme
             }
         }
         return $res;
+    }
+
+    /**
+     * Get layout default
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function layout($page = 'default')
+    {
+        $meta = ThemeMeta::where('theme_id', $this->activeID)->optionsKey('layouts')->first();
+        $templates = empty($meta) ? [] : $meta->getOption('layout_style', 'xvalue');
+
+        return isset($templates[$page]) ? $templates[$page] : (isset($templates['default']) ? $templates['default'] : null);
+    }
+
+    /**
+     * Check view has been overwrite
+     *
+     * @param string $pageType
+     * @param string $viewName
+     * @return string
+     */
+    public function pageNode($pageType = 'frontend', $viewName = 'view')
+    {
+        $themeActive = Theme::active();
+        $viewBase = "{$themeActive}.{$pageType}.view";
+        $viewOverwrite = "{$themeActive}.{$pageType}.{$viewName}";
+
+        return view()->exists($viewOverwrite) ? $viewOverwrite : (view()->exists($viewBase) ? $viewBase : "ContentManager::{$pageType}.show");
+    }
+
+    /**
+     * Get file css is activated
+     *
+     * @param string $fileBase
+     * @return string
+     */
+    public function cssFile($fileBase = "main.css")
+    {
+        $folder = $this->strActive();
+        $active = Theme::strActiveExtra();
+        $css_file_base = "/themes/{$folder}/css/{$fileBase}";
+        $css_file_generate = "themes/{$folder}/css/{$active}.css";
+
+        return File::exists(public_path($css_file_generate)) ? asset($css_file_generate) : asset($css_file_base);
     }
 
     public function menu($group)
@@ -287,6 +339,7 @@ class Theme
             $theme = new Themes();
             $theme->name = $file['name'];
             $theme->machine_name = $machineName;
+            $theme->theme_root = $machineName;
             $theme->version = $file['version'];
             $theme->author = $file['author'];
             $theme->author_url = $file['author_url'];
@@ -327,11 +380,6 @@ class Theme
         Themes::where("machine_name", $machineName)->delete();
     }
 
-    private function setDataTheme()
-    {
-
-    }
-
     /**
      * Generate theme config
      *
@@ -356,5 +404,55 @@ class Theme
             echo $exc->getTraceAsString();
         }
         return $str;
+    }
+
+    /**
+     * Make widgets with template
+     *
+     * @param string $theme
+     */
+    protected function makeWidgets($theme)
+    {
+        try {
+            $baseWidget = resource_path("views/themes/{$theme}/generate/widget");
+            if (!File::isDirectory($baseWidget)) {
+                throw new \Exception('Could not found base widget');
+            }
+            $files = File::allFiles($baseWidget);
+            foreach ($files as $file) {
+                $fileName = $file->getFilename();
+                $widget = explode(".blade.php", $fileName)[0];
+                $this->generateWidget($theme, $widget);
+            }
+
+        } catch (\Exception $exception) {
+            \Log::info($exception->getMessage());
+        }
+    }
+
+    /**
+     * Generate widget with template
+     *
+     * @param string $theme
+     * @param string $widget
+     * @param array $fields
+     * @return mixed
+     */
+    protected function generateWidget($theme, $widget)
+    {
+        $widgetPath = app_path("Widgets/{$theme}");
+        $widgetFilePath = app_path("Widgets/{$theme}/{$widget}.php");
+        // Make directory widget
+        if (!File::isDirectory($widgetPath)) {
+            File::makeDirectory($widgetPath, 0777, true, true);
+        }
+        if (File::exists($widgetFilePath)) {
+            $this->error('Widget already exists!');
+
+            return false;
+        }
+        $widget_string = \View::make("themes.{$theme}.generate.widget.{$widget}", compact('theme', 'widget'))->render();
+
+        return File::put($widgetFilePath, "<?php\n\n{$widget_string}");
     }
 }

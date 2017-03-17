@@ -11,6 +11,7 @@ use App\Facades\Admin;
 use App\Facades\Theme;
 use App\Modules\TemplateManager\Models\Template;
 use App\Modules\ContentManager\Models\Themes;
+use App\Modules\ContentManager\Models\WidgetGroups;
 use League\Flysystem\Exception;
 use Leafo\ScssPhp\Compiler;
 use File;
@@ -275,7 +276,7 @@ class TemplateController extends Controller
                 throw new \Exception('This template Id doesn\'t exist.');
             }
 
-            $folder = empty($template->parent) ? $template->machine_name :$template->parent->machine_name;
+            $folder = empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
             $page = $request->get('page', 'index');
             $path_file = resource_path("views/themes/{$folder}/previews/{$page}.blade.php");
 
@@ -298,16 +299,6 @@ class TemplateController extends Controller
     }
 
     /**
-     * Delete the template
-     *
-     * @param int $id
-     */
-    public function delete($id)
-    {
-
-    }
-
-    /**
      * Store data of template
      *
      * @param array $input
@@ -320,9 +311,19 @@ class TemplateController extends Controller
         $primaryInput = array_except($input, ['meta']);
         $metaInput = $input['meta'];
         if (empty($id)) {
-            $primaryInput['machine_name'] = uniqid();
+            $primaryInput['machine_name'] = uniqid("Sanmax");
+            $primaryInput['theme_root'] = ($oldTemp instanceof Template) ? $oldTemp->theme_root : $primaryInput['machine_name'];
             $primaryInput['status'] = 0;
             $template = Template::create($primaryInput);
+            if ($oldTemp instanceof Template) {
+                $widgetPosition = $oldTemp->widgetGroups()->get();
+                foreach ($widgetPosition as $widget) {
+                    $group = new WidgetGroups();
+                    $group->theme_id = $template->id;
+                    $group->name = $widget->name;
+                    $group->save();
+                }
+            }
         } else {
             $template = Template::find($id);
             $template->update($primaryInput);
@@ -331,7 +332,6 @@ class TemplateController extends Controller
         if ($template instanceof Template) {
             $this->storeMeta($template, $metaInput, $oldTemp);
         }
-
 
         return empty($template) ? new Collection() : $template;
     }
@@ -429,6 +429,7 @@ class TemplateController extends Controller
                 ->get();
             foreach ($beforeMeta as $value) {
                 $meta = unserialize($value->meta_value);
+
                 foreach ($meta as &$val) {
                     if (isset($input[$value->meta_key][$val['name']])) {
                         if (isset($val['value'])) {
@@ -489,7 +490,7 @@ class TemplateController extends Controller
 
             $css = array();
             $file = $template->machine_name . '.css';
-            $folder = empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
+            $folder = $template->theme_root;// empty($template->parent) ? $template->machine_name : $template->parent->machine_name;
             $path_theme = public_path("themes/{$folder}");
             $path_css = public_path("themes/{$folder}/css");
             $path_file = public_path("themes/{$folder}/css/{$file}");
@@ -555,6 +556,10 @@ class TemplateController extends Controller
             $template = Template::find($id);
             if (0 == $template->parent_id) {
                 throw new \Exception('It\'s not allowed to delete installed theme.');
+            }
+
+            if ($template->clinics()->count() > 0) {
+                throw new \Exception("This template has been in use. It's not allowed to delete it.");
             }
             $themeName = $template->name;
             $machineName = $template->machine_name;

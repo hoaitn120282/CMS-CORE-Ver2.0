@@ -7,6 +7,9 @@
 @endsection
 
 @section('content')
+    <div class="mask-loading" style="display: none">
+        <div class="loader"></div>
+    </div>
     <div class="row">
         <div class="x_panel">
             <div class="x_title">
@@ -17,23 +20,23 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h2>Content step 2</h2>
-                <form class="form-horizontal"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
+                <h2>Please input all the fields below</h2>
+                <form class="form-horizontal" id="create-new-form"  method="post" action="{{ Admin::route('siteManager.create-info') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="information">
                         <h3 class="text-center create-title">Account Information</h3>
                         <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
+                            <div class="col-md-6 col-md-offset-3">
                                   <div class="form-group">
-                                    <label for="site-name" class="col-sm-4 control-label">Site Name</label>
-                                    <div class="col-sm-8">
+                                    <label for="site-name" class="col-sm-3 control-label">Site Name <span class="require">*</span></label>
+                                    <div class="col-sm-9">
                                         <input type="text" class="form-control" id="site-name" name="site-name" value="{{ old('site-name') }}" placeholder="Site Name">
                                         @if ($errors->has('site-name')) <p class="error-message">{{ $errors->first('site-name') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label  class="col-sm-4 control-label">Language</label>
-                                    <div class="col-sm-8">
+                                    <label  class="col-sm-3 control-label">Language <span class="require">*</span></label>
+                                    <div class="col-sm-9">
                                         @foreach($languages as $language)
                                           <label class="checkbox-inline">
                                               <input  id="{{ $language->language_id }}" name="language[]" type="checkbox"  value="{{ $language->language_id }}"> {{ $language->name }}
@@ -52,30 +55,30 @@
                                 <h3 class="text-center create-title">Doctor Information</h3>
 
                                   <div class="form-group">
-                                    <label for="admin-name" class="col-sm-3 control-label">Admin Name</label>
+                                    <label for="admin-name" class="col-sm-3 control-label">Admin Name <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="admin-name" name="admin-name" value="{{ old('admin-name') }}" placeholder="Admin Name">
                                         @if ($errors->has('admin-name')) <p class="error-message">{{ $errors->first('admin-name') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label for="email-address" class="col-sm-3 control-label">Email Address</label>
+                                    <label for="email-address" class="col-sm-3 control-label">Email Address <span class="require">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" id="email-address" name="email-address" value="{{ old('email-address') }}"  placeholder="Email Address">
+                                        <input type="text" class="form-control" id="email-address" name="email-address" value="{{ old('email-address') }}"  placeholder="Email Address">
                                         @if ($errors->has('email-address')) <p class="error-message">{{ $errors->first('email-address') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label for="address" class="col-sm-3 control-label">Address</label>
+                                    <label for="address" class="col-sm-3 control-label">Address <span class="require">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}"  placeholder="Address">
                                         @if ($errors->has('address')) <p class="error-message">{{ $errors->first('address') }}</p> @endif
                                     </div>
                                   </div>
                                   <div class="form-group">
-                                    <label for="telephone" class="col-sm-3 control-label">Telephone</label>
+                                    <label for="telephone" class="col-sm-3 control-label">Telephone <span class="require">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
+                                        <input type="text" class="form-control" id="telephone" name="telephone" value="{{ old('telephone') }}"  placeholder="Telephone">
                                         @if ($errors->has('telephone')) <p class="error-message">{{ $errors->first('telephone') }}</p> @endif
                                     </div>
                                   </div>
@@ -168,9 +171,11 @@
                                 <a href="{{ Admin::route('siteManager.select-template') }}">
                                     <span class="btn btn-success">Back</span>
                                 </a>
-                                 <button type="submit" class="btn btn-success">Create</button>
-                                <a href="{{ Admin::route('siteManager.add-info') }}">
-                                    <button class="btn btn-success">Cancel</button>
+                                {{--<button type="submit" class="btn btn-success">Create</button>--}}
+                                <span class="btn btn-success" id="create-new-site">Create</span>
+
+                                <a href="{{ Admin::route('siteManager.index') }}">
+                                    <span class="btn btn-success">Cancel</span>
                                 </a>
                             </div>
                         </div>
@@ -210,5 +215,50 @@
             margin-top: 5px;
             color: red;
         }
+
+        .require{
+            color: red;
+        }
+
+        .mask-loading {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            opacity: 0.5;
+            left: 0px;
+            top: 0px;
+            z-index: 1;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            left: 50%;
+            position: fixed;
+            top: 50%;
+            margin-left: -60px;
+            margin-top: -60px;
+            z-index: 2;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#create-new-site').on('click',function () {
+                $('.mask-loading').css('display','block');
+                $('#create-new-form').submit();
+            });
+        });
+    </script>
 @endpush

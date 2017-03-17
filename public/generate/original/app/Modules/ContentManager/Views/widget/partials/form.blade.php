@@ -1,4 +1,4 @@
-<li id="menuItem_{{ $widget->id }}">
+<li class="widget-item" id="menuItem_{{ $widget->id }}">
 	<div class="panel panel-primary">
 	  <div class="panel-heading" >
 	  	{{ $widget->getOptions("title") }}

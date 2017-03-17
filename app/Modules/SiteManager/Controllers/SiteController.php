@@ -3,6 +3,7 @@
 namespace App\Modules\SiteManager\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\ContentManager\Models\ThemeMeta;
 use App\Modules\LanguageManager\Models\Language;
 use App\Modules\SiteManager\Models\ClinicDatabase;
 use App\Modules\SiteManager\Models\ClinicHosting;
@@ -131,6 +132,16 @@ class SiteController extends Controller
         $clinic = Clinic::find($id);
         $languageSelected = [];
         $languages = Language::get();
+        $templatesList = Template::get();
+        $temClinic = [];
+
+        for($j=0 ; $j < count($clinic->theme) ; $j++) {
+            foreach ($templatesList as $tem) {
+                if ($tem->id == $clinic->theme[$j]->theme_id) {
+                    array_push($temClinic, $tem);
+                }
+            }
+        }
 
         for($i=0 ; $i < count($clinic->language) ; $i++) {
             foreach ($languages as $lang) {
@@ -146,7 +157,7 @@ class SiteController extends Controller
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected]);
+        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected, 'temClinic' => $temClinic]);
     }
 
     /**
@@ -273,6 +284,7 @@ class SiteController extends Controller
             $clinic = new Clinic();
             $clinic->domain = $input['domain'];
             $clinic->save();
+            $clinicId = $clinic->clinic_id;
 
             // save clinic info table
             $clinicInfo = new ClinicInfo();
@@ -319,9 +331,11 @@ class SiteController extends Controller
 
             $templates = \Session::set('templates', []);
 
-            return redirect(Admin::route('siteManager.index'));
-        }
+//            GenerateController::compress($clinicId);
+            app('App\Modules\SiteManager\Controllers\GenerateController')->compress($clinicId);
 
+            return redirect(Admin::route('siteManager.preview', ['id' => $clinicId]));
+        }
     }
 
     //Update clinic info
@@ -514,4 +528,19 @@ class SiteController extends Controller
         Clinic::destroy($clinicID);
     }
 
+    /*
+     * Download template
+     * */
+    public function download($filename = null){
+        $file_path = public_path().'/generate/destination/'.$filename;
+        if (file_exists($file_path))
+        {
+            return response()->download($file_path);
+        }
+        else
+        {
+            // Error
+            exit('Requested file does not exist on our server!');
+        }
+    }
 }

@@ -1,19 +1,31 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="row">
-  <div class="col-md-12">
-    @include('ContentManager::partials.errormessage')
+  <div class="row">
+    <div class="col-md-12">
+      @include('ContentManager::partials.errormessage')
+      <div class="x_panel">
+        <div class="x_title">
+          <h2>Edit tag</h2>
+          <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+          @include('ContentManager::tag.partials.form')
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-4">
-	  @include('ContentManager::tag.partials.form')
-  </div>
-  <div class="col-md-8">
-	  @include('ContentManager::tag.partials.tablemanage',['model'=>$modelAll]) 
-  </div>
-</div>
+@endsection
+
+@section('back')
+  <a href="{{ Admin::route('contentManager.tag.index') }}">
+    <strong>
+      <i class="fa fa-angle-left" aria-hidden="true"></i>
+      Back
+    </strong>
+  </a>
 @endsection
 
 @push('scripts')
-@include('ContentManager::partials.scriptdelete') 
+@include('ContentManager::partials.scriptdelete')
 @endpush

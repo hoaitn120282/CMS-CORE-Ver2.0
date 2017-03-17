@@ -22,7 +22,7 @@
                     {{--<span class="filter-title">Status</span>--}}
                     <select name="theme_tyoe" id="themeType" class="form-control"
                             onchange="window.location = this.options[this.selectedIndex].value;">
-                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> -1 ])}}">All</option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> -1 ])}}">All Status</option>
                         <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> 0 ])}}" <?php if ($status == 0) echo 'selected'; ?>>
                             Pending
                         </option>

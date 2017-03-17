@@ -1,12 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="logo">
+                        <i class="fa fa-anchor"></i>
+                    </div>
+                    <h2>Reset Password</h2>
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
                         {{ csrf_field() }}
@@ -68,3 +72,6 @@
     </div>
 </div>
 @endsection
+@push('style')
+<link rel="stylesheet" href="{{URL::to('/')}}/themes/dashboard/css/style.css">
+@endpush

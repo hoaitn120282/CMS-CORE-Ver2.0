@@ -18,9 +18,10 @@ class CreateContactsTable extends Migration
             $table->string('name', 150);
             $table->string('email', 150);
             $table->text('message', 255);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+//            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+//            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 

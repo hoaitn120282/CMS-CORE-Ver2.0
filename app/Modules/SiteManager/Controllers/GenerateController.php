@@ -2,10 +2,14 @@
 
 namespace App\Modules\SiteManager\Controllers;
 
+use App\Facades\Theme;
 use App\Http\Controllers\Controller;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use App\Modules\SiteManager\Models\Clinic;
+use App\Modules\SiteManager\Models\ClinicTheme;
+use App\Modules\ContentManager\Models\Themes;
 
 class GenerateController extends Controller
 {
@@ -16,17 +20,78 @@ class GenerateController extends Controller
     /*
      * Move all file to public/temp
      * */
-    public function compress(){
+    public function compress($siteID = 0){
+        if ($siteID == 0) {
+            return;
+        }
         // create temp folder in public/generate
         if (!file_exists(public_path().'/generate/temp')) {
             mkdir(public_path().'/generate/temp', 0777, true);
         }
-
+        // copy to temp folder
         $this->recurse_copy(public_path().'/generate/original',public_path().'/generate/temp');
-        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination','new-site');
+
+        // move Template file to temp
+        $this->moveTemplateFile($siteID);
+
+//        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination',$siteID);
+        $files = glob(public_path().'/generate/temp');
+        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($files)->close();
+
         $this->removeFolder(public_path().'/generate/temp');
 
-        $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
+//        $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
+    }
+
+    public function moveTemplateFile($siteID){
+        // get all theme id belong to this site
+        $clinicThemes = ClinicTheme::where('clinic_id', $siteID)->get();
+
+        // get all theme id
+        $themeids = [];
+        foreach ($clinicThemes as $clinicTheme) {
+            if(!in_array($clinicTheme->theme_id, $themeids)){
+                array_push($themeids, $clinicTheme->theme_id);
+            }
+        }
+
+        $themes = Themes::whereIn('id',$themeids)->get();
+        // find parent theme
+        $themeOris = [];
+        foreach ($themes as $theme){
+            // check if parent_id = 0 and not in $themOris
+            if(!in_array($theme->id, $themeOris) && $theme->parent_id ==0){
+                array_push($themeOris, $theme->id);
+            }
+            // check if parent_id !=0 and not in $themeOris
+            if(!in_array($theme->parent_id, $themeOris) && $theme->parent_id !=0){
+                array_push($themeOris, $theme->parent_id);
+            }
+        }
+
+        $themeOriIDs = Themes::whereIn('id',$themeOris)->get();
+        // get all theme origin be long to this site
+        $machineNames = [];
+        foreach ($themeOriIDs as $themeOri) {
+            if (!in_array($themeOri->machine_name, $machineNames)){
+                array_push($machineNames, $themeOri->machine_name);
+            }
+        }
+        // copy to temp folder
+        foreach ($machineNames as $machineName){
+            // copy resource
+            if (!file_exists(public_path().'/generate/temp/resources/views/themes/'.$machineName)) {
+                mkdir(public_path().'/generate/temp/resources/views/themes/'.$machineName, 0777, true);
+            }
+            $this->recurse_copy(resource_path().'/views/themes/'.$machineName,public_path().'/generate/temp/resources/views/themes/'.$machineName);
+
+            // copy public
+            if (!file_exists(public_path().'/generate/temp/public/themes/'.$machineName)) {
+                mkdir(public_path().'/generate/temp/public/themes/'.$machineName, 0777, true);
+            }
+            $this->recurse_copy(public_path().'/themes/'.$machineName,public_path().'/generate/temp/public/themes/'.$machineName);
+        }
+
     }
 
     /*

@@ -9,7 +9,7 @@ class Template extends Model
     protected $table = 'themes';
     protected $primaryKey = 'id';
     public $timestamps = false;
-    protected $fillable = array('parent_id', 'theme_type_id', 'name', 'machine_name', 'version', 'author', 'author_url', 'description', 'image_preview', 'status', 'is_publish');
+    protected $fillable = array('parent_id', 'theme_type_id', 'name', 'machine_name', 'theme_root', 'version', 'author', 'author_url', 'description', 'image_preview', 'status', 'is_publish');
 
     /**
      * Relationship belongs to theme
@@ -35,5 +35,40 @@ class Template extends Model
     public function metaOptions()
     {
         return $this->meta()->where("meta_group", "options")->get();
+    }
+
+    /**
+     * Relation ship widget groups
+     *
+     */
+    public function widgetGroups()
+    {
+        return $this->hasMany('App\Modules\ContentManager\Models\WidgetGroups', 'theme_id');
+    }
+
+    /**
+     * Relation ship clinic site
+     */
+    public function clinics()
+    {
+        return $this->belongsToMany(
+            'App\Modules\SiteManager\Models\Clinic',
+            'clinic_theme', 'theme_id', 'clinic_id'
+        );
+    }
+
+    /**
+     * Boot model
+     * @return mixed
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // Listen event deleting
+        static::deleting(function ($node) {
+            // Detach relation ship clinic site
+            $node->clinics()->detach();
+        });
     }
 }

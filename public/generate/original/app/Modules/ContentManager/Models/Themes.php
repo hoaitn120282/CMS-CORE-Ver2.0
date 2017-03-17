@@ -12,6 +12,7 @@ class Themes extends Model
      * @var string
      */
     protected $table = 'themes';
+
     public $timestamps = false;
 
     /**
@@ -30,5 +31,30 @@ class Themes extends Model
     public function metaOptions()
     {
         return $this->meta()->where("meta_group", "options")->get();
+    }
+    /**
+     * Relation ship clinic site
+     */
+    public function clinics()
+    {
+        return $this->belongsToMany(
+            'App\Modules\SiteManager\Models\Clinic',
+            'clinic_theme', 'theme_id', 'clinic_id'
+        );
+    }
+
+    /**
+     * Boot model
+     * @return mixed
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        // Listen event deleting
+        static::deleting(function ($node) {
+            // Detach relation ship clinic site
+            $node->clinics()->detach();
+        });
     }
 }

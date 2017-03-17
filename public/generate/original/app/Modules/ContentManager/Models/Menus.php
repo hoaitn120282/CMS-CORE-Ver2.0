@@ -4,15 +4,20 @@ namespace App\Modules\ContentManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Trans;
+use Dimsav\Translatable\Translatable;
 
 class Menus extends Model
 {
+    use Translatable;
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'posts';
+    public $translatedAttributes = ['post_title', 'post_excerpt', 'post_content'];
+    protected $translationForeignKey = 'post_id';
 
     public function user()
     {
@@ -41,24 +46,25 @@ class Menus extends Model
     public function getURL(){
         $type = $this->getMetaValue("_nav_item_type");
         $res = "#";
+        $locale = Trans::locale();
         switch ($type) {
             case 'home':
-                $res =  url('/');
+                $res =  url("/{$locale}/");
                 break;
             case 'category':
-                $res = url('/category/'.$this->post_name);
+                $res = url("/{$locale}/category/{$this->post_name}");
                 break;
             case 'custom':
                 $res = $this->getMetaValue('_nav_item_url');
                 break; 
             case 'page':
-                $res = url('/'.$this->post_name.'.html');
+                $res = url("/{$locale}/{$this->post_name}.html");
                 break;        
             
             default:
-                $res = url('/'.$this->post_name);
+                $res = url("/{$locale}/{$this->post_name}");
                 break;
-        }
+        };
         return $res;
     }
 
