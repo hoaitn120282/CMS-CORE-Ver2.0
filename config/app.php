@@ -172,7 +172,9 @@ return [
         Infinety\FileManager\FileManagerServiceProvider::class,
         Qsoftvn\ShoppingCart\ShoppingServiceProvider::class,
         Dimsav\Translatable\TranslatableServiceProvider::class,
-        'Chumper\Zipper\ZipperServiceProvider'
+        'Chumper\Zipper\ZipperServiceProvider',
+        Spatie\Backup\BackupServiceProvider::class,
+        BackupManager\Laravel\Laravel5ServiceProvider::class,
     ],
 
     /*

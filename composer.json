@@ -16,10 +16,14 @@
         "jlapp/swaggervel": "dev-master",
         "doctrine/dbal": "~2.3",
         "barryvdh/laravel-debugbar": "^2.3",
-        "infinety-es/filemanager": "2.1.1.7",
+        "infinety-es/filemanager": "2.2",
         "dimsav/laravel-translatable": "6.*",
         "leafo/scssphp": "^0.6.7",
-        "chumper/zipper": "1.0.x"
+        "chumper/zipper": "1.0.x",
+        "nwidart/db-exporter": "^1.1",
+        "spatie/laravel-backup": "^3.0.0",
+        "witty/laravel-db-backup": "dev-master",
+        "backup-manager/laravel": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
