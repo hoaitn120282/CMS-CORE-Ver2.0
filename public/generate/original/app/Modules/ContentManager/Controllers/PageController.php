@@ -4,11 +4,10 @@ namespace App\Modules\ContentManager\Controllers;
 
 use Illuminate\Http\Request;
 use App\Modules\ContentManager\Models\Articles;
-use App\Modules\ContentManager\Models\Terms;
-use App\Modules\ContentManager\Models\TermRelationships;
 use App\Http\Controllers\Controller;
 use Admin;
 use Theme;
+use Trans;
 
 class PageController extends Controller
 {
@@ -47,23 +46,29 @@ class PageController extends Controller
     public function store(Request $request)
     {
         $model = new Articles();
+
+        $locale = Trans::locale();
         $this->validate($request, [
-            'post_content' => 'required',
-            'status' => 'required',
-            'post_title' => 'required|max:255',
+            "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_content" => 'required',
+            "status" => 'required',
         ]);
-        $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
+
         $model->post_author = \Auth::guard('admin')->user()->id;
         $model->post_type = "page";
-        $model->post_name = str_slug($request->post_title, "-");
-        $model->post_title = $request->post_title;
-        $model->post_content = $content;
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request->post_title);
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_content = $input['post_content'];
+        }
+        $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request['trans'][$locale]['post_title']);
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
+
         return redirect(Admin::StrURL('contentManager/page'));
     }
 
@@ -111,17 +116,21 @@ class PageController extends Controller
     public function update(Request $request, $id)
     {
         $model = Articles::find($id);
+        $locale = Trans::locale();
         $this->validate($request, [
-            'post_content' => 'required',
-            'status' => 'required',
-            'post_title' => 'required|max:255',
+            "trans.{$locale}.post_title" => 'required|max:255',
+            "trans.{$locale}.post_content" => 'required',
+            "status" => 'required',
         ]);
         $content = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $request->post_content);
         $model->post_type = "page";
-        $model->post_name = str_slug($request->post_title, "-");
-        $model->post_title = $request->post_title;
-        $model->post_content = $content;
+        $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
+        $model->save();
+        foreach ($request['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->post_title = $input['post_title'];
+            $model->translateOrNew($locale)->post_content = $input['post_content'];
+        }
         $model->save();
         Admin::userLog(\Auth::guard('admin')->user()->id, 'Update page ' . $request->post_title);
         foreach ($request->meta as $key => $value) {

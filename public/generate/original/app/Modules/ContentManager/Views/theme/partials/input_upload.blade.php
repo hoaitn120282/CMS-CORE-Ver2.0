@@ -13,6 +13,7 @@ $inputSlug = str_slug($input, '_');
     <button id="btn-{{$inputSlug}}" type="button" class="btn btn-success btn-md " style="display: block;">
         <i class="fa fa-upload"></i> Choose file...
     </button>
+    @if(!empty($help_text))<p class="block-text">{{$help_text}}</p>@endif
     <div id="btn-upload-{{$inputSlug}}-preview" class="img-res"
          style='background-image: url("{{ empty($model) ? old($input) : $model }}"); display: {{ (empty($model) && empty(old($input))) ? 'none':'block' }}'>
         <div class="mask">

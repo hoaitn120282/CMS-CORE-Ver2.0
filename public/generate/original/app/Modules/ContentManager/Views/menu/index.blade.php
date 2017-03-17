@@ -1,3 +1,7 @@
+<?php
+
+$languages = Trans::languages();
+?>
 @extends('layouts.admin')
 
 @section('content')
@@ -22,16 +26,30 @@
                                 <li id="page-0">
                                     <div class="checkbox">
                                         <label>
-                                            <input class="pagemenu" data-url="{{ Url('/') }}" data-type="home"
-                                                   value="Home" type="checkbox"> Home
+                                            <?php
+                                            $home = [];
+                                            foreach ($languages as $language) {
+                                                $home[$language->country->locale] = "Home";
+                                            }
+                                            ?>
+                                            <input class="pagemenu" data-url=""
+                                                   data-type="home"
+                                                   value="{{ json_encode($home) }}" type="checkbox"> Home
                                         </label>
                                     </div>
                                 </li>
                                 <li id="page-0">
                                     <div class="checkbox">
                                         <label>
-                                            <input class="pagemenu" data-url="{{ Url('/blog') }}" data-type="home"
-                                                   value="Blog" type="checkbox"> Blog
+                                            <?php
+                                            $blog = [];
+                                            foreach ($languages as $language) {
+                                                $blog[$language->country->locale] = "Blog";
+                                            }
+                                            ?>
+                                            <input class="pagemenu" data-url="blog"
+                                                   data-type="home"
+                                                   value="{{ json_encode($blog) }}" type="checkbox"> Blog
                                         </label>
                                     </div>
                                 </li>
@@ -39,8 +57,15 @@
                                     <li id="page-{{ $node->id }}">
                                         <div class="checkbox">
                                             <label>
+                                                <?php
+                                                $value = [];
+                                                foreach ($languages as $language) {
+                                                    $value[$language->country->locale] = $node->getTranslation($language->country->locale)->post_title;
+                                                }
+                                                ?>
                                                 <input class="pagemenu" data-url="{{ $node->post_name }}"
-                                                       data-type="page" value="{{ $node->post_title }}"
+                                                       data-type="page"
+                                                       value="{{ json_encode($value) }}"
                                                        type="checkbox"> {{ $node->post_title }}
                                             </label>
                                         </div>
@@ -100,9 +125,15 @@
                                     <li id="page-{{ $node->id }}">
                                         <div class="checkbox">
                                             <label>
+                                                <?php
+                                                $value = [];
+                                                foreach ($languages as $language) {
+                                                    $value[$language->country->locale] = $node->getTranslation($language->country->locale)->post_title;
+                                                }
+                                                ?>
                                                 <input name="catname[]" class="postmenu"
                                                        data-url="{{ $node->post_name }}" data-type="post"
-                                                       value="{{ $node->post_title }}"
+                                                       value="{{ json_encode($value) }}"
                                                        type="checkbox"> {{ $node->post_title }}
                                             </label>
                                         </div>
@@ -144,31 +175,37 @@
                         </div>
                     </div>
                 </div><!-- /.custom-menu -->
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingFive">
+                        <div class="panel-title">
+                            <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                               href="#coll-location" aria-expanded="false" aria-controls="collapseFive">
+                                Menu location
+                            </a>
+                        </div>
+                    </div>
+                    <div id="coll-location" class="panel-collapse collapse" role="tabpanel"
+                         aria-labelledby="headingFive">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="theme-group-name">Menu Location Theme</label>
+                                <select id="theme-group-name" class="form-control">
+                                    <option value="">Select Menu</option>
+                                    @foreach($themeMenu as $tm)
+                                        <option {{ $tm->meta_value == $groupActive ? "selected" : "" }} value="{{$tm->meta_key}}">{{ ucwords(str_replace("-", " ", $tm->meta_key)) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.menu-location -->
             </div><!-- /.add-menu-group -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <div class="panel-title">
-                        Menu location
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label for="theme-group-name">Menu Location Theme</label>
-                        <select id="theme-group-name" class="form-control">
-                            <option value="">Select Menu</option>
-                            @foreach($themeMenu as $tm)
-                                <option {{ $tm->meta_value == $groupActive ? "selected" : "" }} value="{{$tm->meta_key}}">{{ ucwords(str_replace("-", " ", $tm->meta_key)) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="pull-right">
-                        <button id="save-menu" class="form-group btn btn-success">
-                            <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /.menu-location -->
-        </div>
+            <div class="pull-right">
+                <button id="save-menu" class="form-group btn btn-success">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+                </button>
+            </div>
+        </div><!-- /.col-left -->
 
         <div class="col-md-8">
             <div class="well well-sm">
@@ -199,13 +236,33 @@
                     </div>
                 </div>
             </div>
-            <ol id="con-menu" class="sortable" style="padding-left:0;background:#eee">
-                @foreach($model as $node)
-                    @include('ContentManager::menu.partials.listmenu', ['datas' => $node->children()])
-                @endforeach
-            </ol>
-        </div>
 
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                @foreach(Trans::languages() as $key => $language)
+                    <li role="presentation" class="{{ (Trans::locale() == $language->country->locale) ? 'active': '' }}">
+                        <a href="#{{ "language_{$language->country->locale}" }}" role="tab"
+                           aria-controls="{{ "language_{$language->country->locale}" }}"
+                           data-toggle="tab">{{ $language->name }}</a>
+                    </li>
+                @endforeach
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content sortables">
+                @foreach(Trans::languages() as $key => $language)
+                    <div role="tabpanel" class="tab-pane {{ (Trans::locale() == $language->country->locale) ? 'active': '' }}"
+                         id="{{ "language_{$language->country->locale}" }}">
+                        <ol id="con-menu" class="sortable" style="padding-left:0;background:#eee">
+                            @foreach($model as $node)
+                                @include('ContentManager::menu.partials.listmenu', ['datas' => $node->children()])
+                            @endforeach
+                        </ol>
+                    </div>
+                @endforeach
+            </div>
+
+
+        </div><!-- /.col-right -->
     </div>
 
 @endsection
@@ -276,18 +333,21 @@
 
         $("input[data-uset='url']").change(function () {
             idPar = $(this).data("idpar");
-            console.log($(this).val());
-            $("#" + idPar).children('div').data("url", $(this).val());
+            $("." + idPar).children('div').data("url", $(this).val());
         });
 
         $("input[data-uset='label']").change(function () {
-            idPar = $(this).data("idpar");
-            console.log($(this).val());
-            $("#" + idPar).children('div').data("label", $(this).val());
+            var idPar = $(this).data("idpar");
+            var locale = $(this).data("locale");
+            var elmLabel = $("." + idPar).children('div');
+            var label = elmLabel.data("label");
+            label[locale] = $(this).val();
+            $("." + idPar).children('div').data("label", label);
         });
 
+        // Toggle menu
         $("a[data-role='toggle-menu']").on("click", function () {
-            var target = "#" + $(this).data('target');
+            var target = "." + $(this).data('target');
             $(target).toggle();
             return false;
         });
@@ -296,16 +356,18 @@
             var te = $('ol.sortable').nestedSortable('toArray', {startDepthCount: 0});
             var tm = $('#theme-group-name').val();
             var group = $("#group-name").val();
+            console.log(te);
             $.ajax({
-                type: 'POST',
-                url: "{{ Admin::route('contentManager.menu.update') }}",
-                data: {"_token": "{{ csrf_token() }}", "datamenu": te, "thememenu": tm, "group": group}
+            type: 'POST',
+            url: "{{ Admin::route('contentManager.menu.update') }}",
+            data: {"_token": "{{ csrf_token() }}", "datamenu": te, "thememenu": tm, "group": group}
             })
-                    .done(function () {
-                        location.reload();
-                    });
+            .done(function () {
+             location.reload();
+            });
         });
 
+        // Add custom menu to menu
         $("button[data-role='addmenu']").on("click", function () {
             var t = $(this).data("type");
             var label = $("#label-" + t).val();
@@ -322,13 +384,13 @@
             return false;
         });
 
+        // Add category to menu
         $("button[data-role='menucat']").on("click", function () {
             var array = new Array();
             var cls = $(this).data("class");
             var group = $("#group-name").val();
-            console.log(cls);
             $("input:checkbox[class=" + cls + "]:checked").each(function () {
-                array.push({label: $(this).val(), url: $(this).data("url"), type: $(this).data("type")});
+                array.push({label: JSON.parse($(this).val()), url: $(this).data("url"), type: $(this).data("type")});
             });
             console.log(array);
             $.ajax({
@@ -348,6 +410,7 @@
             return false;
         });
 
+        // Delete menu
         $('.deleteMenu').click(function () {
             var id = $(this).attr('data-id');
             var url = "{{ Admin::route('contentManager.menu.destroy',['id'=>'']) }}";

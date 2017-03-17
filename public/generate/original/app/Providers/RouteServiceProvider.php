@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Trans;
+use App;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'App\Http\Controllers';
 
+    protected $locale = 'en';
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -37,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $this->mapWebRoutes($router);
+        $this->mapWebLocaleRoutes($router);
 
 
         //
@@ -56,6 +60,38 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace, 'middleware' => 'web',
         ], function ($router) {
             require app_path('Http/routes.php');
+        });
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    protected function mapWebLocaleRoutes(Router $router)
+    {
+
+        $this->locale = App::getLocale();
+        $router->get('/', function (){
+            return redirect($this->locale);
+        });
+
+        $locales = \App\Modules\LanguageManager\Models\Countries::all()->pluck('locale')->toArray();
+        $locale = \Illuminate\Support\Facades\Request::segment(1);
+
+        if (in_array($locale, $locales)) {
+            $this->locale = Trans::setLocale($locale)->locale();
+
+        }
+
+        $router->group([
+            'prefix' => $this->locale,
+            'middleware' => ['web'],
+        ], function ($router) {
+            require app_path('Http/routes/web.php');
         });
     }
 }

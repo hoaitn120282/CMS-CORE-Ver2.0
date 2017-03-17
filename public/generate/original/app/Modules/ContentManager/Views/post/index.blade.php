@@ -4,7 +4,7 @@
     <div class="row">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Post Manage</h2>
+                <h2>Post Manager</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li><a id="btn-sel-del" style="display:none;" href="#" class="btn-toolbox danger"><i
                                     class="fa fa-trash"></i> Delete Selected post</a></li>
@@ -81,8 +81,8 @@
             var idpost = $(this).data('idpost');
             var url = $(this).data('url');
             swal({
-                title: "Are you sure?",
-                text: "Delete this post",
+                title: "Are you sure to delete the selected post?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -130,8 +130,8 @@
             });
             var id = array.join()
             swal({
-                title: "Are you sure?",
-                text: "Delete the selected post",
+                title: "Are you sure to delete the selected post?",
+                text: "",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

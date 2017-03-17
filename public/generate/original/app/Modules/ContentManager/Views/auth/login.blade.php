@@ -5,6 +5,9 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-login">
+                @if(Session::has('message'))
+                    <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+                @endif
                 <div class="panel-heading">
                     <div class="logo">
                         <i class="fa fa-anchor"></i>
@@ -45,6 +48,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4 text-right">
+                                <a class="forgot-pass" href="{{ Admin::route('password') }}">Forgot password</a>
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa fa-btn fa-sign-in"></i> Login
                                 </button>
@@ -64,4 +68,12 @@
 
 @push('style')
 <link rel="stylesheet" href="{{URL::to('/')}}/themes/dashboard/css/style.css">
+<style>
+    .forgot-pass{
+        display: inline-block;
+        margin-right: 10px;
+        color: #ffffff;
+        cursor: pointer;
+    }
+</style>
 @endpush
