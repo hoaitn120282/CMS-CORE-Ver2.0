@@ -52,7 +52,7 @@
 								<h3>Selected Template</h3>
 
 								<ul class="list-unstyled">
-									@foreach($temClinic as $theme)
+									@foreach($clinic->themes as $theme)
 										<li>
 											<span>{{ $theme->name }}</span>
 											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->id])}}">
@@ -74,7 +74,6 @@
 	                					<ul class="list-unstyled ul-child">
 	                						<li><span>Host</span> {{ $clinic->hosting->host }}</li>
 	                						<li><span>Username</span> {{ $clinic->hosting->username }}</li>
-	                						<li><span>Password</span> {{ $clinic->hosting->password }}</li>
 	                					</ul>
 	                				</li>
 	                				<li>
@@ -83,7 +82,6 @@
 	                						<li><span>Name</span> {{ $clinic->database->database_name }}</li>
 	                						<li><span>Host</span> {{ $clinic->database->host }}</li>
 	                						<li><span>UserName</span> {{ $clinic->database->username }}</li>
-	                						<li><span>Password</span> {{ $clinic->database->password }}</li>
 	                					</ul>
 	                				</li>
 	                			</ul>
@@ -245,11 +243,12 @@
                 text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 showLoaderOnConfirm: true,
                 confirmButtonText: "Yes",
                 confirmButtonClass: "btn-danger",
-                cancelButtonText: "No"
+                cancelButtonText: "No",
+                closeOnConfirm: true
             }, function () {
                 $.ajax({
                     type: 'DELETE',
@@ -257,7 +256,6 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Successfully", "success");
                         window.location.href = "{{ Admin::route('siteManager.index') }}";
                         $("#tr-"+clinicid).remove();
                     });

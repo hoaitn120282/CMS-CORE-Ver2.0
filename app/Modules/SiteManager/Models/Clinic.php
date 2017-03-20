@@ -54,5 +54,10 @@ class Clinic extends Model
         return $this->hasMany('App\Modules\SiteManager\Models\ClinicTheme','clinic_id', 'clinic_id');
     }
 
+    public function themes()
+    {
+        return $this->belongsToMany('App\Modules\ContentManager\Models\Themes', 'clinic_theme', 'clinic_id', 'theme_id');
+    }
+
 
 }
