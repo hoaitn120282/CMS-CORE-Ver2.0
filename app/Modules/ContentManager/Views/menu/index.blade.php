@@ -30,7 +30,8 @@ $languages = Trans::languages();
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="coll-page" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                <div id="coll-page" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
                                     <div class="panel-body">
                                         <ul id="menupage-container" class="list-unstyled category-list-scroll">
                                             <li id="page-0">
@@ -93,7 +94,8 @@ $languages = Trans::languages();
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title">
-                                        <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        <a class="collapsed btn-block" role="button" data-toggle="collapse"
+                                           data-parent="#accordion"
                                            href="#coll-category" aria-expanded="false" aria-controls="collapseTwo">
                                             Categories
                                             <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
@@ -123,14 +125,16 @@ $languages = Trans::languages();
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingThree">
                                     <h4 class="panel-title">
-                                        <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        <a class="collapsed btn-block" role="button" data-toggle="collapse"
+                                           data-parent="#accordion"
                                            href="#coll-post" aria-expanded="false" aria-controls="collapseThree">
                                             Posts
                                             <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="coll-post" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div id="coll-post" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingThree">
                                     <div class="panel-body">
                                         <ul id="menupage-container" class="list-unstyled category-list-scroll">
                                             @foreach($post as $node)
@@ -153,7 +157,8 @@ $languages = Trans::languages();
                                             @endforeach
                                         </ul>
                                         <div class="pull-right">
-                                            <button data-role="menucat" data-class="postmenu" class="btn btn-block btn-success">
+                                            <button data-role="menucat" data-class="postmenu"
+                                                    class="btn btn-block btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
                                         </div>
@@ -163,25 +168,30 @@ $languages = Trans::languages();
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingFour">
                                     <h4 class="panel-title">
-                                        <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        <a class="collapsed btn-block" role="button" data-toggle="collapse"
+                                           data-parent="#accordion"
                                            href="#coll-custom" aria-expanded="false" aria-controls="collapseThree">
                                             Custom Menu
                                             <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="coll-custom" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div id="coll-custom" class="panel-collapse collapse" role="tabpanel"
+                                     aria-labelledby="headingFour">
                                     <div class="panel-body">
                                         <div class="form-group">
                                             <label for="label-custom">label</label>
-                                            <input id="label-custom" type="text" class="form-control" placeholder="Label Menu">
+                                            <input id="label-custom" type="text" class="form-control"
+                                                   placeholder="Label Menu">
                                         </div>
                                         <div class="form-group">
                                             <label for="url-custom">URL</label>
-                                            <input id="url-custom" type="text" class="form-control" placeholder="Label Menu">
+                                            <input id="url-custom" type="text" class="form-control"
+                                                   placeholder="Label Menu">
                                         </div>
                                         <div class="pull-right">
-                                            <button data-role="addmenu" data-type="custom" class="btn btn-block btn-success">
+                                            <button data-role="addmenu" data-type="custom"
+                                                    class="btn btn-block btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
                                         </div>
@@ -191,7 +201,8 @@ $languages = Trans::languages();
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingFive">
                                     <h4 class="panel-title">
-                                        <a class="collapsed btn-block" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        <a class="collapsed btn-block" role="button" data-toggle="collapse"
+                                           data-parent="#accordion"
                                            href="#coll-location" aria-expanded="false" aria-controls="collapseFive">
                                             Menu location
                                             <i class="pull-right fa fa-angle-right" aria-hidden="true"></i>
@@ -235,7 +246,8 @@ $languages = Trans::languages();
                                         <div class="form-inline  pull-right">
                                             <div class="form-group">
                                                 <label for="name-menu-create">Menu Name </label>
-                                                <input type="text" name="name_group" class="form-control" id="name-menu-create">
+                                                <input type="text" name="name_group" class="form-control"
+                                                       id="name-menu-create">
                                             </div>
                                             <button type="submit" class="form-group btn btn-success">Create</button>
                                         </div>
@@ -408,6 +420,7 @@ $languages = Trans::languages();
             var elmLabel = $("." + idPar).children('div');
             var label = elmLabel.data("label");
             label[locale] = $(this).val();
+            console.log(label);
             $("." + idPar).children('div').data("label", label);
         });
 
@@ -422,7 +435,6 @@ $languages = Trans::languages();
             var te = $('ol.sortable').nestedSortable('toArray', {startDepthCount: 0});
             var tm = $('#theme-group-name').val();
             var group = $("#group-name").val();
-            console.log(te);
             $.ajax({
                 type: 'POST',
                 url: "{{ Admin::route('contentManager.menu.update') }}",
@@ -445,7 +457,7 @@ $languages = Trans::languages();
                 data: {"_token": "{{ csrf_token() }}", "label": label, "url": url, "type": "custom", "group": group}
             })
                     .done(function (result) {
-                        location.reload();
+                        generateLiMenu(result.id, result.label, result.url);
                     });
             return false;
         });
@@ -467,15 +479,18 @@ $languages = Trans::languages();
                         for (var i = 0; i < result.length; i++) {
                             generateLiMenu(result[i].id, result[i].label, result[i].url);
                         }
-                        ;
-                        location.reload();
+                        $("a[data-role='toggle-menu']").on("click", function () {
+                            var target = "." + $(this).data('target');
+                            $(target).toggle();
+                            return false;
+                        });
                     });
             return false;
         });
 
         // Delete menu
-        $('.deleteMenu').click(function () {
-            var id = $(this).attr('data-id');
+        $('.tab-content').on('click', '.deleteMenu', function () {
+            var id = $(this).data('id');
             var url = "{{ Admin::route('contentManager.menu.destroy',['id'=>'']) }}";
             $.ajax({
                 type: 'DELETE',
@@ -483,7 +498,7 @@ $languages = Trans::languages();
                 data: {"_token": "{{ csrf_token() }}"}
             })
                     .done(function (result) {
-                        location.reload();
+                        $('.menuItem_' + id).remove();
                     });
             return false;
         });
@@ -493,20 +508,15 @@ $languages = Trans::languages();
         });
 
         function generateLiMenu(id, label, url) {
-            var str = "<li id='menuItem_" + id + "'>";
-            str += "<div class='panel panel-primary' data-label='" + label + "' data-url='" + url + "'>";
-            str += "<div class='panel-heading'>" + label + "<a data-target='body-" + id + "' data-role='toggle-menu' href='#'><i class='fa fa-chevron-down'></i></a><a href='#'><i class='fa fa-times'></i></a></div>";
-            str += "<div id='body-" + id + "' class='panel-body'><div class='form-group'><label for='label-" + id + "'>Label</label><input data-uset='url' value='" + label + "'' data-idpar='" + id + "' type='text' class='form-control' id='label-" + id + "' placeholder='Label'>";
-            str += "</div></div></div></li>";
-            return str;
-        }
+            $.each(label, function (locale, name) {
+                var str = "<li id='menuItem_" + id + "' class='menuItem_" + id + "' >";
+                str += "<div class='panel panel-primary' data-label='" + JSON.stringify(label) + "' data-url='" + url + "'>";
+                str += "<div class='panel-heading'>" + name + "<a data-target='body-" + id + "' data-role='toggle-menu' href='#'><i class='fa fa-chevron-down'></i></a><a href='#' class='deleteMenu' data-id='" + id + "'><i class='fa fa-times'></i></a></div>";
+                str += "<div id='body-" + id + "' class='body-" + id + " panel-body'><div class='form-group'><label for='label-" + id + "'>Label</label><input data-uset='url' value='" + name + "' data-idpar='" + id + "' type='text' class='form-control' id='label-" + id + "' placeholder='Label'>";
+                str += "</div></div></div></li>";
 
-        function createLiOpen(id) {
-            return "<li id=" + id + ">";
-        }
-
-        function createLiClose() {
-            return "</li>";
+                $('ol.sortable', '.tab-content #language_' + locale).prepend(str);
+            });
         }
 
         // Delete menu group
@@ -529,11 +539,10 @@ $languages = Trans::languages();
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                         .done(function () {
-                            //location.reload();
                             location.href = "/{{ Admin::StrURL('contentManager/menu') }}";
                         });
             });
-            // return false;
+            return false;
         });
     });
 </script>
