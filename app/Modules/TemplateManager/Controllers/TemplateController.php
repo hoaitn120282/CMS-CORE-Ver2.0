@@ -35,6 +35,13 @@ class TemplateController extends Controller
         return view('TemplateManager::index', ['nodes' => $nodes, 'theme_type' => $theme_type]);
     }
 
+    public function _index(Request $request)
+    {
+
+
+
+        return view('TemplateManager::index', compact('nodes'));
+    }
 
     /*
      * View list to create new template

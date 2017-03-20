@@ -28,6 +28,7 @@ class CategoryController extends Controller
             "parent" => "parent",
         ];
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -128,7 +129,10 @@ class CategoryController extends Controller
         $layout = Theme::layout('category');
         $appTitle = $model->name;
 
-        return view(Theme::pageNode('category', $model->slug), compact('model', 'appTitle', 'layout'));
+        if (view()->exists(Theme::pageNode('category', $model->slug))) {
+            return view(Theme::pageNode('category', $model->slug), compact('model', 'appTitle', 'layout'));
+        }
+        return abort(404);
     }
 
     /**

@@ -26,10 +26,11 @@ class DoctorController extends Controller
         $this->attributes = [
             "trans.{$locale['locale']}.post_title" => "name",
             "trans.{$locale['locale']}.post_excerpt" => "position",
-            "meta.appointment_link"  => "appointment link",
+            "meta.appointment_link" => "appointment link",
             "status" => "status",
         ];
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -128,7 +129,11 @@ class DoctorController extends Controller
         $layout = empty($model->getMetaValue('layout')) ? Theme::layout('page') : $model->getMetaValue('layout');
         $appTitle = $model->post_title;
 
-        return view(Theme::pageNode('page', $model->post_name), compact('model', 'appTitle', 'layout'));
+        if (view()->exists(Theme::pageNode('doctor', $model->post_name))) {
+            return view(Theme::pageNode('doctor', $model->post_name), compact('model', 'appTitle', 'layout'));
+        }
+
+        return abort(404);
     }
 
     /**
@@ -196,7 +201,7 @@ class DoctorController extends Controller
             foreach ($request->meta as $key => $value) {
                 $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
             }
-            
+
             return redirect(Admin::route('contentManager.doctor.index'));
         } else {
             $request->session()->flash('response', [
