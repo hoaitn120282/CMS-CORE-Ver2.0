@@ -250,7 +250,7 @@
             left: 50%;
             position: fixed;
             margin-left: -275px;
-            top: 65%;
+            top: 60%;
             font-size: 18px;
             color: #ffffff;
         }
