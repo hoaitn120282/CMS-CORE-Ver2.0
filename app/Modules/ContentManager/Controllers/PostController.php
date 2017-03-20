@@ -52,9 +52,12 @@ class PostController extends Controller
      */
     public function create()
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()->optionsKey('layouts')->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();
 
@@ -133,7 +136,11 @@ class PostController extends Controller
         $layout = empty($model->getMetaValue('layout')) ? Theme::layout('post') : $model->getMetaValue('layout');
         $appTitle = $model->post_title;
 
-        return view(Theme::pageNode('post', $model->post_name), compact('model', 'appTitle', 'layout', 'nextPost', 'prevPost'));
+        if (view()->exists(Theme::pageNode('post', $model->post_name))) {
+            return view(Theme::pageNode('post', $model->post_name), compact('model', 'appTitle', 'layout', 'nextPost', 'prevPost'));
+        }
+
+        return abort(404);
     }
 
     /**
@@ -144,9 +151,12 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()->optionsKey('layouts')->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
         $category = Terms::where("taxonomy", "category")->where("parent", 0)->get();

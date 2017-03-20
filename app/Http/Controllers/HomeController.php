@@ -24,7 +24,7 @@ class HomeController extends Controller
                 ->where('post_name', $pageOnFront)
                 ->first();
 
-            $blogs = $blog ? new Collection([$blog]):null;
+            $blogs = $blog ? new Collection([$blog]) : null;
         } else {
             $blogs = Articles::where('post_type', 'post')
                 ->where('post_status', 'publish')
@@ -32,6 +32,10 @@ class HomeController extends Controller
                 ->paginate(10);
         }
 
-        return view(Theme::frontpage(), compact('blogs', 'layout'));
+        if (view()->exists(Theme::frontpage())) {
+            return view(Theme::frontpage(), compact('blogs', 'layout'));
+        }
+
+        return abort(404);
     }
 }
