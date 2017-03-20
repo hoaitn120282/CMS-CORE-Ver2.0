@@ -4,6 +4,9 @@ namespace App\Modules\SiteManager\Controllers;
 
 use App\Facades\Theme;
 use App\Http\Controllers\Controller;
+use App\Modules\LanguageManager\Models\Countries;
+use App\Modules\LanguageManager\Models\Language;
+use App\Modules\SiteManager\Models\ClinicLanguage;
 use ZipArchive;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -34,13 +37,162 @@ class GenerateController extends Controller
         // move Template file to temp
         $this->moveTemplateFile($siteID);
 
+        $this->dumpData();
+
+
+        $ds = DIRECTORY_SEPARATOR;
+        $path = public_path(). $ds .'generate'. $ds .'temp'. $ds .'database'.$ds ;
+        $file = 'clinic-site.sql';
+        $sqlPath = $path.$file;
+
+        $clinicThemes = ClinicTheme::where('clinic_id',$siteID)->get();
+
+        // get all theme id
+        $themeids = [];
+        foreach ($clinicThemes as $clinicTheme) {
+            if(!in_array($clinicTheme->theme_id, $themeids)){
+                array_push($themeids, $clinicTheme->theme_id);
+            }
+        }
+
+        $themeRemoves = Themes::whereNotIn('id', $themeids)->get();
+
+        $themeIDRemoves = [];
+        foreach ($themeRemoves as $themeRemove) {
+            if(!in_array($themeRemove->id, $themeIDRemoves)){
+                array_push($themeIDRemoves, $themeRemove->id);
+            }
+        }
+
+        foreach ($themeIDRemoves as $themeIDRemove) {
+            $temp = 'DELETE FROM `themes` WHERE `themes`.`id` = '.$themeIDRemove.';';
+            $myfile = file_put_contents($sqlPath, $temp.PHP_EOL , FILE_APPEND | LOCK_EX);
+        }
+
+        // Update theme active
+        $setStatusTo0 = 'UPDATE themes SET `status` = 0 ;';
+        file_put_contents($sqlPath, $setStatusTo0.PHP_EOL , FILE_APPEND | LOCK_EX);
+
+        $firstThemeId = $this->getFirstThemeID($siteID);
+        $updateStatusTo1 = 'UPDATE themes SET `status`=1 WHERE id='.$firstThemeId.';';
+        file_put_contents($sqlPath, $updateStatusTo1.PHP_EOL , FILE_APPEND | LOCK_EX);
+
+        $this->updateConfigTheme($siteID);
+
+        // update language
+        $clinicLanguages = ClinicLanguage::where('clinic_id',$siteID)->get();
+
+        $languageids = [];
+        foreach ($clinicLanguages as $clinicLanguage) {
+            if(!in_array($clinicLanguage->language_id, $languageids)){
+                array_push($languageids, $clinicLanguage->language_id);
+            }
+        }
+
+        $langRemoves = Language::whereNotIn('language_id', $languageids)->get();
+
+        $langIDRemoves = [];
+        foreach ($langRemoves as $langRemove) {
+            if(!in_array($langRemove->language_id, $langIDRemoves)){
+                array_push($langIDRemoves, $langRemove->language_id);
+            }
+        }
+
+
+        //update config locale in public/app.php
+        $this->setDefaultLocale($siteID);
+
+        foreach ($langIDRemoves as $langIDRemove) {
+            $temp = 'DELETE FROM `language` WHERE `language`.`language_id` = '.$langIDRemove.';';
+            $myfile = file_put_contents($sqlPath, $temp.PHP_EOL , FILE_APPEND | LOCK_EX);
+        }
+
 //        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination',$siteID);
-        $files = glob(public_path().'/generate/temp');
-        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($files)->close();
+        $directory = public_path().'/generate/temp';
+//        $files = glob($directory. '/{,.}*', GLOB_BRACE);
+        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($directory)->close();
 
         $this->removeFolder(public_path().'/generate/temp');
 
 //        $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
+    }
+
+    public function setDefaultLocale($siteId){
+        $clinicLanguages = ClinicLanguage::where('clinic_id',$siteId)->first();
+        $languageId = $clinicLanguages->language_id;
+        $language = Language::find($languageId);
+
+        $countryId = $language->country_id;
+        $country = Countries::find($countryId);
+        $locale = $country->locale;
+
+        $ds = DIRECTORY_SEPARATOR;
+        $path = public_path(). $ds .'generate'. $ds .'temp'. $ds .'config'.$ds ;
+        $file = 'app.php';
+        $appConfigPath = $path.$file;
+        file_put_contents($appConfigPath,str_replace('locale_value', $locale, file_get_contents($appConfigPath)));
+    }
+
+    /*
+     * get Fist themeID of clinic site by Clinic site ID
+     * */
+    public function getFirstThemeID($siteId = null){
+        if(!$siteId) return;
+        $clinicThemes = ClinicTheme::where('clinic_id', $siteId)->first();
+        $themeID = $clinicThemes->theme_id;
+        return $themeID;
+    }
+
+    /*
+     * Update config theme file config/theme.php
+     * */
+    public function updateConfigTheme($siteId = null){
+        $firstThemeId = $this->getFirstThemeID($siteId);
+        $theme = Themes::find($firstThemeId);
+
+        $ds = DIRECTORY_SEPARATOR;
+        $path = public_path(). $ds .'generate'. $ds .'temp'. $ds .'config'.$ds ;
+        $file = 'theme.php';
+        $themeConfigPath = $path.$file;
+
+        $active = '$config[\'active\'] =\''.$theme->theme_root.'\';';
+        $active_extra = '$config[\'active_extra\'] =\''.$theme->machine_name.'\';';
+        $active_id = '$config[\'active_id\'] =\''.$theme->id.'\';';
+        $driver = '$config[\'driver\'] =\'file\';';
+
+        $endConfig =  'return $config;';
+
+        file_put_contents($themeConfigPath, $active.PHP_EOL , FILE_APPEND | LOCK_EX);
+        file_put_contents($themeConfigPath, $active_extra.PHP_EOL , FILE_APPEND | LOCK_EX);
+        file_put_contents($themeConfigPath, $active_id.PHP_EOL , FILE_APPEND | LOCK_EX);
+        file_put_contents($themeConfigPath, $driver.PHP_EOL , FILE_APPEND | LOCK_EX);
+        file_put_contents($themeConfigPath, $endConfig.PHP_EOL , FILE_APPEND | LOCK_EX);
+    }
+
+    /*
+     * Dump data for new site
+     *
+     * */
+    public function dumpData(){
+        $ds = DIRECTORY_SEPARATOR;
+        $host = env('DB_HOST');
+        $username = env('DB_USERNAME');
+        $password = env('DB_PASSWORD');
+        $database = env('DB_DATABASE');
+
+        $ts = time();
+//        $path = database_path() . $ds . 'backups' . $ds . date('Y', $ts) . $ds . date('m', $ts) . $ds . date('d', $ts) . $ds;
+//        $file = date('Y-m-d-His', $ts) . '-dump-' . $database . '.sql';
+
+        $path = public_path(). $ds .'generate'. $ds .'temp'. $ds .'database'.$ds ;
+        $file = 'clinic-site.sql';
+
+        $command = sprintf('mysqldump -h %s -u %s -p\'%s\' %s > %s', $host, $username, $password, $database, $path . $file);
+
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+        exec($command);
     }
 
     public function moveTemplateFile($siteID){

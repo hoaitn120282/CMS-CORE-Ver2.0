@@ -46,9 +46,12 @@ class PageController extends Controller
      */
     public function create()
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()->optionsKey('layouts')->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
 
         return view("ContentManager::page.create", ["model" => "", 'layouts' => $layouts]);
@@ -101,7 +104,11 @@ class PageController extends Controller
         $layout = empty($model->getMetaValue('layout')) ? Theme::layout('page') : $model->getMetaValue('layout');
         $appTitle = $model->post_title;
 
-        return view(Theme::pageNode('page', $model->post_name), compact('model', 'appTitle', 'layout'));
+        if (view()->exists(Theme::pageNode('page', $model->post_name))) {
+            return view(Theme::pageNode('page', $model->post_name), compact('model', 'appTitle', 'layout'));
+        }
+
+        return abort(404);
     }
 
     /**
@@ -112,11 +119,12 @@ class PageController extends Controller
      */
     public function edit($id)
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()
-            ->optionsKey('layouts')
-            ->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
 

@@ -1,4 +1,4 @@
-@extends(Theme::active().'.main')
+@extends('layouts.blank')
 
 @section('content')
 <div class="row">
@@ -44,7 +44,7 @@
 	        <button type="submit" class="btn btn-success">Submit</button>
 	      </div>
 	    </form>
-	    @include(Theme::active().'.post.comments')
+	    {{--@include(Theme::active().'.post.comments')--}}
 	</section>
 	@endif
     </div>

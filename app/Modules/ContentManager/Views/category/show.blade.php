@@ -1,4 +1,4 @@
-@extends(Theme::active().'.main')
+@extends('layouts.blank')
 
 @section('content')
 <div class="row">

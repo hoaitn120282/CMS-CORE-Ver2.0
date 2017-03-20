@@ -118,7 +118,12 @@ class MenuController extends Controller
             array('post_id' => $model->id, 'meta_key' => '_nav_item_type', 'meta_value' => $request->type),
         );
         ArticleMeta::insert($meta);
-        return response()->json(['label' => $request->label, 'url' => $request->url, 'id' => $model->id]);
+        $label = [];
+        foreach ($model->translations as $translation) {
+            $label[$translation->locale] = $translation->post_title;
+        }
+
+        return response()->json(['label' => $label, 'url' => $request->url, 'id' => $model->id]);
     }
 
     public function storemulti(Request $request)
@@ -127,6 +132,7 @@ class MenuController extends Controller
             'datamenu' => 'required',
         ]);
         $locale = Trans::locale();
+        $res = [];
         foreach ($request->datamenu as $value) {
             $type = $value["type"];
             $model = new Menus();
@@ -147,11 +153,9 @@ class MenuController extends Controller
                 array('post_id' => $model->id, 'meta_key' => '_nav_item_type', 'meta_value' => $value["type"]),
             );
             ArticleMeta::insert($meta);
-            $res = [
-                ['label' => $value["label"], 'url' => $value["url"], 'id' => $model->id],
-                ['label' => $value["label"], 'url' => $value["url"], 'id' => $model->id]
-            ];
+            $res[] = ['label' => $value["label"], 'url' => $value["url"], 'id' => $model->id];
         }
+
         return response()->json($res);
     }
 
@@ -170,7 +174,7 @@ class MenuController extends Controller
             if (!in_array($name, $menusGr)) {
                 throw new \Exception("The menu {$name} could not found.");
             }
-            $menusGr = array_where($menusGr, function($key, $value) use ($name) {
+            $menusGr = array_where($menusGr, function ($key, $value) use ($name) {
                 if ($value != $name) {
                     return $value;
                 }
@@ -201,9 +205,9 @@ class MenuController extends Controller
                 'message' => is_array($messages) ? $messages : array($messages)
             ]);
         }
-        Admin::userLog(\Auth::guard('admin')->user()->id,'Delete menu group :'.$name);
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete menu group :' . $name);
 
-          // return redirect(Admin::StrURL('contentManager/menu'));
+        // return redirect(Admin::StrURL('contentManager/menu'));
     }
 
     public function destroy($id)
@@ -211,9 +215,11 @@ class MenuController extends Controller
         $model = Menus::join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->where('posts.id', $id)
             ->first();
+
         foreach ($model->children() as $value) {
             $this->recursiveDelete($value);
         }
+
         Menus::destroy($id);
     }
 

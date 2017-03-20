@@ -74,19 +74,6 @@
                             <li>
                                 <a href="{{ Admin::route('contentManager.media') }}"><i class="fa fa-file-image-o"></i> Media Manager</a>
                             </li>
-                            {{--Template manager--}}
-                            <li>
-                                <a><i class="fa fa-windows"></i> Template Manager <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('templateManager.index') }}">Template Library</a></li>
-                                    <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a></li>
-                                </ul>
-                            </li>
-                           
-                            {{--Language manager--}}
-                            <li>
-                                <a href="{{ Admin::route('languageManager.index') }}"><i class="fa fa-language"></i> Language Manager</a>
-                            </li>
                             <li>
                                 <a><i class="fa fa-desktop"></i> Theme Manager <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -96,7 +83,7 @@
                             </li>
                             <li><a href="{{ Admin::route('contentManager.widget') }}"><i class="fa fa-clone"></i> Widget
                                     Manager </a></li>
-                            
+
                             {{--<li><a href="/admin/contentManager/filemanager"><i class="fa fa-image"></i> File Manager </a></li>--}}
                             @include('layouts.generated-menu')
                             <li><a href="{{ Admin::route('contentManager.user.index') }}"><i class="fa fa-users"></i>
@@ -136,10 +123,9 @@
                     </div>
                     <ul class="nav navbar-nav navbar-left">
                         <li>
-                            {{--<a href="{{ url('/') }}" target="_blank">
+                            <a href="{{ url('/') }}" target="_blank">
                                 <strong>View Website <i class="fa fa-arrow-right"></i></strong>
-                            </a>--}}
-                            @yield('back')
+                            </a>
                         </li>
                     </ul>
 
