@@ -9,15 +9,30 @@
                     <div class="box-filter">
                         <select name="theme_tyoe" id="themeType" class="form-control"
                                 onchange="window.location = this.options[this.selectedIndex].value;">
-                            <option value="{{Admin::route('templateManager.index',['theme_type'=>0])}}">All Template</option>
-                            <option value="{{Admin::route('templateManager.index',['theme_type'=>1])}}" <?php if ($theme_type == 1) echo 'selected'; ?>>
+                            <option value="{!! Request::fullUrlWithQuery(['theme_type' => null]) !!}">All Template</option>
+                            <option value="{!! Request::fullUrlWithQuery(['theme_type' => 1]) !!}" <?php if ($themeType == 1) echo 'selected'; ?>>
                                 Simple Template
                             </option>
-                            <option value="{{Admin::route('templateManager.index',['theme_type'=>2])}}" <?php if ($theme_type == 2) echo 'selected'; ?>>
+                            <option value="{!! Request::fullUrlWithQuery(['theme_type' => 2]) !!}" <?php if ($themeType == 2) echo 'selected'; ?>>
                                 Medium Template
                             </option>
                         </select>
-                    </div>
+                    </div><!-- /.theme-type -->
+
+                    <div class="box-filter">
+
+                        <select name="theme_tyoe" id="themeType" class="form-control"
+                                onchange="window.location = this.options[this.selectedIndex].value;">
+                            <option value="{!! Request::fullUrlWithQuery(['publish' => null]) !!}">All status</option>
+                            <option value="{!! Request::fullUrlWithQuery(['publish' => 1]) !!}" {{ (isset($isPublish) && ($isPublish == 1)) ? 'selected' :'' }}>
+                                Published Template
+                            </option>
+
+                            <option value="{!! Request::fullUrlWithQuery(['publish' => 0]) !!}" {{ (isset($isPublish) && ($isPublish == 0)) ? 'selected' :'' }}>
+                                Draft Template
+                            </option>
+                        </select>
+                    </div><!-- /.status -->
 
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
