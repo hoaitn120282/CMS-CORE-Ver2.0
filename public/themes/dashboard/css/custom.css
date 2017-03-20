@@ -211,3 +211,7 @@
 .panel-default>.panel-heading {
     font-weight: 700;
 }
+
+.panel-heading a[aria-expanded="true"] i.fa-angle-right::before {
+    content: "\f107"!important;
+}

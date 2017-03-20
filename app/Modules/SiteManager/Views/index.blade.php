@@ -38,12 +38,13 @@
                     </form>
                 </div>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a href="{{ Admin::route('siteManager.compress') }}" class="btn-toolbox success">Demo compress</a></li>
+                    {{--<li><a href="{{ Admin::route('siteManager.compress') }}" class="btn-toolbox success">Demo compress</a></li>--}}
                     <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @include('ContentManager::partials.alert')
                 @if(count($clinics) > 0)
                 <table class="table table-striped jambo_table bulk_action">
                     <thead>
@@ -121,7 +122,9 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        $("#tr-"+clinicid).remove();
+
+                        location.reload();
+
                     });
             });
             return false;

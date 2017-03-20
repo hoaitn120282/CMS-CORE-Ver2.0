@@ -66,4 +66,5 @@ Route::group(['prefix' => $this->admin, 'middleware' => ['web', 'admin'], 'names
     Route::post('contentManager/menu/insert', ['as' => $this->admin . '.contentManager.menu.store', 'uses' => 'MenuController@store']);
     Route::post('contentManager/menu/insertmulti', ['as' => $this->admin . '.contentManager.menu.storemulti', 'uses' => 'MenuController@storemulti']);
     Route::delete('contentManager/menu/delete/{id?}', ['as' => $this->admin . '.contentManager.menu.destroy', 'uses' => 'MenuController@destroy']);
+    Route::delete('contentManager/menu/destroy/{name?}', ['as' => $this->admin . '.contentManager.menu.destroygroup', 'uses' => 'MenuController@deleteGroup']);
 });
