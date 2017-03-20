@@ -8,7 +8,7 @@ Route::group([
         Route::get('templateManager/{theme_type?}', ['as' => $this->admin . '.templateManager.index', 'uses' => 'TemplateController@index'])->where('theme_type', '[0-9]+');
         Route::get('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@install']);
         Route::post('templateManager/install', ['as' => $this->admin . '.templateManager.install', 'uses' => 'TemplateController@installed']);
-        Route::get('templateManager/create/{id}', ['as' => $this->admin . '.templateManager.create', 'uses' => 'TemplateController@create']);
+            Route::get('templateManager/create/{id}', ['as' => $this->admin . '.templateManager.create', 'uses' => 'TemplateController@create']);
         Route::post('templateManager/store', ['as' => $this->admin . '.templateManager.store', 'uses' => 'TemplateController@store']);
         Route::get('templateManager/edit/{id}', ['as' => $this->admin . '.templateManager.edit', 'uses' => 'TemplateController@edit']);
         Route::post('templateManager/update/{id}', ['as' => $this->admin . '.templateManager.update', 'uses' => 'TemplateController@update']);

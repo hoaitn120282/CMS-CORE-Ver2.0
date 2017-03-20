@@ -31,8 +31,10 @@ class TemplateController extends Controller
         } else {
             $nodes = Template::where('theme_type_id', '<>', 3)->where('theme_type_id', $theme_type)->paginate(6);
         }
+
         return view('TemplateManager::index', ['nodes' => $nodes, 'theme_type' => $theme_type]);
     }
+
 
     /*
      * View list to create new template

@@ -1,8 +1,7 @@
     <?php
+    $filename = url( $node->image_preview);
 
-    $filename = url('/themes/' . $node->name . '/images/' . $node->image_preview);
     $file_headers = get_headers($filename);
-
     if ($file_headers[0] == 'HTTP/1.0 404 Not Found') {
         $previewImg = url('/themes') . '/no-image.png';
     } else if ($file_headers[0] == 'HTTP/1.0 302 Found' && $file_headers[7] == 'HTTP/1.0 404 Not Found') {

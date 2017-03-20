@@ -52,10 +52,10 @@
 								<h3>Selected Template</h3>
 
 								<ul class="list-unstyled">
-									@foreach($clinic->theme as $theme)
+									@foreach($temClinic as $theme)
 										<li>
-											<span>Template {{ $theme->clinic_theme_id }}</span>
-											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
+											<span>{{ $theme->name }}</span>
+											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->id])}}">
 												Preview
 											</a>
 										</li>
@@ -118,7 +118,7 @@
 
 					</div>
 				</div>
-                <div class="toolbar-actions text-center">
+                <div class="toolbar-actions text-right">
 					<a href="{{ Admin::route('siteManager.edit-info',['id'=>$clinic->clinic_id]) }}">
 						<button type="submit" name="update" class="btn btn-success">
 							<i class="fa fa-pencil" aria-hidden="true"></i> Edit

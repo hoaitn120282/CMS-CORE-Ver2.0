@@ -12,6 +12,24 @@ use Validator;
 
 class DoctorController extends Controller
 {
+    protected $messages;
+    protected $attributes = [];
+
+    public function __construct()
+    {
+        $locale = Trans::currentLocale();
+        $this->messages = [
+            'required' => "{$locale['name']} is active, :attribute in this language are required.",
+            'max' => 'The :attribute may not be greater than :max characters.',
+            'url' => 'The :attribute format is invalid.'
+        ];
+        $this->attributes = [
+            "trans.{$locale['locale']}.post_title" => "name",
+            "trans.{$locale['locale']}.post_excerpt" => "position",
+            "meta.appointment_link"  => "appointment link",
+            "status" => "status",
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +72,7 @@ class DoctorController extends Controller
             "trans.{$locale}.post_content" => 'required',
             "meta.appointment_link" => 'required|url',
             "status" => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         if ($validator->fails()) {
             $request->session()->flash('response', [
                 'success' => false,
@@ -146,7 +164,7 @@ class DoctorController extends Controller
             "trans.{$locale}.post_content" => 'required',
             "meta.appointment_link" => 'required|url',
             "status" => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         if ($validator->fails()) {
             $request->session()->flash('response', [
                 'success' => false,

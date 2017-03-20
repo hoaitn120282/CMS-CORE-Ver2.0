@@ -66,8 +66,11 @@
                 <div class="panel-heading">Publish</div>
                 <div class="panel-body">
                     <select name="status" class="form-control">
-                        <option value="publish">Publish</option>
-                        <option value="Draft">Draft</option>
+                        <option {{ (!empty($model) && $model->post_status == "publish") ? "selected" : "" }} value="publish">
+                            Publish
+                        </option>
+                        <option {{ (!empty($model) && $model->post_status == "Draft") ? "selected" : "" }} value="Draft">Draft
+                        </option>
                     </select>
                 </div>
             </div><!-- /.publish -->

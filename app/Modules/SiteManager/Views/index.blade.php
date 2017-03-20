@@ -22,7 +22,7 @@
                     {{--<span class="filter-title">Status</span>--}}
                     <select name="theme_tyoe" id="themeType" class="form-control"
                             onchange="window.location = this.options[this.selectedIndex].value;">
-                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> -1 ])}}">All</option>
+                        <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> -1 ])}}">All Status</option>
                         <option value="{{Admin::route('siteManager.index',['theme_type_id'=> $theme_type_id, 'status'=> 0 ])}}" <?php if ($status == 0) echo 'selected'; ?>>
                             Pending
                         </option>
@@ -38,12 +38,13 @@
                     </form>
                 </div>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li><a href="{{ Admin::route('siteManager.compress') }}" class="btn-toolbox success">Demo compress</a></li>
+                    {{--<li><a href="{{ Admin::route('siteManager.compress') }}" class="btn-toolbox success">Demo compress</a></li>--}}
                     <li><a href="{{ Admin::route('siteManager.select-template') }}" class="btn-toolbox success"><i class="fa fa-plus"></i> Create New</a></li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @include('ContentManager::partials.alert')
                 @if(count($clinics) > 0)
                 <table class="table table-striped jambo_table bulk_action">
                     <thead>
@@ -121,8 +122,7 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
-                        swal("Deleted!", "Delete Successfully", "success");
-                        $("#tr-"+clinicid).remove();
+                        location.reload();
                     });
             });
             return false;

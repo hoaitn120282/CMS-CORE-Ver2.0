@@ -114,9 +114,32 @@
                         "_token": "{{ csrf_token() }}"
                     }
                 })
-                .done(function() {
-                    swal("", "Change password successfully", "success");
-                    $('#myModal').modal('hide');
+                .done(function(res) {
+                    $('p').hide();
+                    var passNewLength = $('#passwordnew').val().length;
+                    var passwordOld = $('#passwordold').val().length;
+                    if (res.status == 1) {
+                        swal("", "Change password successfully", "success");
+                        $('#myModal').modal('hide');
+                    }else if(passwordOld == 0) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordold" ).after( "<p style='color: red'>The old passworld required</p>" );
+                    }else if(passwordOld < 6) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordold" ).after( "<p style='color: red'>The old passworld min length 6</p>" );
+                    } else if(passNewLength == 0) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordnew" ).after( "<p style='color: red'>The new passworld required</p>" );
+                    }  else if(passNewLength < 6) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordnew" ).after( "<p style='color: red'>The new passworld min length 6</p>" );
+                    }else if(res.status == 0) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordold" ).after( "<p style='color: red'>" + res.passwordold + "</p>" );
+                    }  else if(res.status == 2) {
+                        $('.showSweetAlert').hide();
+                        $( "#passwordnew" ).after( "<p style='color: red'>" + res.passwordnew + "</p>" );
+                    }
                 });
             });
             return false;

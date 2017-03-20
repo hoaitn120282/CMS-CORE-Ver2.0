@@ -13,6 +13,20 @@ use Trans;
 
 class TagController extends Controller
 {
+    protected $messages;
+    protected $attributes = [];
+
+    public function __construct()
+    {
+        $locale = Trans::currentLocale();
+        $this->messages = [
+            'required' => "{$locale['name']} is active, :attribute in this language are required.",
+            'max' => 'The :attribute may not be greater than :max characters.'
+        ];
+        $this->attributes = [
+            "trans.{$locale['locale']}.name" => "name",
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +67,7 @@ class TagController extends Controller
         $locale = Trans::locale();
         $validator = Validator::make($request->all(), [
             "trans.{$locale}.name" => 'required',
-        ]);
+        ], $this->messages, $this->attributes);
         if ($validator->fails()) {
             $request->session()->flash('response', [
                 'success' => false,
@@ -145,7 +159,7 @@ class TagController extends Controller
             $request->session()->flash('response', [
                 'success' => false,
                 'message' => $validator->errors()->all()
-            ]);
+            ], $this->messages, $this->attributes);
 
             return redirect(Admin::route('contentManager.tag.edit', ['id' => $id]))->withInput($request->input());
         }
