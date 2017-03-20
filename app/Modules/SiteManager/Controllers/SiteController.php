@@ -169,6 +169,9 @@ class SiteController extends Controller
     {
         $clinic = Clinic::find($id);
         $languages = Language::get();
+        $templatesList = Template::get();
+        $temClinic = [];
+
         if (empty($clinic)) {
             return redirect(Admin::route('siteManager.index'));
         }
@@ -179,7 +182,15 @@ class SiteController extends Controller
             array_push($languageSelected, $la->language_id);
         }
 
-        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages, 'languageSelected'=> $languageSelected]);
+        for($j=0 ; $j < count($clinic->theme) ; $j++) {
+            foreach ($templatesList as $tem) {
+                if ($tem->id == $clinic->theme[$j]->theme_id) {
+                    array_push($temClinic, $tem);
+                }
+            }
+        }
+
+        return view('SiteManager::edit.edit', ['clinic' => $clinic, 'languages'=> $languages, 'languageSelected'=> $languageSelected, 'temClinic' => $temClinic]);
     }
 
     /*
@@ -233,6 +244,7 @@ class SiteController extends Controller
     //Create clinic
     public function createInfo(Request $request){
         $input = Input::all();
+        dd($request->all());
         $templates = \Session::get('templates', []);
 
         $languages = $request->get('language');

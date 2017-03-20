@@ -86,12 +86,12 @@
 
                             <div class="doctor-infor">
                                 <h3 class="text-center create-title">Selected Template</h3>
-                                @foreach($clinic->theme as $theme)
+                                @foreach($temClinic as $theme)
                                     <div class="form-group">
-                                        <label for="telephone" class="col-sm-3 control-label">Teamplate {{ $theme->clinic_theme_id }}</label>
+                                        <label for="telephone" class="col-sm-3 control-label"> {{ $theme->name }}</label>
                                         <div class="col-sm-9">
-                                            <a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->theme_id])}}">
-                                                <i class="fa fa-eye"></i>
+                                            <a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->id])}}">
+                                                Preview
                                             </a>
                                         </div>
                                     </div>
