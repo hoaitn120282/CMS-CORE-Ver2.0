@@ -158,13 +158,17 @@ class MenuController extends Controller
     public function deleteGroup($name, Request $request)
     {
         try {
+            if ("main-menu" == $name) {
+                throw new \Exception("It's not allowed to delete Main Menu");
+            }
+
             $groupName = Options::where("name", "menu_name")->first();
             if (empty($groupName)) {
-                return abort(404);
+                throw new \Exception("The menu {$name} could not found.");
             }
             $menusGr = unserialize($groupName->value);
             if (!in_array($name, $menusGr)) {
-                return abort(404);
+                throw new \Exception("The menu {$name} could not found.");
             }
             $menusGr = array_where($menusGr, function($key, $value) use ($name) {
                 if ($value != $name) {
