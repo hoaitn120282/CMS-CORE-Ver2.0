@@ -132,6 +132,7 @@ class MenuController extends Controller
             'datamenu' => 'required',
         ]);
         $locale = Trans::locale();
+        $res = [];
         foreach ($request->datamenu as $value) {
             $type = $value["type"];
             $model = new Menus();
@@ -152,10 +153,9 @@ class MenuController extends Controller
                 array('post_id' => $model->id, 'meta_key' => '_nav_item_type', 'meta_value' => $value["type"]),
             );
             ArticleMeta::insert($meta);
-            $res = [
-                ['label' => $value["label"], 'url' => $value["url"], 'id' => $model->id]
-            ];
+            $res[] = ['label' => $value["label"], 'url' => $value["url"], 'id' => $model->id];
         }
+
         return response()->json($res);
     }
 

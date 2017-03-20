@@ -302,6 +302,11 @@ $languages = Trans::languages();
         </div>
     </div>
 
+    <!-- .mask-loading -->
+    <div class="mask-loading" style="display: none">
+        <div class="loader"></div>
+    </div>
+
 @endsection
 
 @push('style-top')
@@ -342,6 +347,36 @@ $languages = Trans::languages();
 
     #con-menu .panel-heading a:first-child {
         right: 30px;
+    }
+
+    .mask-loading {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: #000000;
+        opacity: 0.75;
+        left: 0px;
+        top: 0px;
+        z-index: 1;
+    }
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+        left: 50%;
+        position: fixed;
+        top: 50%;
+        margin-left: -60px;
+        margin-top: -60px;
+        z-index: 2;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
 @endpush
@@ -420,12 +455,11 @@ $languages = Trans::languages();
             var elmLabel = $("." + idPar).children('div');
             var label = elmLabel.data("label");
             label[locale] = $(this).val();
-            console.log(label);
             $("." + idPar).children('div').data("label", label);
         });
 
         // Toggle menu
-        $("a[data-role='toggle-menu']").on("click", function () {
+        $('.tab-content').on("click", "a[data-role='toggle-menu']", function () {
             var target = "." + $(this).data('target');
             $(target).toggle();
             return false;
@@ -447,6 +481,7 @@ $languages = Trans::languages();
 
         // Add custom menu to menu
         $("button[data-role='addmenu']").on("click", function () {
+            $('.mask-loading').css('display','block');
             var t = $(this).data("type");
             var label = $("#label-" + t).val();
             var url = $("#url-" + t).val();
@@ -454,16 +489,19 @@ $languages = Trans::languages();
             $.ajax({
                 type: 'POST',
                 url: "{{ Admin::route('contentManager.menu.store') }}",
-                data: {"_token": "{{ csrf_token() }}", "label": label, "url": url, "type": "custom", "group": group}
+                data: {"_token": "{{ csrf_token() }}", "label": label, "url": url, "type": "custom", "group": group},
             })
                     .done(function (result) {
                         generateLiMenu(result.id, result.label, result.url);
+                        $('.mask-loading').css('display','none');
                     });
+
             return false;
         });
 
         // Add category to menu
         $("button[data-role='menucat']").on("click", function () {
+            $('.mask-loading').css('display','block');
             var array = new Array();
             var cls = $(this).data("class");
             var group = $("#group-name").val();
@@ -476,13 +514,12 @@ $languages = Trans::languages();
                 data: {"_token": "{{ csrf_token() }}", "datamenu": array, "group": group}
             })
                     .done(function (result) {
-                        for (var i = 0; i < result.length; i++) {
-                            generateLiMenu(result[i].id, result[i].label, result[i].url);
-                        }
-                        $("a[data-role='toggle-menu']").on("click", function () {
-                            var target = "." + $(this).data('target');
-                            $(target).toggle();
-                            return false;
+                        $.each(result, function (key, value) {
+                            generateLiMenu(value.id, value.label, value.url);
+                            $("input:checkbox[class=" + cls + "]:checked").each(function () {
+                               $(this).prop('checked', false);
+                            });
+                            $('.mask-loading').css('display','none');
                         });
                     });
             return false;
@@ -490,6 +527,7 @@ $languages = Trans::languages();
 
         // Delete menu
         $('.tab-content').on('click', '.deleteMenu', function () {
+            $('.mask-loading').css('display','block');
             var id = $(this).data('id');
             var url = "{{ Admin::route('contentManager.menu.destroy',['id'=>'']) }}";
             $.ajax({
@@ -499,6 +537,7 @@ $languages = Trans::languages();
             })
                     .done(function (result) {
                         $('.menuItem_' + id).remove();
+                        $('.mask-loading').css('display','none');
                     });
             return false;
         });
@@ -508,6 +547,7 @@ $languages = Trans::languages();
         });
 
         function generateLiMenu(id, label, url) {
+            console.log(label);
             $.each(label, function (locale, name) {
                 var str = "<li id='menuItem_" + id + "' class='menuItem_" + id + "' >";
                 str += "<div class='panel panel-primary' data-label='" + JSON.stringify(label) + "' data-url='" + url + "'>";
