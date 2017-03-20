@@ -24,23 +24,32 @@ class TemplateController extends Controller
      *
      * @return Response
      */
-    public function index($theme_type = 0)
+    public function index(Request $request)
     {
-        if ($theme_type == 0) {
-            $nodes = Template::where('theme_type_id', '<>', 3)->paginate(6);
-        } else {
-            $nodes = Template::where('theme_type_id', '<>', 3)->where('theme_type_id', $theme_type)->paginate(6);
+        $filters = [];
+        $themeType = $request->get('theme_type');
+        $isPublish = $request->get('publish');
+
+        if (isset($themeType)){
+            $filters[] = [
+                'property' => 'theme_type_id',
+                'operator' => '==',
+                'value' => $themeType
+            ];
         }
 
-        return view('TemplateManager::index', ['nodes' => $nodes, 'theme_type' => $theme_type]);
-    }
+        if (isset($isPublish)) {
+            $filters[] = [
+                'property' => 'is_publish',
+                'operator' => '==',
+                'value' => $isPublish
+            ];
+        }
 
-    public function _index(Request $request)
-    {
+        $nodes = Template::applyFilter($filters)
+            ->paginate(6);
 
-
-
-        return view('TemplateManager::index', compact('nodes'));
+        return view('TemplateManager::index', compact('nodes', 'themeType', 'isPublish'));
     }
 
     /*
