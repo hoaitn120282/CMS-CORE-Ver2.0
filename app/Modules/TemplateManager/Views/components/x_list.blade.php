@@ -1,4 +1,4 @@
-@foreach($nodes as $node)
+@forelse($nodes as $node)
     <?php
     $filename = url($node->image_preview);
     $file_headers = get_headers($filename);
@@ -54,7 +54,12 @@
             </div>
         </div>
     </div>
-@endforeach
+    @empty
+    <h3>No template found</h3>
+@endforelse
+
+
+
 <div class="clearfix"></div>
 <div class="pull-right">
     {{$nodes->links()}}

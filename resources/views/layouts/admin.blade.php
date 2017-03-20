@@ -84,7 +84,7 @@
                                 <a><i class="fa fa-windows"></i> Template Manager <span
                                             class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ Admin::route('templateManager.index', ['theme_type'=>0]) }}">Template Library</a></li>
+                                    <li><a href="{{ Admin::route('templateManager.index') }}">Template Library</a></li>
                                     <li><a href="{{ Admin::route('templateManager.install') }}">Install new template</a>
                                     </li>
                                 </ul>
