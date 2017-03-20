@@ -1874,7 +1874,11 @@
                 "sftp",
                 "storage"
             ],
+<<<<<<< HEAD
             "time": "2017-03-18 16:02:30"
+=======
+            "time": "2017-03-18T16:02:30+00:00"
+>>>>>>> development
         },
         {
             "name": "league/oauth1-client",
