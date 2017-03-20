@@ -187,11 +187,11 @@ $languages = Trans::languages();
                                         <div class="form-group">
                                             <label for="url-custom">URL</label>
                                             <input id="url-custom" type="text" class="form-control"
-                                                   placeholder="Label Menu">
+                                                   placeholder="URL Menu">
                                         </div>
                                         <div class="pull-right">
-                                            <button data-role="addmenu" data-type="custom"
-                                                    class="btn btn-block btn-success">
+                                            <button id="add-menu" data-role="addmenu" data-type="custom"
+                                                    class="btn btn-block btn-success " disabled="disabled">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
                                         </div>
@@ -584,6 +584,23 @@ $languages = Trans::languages();
             });
             return false;
         });
+
+        //Validate url
+        $(document).on( "keyup", "#url-custom", function() {
+            if (isUrlValid($(this).val()) === true) {
+                $('#add-menu').removeClass('disabled');
+                $('#add-menu').removeAttr( "disabled" )
+            }
+
+            if (isUrlValid($(this).val()) === false) {
+                $('#add-menu').addClass('disabled');
+                $('#add-menu').attr('disabled', 'disabled');
+            }
+        });
     });
+
+    function isUrlValid(url) {
+        return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+    }
 </script>
 @endpush
