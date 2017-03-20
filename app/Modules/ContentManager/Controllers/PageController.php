@@ -46,9 +46,12 @@ class PageController extends Controller
      */
     public function create()
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()->optionsKey('layouts')->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
 
         return view("ContentManager::page.create", ["model" => "", 'layouts' => $layouts]);
@@ -112,11 +115,12 @@ class PageController extends Controller
      */
     public function edit($id)
     {
+        $layouts = [];
         $theme = $this->currentTheme();
-        $meta = $theme->meta()
-            ->optionsKey('layouts')
-            ->first();
-        $layouts = $meta->getOption('layout_style');
+        if (!empty($theme)) {
+            $meta = $theme->meta()->optionsKey('layouts')->first();
+            $layouts = $meta->getOption('layout_style');
+        }
         $layouts = is_array($layouts) ? $layouts : [$layouts => $layouts];
         $model = Articles::find($id);
 
