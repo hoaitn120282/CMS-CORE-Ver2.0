@@ -9,6 +9,7 @@
 @section('content')
     <div class="mask-loading" style="display: none">
         <div class="loader"></div>
+        <p class="text-center">Source code package is being created. Please wait for a few minutes</p>
     </div>
     <div class="row">
         <div class="x_panel">
@@ -243,6 +244,15 @@
             margin-left: -60px;
             margin-top: -60px;
             z-index: 2;
+        }
+
+        .mask-loading p {
+            left: 50%;
+            position: fixed;
+            margin-left: -275px;
+            top: 65%;
+            font-size: 18px;
+            color: #ffffff;
         }
 
         @keyframes spin {
