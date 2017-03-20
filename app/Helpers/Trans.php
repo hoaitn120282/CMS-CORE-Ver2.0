@@ -93,9 +93,9 @@ class Trans
                     break;
                 }
             }
-            $langs['locale'] ?: $locale;
-            $langs['name'] ?: $langs['locale'];
-            $langs['url'] ?: '#';
+            $langs['locale'] = isset($langs['locale']) ? $langs['locale'] : $locale;
+            $langs['name'] = isset($langs['name']) ? $langs['name'] : $langs['locale'];
+            $langs['url'] = isset($langs['url']) ? $langs['url'] : '#';
         }
 
         return $langs;
