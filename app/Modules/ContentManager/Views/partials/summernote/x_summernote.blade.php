@@ -32,8 +32,39 @@
                         });
                         return button.render();
                     }
-                }
+                },
+                oninit: function() {
+                    $(document).on( "keyup", ".link-dialog .note-link-url", function() {
+
+                        if ($(this).val() === '123') {
+                            $('.modal-footer .note-link-btn').removeClass('disabled');
+                            $('.modal-footer .note-link-btn').removeAttr( "disabled" )
+                        }
+
+                        if ($(this).val() !== '123') {
+                            $('.modal-footer .note-link-btn').addClass('disabled');
+                            $('.modal-footer .note-link-btn').attr('disabled', 'disabled');
+                        }
+                    });
+                },
             });
         });
+
+//        $('.content-post').summernote({
+//            oninit: function() {
+//                $(document).on( "keyup", ".link-dialog .note-link-url", function() {
+//
+//                    if ($(this).val() === '123') {
+//                        $('.modal-footer .note-link-btn').removeClass('disabled');
+//                        $('.modal-footer .note-link-btn').removeAttr( "disabled" )
+//                    }
+//
+//                    if ($(this).val() !== '123') {
+//                        $('.modal-footer .note-link-btn').addClass('disabled');
+//                        $('.modal-footer .note-link-btn').attr('disabled', 'disabled');
+//                    }
+//                });
+//            },
+//        });
     });
 </script>

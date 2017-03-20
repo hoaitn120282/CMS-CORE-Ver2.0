@@ -110,11 +110,11 @@
                 text: "Are you sure to delete this site information?",
                 type: "warning",
                 showCancelButton: true,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 showLoaderOnConfirm: true,
                 confirmButtonText: "Yes",
                 confirmButtonClass: "btn-danger",
-                cancelButtonText: "No"
+                cancelButtonText: "No",
             }, function () {
                 $.ajax({
                     type: 'DELETE',
@@ -122,7 +122,9 @@
                     data: {"_token": "{{ csrf_token() }}"}
                 })
                     .done(function() {
+
                         location.reload();
+
                     });
             });
             return false;
