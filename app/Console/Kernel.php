@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\ThemePublish::class,
         Commands\ThemeUninstall::class,
         Commands\ContentManagerGenerator::class,
+        Commands\MySqlDump::class,
     ];
 
     /**
