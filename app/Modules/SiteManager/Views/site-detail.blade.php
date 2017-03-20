@@ -52,7 +52,7 @@
 								<h3>Selected Template</h3>
 
 								<ul class="list-unstyled">
-									@foreach($temClinic as $theme)
+									@foreach($clinic->themes as $theme)
 										<li>
 											<span>{{ $theme->name }}</span>
 											<a class="btn btn-success" target="_blank" href="{{Admin::route('templateManager.preview',['id'=>$theme->id])}}">
