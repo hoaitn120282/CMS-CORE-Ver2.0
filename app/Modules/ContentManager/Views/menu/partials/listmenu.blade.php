@@ -9,7 +9,7 @@
          data-label="{{ json_encode($value) }}"
          data-url="{{ $node->getMetaValue('_nav_item_url') }}">
         <div class="panel-heading">
-            {{ $node->getTranslation($language->country->locale)->post_title }}
+            {{ !empty($node->getTranslation($language->country->locale)->post_title)? $node->getTranslation($language->country->locale)->post_title: "Please translate your menu here" }}
             <a data-target="{{ "body-{$node->id}" }}"
                data-role='toggle-menu' href="#"><i class="fa fa-chevron-down"></i></a>
             <a class="deleteMenu" data-id="{{ $node->id }}" href="#"><i class="fa fa-times"></i></a>

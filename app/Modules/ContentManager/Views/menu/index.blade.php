@@ -84,7 +84,9 @@ $languages = Trans::languages();
                                             @endforeach
                                         </ul>
                                         <div class="pull-right">
-                                            <button data-role="menucat" data-class="pagemenu" class="btn btn-success">
+                                            <button data-role="menucat" data-class="pagemenu"
+                                                    {{ (count($page) <= 0) ? 'disabled' :'' }}
+                                                    class="btn btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
                                         </div>
@@ -115,6 +117,7 @@ $languages = Trans::languages();
                                         <div class="pull-right">
                                             <button data-role="menucat" data-type="category"
                                                     data-class="catmenu"
+                                                    {{ (count($category) <= 0) ? 'disabled' :'' }}
                                                     class="btn btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
@@ -158,6 +161,7 @@ $languages = Trans::languages();
                                         </ul>
                                         <div class="pull-right">
                                             <button data-role="menucat" data-class="postmenu"
+                                                    {{ (count($post) <= 0) ? 'disabled' :'' }}
                                                     class="btn btn-block btn-success">
                                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to Menu
                                             </button>
@@ -359,6 +363,7 @@ $languages = Trans::languages();
         top: 0px;
         z-index: 1;
     }
+
     .loader {
         border: 16px solid #f3f3f3;
         border-top: 16px solid #3498db;
@@ -375,8 +380,12 @@ $languages = Trans::languages();
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
 @endpush
@@ -444,12 +453,12 @@ $languages = Trans::languages();
             }
         });
 
-        $("input[data-uset='url']").change(function () {
+        $("input[data-uset='url']").on('change', function () {
             idPar = $(this).data("idpar");
             $("." + idPar).children('div').data("url", $(this).val());
         });
 
-        $("input[data-uset='label']").change(function () {
+        $('.tab-content').on('change', "input[data-uset='label']", function () {
             var idPar = $(this).data("idpar");
             var locale = $(this).data("locale");
             var elmLabel = $("." + idPar).children('div');
@@ -481,7 +490,7 @@ $languages = Trans::languages();
 
         // Add custom menu to menu
         $("button[data-role='addmenu']").on("click", function () {
-            $('.mask-loading').css('display','block');
+            $('.mask-loading').css('display', 'block');
             var t = $(this).data("type");
             var label = $("#label-" + t).val();
             var url = $("#url-" + t).val();
@@ -493,7 +502,10 @@ $languages = Trans::languages();
             })
                     .done(function (result) {
                         generateLiMenu(result.id, result.label, result.url);
-                        $('.mask-loading').css('display','none');
+                        $('.mask-loading').css('display', 'none');
+                    })
+                    .fail(function (error) {
+                        $('.mask-loading').css('display', 'none');
                     });
 
             return false;
@@ -501,7 +513,7 @@ $languages = Trans::languages();
 
         // Add category to menu
         $("button[data-role='menucat']").on("click", function () {
-            $('.mask-loading').css('display','block');
+            $('.mask-loading').css('display', 'block');
             var array = new Array();
             var cls = $(this).data("class");
             var group = $("#group-name").val();
@@ -517,17 +529,20 @@ $languages = Trans::languages();
                         $.each(result, function (key, value) {
                             generateLiMenu(value.id, value.label, value.url);
                             $("input:checkbox[class=" + cls + "]:checked").each(function () {
-                               $(this).prop('checked', false);
+                                $(this).prop('checked', false);
                             });
-                            $('.mask-loading').css('display','none');
+                            $('.mask-loading').css('display', 'none');
                         });
+                    })
+                    .fail(function (error) {
+                        $('.mask-loading').css('display', 'none');
                     });
             return false;
         });
 
         // Delete menu
         $('.tab-content').on('click', '.deleteMenu', function () {
-            $('.mask-loading').css('display','block');
+            $('.mask-loading').css('display', 'block');
             var id = $(this).data('id');
             var url = "{{ Admin::route('contentManager.menu.destroy',['id'=>'']) }}";
             $.ajax({
@@ -537,7 +552,7 @@ $languages = Trans::languages();
             })
                     .done(function (result) {
                         $('.menuItem_' + id).remove();
-                        $('.mask-loading').css('display','none');
+                        $('.mask-loading').css('display', 'none');
                     });
             return false;
         });
@@ -547,12 +562,11 @@ $languages = Trans::languages();
         });
 
         function generateLiMenu(id, label, url) {
-            console.log(label);
             $.each(label, function (locale, name) {
                 var str = "<li id='menuItem_" + id + "' class='menuItem_" + id + "' >";
                 str += "<div class='panel panel-primary' data-label='" + JSON.stringify(label) + "' data-url='" + url + "'>";
-                str += "<div class='panel-heading'>" + name + "<a data-target='body-" + id + "' data-role='toggle-menu' href='#'><i class='fa fa-chevron-down'></i></a><a href='#' class='deleteMenu' data-id='" + id + "'><i class='fa fa-times'></i></a></div>";
-                str += "<div id='body-" + id + "' class='body-" + id + " panel-body'><div class='form-group'><label for='label-" + id + "'>Label</label><input data-uset='url' value='" + name + "' data-idpar='" + id + "' type='text' class='form-control' id='label-" + id + "' placeholder='Label'>";
+                str += "<div class='panel-heading'>" + (('' == name || undefined == name || null == name) ? 'Please translate your menu here' : name) + "<a data-target='body-" + id + "' data-role='toggle-menu' href='#'><i class='fa fa-chevron-down'></i></a><a href='#' class='deleteMenu' data-id='" + id + "'><i class='fa fa-times'></i></a></div>";
+                str += "<div id='body-" + id + "' class='body-" + id + " panel-body' style='display: none;'><div class='form-group'><label for='label-" + id + "'>Label</label><input data-uset='label' value='" + name + "' data-idpar='menuItem_" + id + "' data-locale='" + locale + "' type='text' class='form-control' id='label-" + id + "' placeholder='Label'>";
                 str += "</div></div></div></li>";
 
                 $('ol.sortable', '.tab-content #language_' + locale).prepend(str);
