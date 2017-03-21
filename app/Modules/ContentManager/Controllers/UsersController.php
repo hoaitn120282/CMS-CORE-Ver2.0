@@ -109,6 +109,10 @@ class UsersController extends Controller
         return redirect(Admin::StrURL('contentManager/user'));
     }
 
+    public function getUserLog() {
+        return view('ContentManager::user.user-log');
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -71,7 +71,7 @@ class Trans
      */
     public function languages()
     {
-        return Language::with('country')->where('status', true)->orderBy('language_id', 'desc')->get();
+          return Language::with('country')->where('status', true)->orderBy('language_id', 'desc')->get();
     }
 
     public function currentLocale($url = null)
