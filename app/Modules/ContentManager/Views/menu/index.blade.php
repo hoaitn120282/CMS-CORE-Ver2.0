@@ -55,12 +55,27 @@ $languages = Trans::languages();
                                                         <?php
                                                         $blog = [];
                                                         foreach ($languages as $language) {
-                                                            $blog[$language->country->locale] = "Blog";
+                                                            $blog[$language->country->locale] = "Team";
                                                         }
                                                         ?>
-                                                        <input class="pagemenu" data-url="blog"
+                                                        <input class="pagemenu" data-url="team"
                                                                data-type="home"
-                                                               value="{{ json_encode($blog) }}" type="checkbox"> Blog
+                                                               value="{{ json_encode($blog) }}" type="checkbox"> Team
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li id="page-0">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <?php
+                                                        $blog = [];
+                                                        foreach ($languages as $language) {
+                                                            $blog[$language->country->locale] = "News";
+                                                        }
+                                                        ?>
+                                                        <input class="pagemenu" data-url="news"
+                                                               data-type="home"
+                                                               value="{{ json_encode($blog) }}" type="checkbox"> News
                                                     </label>
                                                 </div>
                                             </li>

@@ -61,7 +61,7 @@ class TranslateController extends Controller
                 throw new \Exception(serialize(["The {$input['trans_key']} could not translate."]));
             }
             $request->session()->flash('response', [
-                'success' => false,
+                'success' => true,
                 'message' => ["The {$input['trans_key']} has been created successfully."]
             ]);
 
@@ -116,7 +116,7 @@ class TranslateController extends Controller
                 throw new \Exception(serialize(["The {$input['trans_key']} could not translate."]));
             }
             $request->session()->flash('response', [
-                'success' => false,
+                'success' => true,
                 'message' => ["The {$input['trans_key']} has been updated successfully."]
             ]);
 

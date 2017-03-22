@@ -125,8 +125,8 @@ class DoctorController extends Controller
      */
     public function show($slug)
     {
-        $model = Articles::where("post_name", $slug)->where("post_type", "page")->where('post_status', 'publish')->firstOrFail();
-        $layout = empty($model->getMetaValue('layout')) ? Theme::layout('page') : $model->getMetaValue('layout');
+        $model = Articles::where("post_name", $slug)->where("post_type", "doctor")->where('post_status', 'publish')->firstOrFail();
+        $layout = empty($model->getMetaValue('layout')) ? Theme::layout('doctor') : $model->getMetaValue('layout');
         $appTitle = $model->post_title;
 
         if (view()->exists(Theme::pageNode('doctor', $model->post_name))) {
@@ -134,6 +134,25 @@ class DoctorController extends Controller
         }
 
         return abort(404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function team()
+    {
+        $nodes = Articles::where("post_type", 'doctor')->where('post_status', 'publish')->get();
+        $layout = Theme::layout('doctor');
+        $appTitle = "Team";
+
+        if (view()->exists(Theme::pageNode('doctors', 'team'))) {
+            return view(Theme::pageNode('doctors', 'team'), compact('nodes', 'appTitle', 'layout'));
+        }
+
+         return abort(404);
     }
 
     /**
