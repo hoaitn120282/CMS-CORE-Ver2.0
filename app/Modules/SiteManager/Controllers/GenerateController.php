@@ -13,6 +13,8 @@ use RecursiveDirectoryIterator;
 use App\Modules\SiteManager\Models\Clinic;
 use App\Modules\SiteManager\Models\ClinicTheme;
 use App\Modules\ContentManager\Models\Themes;
+use App\Modules\SiteManager\Models\ClinicHosting;
+use App\Modules\SiteManager\Models\ClinicDatabase;
 
 class GenerateController extends Controller
 {
@@ -37,9 +39,36 @@ class GenerateController extends Controller
         // move Template file to temp
         $this->moveTemplateFile($siteID);
 
-        $this->dumpData();
+        // Dump all sql file to /public/generate/temp/database/clinic-site.sql
+        $this->dumpData($siteID);
 
+        // Update sql file : remove theme, and language not belong to clinic site
+        $this->updateSql($siteID);
 
+        // Update /app/theme.php for theme active of clinic site
+        $this->updateConfigTheme($siteID);
+
+        //update config locale in public/app.php
+        $this->setDefaultLocale($siteID);
+
+        // zip folder public/generate/temp
+        $directory = public_path().'/generate/temp';
+        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($directory)->close();
+
+        // Upload package (.zip) to server
+        $this->uploadUseFTP(public_path().'/generate/destination/'.$siteID.'.zip', 'new-site.zip', $siteID);
+
+        // If site difirent host => create excute.php file createNewFileExecute
+        $this->createNewFileExecute($siteID);
+        $this->uploadUseFTP(public_path().'/generate/execute.php', 'execute.php', $siteID);
+
+        // Remove all file after upload to server
+        $this->removeFolder(public_path().'/generate/temp');
+        unlink(public_path().'/generate/execute.php');
+
+    }
+
+    public function updateSql($siteID){
         $ds = DIRECTORY_SEPARATOR;
         $path = public_path(). $ds .'generate'. $ds .'temp'. $ds .'database'.$ds ;
         $file = 'clinic-site.sql';
@@ -77,8 +106,6 @@ class GenerateController extends Controller
         $updateStatusTo1 = 'UPDATE themes SET `status`=1 WHERE id='.$firstThemeId.';';
         file_put_contents($sqlPath, $updateStatusTo1.PHP_EOL , FILE_APPEND | LOCK_EX);
 
-        $this->updateConfigTheme($siteID);
-
         // update language
         $clinicLanguages = ClinicLanguage::where('clinic_id',$siteID)->get();
 
@@ -98,23 +125,36 @@ class GenerateController extends Controller
             }
         }
 
-
-        //update config locale in public/app.php
-        $this->setDefaultLocale($siteID);
-
         foreach ($langIDRemoves as $langIDRemove) {
             $temp = 'DELETE FROM `language` WHERE `language`.`language_id` = '.$langIDRemove.';';
             $myfile = file_put_contents($sqlPath, $temp.PHP_EOL , FILE_APPEND | LOCK_EX);
         }
+    }
 
-//        $this->zipFolder(public_path().'/generate/temp',public_path().'/generate/destination',$siteID);
-        $directory = public_path().'/generate/temp';
-//        $files = glob($directory. '/{,.}*', GLOB_BRACE);
-        \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($directory)->close();
+    public function createNewFileExecute($siteId){
+        if (!$siteId ) return;
+        $file = public_path().'/generate/execute-example.php';
+        $newFile = public_path().'/generate/execute.php';
+        copy($file, $newFile);
 
-        $this->removeFolder(public_path().'/generate/temp');
+        $clinicDatabase = ClinicDatabase::where('clinic_id', $siteId)->first();
 
-//        $this->uploadUseFTP(public_path().'/generate/destination/new-site.zip', '/new-site.zip');
+        $ds = DIRECTORY_SEPARATOR;
+
+        $dbhost = $clinicDatabase->host;
+        $dbuser = $clinicDatabase->username;
+        $dbpass = $clinicDatabase->password;
+        $dbname = $clinicDatabase->database_name;
+
+
+        $ds = DIRECTORY_SEPARATOR;
+        $path = public_path(). $ds .'generate';
+        $file = 'execute.php';
+        $appConfigPath = $path.$file;
+        file_put_contents($appConfigPath,str_replace('dbhost-value', 'localhost', file_get_contents($appConfigPath)));
+        file_put_contents($appConfigPath,str_replace('dbuser-value', $dbuser, file_get_contents($appConfigPath)));
+        file_put_contents($appConfigPath,str_replace('dbpass-value', $dbpass, file_get_contents($appConfigPath)));
+        file_put_contents($appConfigPath,str_replace('dbname-value', $dbname, file_get_contents($appConfigPath)));
     }
 
     public function setDefaultLocale($siteId){
@@ -173,7 +213,7 @@ class GenerateController extends Controller
      * Dump data for new site
      *
      * */
-    public function dumpData(){
+    public function dumpData($siteID){
         $ds = DIRECTORY_SEPARATOR;
         $host = env('DB_HOST');
         $username = env('DB_USERNAME');
@@ -317,14 +357,15 @@ class GenerateController extends Controller
     /*
      * upload file to server
      * */
-    public function uploadUseFTP($local_file,$ftp_path){
-        $host = '2ezcms.com';
-        $usr = 'sbd639-1@2ezcms.com';
-        $pwd = 'GMW)=bIK$WqC';
+    public function uploadUseFTP($local_file,$ftp_path, $siteId){
+        $clinicHosing = ClinicHosting::where('clinic_id', $siteId)->first();
 
-// file to move:
-//        $local_file = 'C:\wamp\www\demo.zip';
-//        $ftp_path = '/demo.zip';
+//        $host = '2ezcms.com';
+//        $usr = 'sbd639-1@2ezcms.com';
+//        $pwd = 'GMW)=bIK$WqC';
+        $host = $clinicHosing->host;
+        $usr = $clinicHosing->username;
+        $pwd = $clinicHosing->password;
 
 // connect to FTP server (port 21)
         $conn_id = ftp_connect($host, 21) or die ("Cannot connect to host");
@@ -364,4 +405,5 @@ class GenerateController extends Controller
         // close the FTP stream
         ftp_close($conn_id);
     }
+
 }
