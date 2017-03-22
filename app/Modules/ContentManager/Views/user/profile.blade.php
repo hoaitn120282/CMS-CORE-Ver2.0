@@ -28,7 +28,7 @@
           <div class="profile_img">
             <div id="crop-avatar">
               <!-- Current avatar -->
-              <img class="img-responsive avatar-view" src="{{ url('/assets/images') }}/{{ $model->photo }}" alt="Avatar" title="Change the avatar">
+              <img class="img-responsive avatar-view" src="{{ url('/assets/images') }}/{{ $model['photo'] }}" alt="Avatar" title="Change the avatar">
             </div>
           </div>
           <h3>{{ $model->name }}</h3>

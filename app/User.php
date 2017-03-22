@@ -33,6 +33,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Modules\ContentManager\Models\UserMeta','user_id');
     }
 
+    public function roles()
+    {
+        return $this->belongsTo(\App\Entities\Roles::class, 'role_id', 'id');
+    }
+
     public function role()
     {
         return $this->hasOne(\App\Entities\Roles::class);

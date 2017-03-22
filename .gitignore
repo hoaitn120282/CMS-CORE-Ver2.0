@@ -15,3 +15,5 @@ core-cms.rar
 /public/themes
 /public/generate
 /public/temp
+/resources/views/
+/app/Widgets/
