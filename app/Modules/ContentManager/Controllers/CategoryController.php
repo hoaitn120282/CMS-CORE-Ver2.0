@@ -2,6 +2,7 @@
 
 namespace App\Modules\ContentManager\Controllers;
 
+use App\Modules\ContentManager\Models\Articles;
 use Illuminate\Http\Request;
 use App\Modules\ContentManager\Models\Terms;
 use App\Modules\ContentManager\Models\TermRelationships;
@@ -126,11 +127,31 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $model = Terms::where("slug", $slug)->where('taxonomy', 'category')->firstOrFail();
+        $nodes = $model->posts()->paginate(2);
         $layout = Theme::layout('category');
         $appTitle = $model->name;
 
         if (view()->exists(Theme::pageNode('category', $model->slug))) {
-            return view(Theme::pageNode('category', $model->slug), compact('model', 'appTitle', 'layout'));
+            return view(Theme::pageNode('category', $model->slug), compact('model', 'nodes', 'appTitle', 'layout'));
+        }
+        return abort(404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function news()
+    {
+        $model = null;
+        $nodes = Articles::where('post_type', 'post')->orderBy('id', 'desc')->paginate();
+        $layout = Theme::layout('category');
+        $appTitle = "News";
+
+        if (view()->exists(Theme::pageNode('category', '_news'))) {
+            return view(Theme::pageNode('category', '_news'), compact('model', 'nodes', 'appTitle', 'layout'));
         }
         return abort(404);
     }

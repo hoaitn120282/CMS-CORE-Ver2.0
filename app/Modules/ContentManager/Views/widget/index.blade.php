@@ -150,7 +150,7 @@ $( document ).ready(function() {
                 data: {"_token": "{{ csrf_token() }}","widget":tmp}
             })
           .done(function() {
-			  location.reload();
+			   location.reload();
         });
         return false;
     });

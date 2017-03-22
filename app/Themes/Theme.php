@@ -7,6 +7,7 @@ use App\Modules\ContentManager\Models\ThemeMeta;
 use App\Modules\ContentManager\Models\Themes;
 use App\Modules\ContentManager\Models\WidgetGroups;
 use File;
+use Trans;
 
 class Theme
 {
@@ -52,7 +53,12 @@ class Theme
 
     public function asset($path = '')
     {
-        return url("{$this->activeName}/" . trim($path, '/'));
+        return url("themes/{$this->activeName}/" . trim($path, '/'));
+    }
+
+    public function route($name = '', $params = [])
+    {
+        return route(Trans::locale() . '.' . trim($name, '.'), $params);
     }
 
     /**
