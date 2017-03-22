@@ -68,5 +68,5 @@ Route::group(['prefix' => $this->admin, 'middleware' => ['web', 'admin'], 'names
     Route::delete('contentManager/menu/delete/{id?}', ['as' => $this->admin . '.contentManager.menu.destroy', 'uses' => 'MenuController@destroy']);
     Route::delete('contentManager/menu/destroy/{name?}', ['as' => $this->admin . '.contentManager.menu.destroygroup', 'uses' => 'MenuController@deleteGroup']);
 
-    Route::get('contentManager/userLog', ['as' => $this->admin . '.contentManager.user.log', 'uses' => 'UsersController@getUserLog']);
+    Route::get('contentManager/userLog/{id}/{userName}', ['as' => $this->admin . '.contentManager.user.log', 'uses' => 'UsersController@getUserLog']);
 });

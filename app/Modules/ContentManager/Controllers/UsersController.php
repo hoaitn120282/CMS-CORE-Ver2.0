@@ -6,6 +6,7 @@ use App\Entities\Roles;
 use Illuminate\Http\Request;
 use App\User;
 use Admin;
+use App\Modules\ContentManager\Models\UserMeta;
 use App\Http\Controllers\Controller;
 use App\Modules\ContentManager\Models\Articles;
 class UsersController extends Controller
@@ -17,7 +18,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $model = User::where("id","!=",1)->orderby("id","desc")->paginate(10);
+        $model = User::where("id","!=",1)->with('roles')->orderby("id","desc")->paginate(10);
         return view("ContentManager::user.index",['model' => $model]);
     }
 
@@ -109,8 +110,18 @@ class UsersController extends Controller
         return redirect(Admin::StrURL('contentManager/user'));
     }
 
-    public function getUserLog() {
-        return view('ContentManager::user.user-log');
+    /**
+     * Get user log detail.
+     *
+     * @param  int  $id
+     */
+    public function getUserLog($id, $userName) {
+        $userLog = UserMeta::where('user_id', $id)->paginate(10);
+
+        return view('ContentManager::user.user-log', [
+            'userLog' => $userLog,
+            'userName' => $userName,
+        ]);
     }
 
     /**
