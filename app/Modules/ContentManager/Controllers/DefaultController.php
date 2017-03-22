@@ -28,7 +28,6 @@ class DefaultController extends Controller
             ];
         }
 
-
         $users = User::applyFilter($filters)
             ->with(['meta' => function($query) {
                 return $query->orderBy('user_meta.created_at', 'desc');

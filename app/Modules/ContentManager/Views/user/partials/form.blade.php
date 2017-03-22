@@ -1,4 +1,4 @@
-<form method="POST"
+<form autocomplete="off" method="POST"
       action="{{ ($model != "") ? Admin::route('contentManager.user.update',['user'=>$model->id]) : Admin::route('contentManager.user.store') }}">
     <div class="col-md-4">
         @include('ContentManager::partials.imageUpload',['dataID'=>'userPhoto','dataValue'=>($model != "" ) ? $model->photo : old('photo'),'dataName'=>'photo'])
@@ -9,14 +9,14 @@
             <input name="_method" type="hidden" value="PUT">
         @endif
         <div class="form-group">
-            <label for="name-user">Name *</label>
+            <label for="name-user">Name <span class="required">*</span></label>
             <input type="text" class="form-control" value="{{ ($model != "" ) ? $model->name : old('name') }}"
                    name="name" id="name-tag" placeholder="Name User">
         </div>
         <div class="form-group">
-            <label for="email-user">Email *</label>
-            <input type="text" class="form-control" value="{{ ($model != "" ) ? $model->email : old('email') }}"
-                   name="email" id="email-user" placeholder="Email User">
+            <label for="email-user">Email <span class="required">*</span></label>
+            <input autocomplete="off" type="text" class="form-control" value="{{ ($model != "" ) ? $model->email : old('email') }}"
+                   name="email" id="email-user" placeholder="Email User" >
         </div>
         <div class="form-group">
             <label for="desctiption-user">Description</label>
@@ -25,8 +25,8 @@
         </div>
         <div class="form-group">
             {!! Form::label('Role', 'Role:') !!}
-            <select name="roleuser" class="form-control" >
-                <option value="0">Select role</option>
+            <select name="role" class="form-control" >
+                <option value="">Select role</option>
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
@@ -36,7 +36,7 @@
         @if($model == "")
             <div class="form-group">
                 <label for="password" class="control-label">Password</label>
-                <input id="password" type="password" class="form-control" name="password">
+                <input autocomplete="off" id="password" type="password" class="form-control" name="password">
             </div>
         @else
             <div>
@@ -54,12 +54,12 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="password" class="control-label">Old Password</label>
-                                    <input id="passwordold" type="password" class="form-control" name="passwordold">
+                                    <input autocomplete="off" id="passwordold" type="password" class="form-control" name="passwordold">
                                     <label for="password" class="control-label">New Password</label>
-                                    <input id="passwordnew" type="password" class="form-control" name="passwordnew">
+                                    <input autocomplete="off" id="passwordnew" type="password" class="form-control" name="passwordnew">
                                     <label for="password" class="control-label">Confirm New Password</label>
                                     <input id="passwordconfirm" type="password" class="form-control" name="passwordcomfirm">
-                                    <input type="hidden" id="userid" value="{{ $model->id }}"></input>
+                                    <input autocomplete="off" type="hidden" id="userid" value="{{ $model->id }}"></input>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -81,7 +81,6 @@
         @endif
     </div>
 </form>
-
 
 @push('scripts')
 <script>
@@ -146,4 +145,12 @@
         });
     });
 </script>
+@endpush
+
+@push('style')
+<style>
+    .required{
+        color: red;
+    }
+</style>
 @endpush

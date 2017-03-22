@@ -19,5 +19,6 @@
 @endsection
 
 @push('scripts')
-@include('ContentManager::partials.scriptdelete') 
+@include('ContentManager::partials.scriptdelete')
 @endpush
+

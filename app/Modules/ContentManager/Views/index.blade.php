@@ -58,7 +58,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php $i = 0; ?>
+                        <?php  $i = 0; ?>
                         @foreach ($users as $user)
                             <?php $i++;?>
                             @if($user->meta->first()['meta_value'] != "")

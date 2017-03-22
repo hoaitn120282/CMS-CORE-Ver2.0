@@ -41,20 +41,32 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $model = new User();
         $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6',
+            'role' =>'required'
         ]);
 
         $model->name = $request->name;
         $model->email = $request->email;
         $model->password = bcrypt($request->password);
-        $model->description = $request->description;
-        $model->photo = $request->photo;
-        $model->role_id = $request->roleuser;
-        $model->is_admin = 0;
+        $model->role_id = $request->role;
+        $model->is_admin = $request->role;
+        if ($request->description != '') {
+            $model->description = $request->description;
+        } else {
+            $model->description = '';
+        }
+
+        if ($request->photo != '') {
+            $model->photo = $request->photo;
+        } else {
+            $model->photo = '';
+        }
+
         $model->save();
         return redirect(Admin::StrURL('contentManager/user'));
     }

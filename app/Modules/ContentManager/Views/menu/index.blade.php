@@ -294,7 +294,9 @@ $languages = Trans::languages();
                                      id="{{ "language_{$language->country->locale}" }}">
                                     <ol id="con-menu" class="sortable" style="padding-left:0;background:#eee">
                                         @foreach($model as $node)
+                                            @if(!empty($node))
                                             @include('ContentManager::menu.partials.listmenu', ['datas' => $node->children()])
+                                            @endif
                                         @endforeach
                                     </ol>
                                 </div>
