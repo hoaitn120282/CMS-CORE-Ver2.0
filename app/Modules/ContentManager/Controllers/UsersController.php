@@ -116,7 +116,7 @@ class UsersController extends Controller
      * @param  int  $id
      */
     public function getUserLog($id, $userName) {
-        $userLog = UserMeta::where('user_id', $id)->paginate(10);
+        $userLog = UserMeta::where('user_id', $id)->orderBy('meta_id', 'desc')->paginate(10);
 
         return view('ContentManager::user.user-log', [
             'userLog' => $userLog,

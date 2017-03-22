@@ -14,12 +14,6 @@ use App\Modules\ContentManager\Models\UserMeta;
 class DefaultController extends Controller
 {
     public function index(Request $request){
-//    	$post = Articles::where("post_type","post")->count();
-//    	$page = Articles::where("post_type","page")->count();
-//    	$category = Terms::where("taxonomy","category")->count();
-//    	$comment = Comments::where("approved",1)->count();
-//    	$themes = Template::where("id", "name")->count();
-//        $q = Input::get("q");
         $q= Input::get("q");
         $sites = Clinic::count();
         $templates = Template::count();
@@ -34,10 +28,12 @@ class DefaultController extends Controller
             ];
         }
 
-        $users = User::applyFilter($filters)
-            ->with('meta')
-            ->paginate(10);
 
+        $users = User::applyFilter($filters)
+            ->with(['meta' => function($query) {
+                return $query->orderBy('user_meta.created_at', 'desc');
+            }])
+            ->paginate(10);
     	return view("ContentManager::index", compact('sites', 'templates', 'users', 'q'));
     }
 }

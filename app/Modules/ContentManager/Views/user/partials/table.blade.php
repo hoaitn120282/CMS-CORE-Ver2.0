@@ -10,7 +10,6 @@
     </thead>
     <tbody>
     @foreach ($model as $data)
-        {{--{{ dd($data->toArray()) }}--}}
         <tr id="tr-{{ $data->id }}">
             <td>
                 <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->id}}"/>

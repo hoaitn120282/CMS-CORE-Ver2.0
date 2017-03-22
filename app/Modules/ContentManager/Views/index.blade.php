@@ -3,28 +3,34 @@
 @section('content')
     <div class="row top_tiles">
         <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-file-o"></i></div>
-                <div class="count">{{ $sites }}</div>
-                <h3>Sites</h3>
-                <p>Lorem ipsum psdea itgum rixt.</p>
-            </div>
+            <a href="{{ Admin::route('siteManager.index') }}">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-file-o"></i></div>
+                    <div class="count">{{ $sites }}</div>
+                    <h3>Sites</h3>
+                    <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+            </a>
         </div>
         <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-columns"></i></div>
-                <div class="count">{{ $templates }}</div>
-                <h3>Templates</h3>
-                <p>Lorem ipsum psdea itgum rixt.</p>
-            </div>
+            <a href="{{ Admin::route('templateManager.index') }}">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-columns"></i></div>
+                    <div class="count">{{ $templates }}</div>
+                    <h3>Templates</h3>
+                    <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+            </a>
         </div>
         <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-                <div class="count">{{ $users->total() }}</div>
-                <h3>Active Users</h3>
-                <p>Lorem ipsum psdea itgum rixt.</p>
-            </div>
+            <a href="{{ url('admin/contentManager/user') }}">
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                    <div class="count">{{ $users->total() }}</div>
+                    <h3>Active Users</h3>
+                    <p>Lorem ipsum psdea itgum rixt.</p>
+                </div>
+            </a>
         </div>
     </div>
 
