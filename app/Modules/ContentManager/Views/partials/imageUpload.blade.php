@@ -8,19 +8,15 @@
 <button id="btn-{{ $dataID }}" type="button" class="btn btn-success btn-sm btn-block">
   <i class="fa fa-upload"></i> Select Image
 </button>
-<img id="img-{{ $dataID }}" class="img-responsive" src="{{ $dataValue }}" />
-
-{{--<div id="btn-upload-{{$inputSlug}}-preview" class="img-res"--}}
-     {{--style='background-image: url("{{ empty($model) ? old($inputOld) : $model }}"); display: {{ (empty($model) && empty(old($inputOld))) ? 'none':'block' }}'>--}}
-    {{--<div class="mask">--}}
-        {{--<a href="#" class="del-img"--}}
-           {{--onclick="deleteImage('{{$inputSlug}}');return false;">--}}
-            {{--<i class="fa fa-times" aria-hidden="true"></i>--}}
-        {{--</a>--}}
-    {{--</div>--}}
-{{--</div>--}}
-
-<input type="hidden" id="input-{{ $dataID }}" class="form-control" value="{{ $dataValue }}" name="{{ $dataName }}">
+<div class="text-center avata-user">
+    <img id="img-{{ $dataID }}" class="img-responsive img-tst" src="{{ $dataValue }}" />
+    <div class="mask">
+        <a href="#" class="del-img">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+<input type="hidden" id="input-{{ $dataID }}" class="form-control img-val" value="{{ $dataValue }}" name="{{ $dataName }}">
 <div class="modal fade" id="{{ $dataID }}" tabindex="-1" role="dialog" aria-labelledby="{{ $dataID }}Label">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -111,5 +107,11 @@
         });
     }
 
+    $(document).ready(function () {
+        $(".avata-user .mask").click(function () {
+            $('.img-tst').attr('src', '');
+            $('.img-val').val('');
+        });
+    });
 </script>
 @endpush

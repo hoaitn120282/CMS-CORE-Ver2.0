@@ -161,5 +161,43 @@
     .btn-default{
         font-weight: bold;
     }
+
+     #img-userPhoto{
+         max-height: 420px;
+         margin: 0 auto;
+     }
+
+    .avata-user{
+        position: relative;
+    }
+
+    .avata-user:hover .mask{
+        display: block;
+        background-color: rgba(0, 0, 0, .5);
+    }
+
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        display: none;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .mask .del-img {
+        position: absolute;
+        color: #ffffff;
+        z-index: 2;
+        font-size: 28px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 </style>
 @endpush
