@@ -307,7 +307,7 @@ class SiteController extends Controller
             $clinicDatabase->database_name = $input['database-name'];
             $clinicDatabase->host = $input['database-host'];
             $clinicDatabase->username = $input['database-username'];
-            $clinicDatabase->password = bcrypt($input['database-password']);
+            $clinicDatabase->password =$input['database-password'];
             $clinicDatabase->clinic()->associate($clinic);
             $clinicDatabase->save();
 
@@ -315,7 +315,7 @@ class SiteController extends Controller
             $clinicHosting = new ClinicHosting();
             $clinicHosting->host = $input['host'];
             $clinicHosting->username = $input['host-username'];
-            $clinicHosting->password = bcrypt($input['host-password']);
+            $clinicHosting->password = $input['host-password'];
             $clinicHosting->clinic()->associate($clinic);
             $clinicHosting->save();
 
@@ -391,12 +391,12 @@ class SiteController extends Controller
             $clinic->database->database_name = $input['database-name'];
             $clinic->database->host = $input['database-host'];
             $clinic->database->username = $input['database-username'];
-            $clinic->database->password = bcrypt($input['database-password']);
+            $clinic->database->password = $input['database-password'];
             $clinic->database->save();
 
             $clinic->hosting->host = $input['host'];
             $clinic->hosting->username = $input['host-username'];
-            $clinic->hosting->password = bcrypt($input['host-password']);
+            $clinic->hosting->password = $input['host-password'];
             $clinic->hosting->save();
 
             // edit clinic language table
