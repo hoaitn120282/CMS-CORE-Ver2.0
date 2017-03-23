@@ -49,7 +49,8 @@ class Menus extends Model
         $locale = Trans::locale();
         switch ($type) {
             case 'home':
-                $res =  url("/{$locale}/");
+                $item = ('home' == $this->post_name) ? '' : $this->post_name;
+                $res =  url("/{$locale}/{$item}");
                 break;
             case 'category':
                 $res = url("/{$locale}/category/{$this->post_name}");

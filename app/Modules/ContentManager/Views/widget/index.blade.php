@@ -143,14 +143,15 @@ $( document ).ready(function() {
 	$("a[data-role='saveWidget']").on( "click", function() {
         var idwidget = $(this).data('idwidget');
         var tmp = {};
-        var dataWidget = $('#'+idwidget+' :input').serializeArray().map(function(x){tmp[x.name] = x.value;});
+        var dataWidget = $('#'+idwidget+' :input').serializeArray().map(function(x){console.log(x.name);tmp[x.name] = x.value;});
+		console.log(tmp);
         $.ajax({
                 type: 'POST',
                 url: "{{ Admin::route('contentManager.widget.store') }}",
                 data: {"_token": "{{ csrf_token() }}","widget":tmp}
             })
           .done(function() {
-			   location.reload();
+			    location.reload();
         });
         return false;
     });

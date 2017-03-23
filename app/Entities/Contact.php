@@ -25,6 +25,7 @@ class Contact extends Model
     public $fillable = [
         'name',
         'email',
+        'phone',
         'message',
         'created_at',
         'updated_at',
@@ -39,6 +40,7 @@ class Contact extends Model
     protected $casts = [
         'name' => 'string',
         'email' => 'string',
+        'phone' => 'string',
         'message' => 'string'
     ];
 
@@ -50,6 +52,7 @@ class Contact extends Model
     public static $rules = [
         'name' => 'required',
         'email' => 'required|email',
+        'phone' => 'required',
         'message' => 'required'
     ];
 

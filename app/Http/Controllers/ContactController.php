@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Repositories\ContactRepository;
-use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\URL;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Trans;
 
 class ContactController extends AppBaseController
 {
@@ -61,7 +62,8 @@ class ContactController extends AppBaseController
 
         Flash::success('Your message have been sent successfully.');
 
-        return redirect(route('contacts.create'));
+        return redirect(URL::previous())->with('success', Trans::face('message_sent_success'));
+        // return redirect(route('contacts.create'));
     }
 
     /**

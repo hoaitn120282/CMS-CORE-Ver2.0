@@ -13,6 +13,7 @@ class ContactRepository extends BaseRepository
     protected $fieldSearchable = [
         'name',
         'email',
+        'phone',
         'message',
         'created_at',
         'updated_at',

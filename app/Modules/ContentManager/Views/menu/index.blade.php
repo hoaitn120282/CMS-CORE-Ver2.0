@@ -58,7 +58,8 @@ $languages = Trans::languages();
                                                             $blog[$language->country->locale] = "Team";
                                                         }
                                                         ?>
-                                                        <input class="pagemenu" data-url="team"
+                                                        <input class="pagemenu"
+                                                               data-url="team"
                                                                data-type="home"
                                                                value="{{ json_encode($blog) }}" type="checkbox"> Team
                                                     </label>
@@ -73,7 +74,8 @@ $languages = Trans::languages();
                                                             $blog[$language->country->locale] = "News";
                                                         }
                                                         ?>
-                                                        <input class="pagemenu" data-url="news"
+                                                        <input class="pagemenu"
+                                                               data-url="news"
                                                                data-type="home"
                                                                value="{{ json_encode($blog) }}" type="checkbox"> News
                                                     </label>
