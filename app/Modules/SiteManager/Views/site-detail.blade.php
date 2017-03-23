@@ -127,11 +127,24 @@
 							<i class="fa fa-download" aria-hidden="true"></i> Download
 						</button>
 					</a>--}}
-					<a href="{{ Admin::route('siteManager.download', ['filename' => $clinic->clinic_id.'.zip' ])  }}" >
-						<button type="submit" name="update" class="btn btn-success">
-							<i class="fa fa-download" aria-hidden="true"></i> Download
-						</button>
-					</a>
+					@if($checkHosting)
+						<a href="#" data-role="deploy-site" data-clinicid="{{ $clinic->clinic_id }}"  >
+							<button type="submit" name="update" class="btn btn-success">
+								<i class="fa fa-cloud-upload" aria-hidden="true"></i> Deploy
+							</button>
+						</a>
+					@else
+						<?php
+                        $file_path = public_path() . '/generate/destination/'.$clinic->clinic_id.'.zip';
+						?>
+
+						<a   href="{{ Admin::route('siteManager.download', ['filename' => $clinic->clinic_id.'.zip' ])  }}" >
+							<button {{file_exists($file_path) ? '': 'disabled'}} type="submit" name="update" class="btn btn-success">
+								<i class="fa fa-download" aria-hidden="true"></i> Download
+							</button>
+						</a>
+					@endif
+
 					<a href="#" data-role="delete-post" data-clinicid="{{ $clinic->clinic_id }}" >
 						<button type="submit" name="update" class="btn btn-danger">
 							<i class="fa fa-ban" aria-hidden="true"></i> Delete
@@ -260,6 +273,44 @@
                         $("#tr-"+clinicid).remove();
                     });
             });
+            return false;
+        });
+
+        $("a[data-role='deploy-site']").on( "click", function() {
+            var clinicid = $(this).data('clinicid');
+            swal({
+                    title: "Are you sure?",
+                    text: "Deploy this package to sever!",
+                    type: "info",
+                    showCancelButton: true,
+                	showLoaderOnConfirm : true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, deploy now!",
+                    cancelButtonText: "No, cancel plx!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    if (isConfirm) {
+//                        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ Admin::route('siteManager.deploy',['id'=>'']) }}/"+clinicid,
+                            data: {"_token": "{{ csrf_token() }}"}
+                        })
+						.done(function(res) {
+						    console.log(res);
+						    if(!res.status) {
+                                swal("Deploy Failed",res.message , "warning");
+							}
+{{--							window.location.href = "{{ Admin::route('siteManager.index') }}";--}}
+//							$("#tr-"+clinicid).remove();
+						});
+
+                    } else {
+                        swal("Cancelled", "Nothing to happen :)", "success");
+                    }
+                });
             return false;
         });
 
