@@ -27,12 +27,18 @@ class DefaultController extends Controller
                 'value' => $q
             ];
         }
+//        $users = User::applyFilter($filters)
+//            ->with(['meta' => function($query) {
+//                return $query->orderBy('user_meta.created_at', 'desc');
+//            }])
+//            ->paginate(10);
 
         $users = User::applyFilter($filters)
             ->with(['meta' => function($query) {
                 return $query->orderBy('user_meta.created_at', 'desc');
             }])
             ->paginate(10);
+
     	return view("ContentManager::index", compact('sites', 'templates', 'users', 'q'));
     }
 }

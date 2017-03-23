@@ -79,12 +79,14 @@ class PageController extends Controller
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request['trans'][$locale]['post_title']);
+
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->post_title = $input['post_title'];
             $model->translateOrNew($locale)->post_content = $input['post_content'];
         }
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create page ' . $request['trans'][$locale]['post_title']);
+
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }
@@ -152,12 +154,12 @@ class PageController extends Controller
         $model->post_name = str_slug($request['trans'][$locale]['post_title'], "-");
         $model->post_status = $request->status;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update page ' . $request->post_title);
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->post_title = $input['post_title'];
             $model->translateOrNew($locale)->post_content = $input['post_content'];
         }
         $model->save();
-        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update page ' . $request->post_title);
         foreach ($request->meta as $key => $value) {
             $model->meta()->updateOrCreate(["meta_key" => $key], ["meta_key" => $key, "meta_value" => $value]);
         }

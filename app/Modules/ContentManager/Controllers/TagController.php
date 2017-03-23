@@ -85,6 +85,7 @@ class TagController extends Controller
         $model->taxonomy = "tag";
         $model->parent = 0;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create tag ' . $request['trans'][$locale]['name']);
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->name = $input['name'];
             $model->translateOrNew($locale)->description = $input['description'];
@@ -172,6 +173,7 @@ class TagController extends Controller
         $model->taxonomy = "tag";
         $model->parent = 0;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update tag ' . $request['trans'][$locale]['name']);
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->name = $input['name'];
             $model->translateOrNew($locale)->description = $input['description'];
@@ -213,5 +215,7 @@ class TagController extends Controller
             Terms::destroy($id);
             TermRelationships::where("term_taxonomy_id", $id)->delete();
         }
+
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete tag id :' . $id);
     }
 }

@@ -6,6 +6,7 @@ use App\Entities\Roles;
 use Illuminate\Http\Request;
 use App\User;
 use Admin;
+use Auth;
 use App\Modules\ContentManager\Models\UserMeta;
 use App\Http\Controllers\Controller;
 use App\Modules\ContentManager\Models\Articles;
@@ -18,8 +19,9 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $userLogin = Auth::guard('admin')->user();
         $model = User::where("id","!=",1)->with('roles')->orderby("id","desc")->paginate(10);
-        return view("ContentManager::user.index",['model' => $model]);
+        return view("ContentManager::user.index",['model' => $model, 'userLogin' => $userLogin]);
     }
 
     /**
@@ -68,6 +70,7 @@ class UsersController extends Controller
         }
 
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create user ' . $request->name);
         return redirect(Admin::StrURL('contentManager/user'));
     }
 
@@ -119,6 +122,7 @@ class UsersController extends Controller
         $model->description = $request->description;
         $model->photo = $request->photo;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update user ' . $request->name);
         return redirect(Admin::StrURL('contentManager/user'));
     }
 
@@ -150,5 +154,7 @@ class UsersController extends Controller
         }else{
             User::destroy($id);  
         }
+
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete user id :' . $id);
     }
 }

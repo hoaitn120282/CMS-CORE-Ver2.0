@@ -1,7 +1,12 @@
 <form autocomplete="off" method="POST"
       action="{{ ($model != "") ? Admin::route('contentManager.user.update',['user'=>$model->id]) : Admin::route('contentManager.user.store') }}">
     <div class="col-md-4">
-        @include('ContentManager::partials.imageUpload',['dataID'=>'userPhoto','dataValue'=>($model != "" ) ? $model->photo : old('photo'),'dataName'=>'photo'])
+        @include('ContentManager::partials.imageUpload',[
+            'dataID'=>'userPhoto',
+            'dataValue'=>($model != "" ) ? $model->photo : old('photo'),
+            'dataName'=>'photo',
+            'input'=>'meta[featured_img]'
+        ])
     </div>
     <div class="col-md-8">
         {{ csrf_field() }}
@@ -24,7 +29,7 @@
                       rows="3">{{ ($model != "" ) ? $model->description : old('description') }}</textarea>
         </div>
         <div class="form-group">
-            {!! Form::label('Role', 'Role:') !!}
+            <label for="role">Role: <span class="required">*</span></label>
             <select name="role" class="form-control" >
                 <option value="">Select role</option>
                 @foreach($roles as $role)
@@ -35,13 +40,13 @@
         </div>
         @if($model == "")
             <div class="form-group">
-                <label for="password" class="control-label">Password</label>
+                <label for="password" class="control-label">Password <span class="required">*</span></label>
                 <input autocomplete="off" id="password" type="password" class="form-control" name="password">
             </div>
         @else
             <div>
                 <a href="" data-toggle="modal" data-target="#myModal">
-                    <button class="btn btn-default">Change password</button>
+                    <button class="btn btn-default pull-right">Change password</button>
                 </a>
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
@@ -53,11 +58,11 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="password" class="control-label">Old Password</label>
+                                    <label for="password" class="control-label">Old Password <span class="required">*</span></label>
                                     <input autocomplete="off" id="passwordold" type="password" class="form-control" name="passwordold">
-                                    <label for="password" class="control-label">New Password</label>
+                                    <label for="password" class="control-label">New Password <span class="required">*</span></label>
                                     <input autocomplete="off" id="passwordnew" type="password" class="form-control" name="passwordnew">
-                                    <label for="password" class="control-label">Confirm New Password</label>
+                                    <label for="password" class="control-label">Confirm New Password <span class="required">*</span></label>
                                     <input id="passwordconfirm" type="password" class="form-control" name="passwordcomfirm">
                                     <input autocomplete="off" type="hidden" id="userid" value="{{ $model->id }}"></input>
                                 </div>
@@ -75,9 +80,9 @@
             </div>
         @endif
         @if($model == "")
-            <button type="submit" class="btn btn-default">Create</button>
+            <button type="submit" class="btn btn-default pull-right">Create</button>
         @else
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" class="btn btn-default pull-right">Save</button>
         @endif
     </div>
 </form>
@@ -151,6 +156,10 @@
 <style>
     .required{
         color: red;
+    }
+
+    .btn-default{
+        font-weight: bold;
     }
 </style>
 @endpush
