@@ -14,8 +14,8 @@ class GMapWidget extends BaseWidget
             'title' => '',
             'api_key' => '',
             'zoom' => 7,
-            'latitude' => '',
-            'longitude' => '',
+            'latitude' => 0,
+            'longitude' => 0,
             'width' => '',
             'height' => '',
         ];

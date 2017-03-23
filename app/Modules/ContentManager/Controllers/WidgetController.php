@@ -25,6 +25,7 @@ class WidgetController extends Controller
     public function store(Request $request)
     {
         $tmp = $request->widget;
+        // dd($tmp);
         unset($tmp['id']);
         $model = ModelWidget::find($request->widget['id']);
         $model->options = serialize($tmp);
