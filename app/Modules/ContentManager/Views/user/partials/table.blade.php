@@ -4,7 +4,7 @@
         <th><input id="checkAll" type="checkbox" class="flat"></th>
         <th>Name</th>
         <th>Role</th>
-        <th>Desciption</th>
+        <th>Description</th>
         <th>Action</th>
     </tr>
     </thead>
@@ -50,7 +50,7 @@
             var urlDelete = $(this).data('url');
             swal({
                 title: "Are you sure?",
-                text: "Delete this post",
+                text: "Delete this user.",
                 type: "warning",
                 showCancelButton: true,
                 closeOnConfirm: false,

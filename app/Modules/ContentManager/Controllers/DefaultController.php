@@ -39,6 +39,7 @@ class DefaultController extends Controller
             }])
             ->paginate(10);
 
+
     	return view("ContentManager::index", compact('sites', 'templates', 'users', 'q'));
     }
 }

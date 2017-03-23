@@ -24,7 +24,7 @@
                             <?php $i++;?>
                             <tr id="tr-{{ $log->id }}">
                                 <td>
-                                    <span>{{$i}}</span>
+                                    <span>{{ (($userLog->currentPage() - 1) * ($userLog->perPage())) + $i }}</span>
                                 </td>
                                 <td>
                                     {{$log->created_at }}
