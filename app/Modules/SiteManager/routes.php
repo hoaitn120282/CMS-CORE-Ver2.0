@@ -29,4 +29,6 @@ Route::group([
         // Download Route
         Route::get('download/{filename}' , ['as' => $this->admin . '.siteManager.download', 'uses' => 'SiteController@download']);
 
+        // Deploy to sever
+        Route::POST('deploy/{id}' , ['as' => $this->admin . '.siteManager.deploy', 'uses' => 'SiteController@deploy']);
     });

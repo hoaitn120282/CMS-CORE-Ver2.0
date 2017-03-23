@@ -158,7 +158,15 @@ class SiteController extends Controller
             return redirect(Admin::route('siteManager.index'));
         }
 
-        return view('SiteManager::site-detail', ['clinic' => $clinic, 'templates' => $templates, 'languageSelected' => $languageSelected]);
+        $checkHosting = $this->checkHosting($id);
+
+        return view('SiteManager::site-detail',
+            [
+                'clinic' => $clinic,
+                'templates' => $templates,
+                'languageSelected' => $languageSelected,
+                'checkHosting' => $checkHosting
+            ]);
     }
 
     /**
@@ -558,4 +566,23 @@ class SiteController extends Controller
             exit('Requested file does not exist on our server!');
         }
     }
+
+    /*
+     * Deploy site to server
+     *
+     * */
+    public function deploy($siteId){
+        $response = app('App\Modules\SiteManager\Controllers\GenerateController')->deploy($siteId);
+        return response()->json($response, 200); die();
+    }
+
+    /*
+     * PHP check different hosting
+     * return true : same hosting
+     * return false : different hosting
+     * */
+    public function checkHosting($siteId){
+        return true;
+    }
+
 }

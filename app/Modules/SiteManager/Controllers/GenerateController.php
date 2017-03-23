@@ -55,17 +55,46 @@ class GenerateController extends Controller
         $directory = public_path().'/generate/temp';
         \Zipper::make(public_path().'/generate/destination/'.$siteID.'.zip')->add($directory)->close();
 
-        // Upload package (.zip) to server
-        $this->uploadUseFTP(public_path().'/generate/destination/'.$siteID.'.zip', 'new-site.zip', $siteID);
-
-        // If site difirent host => create excute.php file createNewFileExecute
-        $this->createNewFileExecute($siteID);
-        $this->uploadUseFTP(public_path().'/generate/execute.php', 'execute.php', $siteID);
-
         // Remove all file after upload to server
         $this->removeFolder(public_path().'/generate/temp');
-        unlink(public_path().'/generate/execute.php');
 
+        $checkHosing = $this->checkHosting($siteID);
+        if($checkHosing){
+            // If site deploy to current host => create execute.php file createNewFileExecute
+            $this->createNewFileExecute($siteID);
+        }
+
+    }
+
+    /*
+     * PHP check different hosting
+     * return true : same hosting
+     * return false : different hosting
+     * */
+    public function checkHosting($siteId){
+        return true;
+    }
+
+    /*
+     * Deploy to sever
+     * */
+    public function deploy($siteId){
+        // Upload package (.zip) to server
+         $uploadZip =  $this->uploadUseFTP(public_path().'/generate/destination/'.$siteId.'.zip', 'new-site.zip', $siteId);
+
+         if($uploadZip['status'] == 0) {
+            return $uploadZip;
+         }
+
+
+
+        $this->uploadUseFTP(public_path().'/generate/'.$siteId.'-execute.php', 'execute.php', $siteId);
+//        unlink(public_path().'/generate/execute.php');
+
+        $ch = curl_init("http://sbd639-1.2ezcms.com/execute.php");
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $r = curl_exec($ch);
+        curl_close($ch);
     }
 
     public function updateSql($siteID){
@@ -134,7 +163,7 @@ class GenerateController extends Controller
     public function createNewFileExecute($siteId){
         if (!$siteId ) return;
         $file = public_path().'/generate/execute-example.php';
-        $newFile = public_path().'/generate/execute.php';
+        $newFile = public_path().'/generate/'.$siteId.'-execute.php';
         copy($file, $newFile);
 
         $clinicDatabase = ClinicDatabase::where('clinic_id', $siteId)->first();
@@ -148,8 +177,8 @@ class GenerateController extends Controller
 
 
         $ds = DIRECTORY_SEPARATOR;
-        $path = public_path(). $ds .'generate';
-        $file = 'execute.php';
+        $path = public_path(). $ds .'generate'. $ds ;
+        $file = $siteId.'-execute.php';
         $appConfigPath = $path.$file;
         file_put_contents($appConfigPath,str_replace('dbhost-value', 'localhost', file_get_contents($appConfigPath)));
         file_put_contents($appConfigPath,str_replace('dbuser-value', $dbuser, file_get_contents($appConfigPath)));
@@ -358,7 +387,16 @@ class GenerateController extends Controller
      * upload file to server
      * */
     public function uploadUseFTP($local_file,$ftp_path, $siteId){
+
         $clinicHosing = ClinicHosting::where('clinic_id', $siteId)->first();
+        if($clinicHosing->host == null || $clinicHosing->username == null || $clinicHosing->password == null){
+            $response = [
+                'status' => 0,
+                'message' => 'Thiếu thông tin hosting !'
+            ];
+
+            return $response;
+        }
 
 //        $host = '2ezcms.com';
 //        $usr = 'sbd639-1@2ezcms.com';
@@ -368,10 +406,31 @@ class GenerateController extends Controller
         $pwd = $clinicHosing->password;
 
 // connect to FTP server (port 21)
-        $conn_id = ftp_connect($host, 21) or die ("Cannot connect to host");
+        $conn = @ftp_connect($host, 21);
+        if(!$conn)
+        {
+            $response = [
+                'status' => 0,
+                'message' => 'Sai thông tin host, làm ơn check lại thông tin hosting và deploy lại'
+            ];
 
-// send access parameters
-        ftp_login($conn_id, $usr, $pwd) or die("Cannot login");
+            return $response;
+        }
+
+        $conn_id = ftp_connect($host) or die ("Cannot connect to host");
+
+
+//        ftp_login($conn_id, $usr, $pwd) or die("Cannot login");
+
+        // try to login
+        if (!@ftp_login($conn_id, $usr, $pwd)) {
+            $response = [
+                'status' => 0,
+                'message' => 'Sai thông tin login, làm ơn check lại thông tin hosting và deploy lại'
+            ];
+
+            return $response;
+        }
 
 // turn on passive mode transfers (some servers need this)
         ftp_pasv ($conn_id, true);
@@ -396,10 +455,12 @@ class GenerateController extends Controller
         }
 
         // try to chmod the new file to 666 (writeable)
-        if (ftp_chmod($conn_id, 0644, $ftp_path) !== false) {
-            print $ftp_path . " chmoded successfully to 644\n";
-        } else {
-            print "could not chmod ";
+        if (ftp_chmod($conn_id, 0644, $ftp_path) == false) {
+            $response = [
+                'status' => 0,
+                'message' => 'could not chmod '
+            ];
+            return $response;
         }
 
         // close the FTP stream
