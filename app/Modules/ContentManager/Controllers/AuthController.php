@@ -35,6 +35,7 @@ class AuthController extends Controller
 
     protected $guard = 'admin';
 
+    protected $redirectAfterLogout = 'admin';
     /**
      * Create a new authentication controller instance.
      *
