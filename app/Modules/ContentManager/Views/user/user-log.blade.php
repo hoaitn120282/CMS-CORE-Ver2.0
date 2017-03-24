@@ -14,7 +14,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Log history</th>
-                            <th>Day</th>
                             <th>Date</th>
                             <th>Time</th>
                         </tr>
@@ -32,10 +31,7 @@
                                     {{ Admin::userLogSerial($log->meta_value ,'desc')   }}
                                 </td>
                                 <td>
-                                    {{ $log->created_at ->format('l') }}
-                                </td>
-                                <td>
-                                    {{$log->created_at ->format('M d, Y') }}
+                                    {{$log->created_at ->format('l, M d, Y') }}
                                 </td>
                                 <td>
                                     {{$log->created_at ->format('h:i:s') }}

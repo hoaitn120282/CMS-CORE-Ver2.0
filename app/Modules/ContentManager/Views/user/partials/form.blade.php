@@ -31,7 +31,11 @@
         <div class="form-group">
             <label for="role">Role: <span class="required">*</span></label>
             <select name="role" class="form-control" >
-                <option value="">Select role</option>
+                @if($model == "" )
+                    <option value="">Select role</option>
+                @else
+                    <option value="{{ $model->role_id }}">{{ $model->roles->name }}</option>
+                @endif
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                 @endforeach
@@ -154,6 +158,11 @@
 
 @push('style')
 <style>
+    #btn-userPhoto{
+        max-width: 200px;
+        margin: 5px auto;
+    }
+
     .required{
         color: red;
     }
@@ -163,7 +172,7 @@
     }
 
      #img-userPhoto{
-         max-height: 420px;
+         max-height: 270px;
          margin: 0 auto;
      }
 
