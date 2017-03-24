@@ -18,6 +18,7 @@ abstract class BaseWidget
         $this->options = [
             "baseID" => str_random(10),
             "title" => $this->name,
+            "visibility" => ''
         ];
     }
 

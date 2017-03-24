@@ -17,7 +17,7 @@ class GMapWidget extends BaseWidget
             'latitude' => 0,
             'longitude' => 0,
             'width' => '',
-            'height' => '',
+            'height' => 450,
         ];
     }
 

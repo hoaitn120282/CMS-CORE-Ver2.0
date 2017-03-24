@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/', ['as' => "front", 'uses' => 'App\Http\Controllers\HomeController@index']);
 Route::get('team', ['as' => "{$this->locale}.doctors.team", 'uses' => 'App\Modules\ContentManager\Controllers\DoctorController@team']);
 Route::get('news', ['as' => "{$this->locale}.category.news", 'uses' => 'App\Modules\ContentManager\Controllers\CategoryController@news']);
 Route::get('{slug?}.html', ['as' => "{$this->locale}.page.show", 'uses' => 'App\Modules\ContentManager\Controllers\PageController@show']);

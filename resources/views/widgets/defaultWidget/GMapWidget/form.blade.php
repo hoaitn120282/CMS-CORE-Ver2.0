@@ -11,14 +11,14 @@
 <a class="btn btn-block btn-primary"
    role="button"
    data-toggle="collapse"
-   href="#collapseAdvance"
+   href="#collapseAdvance{{ $options['baseID'] }}"
    aria-expanded="false"
-   aria-controls="collapseAdvance"
+   aria-controls="collapseAdvance{{ $options['baseID'] }}"
    style="margin-top: 10px;text-align: left;">
     Advance settings
     <i class="pull-right fa fa-angle-down" aria-hidden="true"></i>
 </a>
-<div class="collapse" id="collapseAdvance">
+<div class="collapse" id="collapseAdvance{{ $options['baseID'] }}">
     <div class="form-group">
         <label for="zoom" class="control-label">Zoom</label>
         <select name="zoom" class="form-control" id="zoom">
