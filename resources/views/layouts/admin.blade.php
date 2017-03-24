@@ -120,7 +120,7 @@
                                 </a></li>
                             @include('layouts.generated-menu')
                             <li><a href="{{ Admin::route('contentManager.user.index') }}"><i class="fa fa-users"></i>
-                                    Users Manager </a></li>
+                                    User Manager </a></li>
                             <li><a href="{{ Admin::route('contentManager.setting') }}"><i class="fa fa-gear"></i>
                                     Setting</a></li>
                         </ul>
