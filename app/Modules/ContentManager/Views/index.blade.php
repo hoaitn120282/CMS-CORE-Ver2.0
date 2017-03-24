@@ -53,7 +53,9 @@
                         <tr>
                             <th>No.</th>
                             <th>Admin name</th>
-                            <th>Time and Date</th>
+                            <th>Day</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Latest activity</th>
                         </tr>
                         </thead>
@@ -70,7 +72,13 @@
                                         <a href="{{ Admin::route('contentManager.user.log', ['id' => $user->id, 'userName'=>$user->name]) }}">{{ $user->name }}</a>
                                     </td>
                                     <td>
-                                        {{$user->meta->first()['created_at'] }}
+                                        {{$user->meta->first()['created_at']->format('l') }}
+                                    </td>
+                                    <td>
+                                        {{$user->meta->first()['created_at']->format('M d, Y') }}
+                                    </td>
+                                    <td>
+                                        {{$user->meta->first()['created_at']->format('h:i:s') }}
                                     </td>
                                     <td>
                                         {{ Admin::userLogSerial($user->meta->first()['meta_value'] ,'desc')   }}
