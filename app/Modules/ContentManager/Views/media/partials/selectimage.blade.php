@@ -13,5 +13,5 @@
 	<div class="col-md-12">
 		{{ $model->links() }}
 	</div>
-</div>        
+</div>
 

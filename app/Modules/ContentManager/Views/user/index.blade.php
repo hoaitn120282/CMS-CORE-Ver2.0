@@ -18,6 +18,3 @@
     </div>
 @endsection
 
-@push('scripts')
-@include('ContentManager::partials.scriptdelete')
-@endpush

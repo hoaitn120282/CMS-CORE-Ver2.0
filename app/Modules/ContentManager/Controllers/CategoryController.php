@@ -91,6 +91,7 @@ class CategoryController extends Controller
         $model->taxonomy = "category";
         $model->parent = $request->parent;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Create category ' . $request['trans'][$locale]['name']);
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->name = $input['name'];
             $model->translateOrNew($locale)->description = $input['description'];
@@ -114,6 +115,7 @@ class CategoryController extends Controller
                 'message' => ['The category has been created failure.']
             ]);
         }
+
 
         return redirect(Admin::route('contentManager.category.create'))->withInput($request->input());
     }
@@ -205,6 +207,7 @@ class CategoryController extends Controller
         $model->taxonomy = "category";
         $model->parent = $request->parent;
         $model->save();
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Update category ' . $request['trans'][$locale]['name']);
         foreach ($request['trans'] as $locale => $input) {
             $model->translateOrNew($locale)->name = $input['name'];
             $model->translateOrNew($locale)->description = $input['description'];
@@ -246,5 +249,6 @@ class CategoryController extends Controller
             Terms::destroy($id);
             TermRelationships::where("term_taxonomy_id", $id)->delete();
         }
+        Admin::userLog(\Auth::guard('admin')->user()->id, 'Delete category id :' . $id);
     }
 }

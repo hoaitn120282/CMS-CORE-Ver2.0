@@ -4,13 +4,12 @@
         <th><input id="checkAll" type="checkbox" class="flat"></th>
         <th>Name</th>
         <th>Role</th>
-        <th>Desciption</th>
+        <th>Description</th>
         <th>Action</th>
     </tr>
     </thead>
     <tbody>
     @foreach ($model as $data)
-        {{--{{ dd($data->toArray()) }}--}}
         <tr id="tr-{{ $data->id }}">
             <td>
                 <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->id}}"/>
@@ -29,9 +28,12 @@
             </td>
             <td>
                 <div class="btn-edit-delete">
-                    <a href="{{ Admin::route('contentManager.user.edit',['user'=>$data->id]) }}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a> |
-                    <a href="#" data-role="delete-post" data-idpost="{{ $data->id }}"
+                    <a href="{{ Admin::route('contentManager.user.edit',['user'=>$data->id]) }}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
+                    @if($data->id != $userLogin->id)
+                        |
+                    <a href="#" data-role="delete-user" data-idpost="{{ $data->id }}"
                        data-url="{{ Admin::route('contentManager.user.destroy',['tag'=>'']) }}/"> <i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+                    @endif
                 </div>
             </td>
         </tr>
@@ -39,3 +41,34 @@
     </tbody>
 </table>
 {{ $model->links() }}
+
+@push('scripts')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("a[data-role='delete-user']").on("click", function () {
+            var idpost = $(this).data('idpost');
+            var urlDelete = $(this).data('url');
+            swal({
+                title: "Are you sure?",
+                text: "Delete this user.",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn-danger",
+                cancelButtonText: "No"
+            }, function () {
+                $.ajax({
+                    type: 'DELETE',
+                    url: urlDelete + idpost,
+                    data: {"_token": "{{ csrf_token() }}"}
+                })
+                    .done(function () {
+                        location.reload();
+                    });
+            });
+        });
+    });
+</script>
+@endpush
