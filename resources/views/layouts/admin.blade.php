@@ -38,7 +38,7 @@
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="{{ url('/assets/images').'/'.Auth::guard('admin')->user()->photo }}" alt="..."
+                        <img src="{{ Auth::guard('admin')->user()->photo }}" alt="..."
                              class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
@@ -166,7 +166,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="{{ url('/assets/images').'/'.Auth::guard('admin')->user()->photo }}"
+                                <img src="{{ Auth::guard('admin')->user()->photo }}"
                                      alt="">{{ Auth::guard('admin')->user()->name }}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
