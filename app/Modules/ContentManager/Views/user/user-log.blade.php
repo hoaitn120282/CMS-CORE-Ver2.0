@@ -13,8 +13,9 @@
                         <thead>
                         <tr>
                             <th>No.</th>
-                            <th>Time and Date</th>
                             <th>Log history</th>
+                            <th>Date</th>
+                            <th>Time</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -27,10 +28,13 @@
                                     <span>{{ (($userLog->currentPage() - 1) * ($userLog->perPage())) + $i }}</span>
                                 </td>
                                 <td>
-                                    {{$log->created_at }}
+                                    {{ Admin::userLogSerial($log->meta_value ,'desc')   }}
                                 </td>
                                 <td>
-                                    {{ Admin::userLogSerial($log->meta_value ,'desc')   }}
+                                    {{$log->created_at ->format('l, M d, Y') }}
+                                </td>
+                                <td>
+                                    {{$log->created_at ->format('h:i:s') }}
                                 </td>
                             </tr>
                         @endforeach

@@ -2,6 +2,9 @@
     <thead>
     <tr>
         <th><input id="checkAll" type="checkbox" class="flat"></th>
+        <th>
+            No.
+        </th>
         <th>Name</th>
         <th>Role</th>
         <th>Description</th>
@@ -9,11 +12,16 @@
     </tr>
     </thead>
     <tbody>
+    <?php  $i = 0; ?>
     @foreach ($model as $data)
+        <?php $i++;?>
         <tr id="tr-{{ $data->id }}">
             <td>
                 <input type="checkbox" class="flat" name="checkbox" data-role="checkbox" value="{{$data->id}}"/>
                 <input type="hidden" id="idPost" value="{{ $data->id }}">
+            </td>
+            <td>
+                <span>{{ (($model->currentPage() - 1) * ($model->perPage())) + $i }}</span>
             </td>
             <td>
                 <div class="btn-edit-delete">

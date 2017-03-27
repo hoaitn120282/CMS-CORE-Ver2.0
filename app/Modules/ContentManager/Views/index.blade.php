@@ -8,7 +8,6 @@
                     <div class="icon"><i class="fa fa-file-o"></i></div>
                     <div class="count">{{ $sites }}</div>
                     <h3>Sites</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
                 </div>
             </a>
         </div>
@@ -18,17 +17,15 @@
                     <div class="icon"><i class="fa fa-columns"></i></div>
                     <div class="count">{{ $templates }}</div>
                     <h3>Templates</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
                 </div>
             </a>
         </div>
         <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <a href="{{ url('admin/contentManager/user') }}">
                 <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+                    <div class="icon"><i class="fa fa-user"></i></div>
                     <div class="count">{{ $users->total() }}</div>
                     <h3>Active Users</h3>
-                    <p>Lorem ipsum psdea itgum rixt.</p>
                 </div>
             </a>
         </div>
@@ -53,7 +50,8 @@
                         <tr>
                             <th>No.</th>
                             <th>Admin name</th>
-                            <th>Time and Date</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Latest activity</th>
                         </tr>
                         </thead>
@@ -70,7 +68,10 @@
                                         <a href="{{ Admin::route('contentManager.user.log', ['id' => $user->id, 'userName'=>$user->name]) }}">{{ $user->name }}</a>
                                     </td>
                                     <td>
-                                        {{$user->meta->first()['created_at'] }}
+                                        {{$user->meta->first()['created_at']->format('l, M d, Y') }}
+                                    </td>
+                                    <td>
+                                        {{$user->meta->first()['created_at']->format('h:i:s') }}
                                     </td>
                                     <td>
                                         {{ Admin::userLogSerial($user->meta->first()['meta_value'] ,'desc')   }}
