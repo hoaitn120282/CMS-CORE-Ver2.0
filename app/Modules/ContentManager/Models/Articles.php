@@ -2,6 +2,7 @@
 
 namespace App\Modules\ContentManager\Models;
 
+use Carbon\Carbon;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,8 @@ class Articles extends Model
     protected $fillable = ['post_hit'];
     public $translatedAttributes = ['post_title', 'post_excerpt', 'post_content'];
     protected $translationForeignKey = 'post_id';
+    protected $appends = ['featured_img', 'excerpt', 'date'];
+
 
     public function user()
     {
@@ -56,6 +59,62 @@ class Articles extends Model
             return $model->meta_value;
         }
         return null;
+    }
+
+    /**
+     * Get the featured img for the post.
+     *
+     * @return string
+     */
+    public function getFeaturedImgAttribute()
+    {
+        $featured_img = null;
+        $model = $this->meta()->where('meta_key', 'featured_img')->first();
+        if (count($model) > 0) {
+            $featured_img = $model->meta_value;
+        }
+
+        return $this->attributes['featured_img'] = $featured_img;
+    }
+
+    /**
+     * Get the excerpt for the post.
+     *
+     * @return string
+     */
+    public function getExcerptAttribute()
+    {
+        $excerpt = '';
+        if (!empty($value)) {
+            $excerpt = strip_tags($value);
+        }
+
+        $content = strip_tags($this->post_content);
+        $excerpt = explode(' ', $content, 40);
+        if (count($excerpt) >= 40) {
+            array_pop($excerpt);
+            $excerpt = implode(" ", $excerpt) . '...';
+        } else {
+            $excerpt = implode(" ", $excerpt);
+        }
+        $excerpt = preg_replace('`[[^]]*]`', '', $excerpt);
+
+        return $this->attributes['exverpt'] = $excerpt;
+    }
+
+    /**
+     * Get the created date
+     */
+    public function getDateAttribute()
+    {
+        $date = [
+            'weekday' => $this->created_at->format('l'),
+            'date' => $this->created_at->format('M d Y'),
+            'day' => $this->created_at->format('d'),
+            'month' => $this->created_at->format('M'),
+            'part_of_day' => $this->created_at->format('h:i A'),
+        ];
+        return $this->attributes['date'] = $date;
     }
 
     public function getExcerpt($limit = 40)

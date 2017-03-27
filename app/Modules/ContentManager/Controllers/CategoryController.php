@@ -148,9 +148,13 @@ class CategoryController extends Controller
     public function news()
     {
         $model = null;
-        $nodes = Articles::where('post_type', 'post')->orderBy('id', 'desc')->paginate();
+        $nodes = Articles::where('post_type', 'post')->orderBy('id', 'desc')->paginate(2);
         $layout = Theme::layout('category');
         $appTitle = "News";
+
+        if(request()->ajax()) {
+            return response()->json($nodes);
+        }
 
         if (view()->exists(Theme::pageNode('category', '_news'))) {
             return view(Theme::pageNode('category', '_news'), compact('model', 'nodes', 'appTitle', 'layout'));
