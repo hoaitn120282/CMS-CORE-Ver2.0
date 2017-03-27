@@ -44,7 +44,9 @@ class GalleryImagesController extends AppBaseController
     public function create()
     {
         $galleries = Galleries::all();
-        return view('admin.gallery_images.create')->with('galleries',$galleries);
+        $node = null;
+
+        return view('admin.gallery_images.create', compact('galleries', 'node'));
     }
 
     /**
@@ -108,7 +110,7 @@ class GalleryImagesController extends AppBaseController
             return redirect(route('admin.galleryImages.index'));
         }
 
-        return view('admin.gallery_images.edit')->with('galleryImages', $galleryImages)->with('galleries', $galleries);
+        return view('admin.gallery_images.edit')->with('node', $galleryImages)->with('galleries', $galleries);
     }
 
     /**
@@ -138,7 +140,7 @@ class GalleryImagesController extends AppBaseController
             return redirect(route('admin.galleryImages.index'));
         }
 
-        $galleryImages = $this->galleryImagesRepository->update($input, $id);
+        $this->galleryImagesRepository->update($input, $id);
 
         Flash::success('Gallery Images updated successfully.');
 
@@ -165,6 +167,10 @@ class GalleryImagesController extends AppBaseController
         $this->galleryImagesRepository->delete($id);
 
         Flash::success('Gallery Images deleted successfully.');
+
+        if(request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Done']);
+        }
 
         return redirect(route('admin.galleryImages.index'));
     }

@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Dimsav\Translatable\Translatable;
 
 /**
  * Class GalleryImages
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GalleryImages extends Model
 {
     use SoftDeletes;
+    use Translatable;
 
     public $table = 'gallery_images';
     
@@ -24,8 +26,6 @@ class GalleryImages extends Model
 
     public $fillable = [
         'image_name',
-        'image_title',
-        'image_description',
         'image_link',
         'gallery_id',
         'image_status',
@@ -57,6 +57,9 @@ class GalleryImages extends Model
     public static $rules = [
         
     ];
+
+    public $translatedAttributes = ['image_title', 'image_description'];
+    protected $translationForeignKey = 'gallery_image_id';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
