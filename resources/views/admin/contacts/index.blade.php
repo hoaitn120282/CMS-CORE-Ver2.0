@@ -18,10 +18,8 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        console.log(1);
         $("a[data-role='delete-contact']").on( "click", function() {
             var contactid = $(this).data('contactid');
-            console.log(1);
             swal({
                 title: "",
                 text: "Are you sure to delete this contact?",
