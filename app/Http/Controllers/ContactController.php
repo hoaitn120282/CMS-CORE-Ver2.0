@@ -32,7 +32,6 @@ class ContactController extends AppBaseController
     {
         $this->contactRepository->pushCriteria(new RequestCriteria($request));
         $contacts = $this->contactRepository->all();
-
         return view('admin.contacts.index')
             ->with('contacts', $contacts);
     }
@@ -83,7 +82,7 @@ class ContactController extends AppBaseController
             return redirect(route('admin.contacts.index'));
         }
 
-        return view('admin.contacts.show')->with('contacts', $contact);
+        return view('admin.contacts.show', ['contact' => $contact]);
     }
 
     /**
@@ -152,6 +151,9 @@ class ContactController extends AppBaseController
 
         Flash::success('Contact deleted successfully.');
 
+        if(request()->ajax()){
+            return response()->json(['success' => true, 'message' => "Done"]);
+        }
         return redirect(route('admin.contacts.index'));
     }
 }

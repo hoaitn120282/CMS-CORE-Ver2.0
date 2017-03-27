@@ -14,3 +14,38 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        console.log(1);
+        $("a[data-role='delete-contact']").on( "click", function() {
+            var contactid = $(this).data('contactid');
+            console.log(1);
+            swal({
+                title: "",
+                text: "Are you sure to delete this contact?",
+                type: "warning",
+                showCancelButton: true,
+                closeOnConfirm: true,
+                showLoaderOnConfirm: true,
+                confirmButtonText: "Yes",
+                confirmButtonClass: "btn-danger",
+                cancelButtonText: "No",
+                closeOnConfirm: true
+            }, function () {
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ Admin::route('contacts.destroy',['contactid'=>'']) }}/"+contactid,
+                    data: {"_token": "{{ csrf_token() }}"}
+                })
+                    .done(function() {
+                        {{--window.location.href = "{{ Admin::route('siteManager.index') }}";--}}
+                        $("#tr-"+contactid).remove();
+                    });
+            });
+            return false;
+        });
+    });
+</script>
+@endpush

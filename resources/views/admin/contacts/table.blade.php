@@ -4,21 +4,26 @@
         <th>Name</th>
         <th>Email</th>
         <th>Message</th>
+        <th>Phone</th>
         <th colspan="3">Action</th>
     </thead>
     <tbody>
     <?php  $i = 0; ?>
     @foreach($contacts as $contact)
-        <tr>
-            <td><?php $i++;?></td>
+        <?php $i++;?>
+        <tr id="tr-{{ $contact->id }}">
+            <td>{!! $i !!}</td>
             <td>{!! $contact->name !!}</td>
             <td>{!! $contact->email !!}</td>
             <td>{!! $contact->message !!}</td>
+            <td>{!! $contact->phone !!}</td>
             <td>
                 {!! Form::open(['route' => ['admin.contacts.destroy', $contact->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.contacts.show', [$contact->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="#" class="btn btn-danger btn-xs" data-role="delete-contact" data-contactid="{{ $contact->id }}">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
                 </div>
                 {!! Form::close() !!}
             </td>
@@ -26,3 +31,4 @@
     @endforeach
     </tbody>
 </table>
+
