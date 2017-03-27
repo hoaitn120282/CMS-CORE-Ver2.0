@@ -1,13 +1,16 @@
-<table class="table table-responsive" id="contacts-table">
+<table class="table table-responsive table-striped jambo_table bulk_action"" id="contacts-table">
     <thead>
+        <th>No.</th>
         <th>Name</th>
         <th>Email</th>
         <th>Message</th>
         <th colspan="3">Action</th>
     </thead>
     <tbody>
+    <?php  $i = 0; ?>
     @foreach($contacts as $contact)
         <tr>
+            <td><?php $i++;?></td>
             <td>{!! $contact->name !!}</td>
             <td>{!! $contact->email !!}</td>
             <td>{!! $contact->message !!}</td>
