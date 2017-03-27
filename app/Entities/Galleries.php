@@ -2,6 +2,7 @@
 
 namespace App\Entities;
 
+use App\User;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,7 +17,7 @@ class Galleries extends Model
 
     public $table = 'galleries';
     
-    public $timestamps = false;
+    public $timestamps = true;
 
 
     protected $dates = ['deleted_at'];
@@ -56,5 +57,10 @@ class Galleries extends Model
     public function galleryImages()
     {
         return $this->hasMany(\App\Entities\GalleryImage::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 }

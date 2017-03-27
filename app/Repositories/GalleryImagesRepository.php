@@ -28,4 +28,28 @@ class GalleryImagesRepository extends BaseRepository
     {
         return GalleryImages::class;
     }
+
+    public function create(array $attributes)
+    {
+        $model = parent::create($attributes);
+        foreach ($attributes['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->image_title = $input['image_title'];
+            $model->translateOrNew($locale)->image_description = $input['image_description'];
+        }
+        $model->save();
+
+        return $model;
+    }
+
+    public function update(array $attributes, $id)
+    {
+        $model = parent::update($attributes, $id);
+        foreach ($attributes['trans'] as $locale => $input) {
+            $model->translateOrNew($locale)->image_title = $input['image_title'];
+            $model->translateOrNew($locale)->image_description = $input['image_description'];
+        }
+        $model->save();
+
+        return $model;
+    }
 }

@@ -1,3 +1,4 @@
+<div class="row">
 <!-- Gallery Name Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('gallery_name', 'Gallery Name:') !!}
@@ -7,9 +8,9 @@
 <!-- Gallery Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('gallery_status', 'Gallery Status:') !!}
-    {!! Form::select('gallery_status', [0=>'Deactive', 1=>'Active'], (isset($galleries) ? $galleries->gallery_status  : 0), ['class' => 'form-control']) !!}
+    {!! Form::select('gallery_status', [0=>'Inactive', 1=>'Active'], (isset($galleries) ? $galleries->gallery_status  : 0), ['class' => 'form-control']) !!}
 </div>
-
+</div>
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

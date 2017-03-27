@@ -150,6 +150,10 @@ class GalleriesController extends AppBaseController
 
         Flash::success('Galleries deleted successfully.');
 
+        if(request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Done']);
+        }
+
         return redirect(route('admin.galleries.index'));
     }
 }

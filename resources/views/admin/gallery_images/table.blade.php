@@ -16,12 +16,14 @@
             <td>{!! $galleryImages->gallery->gallery_name or null !!}</td>
             <td>{!! (($galleryImages->image_status == true)? '<span class="label label-success">Active</span>':'<span class="label label-danger">Deactive</span>') !!}</td>
             <td>
-                {!! Form::open(['route' => ['admin.galleryImages.destroy', $galleryImages->id], 'method' => 'delete']) !!}
                 <div class='btn-group'>
                     <a href="{!! route('admin.galleryImages.edit', [$galleryImages->id]) !!}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
-                    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href=""
+                       data-role='delete-post'
+                       data-url="{{ Admin::route('galleryImages.destroy', ['id' => $galleryImages->id]) }}"
+                    class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+
                 </div>
-                {!! Form::close() !!}
             </td>
         </tr>
     @endforeach
