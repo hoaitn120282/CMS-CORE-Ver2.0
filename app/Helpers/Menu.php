@@ -74,7 +74,8 @@ class Menu
                 break;
         }
 
-        if ($request->is(Translation::locale() .'/'. trim($res, '/'))) {
+        $url = (empty($res) ? Translation::locale() : Translation::locale() . '/' . trim($res, '/'));
+        if ($request->is($url)) {
 
             return "active";
         }
