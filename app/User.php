@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Modules\ContentManager\Models\UserMeta;
+use App\Traits\UserACL;
+
 class User extends Authenticatable
 {
+    use UserACL;
     /**
      * The attributes that are mass assignable.
      *

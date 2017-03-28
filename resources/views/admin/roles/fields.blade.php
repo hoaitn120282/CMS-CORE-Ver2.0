@@ -35,10 +35,7 @@ $permissionAsigned = isset($roles->permission) ? $roles->permission : null;
                 </div>
                 <div id="collapse1" class="panel-collapse collapse">
                     <div id="administrators" class="hidden">
-                        <?php
-                        $permissionList = Helper::permissionList('administrator', $permissionAsigned);
-                        print $permissionList;
-                        ?>
+                        {!! Permission::permissionList('administrator', $permissionAsigned) !!}
                     </div>
                 </div>
             </div>
@@ -47,7 +44,7 @@ $permissionAsigned = isset($roles->permission) ? $roles->permission : null;
 </div>
 
 <!-- Submit Field -->
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-12" style="margin-bottom: 50px;">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('admin.roles.index') !!}" class="btn btn-default">Cancel</a>
 </div>
