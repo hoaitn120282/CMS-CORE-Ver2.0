@@ -39,7 +39,9 @@
         "psr-4": {
             "App\\": "app/",
             "Qsoftvn\\ShoppingCart\\": "packages/qsoftvn/shopping-cart/src"
-        }
+        },
+        "files": [
+        ]
     },
     "autoload-dev": {
         "classmap": [

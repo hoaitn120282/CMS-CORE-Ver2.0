@@ -7,6 +7,7 @@ use App\Modules\ContentManager\Models\ThemeMeta;
 use App\Modules\ContentManager\Models\Themes;
 use App\Modules\ContentManager\Models\WidgetGroups;
 use File;
+use Illuminate\Support\Facades\Schema;
 use Trans;
 
 class Theme
@@ -44,10 +45,19 @@ class Theme
             $this->activeExtraName = empty($this->config['active_extra']) ? $this->config['active'] : $this->config['active_extra'];
             $this->activeID = isset($this->config['active_id']) ? $this->config['active_id'] : 1;
         } else {
-            $active = Themes::where('status', true)->first();
-            $this->activeName = $active->machine_name;
-            $this->activeExtraName = empty($active->parent) ? $active->machine_name : $active->parent->machine_name;
-            $this->activeID = $active->id;
+            if(Schema::hasTable('themes')) {
+                $active = Themes::where('status', true)->first();
+                $this->activeName = $active->machine_name;
+                $this->activeExtraName = empty($active->parent) ? $active->machine_name : $active->parent->machine_name;
+                $this->activeID = $active->id;
+
+                $this->generateThemeConfig([
+                    'id' => $this->activeID,
+                    'name' => $this->activeName,
+                    'active_extra' => $this->activeExtraName,
+                    'driver' => 'file'
+                ]);
+            }
         }
     }
 

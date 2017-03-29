@@ -132,8 +132,8 @@ return array(
             ],
             [
                 'name' => 'Edit theme active',
-                'route' => 'contentManager.theme',
-                'paramsRoute' => [],
+                'route' => 'contentManager.theme.view',
+                'paramsRoute' => ['id' => config('theme.active_id')],
                 'active' => true
             ],
         ]

@@ -213,7 +213,8 @@ class Permission extends Facade
                         $childrens .= $this->generateMenu($user, $element['items'], $routeName);
                         $childrens .= "</ul>";
                         $out .= "<li class='" . $routeActive . "'>";
-                        $out .= "  <a" . (!empty($element['route']) ? " href='" . Ad::route($element['route']) . "'" : '') . ">";
+                        $paramsRoute = empty($element['paramsRoute']) ? [] : $element['paramsRoute'];
+                        $out .= "  <a" . (!empty($element['route']) ? " href='". Ad::route($element['route'], $paramsRoute)."'" : '') . ">";
                         if (!empty($element['class'])) {
                             $out .= "   <i class='{$element['class']}'></i>";
                         }
@@ -229,7 +230,8 @@ class Permission extends Facade
                     }
                 }else {
                     $out .= "<li class='" . $routeActive . "'>";
-                    $out .= "  <a" . (!empty($element['route']) ? " href='" . Ad::route($element['route']) . "'" : '') . ">";
+                    $paramsRoute = empty($element['paramsRoute']) ? [] : $element['paramsRoute'];
+                    $out .= "  <a" . (!empty($element['route']) ? " href='". Ad::route($element['route'], $paramsRoute)."'" : '') . ">";
                     if (!empty($element['class'])) {
                         $out .= "   <i class='{$element['class']}'></i>";
                     }
