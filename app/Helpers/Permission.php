@@ -159,11 +159,8 @@ class Permission extends Facade
         $curentRotue = \Route::getCurrentRoute();
         $currentAction = $curentRotue->getAction();
         $routeName = isset($currentAction['as']) ? $currentAction['as'] : null;
-
         $out = "<ul class='nav side-menu'>";
-        $out .= "<li>";
         $out .= $this->generateMenu($user, $array, $routeName);
-        $out .= "  </li>";
         $out .= "</ul>";
 
         return $out;
@@ -179,46 +176,78 @@ class Permission extends Facade
         $out = "";
         foreach ($array as $element) {
             $routeActive = '';
-            if (!empty($element['route']) && ($routeName == Ad::routeName($element['route']))) {
+            if (empty($element['items']) && (
+                    empty($element['route']) ||
+                    !$this->userHasRoute($user, Ad::routeName($element['route']))
+                )
+            ) {
+                unset($element);
+            }
+            // Check active menu
+            if (!empty($element['route']) &&
+                ($routeName == Ad::routeName($element['route']))
+            ) {
                 $routeActive = 'active';
             }
-            if (!empty($element['actives']) && in_array($routeName,  preg_filter('/^/', Ad::prefix_admin(), $element['actives']))) {
+            if (!empty($element['actives']) &&
+                in_array($routeName, preg_filter('/^/', Ad::prefix_admin(), $element['actives']))
+            ) {
                 $routeActive = 'active';
             }
 
-            $out .= "<li class='" . $routeActive . "'>";
-            $out .= "  <a " . (!empty($element['route']) ? "href='". Ad::route($element['route']) ."'" : '') . "'>";
-            if (!empty($element['class'])) {
-                $out .= "   <i class='{$element['class']}'></i>";
-            }
-
-            if (!empty($element['name'])) {
-                $out .= "{$element['name']}";
-            }
-
-            if (!empty($element['items'])) {
-                $out .= "<span class='fa fa-chevron-down'></span>";
-            }
-            $out .= "  </a>";
-
-            if (!empty($element['items'])) {
-                $i = 0;
-                foreach ($element['items'] as $item) {
-                    if (!empty($item['route']) && !$this->userHasRoute($user, Ad::routeName($item['route']))) {
-                        unset($element['items'][$i]);
+            if (!empty($element)) {
+                $childrens = '';
+                if (!empty($element['items'])) {
+                    $i = 0;
+                    $items = 0;
+                    $oldItems = count($element['items']);
+                    foreach ($element['items'] as $item) {
+                        if (!empty($item['route']) && !$this->userHasRoute($user, Ad::routeName($item['route']))) {
+                            unset($element['items'][$i]);
+                            $items++;
+                        }
+                        $i++;
                     }
-                    $i++;
+                    if ($oldItems != $items) {
+                        $childrens .= "<ul class='nav child_menu'>";
+                        $childrens .= $this->generateMenu($user, $element['items'], $routeName);
+                        $childrens .= "</ul>";
+                        $out .= "<li class='" . $routeActive . "'>";
+                        $out .= "  <a" . (!empty($element['route']) ? " href='" . Ad::route($element['route']) . "'" : '') . ">";
+                        if (!empty($element['class'])) {
+                            $out .= "   <i class='{$element['class']}'></i>";
+                        }
+                        if (!empty($element['name'])) {
+                            $out .= "{$element['name']}";
+                        }
+                        if (!empty($element['items'])) {
+                            $out .= "<span class='fa fa-chevron-down'></span>";
+                        }
+                        $out .= "  </a>";
+                        $out .= $childrens;
+                        $out .= "</li>";
+                    }
+                }else {
+                    $out .= "<li class='" . $routeActive . "'>";
+                    $out .= "  <a" . (!empty($element['route']) ? " href='" . Ad::route($element['route']) . "'" : '') . ">";
+                    if (!empty($element['class'])) {
+                        $out .= "   <i class='{$element['class']}'></i>";
+                    }
+                    if (!empty($element['name'])) {
+                        $out .= "{$element['name']}";
+                    }
+                    if (!empty($element['items'])) {
+                        $out .= "<span class='fa fa-chevron-down'></span>";
+                    }
+                    $out .= "  </a>";
+                    $out .= "</li>";
                 }
 
-                $out .= "<ul class='nav child_menu' ".($routeActive == 'active' ? 'style="display: block;"' : 'style="display: none;"').">";
 
-                $out .= $this->generateMenu($user, $element['items'], $routeName);
-                $out .= "</ul>";
             }
-
-            $out .= "</li>";
         }
 
         return $out;
     }
+
 }
