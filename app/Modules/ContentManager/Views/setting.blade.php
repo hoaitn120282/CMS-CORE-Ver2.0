@@ -38,18 +38,18 @@
                                 <div class="form-group">
                                     <label for="site-title">Site Title</label>
                                     <input type="text" name="opt[site_title]" class="form-control"
-                                           value="{{ $model['site_title'] }}" id="site-title" placeholder="Site Title">
+                                           value="{{ $model['site_title'] or old('opt.site_title') }}" id="site-title" placeholder="Site Title">
                                 </div>
                                 <div class="form-group">
                                     <label for="site-tagline">Site Tagline</label>
                                     <input type="text" name="opt[site_tagline]" class="form-control"
-                                           value="{{ $model['site_tagline'] }}" id="site-tagline"
+                                           value="{{ $model['site_tagline'] or old('opt.site_tagline') }}" id="site-tagline"
                                            placeholder="Site Tagline">
                                 </div>
                                 <div class="form-group">
                                     <label for="email_administrator">Email Administrator</label>
                                     <input type="text" name="opt[email_administrator]" class="form-control"
-                                           value="{{ $model['email_administrator'] }}" id="email_administrator"
+                                           value="{{ $model['email_administrator'] or old('opt.email_administrator') }}" id="email_administrator"
                                            placeholder="Email Administrator">
                                 </div>
                                 <button type="submit" class="btn btn-default">Save</button>
@@ -104,10 +104,10 @@
                                 <div class="form-group">
                                     <label for="frontpage_blog">Post On Frontpage</label>
                                     <select class="form-control" name="opt[frontpage_blog]" id="frontpage_blog">
-                                        <option {{ ($model['frontpage_blog'] == "0") ? "selected" : "" }} value="0">
+                                        <option {{ (isset($model['frontpage_blog']) && $model['frontpage_blog'] == "0") ? "selected" : "" }} value="0">
                                             False
                                         </option>
-                                        <option {{ ($model['frontpage_blog'] == "1") ? "selected" : "" }} value="1">
+                                        <option {{ (isset($model['frontpage_blog']) && $model['frontpage_blog'] == "1") ? "selected" : "" }} value="1">
                                             True
                                         </option>
                                     </select>
@@ -115,7 +115,7 @@
                                 <div class="form-group">
                                     <label for="view_post_index">Post View</label>
                                     <input type="text" name="opt[view_post_index]" class="form-control"
-                                           value="{{ $model['view_post_index'] }}" id="view_post_index"
+                                           value="{{ $model['view_post_index'] or old('opt.view_post_index') }}" id="view_post_index"
                                            placeholder="Site Tagline">
                                 </div>
                                 <button type="submit" class="btn btn-default">Save</button>
@@ -127,7 +127,7 @@
                                         <div class="form-group">
                                             <label for="image_thumbnail_width">Thumbnail Width</label>
                                             <input type="text" name="opt[image_thumbnail_width]" class="form-control"
-                                                   value="{{ $model['image_thumbnail_width'] }}"
+                                                   value="{{ $model['image_thumbnail_width'] or old('opt.image_thumbnail_width') }}"
                                                    id="image_thumbnail_width" placeholder="Site Title">
                                         </div>
                                     </div>

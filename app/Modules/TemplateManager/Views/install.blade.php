@@ -33,7 +33,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    @include('TemplateManager::components.alert')
                     @include('TemplateManager::components.x_list')
                 </div>
             </div>

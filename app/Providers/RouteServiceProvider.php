@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Schema;
 use Trans;
 use App;
 
@@ -19,10 +20,11 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     protected $locale = 'en';
+
     /**
      * Define your route model bindings, pattern filters, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function boot(Router $router)
@@ -34,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     public function map(Router $router)
@@ -51,7 +53,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes all receive session state, CSRF protection, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     protected function mapWebRoutes(Router $router)
@@ -68,18 +70,18 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes all receive session state, CSRF protection, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
+     * @param  \Illuminate\Routing\Router $router
      * @return void
      */
     protected function mapWebLocaleRoutes(Router $router)
     {
 
         $this->locale = App::getLocale();
-        $router->get('/', function (){
+        $router->get('/', function () {
             return redirect($this->locale);
         });
 
-        $locales = \App\Modules\LanguageManager\Models\Countries::all()->pluck('locale')->toArray();
+        $locales = Schema::hasTable('countries') ? \App\Modules\LanguageManager\Models\Countries::all()->pluck('locale')->toArray() : [];
         $locale = \Illuminate\Support\Facades\Request::segment(1);
 
         if (in_array($locale, $locales)) {

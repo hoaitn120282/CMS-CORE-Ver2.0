@@ -7,4 +7,4 @@ Route::get('{slug?}.html', ['as' => "{$this->locale}.page.show", 'uses' => 'App\
 Route::get('{slug?}', ['as' => "{$this->locale}.post.show", 'uses' => 'App\Modules\ContentManager\Controllers\PostController@show']);
 Route::get('category/{slug?}', ['as' => "{$this->locale}.category.show", 'uses' => 'App\Modules\ContentManager\Controllers\CategoryController@show']);
 Route::get('doctor/{slug?}', ['as' => "{$this->locale}.doctor.show", 'uses' => 'App\Modules\ContentManager\Controllers\DoctorController@show']);
-Route::get('tag/{slug?}', ['as' => "{$this->locale}.tag.show", 'uses' => 'App\Modules\ContentManager\Controllers\tagController@show']);
+Route::get('tag/{slug?}', ['as' => "{$this->locale}.tag.show", 'uses' => 'App\Modules\ContentManager\Controllers\TagController@show']);
