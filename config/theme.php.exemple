@@ -1,0 +1,9 @@
+<?php
+$config = [];
+
+$config['active'] ='Sanmax596435ab10077';
+$config['active_extra'] ='Sanmax596435ab10077';
+$config['active_id'] ='1';
+$config['driver'] ='file';
+
+return $config;
