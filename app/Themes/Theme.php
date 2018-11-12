@@ -329,7 +329,7 @@ class Theme
             ->where("meta_group", "menu_position")
             ->where("meta_key", $group)
             ->first();
-        if (count($tmp) == 0) {
+        if ($tmp->count() == 0) {
             return null;
         } else {
             return Helper::menu($tmp->meta_value);
